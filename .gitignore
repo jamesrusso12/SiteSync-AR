@@ -1,0 +1,46 @@
+# Unreal Engine 5.5+ — generated/intermediate content (never commit these)
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+.idea/
+
+# Xcode / macOS artifacts
+*.xcworkspace/
+*.xcodeproj/
+xcuserdata/
+*.DS_Store
+*.dSYM/
+
+# Visual Studio artifacts
+*.suo
+*.user
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+*.ncb
+*.aps
+
+# UE build outputs
+*.pdb
+*.exp
+*.lib
+*.ilk
+*.map
+
+# Python (MCP server / UE Python scripts)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.env
+
+# Cursor / AI tooling
+.cursor/history/
+
+# OS
+Thumbs.db

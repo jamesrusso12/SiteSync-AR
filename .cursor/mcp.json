@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "unrealMCP": {
+      "command": "uv",
+      "args": [
+        "run",
+        "${workspaceFolder}/Plugins/UnrealMCP/server.py"
+      ],
+      "env": {
+        "UE_MCP_HOST": "127.0.0.1",
+        "UE_MCP_PORT": "55557"
+      }
+    }
+  }
+}

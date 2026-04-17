@@ -1,0 +1,36 @@
+# Unreal Engine
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+.vscode/
+*.VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+*.xcworkspace
+*.xcodeproj
+
+# Compiled source
+*.pdb
+*.lib
+*.exp
+*.obj
+
+# Packaging output
+Releases/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Keep these tracked
+!Source/
+!Config/
+!Content/
+!Plugins/
+!*.uproject

@@ -1,63 +1,83 @@
-# SiteSync-AR
+# SiteSync AR
 
-AR Site Analysis Tool is an iOS AR app built in Unreal Engine 5.5.4 and ARKit. It uses iPhone 16 Pro LiDAR to mesh terrain, calculate cut-and-fill earthwork volumes, and overlay BIM models from Revit and Rhino for real-world clash detection, giving engineers on-site spatial intelligence before ground is broken.
+> On-site spatial intelligence for civil engineers — built in Unreal Engine 5.5 with ARKit and iPhone 16 Pro LiDAR.
+
+SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engineering, Construction) professionals. Phase 1 uses LiDAR-scanned terrain to calculate real-time cut-and-fill earthwork volumes on site. Phase 2 overlays full BIM models from Revit and Rhino for 1:1 physical clash detection before ground is broken.
 
 ---
 
-## Engine & Platform
+## Stack
 
 | | |
 |---|---|
 | Engine | Unreal Engine 5.5.4 |
-| AR Framework | ARKit 4.0 (Apple ARKit Plugin) |
+| AR Framework | ARKit · Apple ARKit Plugin (UE5) |
+| LiDAR API | ARKit Scene Reconstruction (`meshWithClassification`) |
 | Platform | iOS 18+ · iPhone 16 Pro / iPad Pro (LiDAR required) |
-| Toolchain | Xcode 16 · macOS 14+ (build machine) |
+| Build Toolchain | Xcode 16 · macOS 15+ |
+| BIM Ingestion | Datasmith (Revit / Rhino) |
+| AI Workflow | Claude Code · Cursor · Unreal Engine MCP |
 
 ---
 
-## Technical Architecture Notes
-
-### LiDAR API — Scene Reconstruction (not Scene Depth)
-
-The roadmap document references the **ARKit Scene Depth API**. This has been corrected to use the **ARKit Scene Reconstruction API** (`ARWorldTrackingConfiguration.sceneReconstruction = .meshWithClassification`).
-
-**Why this matters for cut-and-fill:**
-
-| API | What it produces | Usable for volume math? |
-|---|---|---|
-| Scene Depth API | Per-frame 2D depth map (pixel buffer) | No — no persistent geometry |
-| Scene Reconstruction | Persistent 3D mesh anchors updated in real time | Yes — triangulated mesh you can diff against a foundation plane |
-
-The Scene Reconstruction API generates a live, classified triangular mesh of the physical environment via the LiDAR scanner. This mesh is what Node 1.4 (Volumetric Geometry Scripting) will compare against the imported foundation plane to compute cubic yardage for cut and fill.
-
-**Plugin to enable in UE 5.5.4:**
-- `Apple ARKit` plugin → exposes `ARKit Scene Reconstruction` via `UARBlueprintLibrary` and the `Handheld AR` module.
-
----
-
-## Development Phases
+## Features
 
 ### Phase 1 — Cut-and-Fill AR Calculator
-- **Node 1.1** Source control & foundation setup *(complete — repo + LFS + free Apple ID wired deploy)*
-- **Node 1.2** LiDAR Environmental Meshing via ARKit Scene Reconstruction
-- **Node 1.3** Digital Foundation Anchoring (touch gesture placement)
-- **Node 1.4** Volumetric Geometry Scripting — cut-and-fill cubic yardage output
+- Real-time LiDAR terrain meshing via ARKit Scene Reconstruction
+- Touch-to-place foundation anchor with pinch-to-scale and rotate gestures
+- Per-cell volumetric diff: foundation plane vs. scanned terrain
+- Live cubic yardage output (cut and fill) displayed in AR HUD
 
 ### Phase 2 — 1:1 BIM Clash Overlay
-- **Node 2.1** Datasmith ingestion pipeline (Revit / Rhino → UE5)
-- **Node 2.2** Geospatial & compass anchoring (GPS + compass auto-alignment)
-- **Node 2.3** Engineering clash interface (MEP layer toggles + visual clash highlighting)
+- Full architectural model ingestion via Datasmith (Revit / Rhino → UE5)
+- GPS + compass auto-alignment of BIM model to real-world site coordinates
+- MEP layer toggle panel (structural, mechanical, electrical, plumbing)
+- Visual clash highlighting where BIM geometry intersects scanned environment
 
 ---
 
-## Apple Developer Account
+## Development Roadmap
 
-| Phase | Account Type | Capability |
+### Phase 1 — Cut-and-Fill AR Calculator
+| Node | Description | Status |
 |---|---|---|
-| Prototype (now) | Free Apple ID | Wired deploy to iPhone 16 Pro via Xcode · App re-sign required every 7 days · 3 device limit |
-| Distribution (future) | Paid ($99/yr) | TestFlight for Cole · 1-year provisioning · App Store eligibility |
+| 1.1 | Source control, Git LFS, iOS signing, project foundation | ✅ Complete |
+| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | 🔄 In Progress |
+| 1.3 | Digital foundation anchoring with touch gesture placement | ⏳ Pending |
+| 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Pending |
 
-No paid membership required to reach a working prototype on device.
+### Phase 2 — 1:1 BIM Clash Overlay
+| Node | Description | Status |
+|---|---|---|
+| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ⏳ Pending |
+| 2.2 | Geospatial & compass anchoring (GPS auto-alignment) | ⏳ Pending |
+| 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
+
+---
+
+## Architecture
+
+```
+iPhone 16 Pro (LiDAR)
+        │
+        ▼
+ARKit Scene Reconstruction ──► Persistent 3D terrain mesh
+        │
+        ▼
+UE5 Procedural Mesh Component ──► Blueprint cut/fill math
+        │
+        ▼
+Geometry Scripting Plugin ──► Cubic yardage output ──► AR HUD (UMG)
+```
+
+```
+Revit / Rhino
+      │
+      ▼ Datasmith Export (.udatasmith)
+      │
+      ▼
+UE5 BIM Scene ──► GPS + Compass Anchor ──► MEP Layer Toggles ──► Clash Detection
+```
 
 ---
 
@@ -65,6 +85,64 @@ No paid membership required to reach a working prototype on device.
 
 | Role | Machine | Responsibility |
 |---|---|---|
-| Primary workstation | PC | UE5 Blueprints, BIM asset import, Datasmith, logic |
-| Build & deploy | 16-in MacBook Pro M5 Pro | Xcode compilation, signing, device deploy |
-| Test device | iPhone 16 Pro | LiDAR testing, AR session validation |
+| Primary workstation | Windows PC | UE5 Blueprints, Datasmith BIM import, asset management |
+| Build & deploy | MacBook Pro 16" M5 Pro | Xcode compilation, code signing, wired device deployment |
+| Test device | iPhone 16 Pro | LiDAR scanning, AR session validation |
+
+---
+
+## Development Environment
+
+**PC (Windows)**
+- Unreal Engine 5.5.4
+- Visual Studio 2022 (`NativeGame` workload)
+- Cursor IDE + Unreal Engine MCP plugin
+- Claude Code
+
+**Mac**
+- Xcode 16
+- Git LFS 3.7.1
+- Homebrew
+
+**AI Toolchain**
+
+| Tool | Role |
+|---|---|
+| Claude Code | Architecture, documentation, git workflow, code review |
+| Cursor | In-editor Blueprint and C++ via MCP |
+| Unreal Engine MCP | Direct UE5 API control via natural language — test scene assembly, actor placement, batch operations |
+
+---
+
+## iOS Deployment
+
+| Phase | Account | Capability |
+|---|---|---|
+| Prototype | Free Apple ID | Wired deploy to iPhone 16 Pro via Xcode · Re-sign every 7 days |
+| Distribution | Apple Developer ($99/yr) | TestFlight · 1-year provisioning · App Store |
+
+---
+
+## Project Structure
+
+```
+Content/AR_SiteAnalysis/
+├── Blueprints/          # BP_ prefix
+├── UI/                  # WBP_ prefix
+├── Meshes/              # SM_ prefix
+├── Materials/           # M_ prefix
+├── DatasmithAssets/     # Imported BIM geometry
+└── MCP_TestScenes/      # MCP-generated test environments (not shipped)
+```
+
+---
+
+## Git
+
+- LFS tracked: `.uasset` `.umap` `.uproject` `.fbx` `.udatasmith` and all binary asset types
+- Branch per node: `feature/node-X.Y-description`
+- Commits follow [Conventional Commits](https://www.conventionalcommits.org): `feat:` `fix:` `docs:` `chore:`
+
+---
+
+*Built by James Russo & Cole · Boise, Idaho*

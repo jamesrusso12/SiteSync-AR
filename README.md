@@ -38,7 +38,7 @@ The Scene Reconstruction API generates a live, classified triangular mesh of the
 ## Development Phases
 
 ### Phase 1 — Cut-and-Fill AR Calculator
-- **Node 1.1** Source control & foundation setup *(complete — repo + LFS + Xcode signing)*
+- **Node 1.1** Source control & foundation setup *(complete — repo + LFS + free Apple ID wired deploy)*
 - **Node 1.2** LiDAR Environmental Meshing via ARKit Scene Reconstruction
 - **Node 1.3** Digital Foundation Anchoring (touch gesture placement)
 - **Node 1.4** Volumetric Geometry Scripting — cut-and-fill cubic yardage output
@@ -50,10 +50,21 @@ The Scene Reconstruction API generates a live, classified triangular mesh of the
 
 ---
 
+## Apple Developer Account
+
+| Phase | Account Type | Capability |
+|---|---|---|
+| Prototype (now) | Free Apple ID | Wired deploy to iPhone 16 Pro via Xcode · App re-sign required every 7 days · 3 device limit |
+| Distribution (future) | Paid ($99/yr) | TestFlight for Cole · 1-year provisioning · App Store eligibility |
+
+No paid membership required to reach a working prototype on device.
+
+---
+
 ## Hardware Setup
 
 | Role | Machine | Responsibility |
 |---|---|---|
 | Primary workstation | PC | UE5 Blueprints, BIM asset import, Datasmith, logic |
-| Build & deploy | 16-in MacBook Pro M5 Pro | Xcode compilation, signing, TestFlight, device deploy |
+| Build & deploy | 16-in MacBook Pro M5 Pro | Xcode compilation, signing, device deploy |
 | Test device | iPhone 16 Pro | LiDAR testing, AR session validation |

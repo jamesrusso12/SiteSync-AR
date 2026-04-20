@@ -42,7 +42,7 @@ SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engin
 | Node | Description | Status |
 |---|---|---|
 | 1.1 | Source control, Git LFS, iOS signing, project foundation | ✅ Complete |
-| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | 🔄 In Progress |
+| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | 🔄 In Progress — M_LiDARDebug ✅ · DA_SiteSyncARConfig ⚠️ verify Scene Reconstruction setting · BP_LiDARMeshManager BeginPlay ✅ RebuildMesh body incomplete |
 | 1.3 | Digital foundation anchoring with touch gesture placement | ⏳ Pending |
 | 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Pending |
 

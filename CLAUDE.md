@@ -2,6 +2,19 @@
 
 > Read this file first. It gives you full project context so you can pick up from any machine without prior conversation history.
 
+## Workflow Rule — PC Prompts
+
+James works across two machines. Whenever a response includes work that needs to be done on the **Windows PC** (anything involving UE5, Blueprints, Cursor, MCP, Visual Studio, Datasmith, or the UE5 editor), always append a ready-to-paste prompt block at the end of the response under this exact header:
+
+---
+## PC Prompt
+```
+[copy-paste ready prompt for Claude Code on the PC]
+```
+---
+
+The PC prompt must be self-contained: include current node, what was just decided/built on Mac, and exactly what to do next in UE5. Do not assume the PC session has any prior context.
+
 ---
 
 ## Who You Are Working With

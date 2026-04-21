@@ -25,6 +25,15 @@ Bundle ID `com.yourcompany.SiteSyncAR` is placeholder until paid account is acti
 ## 2026-04-21 — Xcode/UE 5.5 toolchain blocker (resolved via 5.6.1 upgrade)
 Mac is on Xcode 26.4.1; UE 5.5 targets Xcode 15.x. SharedPCH fails on `-Werror,-Wdeprecated-literal-operator` (new clang diagnostic on engine `operator "" _Private*SV` operators in `StringView.h`). Blocks both local Mac iOS compile and PC-driven SSH remote-build. **Resolved by upgrading the project to UE 5.6.1** (commit 7bf6c15, 2026-04-21). Mac iOS compile verification still pending.
 
+## 2026-04-21 — Apple_SDK.json MaxVersion patch for Xcode 26 (Mac only)
+UE 5.6.1 ships `Apple_SDK.json` with `MaxVersion = "16.9.0"`, but Mac has Xcode 26.4.1. Without the bump, UBT refuses to register iOS/Mac as buildable. UE 5.6's source is already clang-19-clean, so the gate is the only blocker. Patched `MaxVersion → "27.0.0"` via `scripts/patch-ue56-xcode26.sh` (idempotent).
+
+**Why:** Needed to unblock Mac iOS compile; Xcode downgrade would be sanctioned but costs ~30 min + ongoing toolchain juggling.
+
+**How to apply:** `bash scripts/patch-ue56-xcode26.sh` — run after every Epic Launcher update to UE 5.6.x (the patched file lives outside git and Launcher can reset it). Script is idempotent and leaves a timestamped `.bak`.
+
+**PC note:** PC does not need the patch — Windows build path does not consume `Apple_SDK.json`. Only Mac iOS compile (local or PC-driven remote-build) needs it.
+
 ## 2026-04-21 — Engine upgraded to UE 5.6.1 (from 5.5.4)
 Bumped `EngineAssociation` "5.5" → "5.6" and `IncludeOrderVersion` `Unreal5_5` → `Unreal5_6` in both Target.cs files. PC C++ compile verified clean on 5.6 toolchain (UBT SiteSyncAREditor Win64 Development). UE 5.6 editor auto-rebuilt and resaved BP_LiDARMeshManager.uasset on first open. AppleARKit + ProceduralMeshComponent + GeometryScripting plugins all stable across the bump. Gate to Mac iOS remote-build verification (see Xcode 26 entry above).
 

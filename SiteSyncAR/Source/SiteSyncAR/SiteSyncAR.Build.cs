@@ -19,12 +19,14 @@ public class SiteSyncAR : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[]
 		{
-			"Slate", "SlateCore"
+			"Slate", "SlateCore",
+			"HeadMountedDisplay"
 		});
 
 		if (Target.Platform == UnrealTargetPlatform.IOS)
 		{
 			PrivateDependencyModuleNames.Add("AppleARKit");
+			PrivateDependencyModuleNames.Add("AppleImageUtils");
 		}
 	}
 }

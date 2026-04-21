@@ -12,6 +12,23 @@ At the **start of every session**, read all four files in `memory/`:
 
 At the **end of every session**, update any file whose content changed — new decisions made, preferences clarified, people/roles changed. Keep entries dated. Do not duplicate existing entries; update in place.
 
+## Xcode 26 / UE 5.6 Toolchain Patch (Mac only) — MUST re-apply after Launcher updates
+
+UE 5.6.1's `Apple_SDK.json` caps `MaxVersion` at `16.9.0`, which predates Xcode 26. Mac has Xcode 26.4.1. Without the patch, UBT registers iOS/Mac as `buildable: False` and every iOS build fails with "Platform IOS is not a valid platform to build." UE 5.6's source is already clang-19-clean (modern `operator""_PrivateSV` spelling), so bumping the gate is safe.
+
+**When to re-apply:** After any Epic Launcher update that touches UE 5.6 (point releases, reinstalls, "Verify"). The patch lives in a shared engine file outside git, so Launcher can silently reset it.
+
+**Re-apply command (Mac):**
+```bash
+bash scripts/patch-ue56-xcode26.sh
+```
+
+The script is idempotent — safe to run every session. It edits `/Users/Shared/Epic Games/UE_5.6/Engine/Config/Apple/Apple_SDK.json`, bumping `"MaxVersion": "16.9.0"` → `"MaxVersion": "27.0.0"`, and drops a timestamped `.bak` alongside the original.
+
+**How to tell it's needed:** Running `RunUBT.sh SiteSyncAR IOS Development ...` errors with `Platform IOS is not a valid platform to build`. Check `~/Library/Application Support/Epic/UnrealBuildTool/Log.txt` for `Found Sdk Version=..., MaxRequired=16.9.0` → patch missing.
+
+This patch is Mac-only. PC does not need it (Windows build path doesn't use Apple_SDK.json).
+
 ## Workflow Rule — UE5 Prompts
 
 James works across two machines and **both have UE5 5.5.4 installed**. He works in UE5 on whichever machine is available. Whenever a response includes work that needs to be done in UE5 (Blueprints, Cursor, MCP, Visual Studio, Datasmith, or the UE5 editor), always append a ready-to-paste prompt block at the end of the response under this exact header:

@@ -1,10 +1,11 @@
 #if PLATFORM_IOS
 
 #include "ARMeshBlueprintLibrary.h"
-#include "ARBlueprintLibrary.h"
 #include "ARTrackable.h"
 #include "ARSupportInterface.h"
 #include "AppleARKitConversion.h"
+#include "Engine/Engine.h"
+#include "IXRTrackingSystem.h"
 
 #import <ARKit/ARKit.h>
 
@@ -20,7 +21,12 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 		return false;
 	}
 
-	auto ARSystem = UARBlueprintLibrary::GetARSystem().Pin();
+	if (GEngine == nullptr || !GEngine->XRSystem.IsValid())
+	{
+		return false;
+	}
+
+	TSharedPtr<FARSupportInterface, ESPMode::ThreadSafe> ARSystem = GEngine->XRSystem->GetARCompositionComponent();
 	if (!ARSystem.IsValid())
 	{
 		return false;

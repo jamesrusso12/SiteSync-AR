@@ -1,6 +1,6 @@
 #include "ARMeshBlueprintLibrary.h"
 #include "ARBlueprintLibrary.h"
-#include "ARMeshGeometry.h"
+#include "ARTrackable.h"
 
 bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
                                              TArray<FVector>& OutVertices,

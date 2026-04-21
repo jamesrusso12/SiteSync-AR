@@ -12,18 +12,18 @@ At the **start of every session**, read all four files in `memory/`:
 
 At the **end of every session**, update any file whose content changed — new decisions made, preferences clarified, people/roles changed. Keep entries dated. Do not duplicate existing entries; update in place.
 
-## Workflow Rule — PC Prompts
+## Workflow Rule — UE5 Prompts
 
-James works across two machines. Whenever a response includes work that needs to be done on the **Windows PC** (anything involving UE5, Blueprints, Cursor, MCP, Visual Studio, Datasmith, or the UE5 editor), always append a ready-to-paste prompt block at the end of the response under this exact header:
+James works across two machines and **both have UE5 5.5.4 installed**. He works in UE5 on whichever machine is available. Whenever a response includes work that needs to be done in UE5 (Blueprints, Cursor, MCP, Visual Studio, Datasmith, or the UE5 editor), always append a ready-to-paste prompt block at the end of the response under this exact header:
 
 ---
-## PC Prompt
+## UE5 Prompt
 ```
-[copy-paste ready prompt for Claude Code on the PC]
+[copy-paste ready prompt for Claude Code in UE5 — machine-agnostic]
 ```
 ---
 
-The PC prompt must be self-contained: include current node, what was just decided/built on Mac, and exactly what to do next in UE5. Do not assume the PC session has any prior context.
+The UE5 prompt must be self-contained: include current node, what was just decided/built in the last session, and exactly what to do next. Do not assume the session has any prior context. Do not specify which machine to use — James will decide based on where he is.
 
 ---
 
@@ -46,8 +46,10 @@ The PC prompt must be self-contained: include current node, what was just decide
 | Machine | Role | Key Tools |
 |---|---|---|
 | Windows PC | UE5 Blueprints, Datasmith, asset management, MCP server | UE5.5.4, VS2022, Cursor, Claude Code |
-| MacBook Pro 16" M5 Pro | iOS compilation, Xcode signing, wired device deploy | Xcode 16, Git, Homebrew, gh CLI |
+| MacBook Pro 16" M5 Pro | UE5 Blueprints (remote sessions), iOS compilation, Xcode signing, wired device deploy | UE5.5.4, Xcode 16, Git, Homebrew, gh CLI |
 | iPhone 16 Pro | LiDAR testing, AR session validation | — |
+
+**UE5 is available on both PC and Mac.** James works on whichever machine is at hand. C++ compilation uses Visual Studio 2022 on PC; Mac uses the UE5 built-in toolchain. Always push and pull before switching machines — binary assets are LFS-tracked.
 
 ---
 
@@ -236,7 +238,7 @@ Plugins/UnrealMCP/
   Python/server.py
 ```
 
-**To start the MCP server (PC — run before using Cursor MCP):**
+**To start the MCP server (run before using Cursor MCP — works on either machine):**
 ```bash
 cd Plugins/UnrealMCP
 uv run server.py
@@ -278,7 +280,7 @@ Name them MCP_TerrainProxy_1 through 5. Apply a translucent cyan material.
 
 ## Immediate Next Actions (as of Node 1.2)
 
-**On PC (UE5.5.4):**
+**In UE5 (either machine — push/pull first):**
 1. Open `SiteSyncAR.uproject` → click **Yes** to rebuild C++ modules
 2. Create `DA_SiteSyncARConfig` data asset (ARSessionConfig, Scene Reconstruction = Mesh With Classification)
 3. Create `M_LiDARDebug` material (Translucent, Unlit, cyan emissive, 0.35 opacity)
@@ -288,10 +290,12 @@ Name them MCP_TerrainProxy_1 through 5. Apply a translucent cyan material.
    - Custom Event `UpdateLiDARMesh`: `GetAllARMeshGeometries` → `Clear All Mesh Sections` → ForEachLoop → `GetARMeshData` → Branch → `Create Mesh Section` → `Set Material`
 5. Place `BP_LiDARMeshManager` in default level
 6. Run MCP terrain proxy test scene to validate mesh section logic in editor
+7. Commit and push all editor-saved assets
 
-**On Mac (after PC work is committed and pulled):**
-7. Open in Xcode → wired deploy to iPhone 16 Pro
-8. Confirm LiDAR mesh appears as cyan translucent overlay in AR session
-9. Confirm 60fps is maintained while scanning
+**On Mac (Xcode deploy — after UE5 work is committed and pulled):**
+8. `git pull && git lfs pull`
+9. Open in Xcode → wired deploy to iPhone 16 Pro
+10. Confirm LiDAR mesh appears as cyan translucent overlay in AR session
+11. Confirm 60fps is maintained while scanning
 
 **Gate to Node 1.3:** LiDAR mesh visible and stable on device. ✓

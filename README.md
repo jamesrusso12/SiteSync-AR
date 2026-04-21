@@ -161,8 +161,10 @@ MCP is used for: test scene assembly, actor placement, batch operations, and ter
 | Role | Machine | Responsibility |
 |---|---|---|
 | Primary workstation | Windows PC | UE5 Blueprints, Datasmith BIM import, asset management, MCP server |
-| Build & deploy | MacBook Pro 16" M5 Pro | Xcode remote compilation, code signing, wired device deployment |
+| Remote workstation + deploy | MacBook Pro 16" M5 Pro | UE5 Blueprints (remote sessions), Xcode compilation, code signing, wired device deployment |
 | Test device | iPhone 16 Pro | LiDAR scanning, AR session validation |
+
+UE5 5.5.4 is installed on both machines. James works on whichever is available — always push before switching.
 
 ---
 
@@ -175,6 +177,7 @@ MCP is used for: test scene assembly, actor placement, batch operations, and ter
 - Claude Code
 
 ### Mac
+- Unreal Engine 5.5.4
 - Xcode 16
 - Git LFS 3.7.1 (installed via Homebrew)
 - gh CLI (GitHub auth)

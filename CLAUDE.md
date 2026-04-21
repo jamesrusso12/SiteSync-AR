@@ -111,9 +111,10 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 ### C++ (committed to origin/main)
 - `Source/SiteSyncAR/SiteSyncAR.Build.cs` — added `AugmentedReality`, `ProceduralMeshComponent`, `GeometryCore`, `GeometryScriptingCore` modules; `AppleARKit` iOS-only
 - `Source/SiteSyncAR/Public/ARMeshBlueprintLibrary.h` — C++ shim: `GetAllARMeshGeometries()` → `TArray<UARMeshGeometry*>`; `GetARMeshData(geometry, OutVertices, OutIndices)` → `bool`
-- `Source/SiteSyncAR/Private/ARMeshBlueprintLibrary.cpp` — implementation
+- `Source/SiteSyncAR/Private/ARMeshBlueprintLibrary.cpp` — `GetAllARMeshGeometries` + `#if !PLATFORM_IOS` stub for `GetARMeshData`
+- `Source/SiteSyncAR/Private/ARMeshBlueprintLibrary_iOS.mm` — iOS impl: matches `ARMeshAnchor` by `UniqueId` from `ARSession.currentFrame`, reads `geometry.vertices` + `geometry.faces`, converts ARKit RH-Y-up meters → UE LH-Z-up cm via `FAppleARKitConversion::ToUEScale()` and `FVector(-z, x, y)` mapping
 
-**C++ compile status:** NOT VERIFIED — files exist in repo. On next session open, filter Output Log by `ARKit` and paste errors here.
+**C++ compile status (Mac 2026-04-21):** NOT VERIFIED — blocked by Xcode/UE toolchain mismatch. Attempted iOS build via `RunUBT.sh` and it died in engine SharedPCH (`StringView.h`) with `-Werror,-Wdeprecated-literal-operator` on `operator "" _PrivateSV` etc. Root cause: Mac has Xcode 26.4.1 (clang too new); UE 5.5 officially targets Xcode 15.x. Same Xcode is invoked by PC-driven SSH remote-build, so remote-build is also blocked until toolchain is resolved. Options: (a) install Xcode 15 alongside and point via `xcode-select`, (b) upgrade project to UE 5.6+ (supports newer Xcode) on both machines, (c) patch UE 5.5 source to silence the warning (fragile).
 
 ### UE5 Editor Assets (PC session 2026-04-20)
 

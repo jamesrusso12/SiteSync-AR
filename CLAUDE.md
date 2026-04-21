@@ -2,6 +2,16 @@
 
 > Read this file first. It gives you full project context so you can pick up from any machine without prior conversation history.
 
+## Session Memory Protocol
+
+At the **start of every session**, read all four files in `memory/`:
+- [`memory/user.md`](memory/user.md) — who James is and how to work with him
+- [`memory/people.md`](memory/people.md) — team members, machines, roles
+- [`memory/preferences.md`](memory/preferences.md) — response format, code style, git conventions
+- [`memory/decisions.md`](memory/decisions.md) — key architectural and technical decisions
+
+At the **end of every session**, update any file whose content changed — new decisions made, preferences clarified, people/roles changed. Keep entries dated. Do not duplicate existing entries; update in place.
+
 ## Workflow Rule — PC Prompts
 
 James works across two machines. Whenever a response includes work that needs to be done on the **Windows PC** (anything involving UE5, Blueprints, Cursor, MCP, Visual Studio, Datasmith, or the UE5 editor), always append a ready-to-paste prompt block at the end of the response under this exact header:

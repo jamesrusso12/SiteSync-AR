@@ -2,6 +2,16 @@
 
 > Read this file first. It gives you full project context so you can pick up from any machine without prior conversation history.
 
+## Session Memory Protocol
+
+At the **start of every session**, read all four files in `memory/`:
+- [`memory/user.md`](memory/user.md) — who James is and how to work with him
+- [`memory/people.md`](memory/people.md) — team members, machines, roles
+- [`memory/preferences.md`](memory/preferences.md) — response format, code style, git conventions
+- [`memory/decisions.md`](memory/decisions.md) — key architectural and technical decisions
+
+At the **end of every session**, update any file whose content changed — new decisions made, preferences clarified, people/roles changed. Keep entries dated. Do not duplicate existing entries; update in place.
+
 ## Workflow Rule — PC Prompts
 
 James works across two machines. Whenever a response includes work that needs to be done on the **Windows PC** (anything involving UE5, Blueprints, Cursor, MCP, Visual Studio, Datasmith, or the UE5 editor), always append a ready-to-paste prompt block at the end of the response under this exact header:
@@ -96,14 +106,51 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 
 ## What Was Built in Node 1.2
 
+### C++ (committed to origin/main)
 - `Source/SiteSyncAR/SiteSyncAR.Build.cs` — added `AugmentedReality`, `ProceduralMeshComponent`, `GeometryCore`, `GeometryScriptingCore` modules; `AppleARKit` iOS-only
-- `Source/SiteSyncAR/Public/ARMeshBlueprintLibrary.h` — C++ shim exposing `GetARMeshData` and `GetAllARMeshGeometries` as `BlueprintCallable`
+- `Source/SiteSyncAR/Public/ARMeshBlueprintLibrary.h` — C++ shim: `GetAllARMeshGeometries()` → `TArray<UARMeshGeometry*>`; `GetARMeshData(geometry, OutVertices, OutIndices)` → `bool`
 - `Source/SiteSyncAR/Private/ARMeshBlueprintLibrary.cpp` — implementation
 
-**Still needs building in UE5 editor (PC):**
-- `DA_SiteSyncARConfig` — ARSessionConfig data asset with Scene Reconstruction enabled
-- `M_LiDARDebug` — translucent unlit cyan debug material
-- `BP_LiDARMeshManager` — Actor Blueprint with ProceduralMeshComponent, 200ms timer, mesh rebuild loop
+**C++ compile status:** NOT VERIFIED — files exist in repo. On next session open, filter Output Log by `ARKit` and paste errors here.
+
+### UE5 Editor Assets (PC session 2026-04-20)
+
+**DA_SiteSyncARConfig** — `Content/AR_SiteAnalysis/`
+- Status: **Created and configured — verify Scene Reconstruction setting**
+- Confirmed via screenshot: Generate Mesh Data from Tracked Geometry ✅, Track Scene Objects ✅, Session Type = World, World Alignment = Gravity, Enable Auto Focus ✅, Light Estimation = Ambient Light Estimate
+- ⚠️ Scene Reconstruction Method was `Mesh Only` in session — must be `Mesh With Classification` for Node 1.4 classification data. Verify before next session.
+- ⚠️ Generate Collision for Mesh Data was checked — uncheck it (mobile perf overhead, not needed until Node 1.3)
+
+**M_LiDARDebug** — `Content/Materials/`
+- Status: **Complete and saved**
+- Blend Mode: Translucent · Shading Model: Unlit · Two Sided: true
+- Graph: Constant3Vector (R=0, G=1, B=0.8) → Emissive Color; Constant (0.35) → Opacity
+- Confirmed via screenshot: Apply pressed, preview sphere correct
+
+**BP_LiDARMeshManager** — `Content/Blueprints/`
+- Status: **In progress — BeginPlay complete, RebuildMesh body not yet wired, not compiled**
+- Component: `TerrainMesh` (ProceduralMeshComponent)
+- Variables: `UpdateInterval` (Float, default 0.2), `MeshTimerHandle` (Timer Handle), `DebugMaterial` (Material Interface)
+- BeginPlay chain ✅ wired: `Event BeginPlay` → `Start AR Session` (DA_SiteSyncARConfig) → `Set Timer by Event` (RebuildMesh delegate, Time=UpdateInterval, Looping=true) → `SET MeshTimerHandle`
+- RebuildMesh body nodes specified but NOT confirmed wired — resume here:
+  1. `RebuildMesh` custom event → `Clear All Mesh Sections` (Target: TerrainMesh)
+  2. `GetAllARMeshGeometries` (ARMeshBlueprintLibrary) → For Each Loop
+  3. For Each Loop → `GetARMeshData` (MeshGeometry=Array Element, OutVertices, OutIndices)
+  4. On true → `Create Mesh Section` (Target: TerrainMesh, SectionIndex=Array Index, Vertices=OutVertices, Triangles=OutIndices, Normals=empty, CreateCollision=false)
+  5. → `Set Material` (Target: TerrainMesh, ElementIndex=Array Index, Material=DebugMaterial)
+  6. `Event EndPlay` → `Stop AR Session`
+- After wiring: Compile → assign DebugMaterial in Details panel → place actor in level
+
+### Shim API Reference (use these nodes in BP_LiDARMeshManager)
+```
+GetAllARMeshGeometries()  → TArray<UARMeshGeometry*>   // replaces Get All Geometries
+GetARMeshData(Geometry, OutVertices, OutIndices) → bool // vertices + indices in one call, no separate normals
+```
+Note: `GetARMeshData` has no `OutNormals` — pass empty array to Normals pin on Create Mesh Section.
+
+### Remote Build & Deploy
+- **SSH key generation:** NOT ATTEMPTED — Project Settings → Platforms → iOS → Build → Generate SSH Key. Mac IP: 192.168.6.235, user: jamesrusso
+- **IPA packaging:** NOT ATTEMPTED — blocked on SSH + BP compile
 
 ---
 

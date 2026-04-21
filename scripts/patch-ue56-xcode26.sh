@@ -2,48 +2,112 @@
 #
 # patch-ue56-xcode26.sh
 #
-# Re-applies the Apple_SDK.json MaxVersion bump required to let UE 5.6.1's
-# UnrealBuildTool accept Xcode 26.x as a valid Apple toolchain.
+# Re-applies all UE 5.6.1 patches required on this Mac to build iOS under
+# Xcode 26.x. Epic's stock UE 5.6.1 predates Xcode 26 and macOS Sequoia+
+# xattr behavior, so two surgical engine patches are needed:
 #
-# Epic's stock Apple_SDK.json ships with MaxVersion "16.9.0", which predates
-# Xcode 26's release. UBT then registers IOS/Mac as "buildable: False" and
-# any iOS build fails with:
-#   "Platform IOS is not a valid platform to build."
+# PATCH 1: Apple_SDK.json MaxVersion bump (16.9.0 → 27.0.0).
+#   Without this, UBT registers iOS/Mac as "buildable: False" and every
+#   build fails early with "Platform IOS is not a valid platform to
+#   build." UE 5.6's source is already clang-19-clean (modern
+#   operator""_PrivateSV spelling), so bumping the version gate is safe.
 #
-# UE 5.6's source (StringView.h et al) is already clang-19-clean, so bumping
-# the gate is safe. This script is idempotent — re-run it after any Epic
-# Launcher update to UE 5.6.x that may reset the file.
+# PATCH 2: XcodeProject.cs xattr strip in the "Copy Executable and Staged
+#   Data into .app" build phase. macOS 15+ adds com.apple.FinderInfo and
+#   com.apple.fileprovider.fpfs#P xattrs to files copied from iCloud /
+#   Launcher-installed dirs, and codesign refuses to sign anything with
+#   those attributes ("resource fork, Finder information, or similar
+#   detritus not allowed"). Patch injects `xattr -d` calls into the shell
+#   phase that runs right before Xcode's built-in codesign step, so
+#   every build self-heals.
 #
-# Usage: bash scripts/patch-ue56-xcode26.sh
+# Run this script idempotently after every Epic Launcher update that
+# touches UE 5.6.x. Safe to run every session — detects if patches are
+# already applied and skips.
+#
+# Usage:
+#   bash scripts/patch-ue56-xcode26.sh
 #
 # See CLAUDE.md "Xcode 26 / UE 5.6 toolchain patch" section for context.
 
 set -euo pipefail
 
-SDK_JSON="/Users/Shared/Epic Games/UE_5.6/Engine/Config/Apple/Apple_SDK.json"
-TARGET_MAX="27.0.0"
-ORIGINAL_MAX="16.9.0"
+ENGINE_ROOT="/Users/Shared/Epic Games/UE_5.6"
+SDK_JSON="$ENGINE_ROOT/Engine/Config/Apple/Apple_SDK.json"
+XCODE_CS="$ENGINE_ROOT/Engine/Source/Programs/UnrealBuildTool/ProjectFiles/Xcode/XcodeProject.cs"
+UBT_DLL="$ENGINE_ROOT/Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll"
+UBT_CSPROJ="$ENGINE_ROOT/Engine/Source/Programs/UnrealBuildTool/UnrealBuildTool.csproj"
+UBT_BUILT_DLL="$ENGINE_ROOT/Engine/Source/Programs/UnrealBuildTool/bin/Development/UnrealBuildTool.dll"
+SETUP_ENV="$ENGINE_ROOT/Engine/Build/BatchFiles/Mac/SetupEnvironment.sh"
 
-if [[ ! -f "$SDK_JSON" ]]; then
-  echo "error: $SDK_JSON not found — is UE 5.6 installed at /Users/Shared/Epic Games/UE_5.6?" >&2
+if [[ ! -d "$ENGINE_ROOT" ]]; then
+  echo "error: $ENGINE_ROOT not found — is UE 5.6 installed there?" >&2
   exit 1
 fi
 
-if grep -q "\"MaxVersion\": \"$TARGET_MAX\"" "$SDK_JSON"; then
-  echo "ok: Apple_SDK.json already patched (MaxVersion=$TARGET_MAX)"
-  exit 0
-fi
+REBUILD_UBT=0
 
-if ! grep -q "\"MaxVersion\": \"$ORIGINAL_MAX\"" "$SDK_JSON"; then
-  echo "warn: Apple_SDK.json MaxVersion line does not match expected '$ORIGINAL_MAX'."
-  echo "      Inspect manually before patching:"
+# ---- PATCH 1: Apple_SDK.json MaxVersion ----
+SDK_TARGET_MAX="27.0.0"
+SDK_ORIGINAL_MAX="16.9.0"
+if grep -q "\"MaxVersion\": \"$SDK_TARGET_MAX\"" "$SDK_JSON"; then
+  echo "ok: Apple_SDK.json already patched (MaxVersion=$SDK_TARGET_MAX)"
+elif grep -q "\"MaxVersion\": \"$SDK_ORIGINAL_MAX\"" "$SDK_JSON"; then
+  cp "$SDK_JSON" "${SDK_JSON}.bak.$(date +%Y%m%d-%H%M%S)"
+  sed -i '' "s/\"MaxVersion\": \"$SDK_ORIGINAL_MAX\"/\"MaxVersion\": \"$SDK_TARGET_MAX\"/" "$SDK_JSON"
+  echo "patched: Apple_SDK.json MaxVersion $SDK_ORIGINAL_MAX → $SDK_TARGET_MAX"
+else
+  echo "warn: Apple_SDK.json MaxVersion does not match expected '$SDK_ORIGINAL_MAX' or target — inspect manually:"
   grep "MaxVersion" "$SDK_JSON" || true
   exit 2
 fi
 
-cp "$SDK_JSON" "${SDK_JSON}.bak.$(date +%Y%m%d-%H%M%S)"
-sed -i '' "s/\"MaxVersion\": \"$ORIGINAL_MAX\"/\"MaxVersion\": \"$TARGET_MAX\"/" "$SDK_JSON"
+# ---- PATCH 2: XcodeProject.cs xattr strip ----
+PATCH2_MARKER="SiteSyncAR patch: strip FinderInfo"
+if grep -q "$PATCH2_MARKER" "$XCODE_CS"; then
+  echo "ok: XcodeProject.cs already patched (xattr strip present)"
+else
+  cp "$XCODE_CS" "${XCODE_CS}.bak.$(date +%Y%m%d-%H%M%S)"
+  # Insert the xattr-strip block immediately before the line that creates
+  # the CopyScriptPhase. Pattern-matched against a stable anchor comment.
+  python3 - <<'PY'
+import pathlib, sys
+path = pathlib.Path("/Users/Shared/Epic Games/UE_5.6/Engine/Source/Programs/UnrealBuildTool/ProjectFiles/Xcode/XcodeProject.cs")
+text = path.read_text()
+anchor = "\t\t\t// run this script every time, but xcode will show a warning if there isn't _some_ output\n\t\t\tstring ScriptOutput = $\"/dev/null\";\n\t\t\tXcodeShellScriptBuildPhase CopyScriptPhase = new(\"Copy Executable and Staged Data into .app\","
+inject = """\t\t\t// SiteSyncAR patch: strip FinderInfo/fileprovider xattrs that codesign rejects on macOS 15+ / Xcode 26.
+\t\t\t// Runs after all copy/rsync steps, before Xcode's built-in codesign phase.
+\t\t\tCopyScript.AddRange(new string[]
+\t\t\t{
+\t\t\t\t"",
+\t\t\t\t"if [[ -e \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" ]]; then",
+\t\t\t\t"  find \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" \\\\\\\\( -type f -o -type d \\\\\\\\) -exec xattr -d com.apple.FinderInfo {} \\\\\\\\; 2>/dev/null || true",
+\t\t\t\t"  find \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" \\\\\\\\( -type f -o -type d \\\\\\\\) -exec xattr -d 'com.apple.fileprovider.fpfs#P' {} \\\\\\\\; 2>/dev/null || true",
+\t\t\t\t"fi",
+\t\t\t});
 
-echo "patched: $SDK_JSON"
-echo "         MaxVersion $ORIGINAL_MAX → $TARGET_MAX"
-echo "         backup saved next to original (*.bak.*)"
+"""
+if anchor not in text:
+    print("error: anchor not found in XcodeProject.cs — UE may have changed the source; manual patch required", file=sys.stderr)
+    sys.exit(3)
+new = text.replace(anchor, inject + anchor, 1)
+path.write_text(new)
+print("patched: XcodeProject.cs xattr strip injected")
+PY
+  REBUILD_UBT=1
+fi
+
+# ---- Rebuild UBT if we patched its source ----
+if [[ $REBUILD_UBT -eq 1 ]]; then
+  echo "rebuilding UnrealBuildTool.dll with patched source..."
+  bash -c "source \"$SETUP_ENV\" -dotnet \"$ENGINE_ROOT/Engine/Build/BatchFiles/Mac\" && cd \"$ENGINE_ROOT/Engine/Source/Programs/UnrealBuildTool\" && dotnet build UnrealBuildTool.csproj -c Development" >/tmp/ubt-rebuild.log 2>&1
+  if [[ ! -f "$UBT_BUILT_DLL" ]]; then
+    echo "error: UBT rebuild failed — see /tmp/ubt-rebuild.log" >&2
+    exit 4
+  fi
+  cp "$UBT_BUILT_DLL" "$UBT_DLL"
+  echo "installed patched UnrealBuildTool.dll"
+fi
+
+echo ""
+echo "all patches applied."

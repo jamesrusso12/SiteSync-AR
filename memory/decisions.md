@@ -19,19 +19,23 @@ Target is 60fps on iPhone 16 Pro. Mesh rebuilds on a 0.2s looping timer, not eve
 Paid $99/yr Apple Developer account only needed when Cole requires TestFlight access.
 Bundle ID `com.yourcompany.SiteSyncAR` is placeholder until paid account is activated.
 
-## 2026-04-21 — HARD CONSTRAINT: James works at Apple retail, cannot enroll in Apple Developer Program
-Apple retail Business Conduct rules bar James from enrolling in the paid Apple Developer Program while employed in retail. This is non-negotiable until he leaves retail. Ambiguous whether the rule also bars the free Personal Team (automatic with any Apple ID, no enrollment) — James defaults to treating everything dev-related as off-limits unless/until he confirms with HR/ER.
+## 2026-04-21 — CONSTRAINT: No paid Apple Developer Program (retail BC); Personal Team IS OK
+Apple retail Business Conduct rules bar James from enrolling in the **paid** Apple Developer Program ($99/yr) while employed in retail. Non-negotiable until he leaves retail.
+
+**However — Personal Team (free, automatic with any Apple ID via Xcode sign-in) is fine.** James already uses Personal Team for his other apps (e.g. "Shift"). No enrollment, no payment, just Xcode → Settings → Accounts → sign-in. That path IS available for SiteSync AR.
 
 **Impact on deploy path:**
-- No code signing from James's Apple ID (paid OR personal team, until BC clarifies)
-- No TestFlight, no App Store submission, no provisioning profiles under James's name
-- iOS Simulator is not viable (no LiDAR, no Scene Reconstruction) — kills prototype use case
+- Wired Mac → iPhone deploy via Personal Team: YES
+- Signing produces a 7-day provisioning profile; app must be re-deployed from Xcode weekly
+- Limited to 3 Personal Team apps active on device at once
+- No TestFlight: Cole can't get builds until either he enrolls ($99/yr paid) or James leaves retail
+- Bundle ID must be unique but NOT registered anywhere (literally any string like `com.jamesrusso.SiteSyncAR` works)
 
 **How to apply:**
-- Continue building + compile-verifying Node 1.2, 1.3, 1.4 via UBT — `.app` signing is the only thing gated
-- When James eventually wants on-device validation: Cole enrolls ($99/yr paid), adds iPhone 16 Pro as test device, signs IPA
-- Do NOT suggest Xcode Apple ID sign-in as a solution; do NOT edit Bundle ID off the placeholder; do NOT attempt wired deploy
-- Re-check this constraint if James reports BC clarification or leaves retail
+- Edit Bundle ID off `com.yourcompany.SiteSyncAR` placeholder → use a James-owned reverse-DNS string
+- In UE iOS Project Settings: sign-in with Apple ID, pick Personal Team from signing dropdown
+- Proceed with wired deploy; plan for weekly re-deploy from Mac
+- Do NOT suggest paid enrollment, TestFlight, or external-device distribution until retail status changes
 
 ## 2026-04-21 — iOS GetARMeshData reads ARMeshAnchor directly, not FARKitMeshData
 `FARKitMeshData::GetMeshData(FGuid)` returns a `MeshDataPtr` but its `Vertices`/`Indices` arrays are private — unreachable from our module without friend access or engine patching. Instead, the iOS shim pulls the live `ARMeshAnchor` from `ARSession.currentFrame` and matches it to the UE `UARMeshGeometry` by `UniqueId` (NSUUID ↔ FGuid via `FAppleARKitConversion::ToFGuid`). Reads `geometry.vertices` and `geometry.faces` directly and applies the same `FVector(-z, x, y) * 100` conversion the engine uses internally. Same axis/scale semantics, independent data path.

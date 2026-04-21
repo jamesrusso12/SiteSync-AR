@@ -62,37 +62,43 @@ else
   exit 2
 fi
 
-# ---- PATCH 2: XcodeProject.cs xattr strip ----
+# ---- PATCH 2: XcodeProject.cs xattr strip (separate build phase, unconditional) ----
 PATCH2_MARKER="SiteSyncAR patch: strip FinderInfo"
 if grep -q "$PATCH2_MARKER" "$XCODE_CS"; then
-  echo "ok: XcodeProject.cs already patched (xattr strip present)"
+  echo "ok: XcodeProject.cs already patched (xattr strip phase present)"
 else
   cp "$XCODE_CS" "${XCODE_CS}.bak.$(date +%Y%m%d-%H%M%S)"
-  # Insert the xattr-strip block immediately before the line that creates
-  # the CopyScriptPhase. Pattern-matched against a stable anchor comment.
   python3 - <<'PY'
 import pathlib, sys
 path = pathlib.Path("/Users/Shared/Epic Games/UE_5.6/Engine/Source/Programs/UnrealBuildTool/ProjectFiles/Xcode/XcodeProject.cs")
 text = path.read_text()
-anchor = "\t\t\t// run this script every time, but xcode will show a warning if there isn't _some_ output\n\t\t\tstring ScriptOutput = $\"/dev/null\";\n\t\t\tXcodeShellScriptBuildPhase CopyScriptPhase = new(\"Copy Executable and Staged Data into .app\","
-inject = """\t\t\t// SiteSyncAR patch: strip FinderInfo/fileprovider xattrs that codesign rejects on macOS 15+ / Xcode 26.
-\t\t\t// Runs after all copy/rsync steps, before Xcode's built-in codesign phase.
-\t\t\tCopyScript.AddRange(new string[]
-\t\t\t{
-\t\t\t\t"",
-\t\t\t\t"if [[ -e \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" ]]; then",
-\t\t\t\t"  find \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" \\\\\\\\( -type f -o -type d \\\\\\\\) -exec xattr -d com.apple.FinderInfo {} \\\\\\\\; 2>/dev/null || true",
-\t\t\t\t"  find \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" \\\\\\\\( -type f -o -type d \\\\\\\\) -exec xattr -d 'com.apple.fileprovider.fpfs#P' {} \\\\\\\\; 2>/dev/null || true",
-\t\t\t\t"fi",
-\t\t\t});
+anchor = "\t\t\tXcodeShellScriptBuildPhase CopyScriptPhase = new(\"Copy Executable and Staged Data into .app\", CopyScript, Array.Empty<string>(), new string[] { ScriptOutput });\n\t\t\tBuildPhases.Add(CopyScriptPhase);\n\t\t\tReferences.Add(CopyScriptPhase);"
+inject = """
 
-"""
+\t\t\t// SiteSyncAR patch: strip FinderInfo/fileprovider xattrs that codesign rejects on macOS 15+ / Xcode 26.
+\t\t\t// Separate phase (not part of CopyScript) so it runs unconditionally, even when CopyScript exits early
+\t\t\t// due to missing staging dir. Must run after CopyScriptPhase, before Xcode's built-in codesign.
+\t\t\tList<string> XattrScript = new()
+\t\t\t{
+\t\t\t\t"set +e",
+\t\t\t\t"if [[ -e \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" ]]; then",
+\t\t\t\t"  xattr -dr com.apple.FinderInfo \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" 2>/dev/null",
+\t\t\t\t"  xattr -dr 'com.apple.fileprovider.fpfs#P' \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" 2>/dev/null",
+\t\t\t\t"  xattr -d com.apple.FinderInfo \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" 2>/dev/null",
+\t\t\t\t"  xattr -d 'com.apple.fileprovider.fpfs#P' \\\\\\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}\\\\\\" 2>/dev/null",
+\t\t\t\t"  echo \\\\\\"[SiteSyncAR] stripped FinderInfo xattrs pre-codesign\\\\\\"",
+\t\t\t\t"fi",
+\t\t\t\t"exit 0",
+\t\t\t};
+\t\t\tXcodeShellScriptBuildPhase XattrPhase = new(\"Strip FinderInfo xattrs (pre-codesign)\", XattrScript, Array.Empty<string>(), new string[] { \"/dev/null\" });
+\t\t\tBuildPhases.Add(XattrPhase);
+\t\t\tReferences.Add(XattrPhase);"""
 if anchor not in text:
     print("error: anchor not found in XcodeProject.cs — UE may have changed the source; manual patch required", file=sys.stderr)
     sys.exit(3)
-new = text.replace(anchor, inject + anchor, 1)
+new = text.replace(anchor, anchor + inject, 1)
 path.write_text(new)
-print("patched: XcodeProject.cs xattr strip injected")
+print("patched: XcodeProject.cs xattr-strip phase injected after CopyScriptPhase")
 PY
   REBUILD_UBT=1
 fi

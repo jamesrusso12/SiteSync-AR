@@ -17,6 +17,7 @@ xcuserdata/
 *.dSYM/
 
 # Visual Studio artifacts
+*.sln
 *.suo
 *.user
 *.sdf

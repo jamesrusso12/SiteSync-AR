@@ -93,7 +93,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 | Node | Description | Status |
 |---|---|---|
 | 1.1 | Source control, Git LFS, iOS config, plugin declarations | ✅ Complete |
-| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | 🔄 In Progress |
+| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | 🔄 Deploy pipeline ✅ · AR scene content pending |
 | 1.3 | Digital foundation anchoring with touch gesture placement | ⏳ Pending |
 | 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Pending |
 

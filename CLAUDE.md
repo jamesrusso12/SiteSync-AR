@@ -93,7 +93,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 | Node | Description | Status |
 |---|---|---|
 | 1.1 | Source control, Git LFS, iOS config, plugin declarations | ✅ Complete |
-| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | 🔄 Deploy pipeline ✅ · AR scene content pending |
+| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Complete (PC) · 🔄 iOS device deploy pending |
 | 1.3 | Digital foundation anchoring with touch gesture placement | ⏳ Pending |
 | 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Pending |
 
@@ -248,21 +248,18 @@ git lfs pull
 [Claude / Cursor] → MCP Host → Tool Calls → Python Server (UV) → TCP Socket → UE5 C++ Plugin → UE5 API
 ```
 
-**Plugin location (PATH B integration — not yet done):**
+**Plugin location (installed 2026-04-21):**
 ```
-Plugins/UnrealMCP/
+SiteSyncAR/Plugins/UnrealMCP/
   UnrealMCP.uplugin
-  Source/UnrealMCP/
-  Python/server.py
+  Source/UnrealMCP/      ← C++ TCP server, auto-starts on editor load
+  Python/                ← MCP server for Cursor/Claude
+    unreal_mcp_server.py
 ```
 
-**To start the MCP server (run before using Cursor MCP — works on either machine):**
-```bash
-cd Plugins/UnrealMCP
-uv run server.py
-```
+**The C++ plugin auto-starts the TCP server on port 55557 when the editor loads — no manual start needed.**
 
-**Cursor config:** `.cursor/mcp.json` already in repo root — enable `unrealMCP` in Cursor Settings → Tools.
+**Cursor config:** `.cursor/mcp.json` in repo root — `unrealMCP` enabled in Cursor Settings → Tools. Uses `uv` (installed at `C:\Users\jruss\.local\bin\uv.exe`).
 
 **MCP verification prompt (paste into Cursor Agent mode):**
 ```
@@ -296,24 +293,21 @@ Name them MCP_TerrainProxy_1 through 5. Apply a translucent cyan material.
 
 ---
 
-## Immediate Next Actions (as of Node 1.2)
+## Immediate Next Actions (as of Node 1.3)
 
-**In UE5 (either machine — push/pull first):**
-1. Open `SiteSyncAR.uproject` → click **Yes** to rebuild C++ modules
-2. Create `DA_SiteSyncARConfig` data asset (ARSessionConfig, Scene Reconstruction = Mesh With Classification)
-3. Create `M_LiDARDebug` material (Translucent, Unlit, cyan emissive, 0.35 opacity)
-4. Create `BP_LiDARMeshManager` Actor Blueprint:
-   - Component: `ProceduralMeshComponent` (named `TerrainMesh`)
-   - BeginPlay: `Start AR Session` (DA_SiteSyncARConfig) → `Set Timer by Event` (0.2s, looping) → `UpdateLiDARMesh`
-   - Custom Event `UpdateLiDARMesh`: `GetAllARMeshGeometries` → `Clear All Mesh Sections` → ForEachLoop → `GetARMeshData` → Branch → `Create Mesh Section` → `Set Material`
-5. Place `BP_LiDARMeshManager` in default level
-6. Run MCP terrain proxy test scene to validate mesh section logic in editor
-7. Commit and push all editor-saved assets
+Node 1.2 PC work is complete and verified (MCP terrain proxy test passed 2026-04-21).
+iOS device deploy (Mac gate) is still pending — see Mac Prompt below.
 
-**On Mac (Xcode deploy — after UE5 work is committed and pulled):**
-8. `git pull && git lfs pull`
-9. Open in Xcode → wired deploy to iPhone 16 Pro
-10. Confirm LiDAR mesh appears as cyan translucent overlay in AR session
-11. Confirm 60fps is maintained while scanning
+**Node 1.3 — Digital Foundation Anchoring:**
+1. Push/pull to sync all machines
+2. Create `BP_FoundationAnchor` Actor Blueprint with touch gesture placement
+3. Anchor snaps to LiDAR mesh surface on tap
+4. Visual indicator (translucent box) shows placed foundation footprint
+5. Gate to Node 1.4: anchor placeable and repositionable on device
 
-**Gate to Node 1.3:** LiDAR mesh visible and stable on device. ✓
+**On Mac (iOS deploy gate — unblock Node 1.3 device testing):**
+1. `git pull && git lfs pull`
+2. Run `bash scripts/patch-ue56-xcode26.sh` (Xcode 26 toolchain fix)
+3. Open Xcode → wired deploy to iPhone 16 Pro
+4. Confirm LiDAR mesh appears as cyan translucent overlay in AR session
+5. Confirm 60fps maintained while scanning

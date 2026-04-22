@@ -1,0 +1,188 @@
+2026-04-21 22:10:13,555 - mcp.server.lowlevel.server - DEBUG - [server.py:145] - Initializing server 'UnrealMCP'
+2026-04-21 22:10:13,555 - mcp.server.lowlevel.server - DEBUG - [server.py:384] - Registering handler for ListToolsRequest
+2026-04-21 22:10:13,555 - mcp.server.lowlevel.server - DEBUG - [server.py:406] - Registering handler for CallToolRequest
+2026-04-21 22:10:13,555 - mcp.server.lowlevel.server - DEBUG - [server.py:252] - Registering handler for ListResourcesRequest
+2026-04-21 22:10:13,555 - mcp.server.lowlevel.server - DEBUG - [server.py:286] - Registering handler for ReadResourceRequest
+2026-04-21 22:10:13,555 - mcp.server.lowlevel.server - DEBUG - [server.py:222] - Registering handler for PromptListRequest
+2026-04-21 22:10:13,555 - mcp.server.lowlevel.server - DEBUG - [server.py:239] - Registering handler for GetPromptRequest
+2026-04-21 22:10:13,555 - mcp.server.lowlevel.server - DEBUG - [server.py:267] - Registering handler for ListResourceTemplatesRequest
+2026-04-21 22:10:13,596 - UnrealMCP - INFO - [editor_tools.py:369] - Editor tools registered successfully
+2026-04-21 22:10:13,600 - UnrealMCP - INFO - [blueprint_tools.py:420] - Blueprint tools registered successfully
+2026-04-21 22:10:13,605 - UnrealMCP - INFO - [node_tools.py:430] - Blueprint node tools registered successfully
+2026-04-21 22:10:13,606 - UnrealMCP - INFO - [project_tools.py:64] - Project tools registered successfully
+2026-04-21 22:10:13,610 - UnrealMCP - INFO - [umg_tools.py:333] - UMG tools registered successfully
+2026-04-21 22:10:13,610 - UnrealMCP - INFO - [unreal_mcp_server.py:376] - Starting MCP server with stdio transport
+2026-04-21 22:10:13,628 - asyncio - DEBUG - [proactor_events.py:634] - Using proactor: IocpProactor
+2026-04-21 22:10:13,631 - UnrealMCP - INFO - [unreal_mcp_server.py:242] - UnrealMCP server starting up
+2026-04-21 22:10:13,631 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-21 22:10:15,674 - UnrealMCP - ERROR - [unreal_mcp_server.py:67] - Failed to connect to Unreal: [WinError 10061] No connection could be made because the target machine actively refused it
+2026-04-21 22:10:15,674 - UnrealMCP - WARNING - [unreal_mcp_server.py:213] - Could not connect to Unreal Engine
+2026-04-21 22:10:15,674 - UnrealMCP - WARNING - [unreal_mcp_server.py:248] - Could not connect to Unreal Engine on startup
+2026-04-21 22:10:15,679 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: root=InitializedNotification(method='notifications/initialized', params=None, jsonrpc='2.0')
+2026-04-21 22:10:15,679 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D412BD0>
+2026-04-21 22:10:15,679 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-21 22:10:15,680 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-21 22:10:15,680 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-21 22:10:15,680 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:10:15,680 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D412480>
+2026-04-21 22:10:15,681 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListToolsRequest
+2026-04-21 22:10:15,681 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListToolsRequest
+2026-04-21 22:10:15,682 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:10:15,683 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D425A30>
+2026-04-21 22:10:15,683 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-21 22:10:15,684 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-21 22:10:15,684 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-21 22:10:15,684 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D4258E0>
+2026-04-21 22:10:15,684 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-21 22:10:15,684 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-21 22:10:15,684 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:10:15,685 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D24DE80>
+2026-04-21 22:10:15,685 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListToolsRequest
+2026-04-21 22:10:15,685 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListToolsRequest
+2026-04-21 22:10:15,687 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:10:15,688 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:10:15,688 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D4273E0>
+2026-04-21 22:10:15,688 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-21 22:10:15,688 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-21 22:10:15,689 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:10:15,689 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D41EF90>
+2026-04-21 22:10:15,689 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-21 22:10:15,689 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-21 22:10:15,689 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:10:15,690 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D41F320>
+2026-04-21 22:10:15,690 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-21 22:10:15,690 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-21 22:10:15,690 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-21 22:10:15,691 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:10:15,699 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D41F470>
+2026-04-21 22:10:15,699 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListToolsRequest
+2026-04-21 22:10:15,699 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListToolsRequest
+2026-04-21 22:10:15,700 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:10:15,702 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D413D40>
+2026-04-21 22:10:15,702 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-21 22:10:15,702 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-21 22:10:15,702 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:10:15,703 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D4276B0>
+2026-04-21 22:10:15,703 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-21 22:10:15,704 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-21 22:10:15,704 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-21 22:10:15,704 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:11:27,058 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x00000223995D0080>
+2026-04-21 22:11:27,058 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-21 22:11:27,058 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-21 22:11:27,063 - mcp.server.lowlevel.server - DEBUG - [server.py:145] - Initializing server 'UnrealMCP'
+2026-04-21 22:11:27,064 - mcp.server.lowlevel.server - DEBUG - [server.py:384] - Registering handler for ListToolsRequest
+2026-04-21 22:11:27,064 - mcp.server.lowlevel.server - DEBUG - [server.py:406] - Registering handler for CallToolRequest
+2026-04-21 22:11:27,064 - mcp.server.lowlevel.server - DEBUG - [server.py:252] - Registering handler for ListResourcesRequest
+2026-04-21 22:11:27,064 - mcp.server.lowlevel.server - DEBUG - [server.py:286] - Registering handler for ReadResourceRequest
+2026-04-21 22:11:27,064 - mcp.server.lowlevel.server - DEBUG - [server.py:222] - Registering handler for PromptListRequest
+2026-04-21 22:11:27,064 - mcp.server.lowlevel.server - DEBUG - [server.py:239] - Registering handler for GetPromptRequest
+2026-04-21 22:11:27,064 - mcp.server.lowlevel.server - DEBUG - [server.py:267] - Registering handler for ListResourceTemplatesRequest
+2026-04-21 22:11:27,070 - UnrealMCP - INFO - [editor_tools.py:369] - Editor tools registered successfully
+2026-04-21 22:11:27,076 - UnrealMCP - INFO - [blueprint_tools.py:420] - Blueprint tools registered successfully
+2026-04-21 22:11:27,081 - UnrealMCP - INFO - [node_tools.py:430] - Blueprint node tools registered successfully
+2026-04-21 22:11:27,082 - UnrealMCP - INFO - [project_tools.py:64] - Project tools registered successfully
+2026-04-21 22:11:27,087 - UnrealMCP - INFO - [umg_tools.py:333] - UMG tools registered successfully
+2026-04-21 22:11:27,087 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-21 22:11:29,130 - UnrealMCP - ERROR - [unreal_mcp_server.py:67] - Failed to connect to Unreal: [WinError 10061] No connection could be made because the target machine actively refused it
+2026-04-21 22:11:29,130 - UnrealMCP - WARNING - [unreal_mcp_server.py:213] - Could not connect to Unreal Engine
+2026-04-21 22:11:29,130 - UnrealMCP - ERROR - [editor_tools.py:103] - Failed to connect to Unreal Engine
+2026-04-21 22:11:29,131 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:13:56,020 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239CED8800>
+2026-04-21 22:13:56,020 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-21 22:13:56,020 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-21 22:13:56,021 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:14:00,689 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239CB529C0>
+2026-04-21 22:14:00,690 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-21 22:14:00,690 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-21 22:14:00,690 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-21 22:14:02,733 - UnrealMCP - ERROR - [unreal_mcp_server.py:67] - Failed to connect to Unreal: [WinError 10061] No connection could be made because the target machine actively refused it
+2026-04-21 22:14:02,733 - UnrealMCP - WARNING - [unreal_mcp_server.py:213] - Could not connect to Unreal Engine
+2026-04-21 22:14:02,733 - UnrealMCP - ERROR - [editor_tools.py:103] - Failed to connect to Unreal Engine
+2026-04-21 22:14:02,733 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:15:03,420 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D4275F0>
+2026-04-21 22:15:03,421 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListToolsRequest
+2026-04-21 22:15:03,421 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListToolsRequest
+2026-04-21 22:15:03,423 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:15:03,426 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D4291F0>
+2026-04-21 22:15:03,426 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-21 22:15:03,426 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-21 22:15:03,426 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:15:03,426 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D412660>
+2026-04-21 22:15:03,426 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-21 22:15:03,426 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-21 22:15:03,426 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-21 22:15:03,426 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:15:03,434 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D412600>
+2026-04-21 22:15:03,434 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListToolsRequest
+2026-04-21 22:15:03,434 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListToolsRequest
+2026-04-21 22:15:03,436 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:15:03,438 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D42A030>
+2026-04-21 22:15:03,439 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-21 22:15:03,439 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-21 22:15:03,439 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:15:03,440 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D24DBE0>
+2026-04-21 22:15:03,440 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-21 22:15:03,440 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-21 22:15:03,440 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-21 22:15:03,441 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:16:15,656 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D24E240>
+2026-04-21 22:16:15,656 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type PingRequest
+2026-04-21 22:16:15,656 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type PingRequest
+2026-04-21 22:16:15,656 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:20:03,425 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D24E330>
+2026-04-21 22:20:03,425 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListToolsRequest
+2026-04-21 22:20:03,426 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListToolsRequest
+2026-04-21 22:20:03,429 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:20:03,433 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D42B680>
+2026-04-21 22:20:03,433 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-21 22:20:03,433 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-21 22:20:03,433 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:20:03,434 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D41F680>
+2026-04-21 22:20:03,434 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-21 22:20:03,434 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-21 22:20:03,435 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-21 22:20:03,435 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:20:03,440 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D41C500>
+2026-04-21 22:20:03,441 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListToolsRequest
+2026-04-21 22:20:03,441 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListToolsRequest
+2026-04-21 22:20:03,443 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:20:03,445 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D4244A0>
+2026-04-21 22:20:03,445 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-21 22:20:03,445 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-21 22:20:03,446 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:20:03,447 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D42B560>
+2026-04-21 22:20:03,447 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-21 22:20:03,447 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-21 22:20:03,447 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-21 22:20:03,447 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:21:25,304 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D429D00>
+2026-04-21 22:21:25,305 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type PingRequest
+2026-04-21 22:21:25,305 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type PingRequest
+2026-04-21 22:21:25,305 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:25:03,415 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D429850>
+2026-04-21 22:25:03,415 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListToolsRequest
+2026-04-21 22:25:03,415 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListToolsRequest
+2026-04-21 22:25:03,418 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:25:03,420 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D4132F0>
+2026-04-21 22:25:03,421 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-21 22:25:03,421 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-21 22:25:03,421 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:25:03,422 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D4275F0>
+2026-04-21 22:25:03,422 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-21 22:25:03,422 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-21 22:25:03,422 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-21 22:25:03,423 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:25:03,429 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D425A00>
+2026-04-21 22:25:03,429 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListToolsRequest
+2026-04-21 22:25:03,429 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListToolsRequest
+2026-04-21 22:25:03,431 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:25:03,433 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D428410>
+2026-04-21 22:25:03,433 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-21 22:25:03,433 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-21 22:25:03,433 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-21 22:25:03,434 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x000002239D412F60>
+2026-04-21 22:25:03,434 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-21 22:25:03,434 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-21 22:25:03,434 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-21 22:25:03,435 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent

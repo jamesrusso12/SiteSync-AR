@@ -1,10 +1,12 @@
 {
-  "servers": {
+  "mcpServers": {
     "unrealMCP": {
       "command": "uv",
       "args": [
+        "--directory",
+        "${workspaceFolder}/SiteSyncAR/Plugins/UnrealMCP/Python",
         "run",
-        "${workspaceFolder}/Plugins/UnrealMCP/server.py"
+        "unreal_mcp_server.py"
       ],
       "env": {
         "UE_MCP_HOST": "127.0.0.1",

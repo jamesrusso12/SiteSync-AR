@@ -6,8 +6,11 @@
 #include "AppleARKitConversion.h"
 #include "Engine/Engine.h"
 #include "IXRTrackingSystem.h"
+#include "Logging/LogMacros.h"
 
 #import <ARKit/ARKit.h>
+
+DEFINE_LOG_CATEGORY_STATIC(LogSiteSyncARiOS, Log, All);
 
 bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
                                              TArray<FVector>& OutVertices,
@@ -18,40 +21,47 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 
 	if (!MeshGeometry)
 	{
+		UE_LOG(LogSiteSyncARiOS, Warning, TEXT("GetARMeshData: null MeshGeometry"));
 		return false;
 	}
 
 	if (GEngine == nullptr || !GEngine->XRSystem.IsValid())
 	{
+		UE_LOG(LogSiteSyncARiOS, Warning, TEXT("GetARMeshData: no GEngine or XRSystem"));
 		return false;
 	}
 
 	TSharedPtr<FARSupportInterface, ESPMode::ThreadSafe> ARSystem = GEngine->XRSystem->GetARCompositionComponent();
 	if (!ARSystem.IsValid())
 	{
+		UE_LOG(LogSiteSyncARiOS, Warning, TEXT("GetARMeshData: no ARCompositionComponent"));
 		return false;
 	}
 
 	ARSession* Session = (__bridge ARSession*)ARSystem->GetARSessionRawPointer();
 	if (Session == nil)
 	{
+		UE_LOG(LogSiteSyncARiOS, Warning, TEXT("GetARMeshData: no ARSession"));
 		return false;
 	}
 
 	ARFrame* Frame = Session.currentFrame;
 	if (Frame == nil)
 	{
+		UE_LOG(LogSiteSyncARiOS, Warning, TEXT("GetARMeshData: no currentFrame"));
 		return false;
 	}
 
 	const FGuid TargetId = MeshGeometry->UniqueId;
 	ARMeshAnchor* FoundAnchor = nil;
+	int32 MeshAnchorCount = 0;
 	for (ARAnchor* Anchor in Frame.anchors)
 	{
 		if (![Anchor isKindOfClass:[ARMeshAnchor class]])
 		{
 			continue;
 		}
+		MeshAnchorCount++;
 		if (FAppleARKitConversion::ToFGuid(Anchor.identifier) == TargetId)
 		{
 			FoundAnchor = (ARMeshAnchor*)Anchor;
@@ -60,6 +70,7 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 	}
 	if (FoundAnchor == nil)
 	{
+		UE_LOG(LogSiteSyncARiOS, Warning, TEXT("GetARMeshData: no matching ARMeshAnchor for UniqueId (scanned %d mesh anchors in frame)"), MeshAnchorCount);
 		return false;
 	}
 
@@ -70,6 +81,7 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 		InVerts.buffer == nil ||
 		InVerts.buffer.contents == nullptr)
 	{
+		UE_LOG(LogSiteSyncARiOS, Warning, TEXT("GetARMeshData: vertex buffer malformed (comps=%ld, format=%lu)"), (long)InVerts.componentsPerVector, (unsigned long)InVerts.format);
 		return false;
 	}
 
@@ -104,6 +116,7 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 		OutIndices[i] = (int32)SrcIdx[i];
 	}
 
+	UE_LOG(LogSiteSyncARiOS, Log, TEXT("GetARMeshData: %ld verts, %ld tris extracted"), (long)NumVerts, (long)NumTris);
 	return NumVerts > 0 && NumIndices > 0;
 }
 

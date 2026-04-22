@@ -214,16 +214,7 @@ Content/AR_SiteAnalysis/
 **Auth:** SSH key on Mac. HTTPS + gh CLI on PC (if configured).  
 **Default branch:** `main`
 
-**Branch naming:**
-```
-feature/node-1.1-source-control
-feature/node-1.2-lidar-meshing
-feature/node-1.3-foundation-anchor
-feature/node-1.4-cut-fill-calc
-feature/node-2.1-datasmith-pipeline
-feature/node-2.2-geospatial-anchor
-feature/node-2.3-clash-interface
-```
+**Branch:** Commit directly to `main`. No feature branches required.
 
 **Commit convention:** Conventional Commits
 ```

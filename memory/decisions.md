@@ -55,5 +55,15 @@ UE 5.6.1 ships `Apple_SDK.json` with `MaxVersion = "16.9.0"`, but Mac has Xcode 
 ## 2026-04-21 — Engine upgraded to UE 5.6.1 (from 5.5.4)
 Bumped `EngineAssociation` "5.5" → "5.6" and `IncludeOrderVersion` `Unreal5_5` → `Unreal5_6` in both Target.cs files. PC C++ compile verified clean on 5.6 toolchain (UBT SiteSyncAREditor Win64 Development). UE 5.6 editor auto-rebuilt and resaved BP_LiDARMeshManager.uasset on first open. AppleARKit + ProceduralMeshComponent + GeometryScripting plugins all stable across the bump. Gate to Mac iOS remote-build verification (see Xcode 26 entry above).
 
+## 2026-04-21 — Mac project relocated from Desktop to ~/Developer (iCloud xattr blocker)
+macOS Sequoia+ auto-syncs `~/Desktop` and `~/Documents` to iCloud Drive when "Desktop & Documents" is on (James's Mac has `FXICloudDriveDesktop=1`). Every file in an iCloud-synced dir gets `com.apple.fileprovider.fpfs#P` + `com.apple.FinderInfo` xattrs auto-added by the fileprovider framework **and re-applied the instant they're removed**. `codesign` refuses to sign anything with those xattrs ("resource fork, Finder information, or similar detritus not allowed"). No amount of UE-side patching can beat the filesystem layer.
+
+**Fix:** Project moved from `~/Desktop/Github/Xcode/SiteSync-AR/` to `~/Developer/SiteSync-AR/`. `~/Developer/` is Apple-standard for dev work and NOT iCloud-synced. A symlink remains at the old Desktop path for backward compatibility with stale references (tool cwds, Claude session paths).
+
+**How to apply:** Always work out of `~/Developer/SiteSync-AR/` on Mac. If this path ever ends up under Desktop/Documents/iCloud again, codesign will fail irrecoverably. Engine patches (FinderInfo xattr strip) are irrelevant once the project is outside iCloud, but kept as defense in depth.
+
+## 2026-04-21 — Node 1.2 GATE CLEARED — LiDAR mesh on device
+Full iOS app (SiteSyncAR + cooked game content) installed on iPhone 16 Pro via `xcrun devicectl`. Bundle: `com.RussoCompany.SiteSyncAR`. Staged build path: `SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app`. Pipeline: UBT build → cook via `UnrealEditor -run=Cook` → UAT `-stage -skipbuild -skipcook`. Personal Team signing via Team ID PD29S4YQ4P. First on-device validation pending James's confirmation of cyan mesh render.
+
 ## 2026-04-21 — ⚠️ Canonical working tree is C:\Dev\SiteSync-AR\ on PC (NOT the OneDrive path)
 There are two project directories on the PC: the OneDrive copy at `C:\Users\jruss\OneDrive\Desktop\Project Kickoff\SiteSync-AR\` (stale clone, do NOT edit) and the real working tree at `C:\Dev\SiteSync-AR\` (where UE 5.6 actually opens, where commits are made, where LFS smudges land). Both point at the same GitHub remote but OneDrive tends to lag and can cause UE file-lock issues. **Always `cd /c/Dev/SiteSync-AR` (or use `git -C`) before terminal work on PC.** The OneDrive copy can be deleted at any time; it exists only because Claude Code was originally launched from the OneDrive path.

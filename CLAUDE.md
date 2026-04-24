@@ -12,6 +12,10 @@ At the **start of every session**, read all four files in `memory/`:
 
 At the **end of every session**, update any file whose content changed — new decisions made, preferences clarified, people/roles changed. Keep entries dated. Do not duplicate existing entries; update in place.
 
+## Canonical Working Tree (PC) — MUST
+
+Always operate out of **`C:\Dev\SiteSync-AR\`** on PC. A stale clone used to live at `C:\Users\jruss\OneDrive\Desktop\Project Kickoff\SiteSync-AR\` — it's gone or on its way out; never edit, read, or commit from that path. UE 5.6 opens the Dev-folder project; every commit, LFS smudge, and memory file lives there. Any terminal work should `cd /c/Dev/SiteSync-AR` (or `git -C /c/Dev/SiteSync-AR …`) first.
+
 ## Xcode 26 / UE 5.6 Toolchain Patch (Mac only) — MUST re-apply after Launcher updates
 
 UE 5.6.1's `Apple_SDK.json` caps `MaxVersion` at `16.9.0`, which predates Xcode 26. Mac has Xcode 26.4.1. Without the patch, UBT registers iOS/Mac as `buildable: False` and every iOS build fails with "Platform IOS is not a valid platform to build." UE 5.6's source is already clang-19-clean (modern `operator""_PrivateSV` spelling), so bumping the gate is safe.
@@ -69,8 +73,8 @@ Example:
 
 | Machine | Role | Key Tools |
 |---|---|---|
-| Windows PC | UE5 Blueprints, Datasmith, asset management, MCP server | UE5.5.4, VS2022, Cursor, Claude Code |
-| MacBook Pro 16" M5 Pro | UE5 Blueprints (remote sessions), iOS compilation, Xcode signing, wired device deploy | UE5.5.4, Xcode 16, Git, Homebrew, gh CLI |
+| Windows PC | UE5 Blueprints, Datasmith, asset management, MCP server | UE5.6.1, VS2022, Cursor, Claude Code |
+| MacBook Pro 16" M5 Pro | UE5 Blueprints (remote sessions), iOS compilation, Xcode signing, wired device deploy | UE5.6.1, Xcode 26, Git, Homebrew, gh CLI |
 | iPhone 16 Pro | LiDAR testing, AR session validation | — |
 
 **UE5 is available on both PC and Mac.** James works on whichever machine is at hand. C++ compilation uses Visual Studio 2022 on PC; Mac uses the UE5 built-in toolchain. Always push and pull before switching machines — binary assets are LFS-tracked.
@@ -84,7 +88,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 - **Phase 1** — On-site cut-and-fill earthwork calculator using LiDAR-scanned terrain
 - **Phase 2** — 1:1 BIM clash detection overlay using Revit/Rhino models via Datasmith
 
-**Engine:** Unreal Engine 5.5.4  
+**Engine:** Unreal Engine 5.6.1  
 **AR Framework:** ARKit — Scene Reconstruction API (`meshWithClassification`)  
 **Platform:** iOS 18+ · iPhone 16 Pro / iPad Pro (LiDAR required)  
 **Build:** Xcode 16 · macOS 15+
@@ -101,7 +105,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 |---|---|---|
 | 1.1 | Source control, Git LFS, iOS config, plugin declarations | ✅ Complete |
 | 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Complete (PC) · 🔄 iOS device deploy pending |
-| 1.3 | Digital foundation anchoring with touch gesture placement | ⏳ Pending |
+| 1.3 | Digital foundation anchoring with touch gesture placement | ✅ Complete (PC) · 🔄 iOS device deploy pending |
 | 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Pending |
 
 ### Phase 2 — 1:1 BIM Clash Overlay
@@ -177,6 +181,33 @@ Note: `GetARMeshData` has no `OutNormals` — pass empty array to Normals pin on
 ### Remote Build & Deploy
 - **SSH key generation:** NOT ATTEMPTED — Project Settings → Platforms → iOS → Build → Generate SSH Key. Mac IP: 192.168.6.235, user: jamesrusso
 - **IPA packaging:** NOT ATTEMPTED — blocked on SSH + BP compile
+
+## What Was Built in Node 1.3
+
+Digital foundation anchoring — user places a rectangular pad on the LiDAR-tracked terrain via two taps.
+
+### Placement model (decided in session)
+- **Option B — edge-aligned rotated rectangle.** Tap A = one end of the pad's long edge; Tap B = the other end. Pad rotates to `atan2(Delta.Y, Delta.X)` yaw. `WidthCm` (default 500cm) drives the short edge. `SlabThicknessCm` (default 10cm) cosmetic only.
+- Third tap after placement resets the scene (destroys markers + foundation).
+- Hit detection via `LineTraceTrackedObjects` against ARKit plane anchors (LiDAR-derived on iPhone 16 Pro). **Polish item deferred to Node 1.4:** C++ helper that raycasts against raw `ARMeshGeometry` triangles for non-planar terrain accuracy.
+
+### Assets (all under `SiteSyncAR/Content/`)
+
+- `Materials/M_FoundationDebug.uasset` — translucent orange unlit, 0.4 opacity
+- `Materials/M_MarkerDebug.uasset` — translucent yellow unlit, 0.85 opacity
+- `Blueprints/BP_TapMarker.uasset` — 5cm sphere, `M_MarkerDebug`
+- `Blueprints/BP_Foundation.uasset` — static mesh cube (`M_FoundationDebug`) with `InitFromCorners(A, B)` function; uses Math Expression nodes for center `(A+B)/2`, delta `B-A`, yaw `atan2(Y,X)*57.29578`, length `sqrt(X²+Y²)/100`, width `WidthCm/100`, thickness `abs(V)/100`
+- `Input/IA_TapPlace.uasset` — Axis2D IA (returns tap screen coords in pixels)
+- `Input/IMC_Placement.uasset` — maps `Touch 1` → `IA_TapPlace`
+- `Blueprints/BP_ARPlayerController.uasset` — owns `IMC_Placement` via EnhancedInputLocalPlayerSubsystem on BeginPlay; `IA_TapPlace (Started)` drives the state machine: Is Valid(ActiveFoundation) → reset, else tap state. Calls `GetWorldLocationFromTap(ScreenLocation) → WorldLocation, Hit` via `LineTraceTrackedObjects`. Vars: `bHasFirstTap`, `FirstTapLocation`, `MarkerA`, `MarkerB`, `ActiveFoundation`, `TapMarkerClass`, `FoundationClass`, `PlacementContext`.
+- `Blueprints/BP_ARGameMode.uasset` — `GameModeBase` subclass with `PlayerControllerClass = BP_ARPlayerController`
+- `SiteSyncAR/Config/DefaultEngine.ini` — `GlobalDefaultGameMode = /Game/Blueprints/BP_ARGameMode.BP_ARGameMode_C`
+
+### Editor-test limitation (known)
+PIE can't exercise this — `Start AR Session` returns false on Windows, so `LineTraceTrackedObjects` has nothing to hit. Validation happens on device only (wired Mac → iPhone 16 Pro).
+
+### Gate to Node 1.4
+Tap twice in an AR session on device → orange translucent slab appears spanning the two taps, rotated to the tap vector, sitting on the LiDAR-tracked surface. Third tap removes it. 60fps maintained.
 
 ---
 
@@ -290,21 +321,16 @@ Name them MCP_TerrainProxy_1 through 5. Apply a translucent cyan material.
 
 ---
 
-## Immediate Next Actions (as of Node 1.3)
+## Immediate Next Actions (after Node 1.3 PC complete)
 
-Node 1.2 PC work is complete and verified (MCP terrain proxy test passed 2026-04-21).
-iOS device deploy (Mac gate) is still pending — see Mac Prompt below.
+Node 1.3 is fully built on PC (commit `285207b`, `feat(node-1.3): two-tap foundation anchoring...`). Device verification is the remaining gate before Node 1.4.
 
-**Node 1.3 — Digital Foundation Anchoring:**
-1. Push/pull to sync all machines
-2. Create `BP_FoundationAnchor` Actor Blueprint with touch gesture placement
-3. Anchor snaps to LiDAR mesh surface on tap
-4. Visual indicator (translucent box) shows placed foundation footprint
-5. Gate to Node 1.4: anchor placeable and repositionable on device
+**On Mac (Node 1.3 device gate):**
+1. `cd ~/Developer/SiteSync-AR/ && git pull && git lfs pull`
+2. `bash scripts/patch-ue56-xcode26.sh` (idempotent Xcode 26 toolchain patch)
+3. Re-stage and wired-deploy via the Node 1.2 pipeline (UBT → cook → UAT `-stage -skipbuild -skipcook`), install with `xcrun devicectl` to iPhone 16 Pro
+4. Launch app → tap A on the LiDAR mesh → yellow marker appears; tap B elsewhere → second marker + orange translucent slab spans A→B, rotated to the tap vector; third tap resets everything
+5. Confirm 60fps maintained during tap + spawn (Xcode Instruments or on-screen stat fps)
+6. If hit tests miss on non-planar terrain → log for Node 1.4 polish (exact `ARMeshGeometry` ray-cast helper)
 
-**On Mac (iOS deploy gate — unblock Node 1.3 device testing):**
-1. `git pull && git lfs pull`
-2. Run `bash scripts/patch-ue56-xcode26.sh` (Xcode 26 toolchain fix)
-3. Open Xcode → wired deploy to iPhone 16 Pro
-4. Confirm LiDAR mesh appears as cyan translucent overlay in AR session
-5. Confirm 60fps maintained while scanning
+**Gate to Node 1.4:** foundation placement visibly correct on device.

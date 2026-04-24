@@ -78,5 +78,22 @@ After the anchor.transform fix above, cyan translucent mesh accurately wraps the
 ## 2026-04-21 — ⚠️ Canonical working tree is C:\Dev\SiteSync-AR\ on PC (NOT the OneDrive path)
 There are two project directories on the PC: the OneDrive copy at `C:\Users\jruss\OneDrive\Desktop\Project Kickoff\SiteSync-AR\` (stale clone, do NOT edit) and the real working tree at `C:\Dev\SiteSync-AR\` (where UE 5.6 actually opens, where commits are made, where LFS smudges land). Both point at the same GitHub remote but OneDrive tends to lag and can cause UE file-lock issues. **Always `cd /c/Dev/SiteSync-AR` (or use `git -C`) before terminal work on PC.** The OneDrive copy can be deleted at any time; it exists only because Claude Code was originally launched from the OneDrive path.
 
+## 2026-04-24 — Node 1.3 foundation uses edge-aligned rotated rectangle (Option B)
+Two-tap placement: A→B is the pad's **long edge**, not the diagonal of an AABB. Rectangle auto-rotates to the tap vector (`yaw = atan2(Delta.Y, Delta.X)`). `WidthCm` (default 500cm) drives the short edge. Rejected alternative: axis-aligned AABB with A and B as opposite corners — simpler but can't match real site-pad orientation, which rarely aligns to world north/east. Width slider is deferred to a Node 1.4 polish pass; fixed default is acceptable for device validation.
+
+**Why:** Cut-and-fill pads on actual sites run along streets, grade breaks, or property lines — none of which are compass-aligned. Forcing an AABB would produce visibly wrong pad orientation in ~every real tap.
+
+**How to apply:** Any future foundation geometry (polygon support, second slab, etc.) should inherit the same "A→B is an edge" semantic — never "A and B are diagonal corners".
+
+## 2026-04-24 — Node 1.3 hit test uses plane-tile LineTrace, not raw mesh raycast
+UE 5.6's `LineTraceTrackedObjects` Blueprint API exposes only plane/feature channels (`TestFeaturePoints`, `TestGroundPlane`, `TestPlaneExtents`, `TestPlaneBoundaryPolygon`) — no direct `WorldMeshGeometry` flag. On LiDAR devices (iPhone 16 Pro) ARKit's plane detection derives from the scanned mesh, so plane-tile hits sit within a few cm of the true LiDAR surface. Good enough for Node 1.3 pad placement.
+
+**Known gap:** sharply curved or micro-feature terrain may not be covered by any plane anchor → tap misses return `Hit=false`.
+
+**How to apply:** If on-device testing shows frequent misses on uneven terrain, add a C++ helper in Node 1.4 that iterates `ARMeshAnchor.geometry.faces`, does ray-triangle intersection per triangle, returns nearest hit. Expose as `BlueprintCallable` and swap it into `GetWorldLocationFromTap` in place of `LineTraceTrackedObjects`.
+
+## 2026-04-24 — Node 1.3 PC GATE CLEARED — all Blueprints compiled and saved
+`feat(node-1.3): two-tap foundation anchoring with touch gesture placement` (commit 285207b on `main`). Assets: `BP_Foundation`, `BP_TapMarker`, `BP_ARPlayerController`, `BP_ARGameMode`, `M_FoundationDebug`, `M_MarkerDebug`, `IA_TapPlace`, `IMC_Placement`. `GlobalDefaultGameMode` flipped to `BP_ARGameMode` in `DefaultEngine.ini`. Level `SiteSync.umap` saved with `BP_LiDARMeshManager` already in scene. Editor PIE cannot test this (no AR session on Windows) — device validation pending on Mac.
+
 ## 2026-04-21 — UnrealMCP installed and verified working
 `chongdashu/unreal-mcp` cloned into `SiteSyncAR/Plugins/UnrealMCP/`. C++ plugin auto-starts TCP server on port 55557 when UE5 editor loads — no manual Python server start needed. Python MCP server at `Plugins/UnrealMCP/Python/unreal_mcp_server.py`; `.cursor/mcp.json` uses `uv --directory ... run unreal_mcp_server.py`. `uv` installed at `C:\Users\jruss\.local\bin\uv.exe`. One compile fix required: renamed file-scope `BufferSize` → `MCPBufferSize` in `MCPServerRunnable.cpp` (shadowed a UE5 engine global, `-Werror` treated it as fatal). Terrain proxy test (5 MCP_TerrainProxy actors) passed 2026-04-21 — MCP stack fully operational.

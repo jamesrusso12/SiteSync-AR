@@ -88,12 +88,16 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 	const NSInteger NumVerts = InVerts.count;
 	const NSInteger VertStride = InVerts.stride;
 	const uint8* VertBase = (const uint8*)InVerts.buffer.contents + InVerts.offset;
+	const simd_float4x4 AnchorXform = FoundAnchor.transform;
 	OutVertices.SetNumUninitialized(NumVerts);
 	for (NSInteger i = 0; i < NumVerts; ++i)
 	{
 		const float* V = (const float*)(VertBase + i * VertStride);
-		// ARKit: right-handed, Y-up, meters. UE: left-handed, Z-up, cm.
-		OutVertices[i] = FVector(-V[2], V[0], V[1]) * FAppleARKitConversion::ToUEScale();
+		// Vertices are in the anchor's local space (ARKit RH Y-up meters).
+		// Multiply by anchor.transform to land in ARKit world, then convert to UE LH Z-up cm.
+		const simd_float4 Local = simd_make_float4(V[0], V[1], V[2], 1.0f);
+		const simd_float4 World = simd_mul(AnchorXform, Local);
+		OutVertices[i] = FVector(-World.z, World.x, World.y) * FAppleARKitConversion::ToUEScale();
 	}
 
 	ARGeometryElement* InFaces = Geo.faces;

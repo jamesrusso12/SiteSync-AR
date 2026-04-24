@@ -29,9 +29,18 @@ The script is idempotent — safe to run every session. It edits `/Users/Shared/
 
 This patch is Mac-only. PC does not need it (Windows build path doesn't use Apple_SDK.json).
 
-## Workflow Rule — UE5 Prompts
+## Workflow Rule — Prompt Block Labels
 
-James works across two machines and **both have UE5 5.5.4 installed**. He works in UE5 on whichever machine is available. Whenever a response includes work that needs to be done in UE5 (Blueprints, Cursor, MCP, Visual Studio, Datasmith, or the UE5 editor), always append a ready-to-paste prompt block at the end of the response under this exact header:
+Every copy-paste prompt block appended to a response must carry an explicit header identifying where it runs. Pick the single most specific label; if a workflow truly spans machines, split into separate blocks (e.g. `## PC Prompt` for packaging + `## Mac Prompt` for deploy) rather than one ambiguous block.
+
+- `## Mac Prompt` — runs on the MacBook Pro (iOS compile, Xcode, wired deploy, `scripts/patch-ue56-xcode26.sh`, Homebrew, git/gh CLI from Mac)
+- `## PC Prompt` — runs on the Windows PC (UE5 editor on PC, Visual Studio 2022, Cursor, MCP server, PowerShell/cmd)
+- `## UE5 Prompt` — UE5 editor / Blueprints / Claude Code inside UE5 when work is genuinely machine-agnostic. James decides which machine to run it on.
+- `## Note` — content intended for `CLAUDE.md`, `README.md`, or other in-repo docs. Not executed — read by James or pasted into the doc.
+
+Each block must be self-contained: include current node, what was just decided/built in the last session, and exactly what to do next. Do not assume the session has any prior context.
+
+Example:
 
 ---
 ## UE5 Prompt
@@ -39,8 +48,6 @@ James works across two machines and **both have UE5 5.5.4 installed**. He works 
 [copy-paste ready prompt for Claude Code in UE5 — machine-agnostic]
 ```
 ---
-
-The UE5 prompt must be self-contained: include current node, what was just decided/built in the last session, and exactly what to do next. Do not assume the session has any prior context. Do not specify which machine to use — James will decide based on where he is.
 
 ---
 

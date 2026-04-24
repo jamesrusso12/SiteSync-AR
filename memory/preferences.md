@@ -4,7 +4,12 @@
 - Blueprint work → ordered node-by-node walkthroughs with pin types and connection order
 - C++ → minimal files only; always show `BlueprintCallable` declaration alongside implementation
 - MCP prompts → copy-paste-ready natural language blocks
-- PC-relevant work → always append a self-contained `## PC Prompt` block at end of response
+- Every appended prompt block must carry a labeled header so James can route it at a glance:
+  - `## Mac Prompt` — Mac / iOS compile / Xcode / wired deploy / Homebrew / gh on Mac
+  - `## PC Prompt` — Windows PC / UE5 on PC / VS2022 / Cursor / MCP server
+  - `## UE5 Prompt` — genuinely machine-agnostic UE5 editor work (James picks the machine)
+  - `## Note` — content intended for CLAUDE.md / README.md / in-repo docs (not executed)
+- If work spans machines, split into separate labeled blocks — never combine
 - Clarify ambiguous Node requirements before starting work
 
 ## Code Style

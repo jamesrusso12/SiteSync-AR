@@ -65,6 +65,16 @@ macOS Sequoia+ auto-syncs `~/Desktop` and `~/Documents` to iCloud Drive when "De
 ## 2026-04-21 — Node 1.2 GATE CLEARED — LiDAR mesh on device
 Full iOS app (SiteSyncAR + cooked game content) installed on iPhone 16 Pro via `xcrun devicectl`. Bundle: `com.RussoCompany.SiteSyncAR`. Staged build path: `SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app`. Pipeline: UBT build → cook via `UnrealEditor -run=Cook` → UAT `-stage -skipbuild -skipcook`. Personal Team signing via Team ID PD29S4YQ4P. First on-device validation pending James's confirmation of cyan mesh render.
 
+## 2026-04-24 — iOS shim must apply ARMeshAnchor.transform to vertices
+`ARMeshAnchor.geometry.vertices` are stored in the **anchor's local coordinate space**, not ARKit world space. The original shim only did axis conversion (ARKit RH Y-up m → UE LH Z-up cm) and skipped the anchor transform entirely, so every anchor's mesh landed stacked at world origin. On-device symptom: cyan mesh rendered but appeared as floating blocks drifting in front of the camera instead of hugging surfaces, and the floor had no coverage because its anchor happened to land offset.
+
+**Fix:** in `Source/SiteSyncAR/Private/ARMeshBlueprintLibrary_iOS.mm`, multiply each vertex by `FoundAnchor.transform` in ARKit space via `simd_mul(simd_float4x4, simd_float4)`, then apply the RH Y-up m → LH Z-up cm axis/scale conversion. Confirmed aligned on iPhone 16 Pro 2026-04-24 — mesh wraps walls, ceiling, floor, bed, and small furniture correctly.
+
+**How to apply:** Any time we pull per-vertex data out of an `ARMeshAnchor`, `ARPlaneAnchor`, or any `ARAnchor` subtype, apply `anchor.transform` first. The engine's own `FAppleARKitConversion::ToFTransform` does the same thing for anchor poses — we just had to replicate it for raw geometry.
+
+## 2026-04-24 — Node 1.2 VISUAL GATE CLEARED — mesh aligns with real surfaces
+After the anchor.transform fix above, cyan translucent mesh accurately wraps the user's bedroom: floor, ceiling, walls, bed, hex wall panels, and the door all show correct surface-hugging geometry. Node 1.2 is now truly complete on-device. Ready to proceed to Node 1.3 (touch-gesture foundation anchoring).
+
 ## 2026-04-21 — ⚠️ Canonical working tree is C:\Dev\SiteSync-AR\ on PC (NOT the OneDrive path)
 There are two project directories on the PC: the OneDrive copy at `C:\Users\jruss\OneDrive\Desktop\Project Kickoff\SiteSync-AR\` (stale clone, do NOT edit) and the real working tree at `C:\Dev\SiteSync-AR\` (where UE 5.6 actually opens, where commits are made, where LFS smudges land). Both point at the same GitHub remote but OneDrive tends to lag and can cause UE file-lock issues. **Always `cd /c/Dev/SiteSync-AR` (or use `git -C`) before terminal work on PC.** The OneDrive copy can be deleted at any time; it exists only because Claude Code was originally launched from the OneDrive path.
 

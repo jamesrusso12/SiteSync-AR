@@ -136,10 +136,9 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 ### UE5 Editor Assets (PC session 2026-04-20)
 
 **DA_SiteSyncARConfig** — `Content/AR_SiteAnalysis/`
-- Status: **Created and configured — verify Scene Reconstruction setting**
-- Confirmed via screenshot: Generate Mesh Data from Tracked Geometry ✅, Track Scene Objects ✅, Session Type = World, World Alignment = Gravity, Enable Auto Focus ✅, Light Estimation = Ambient Light Estimate
-- ⚠️ Scene Reconstruction Method was `Mesh Only` in session — must be `Mesh With Classification` for Node 1.4 classification data. Verify before next session.
-- ⚠️ Generate Collision for Mesh Data was checked — uncheck it (mobile perf overhead, not needed until Node 1.3)
+- Status: **✅ Verified 2026-04-24** — all fields confirmed by James
+- Confirmed: Session Type = World, World Alignment = Gravity, Enable Auto Focus ✅, Light Estimation = Ambient Light Estimate, Generate Mesh Data from Tracked Geometry ✅, Track Scene Objects ✅, Scene Reconstruction Method = **Mesh With Classification**, Generate Collision for Mesh Data = **false**
+- Re-verify in future sessions only if LiDAR mesh overlay stops appearing on device or classification data becomes unreliable for Node 1.4
 
 **M_LiDARDebug** — `Content/Materials/`
 - Status: **Complete and saved**

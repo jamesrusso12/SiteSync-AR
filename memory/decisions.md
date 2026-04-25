@@ -95,6 +95,21 @@ UE 5.6's `LineTraceTrackedObjects` Blueprint API exposes only plane/feature chan
 ## 2026-04-24 — Node 1.3 PC GATE CLEARED — all Blueprints compiled and saved
 `feat(node-1.3): two-tap foundation anchoring with touch gesture placement` (commit 285207b on `main`). Assets: `BP_Foundation`, `BP_TapMarker`, `BP_ARPlayerController`, `BP_ARGameMode`, `M_FoundationDebug`, `M_MarkerDebug`, `IA_TapPlace`, `IMC_Placement`. `GlobalDefaultGameMode` flipped to `BP_ARGameMode` in `DefaultEngine.ini`. Level `SiteSync.umap` saved with `BP_LiDARMeshManager` already in scene. Editor PIE cannot test this (no AR session on Windows) — device validation pending on Mac.
 
+## 2026-04-25 — chongdashu UnrealMCP can't set component materials (verified empirically)
+While driving Fix 2 on `BP_TapMarker`, confirmed that the chongdashu plugin has **no material-handling tool at all** (none in `Plugins/UnrealMCP/Python/tools/*.py`), and the generic `set_component_property` rejects `OverrideMaterials` with `"Unsupported property type: ArrayProperty"`. The `[0]` indexer syntax (`OverrideMaterials[0]`) is also not parsed — returns `"Property OverrideMaterials[0] not found on component"`.
+
+**What works via MCP for components:**
+- `set_static_mesh_properties` — sets the StaticMesh asset reference (full path with `.Sphere` suffix, e.g. `/Engine/BasicShapes/Sphere.Sphere`)
+- `set_component_property` for scalar / vector / rotator: pass values as **JSON arrays** (`[0.05, 0.05, 0.05]`), NOT UE struct syntax (`(X=0.05,Y=0.05,Z=0.05)` is rejected)
+- `compile_blueprint` — reliable
+
+**What does NOT work via MCP:**
+- Any TArray property (materials, override arrays, child component lists) — ArrayProperty unsupported
+- Branch / Break Struct / math operator nodes in BP graphs — no generic add-node primitive for control flow or struct ops
+- Saving to disk — `compile_blueprint` recompiles in memory but does not trigger Save All; James must Ctrl+S in editor before `.uasset` changes hit the working tree
+
+**How to apply:** when planning MCP work, scope to: actor spawn/move/destroy, component scalar/vector edits, static mesh swaps, blueprint compile, level queries. Anything material-related, any TArray edit, or any non-trivial BP graph rewire — hand off to manual editor work, don't half-attempt via MCP.
+
 ## 2026-04-25 — UnrealMCP wired directly to Claude Code (Cursor demoted to optional)
 Cursor was the only MCP client until now; routing every UE5 control action through Cursor forced a context switch out of Claude Code mid-session. Same Python MCP server (`SiteSyncAR/Plugins/UnrealMCP/Python/unreal_mcp_server.py`) is registered in `.mcp.json` at repo root using a relative `--directory`, so the same file works on PC and Mac. Claude Code and Cursor can both hold connections to port 55557 simultaneously — adding Claude Code is purely additive, Cursor still works if needed.
 

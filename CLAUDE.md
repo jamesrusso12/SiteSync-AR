@@ -126,7 +126,8 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 - `Config/IOS/IOSEngine.ini` — disables Nanite, Lumen, Ray Tracing, Path Tracing for iOS
 - `Config/DefaultGame.ini` — camera + location PList usage descriptions
 - `SiteSyncAR.uproject` — plugins declared: `AppleARKit`, `AugmentedReality`, `GeometryScripting`, `ProceduralMeshComponent`, `EnhancedInput`, `ModelingToolsEditorMode`
-- `.cursor/mcp.json` — Cursor ↔ UnrealMCP server connection config
+- `.mcp.json` (repo root) — Claude Code ↔ UnrealMCP server connection config (primary)
+- `.cursor/mcp.json` — Cursor ↔ UnrealMCP server connection config (optional backup)
 - Git LFS 3.7.1 installed on Mac via Homebrew
 - Remote: `git@github.com:jamesrusso12/SiteSync-AR.git` (SSH auth)
 
@@ -273,7 +274,11 @@ git lfs pull
 ## Unreal Engine MCP — Architecture
 
 ```
-[Claude / Cursor] → MCP Host → Tool Calls → Python Server (UV) → TCP Socket → UE5 C++ Plugin → UE5 API
+[Claude Code]   ← primary
+[Cursor]        ← optional, kept as backup
+       │
+       ▼
+   MCP Host → Tool Calls → Python Server (UV) → TCP Socket → UE5 C++ Plugin → UE5 API
 ```
 
 **Plugin location (installed 2026-04-21):**
@@ -281,19 +286,27 @@ git lfs pull
 SiteSyncAR/Plugins/UnrealMCP/
   UnrealMCP.uplugin
   Source/UnrealMCP/      ← C++ TCP server, auto-starts on editor load
-  Python/                ← MCP server for Cursor/Claude
+  Python/                ← MCP server for any MCP client
     unreal_mcp_server.py
 ```
 
-**The C++ plugin auto-starts the TCP server on port 55557 when the editor loads — no manual start needed.**
+**The C++ plugin auto-starts the TCP server on port 55557 when the editor loads — no manual start needed.** Multiple MCP clients can connect to the same port at the same time; Claude Code and Cursor do not conflict.
 
-**Cursor config:** `.cursor/mcp.json` in repo root — `unrealMCP` enabled in Cursor Settings → Tools. Uses `uv` (installed at `C:\Users\jruss\.local\bin\uv.exe`).
+**Claude Code config (primary):** `.mcp.json` at repo root — `unrealMCP` server registered with relative `--directory` so the same file works on PC and Mac. After cloning or pulling for the first time, run `/mcp` inside Claude Code (or restart) so it picks up the server. Tools then surface as `mcp__unrealMCP__*`.
 
-**MCP verification prompt (paste into Cursor Agent mode):**
+**Cursor config (optional backup):** `.cursor/mcp.json` in repo root — same server, registered for Cursor specifically. Kept so Cursor Agent mode still works if needed; safe to delete if Cursor is fully retired.
+
+**Prereq on both machines:** `uv` must be on PATH. PC: `C:\Users\jruss\.local\bin\uv.exe`. Mac: typically `~/.local/bin/uv` or via Homebrew.
+
+**MCP verification prompt (paste into Claude Code or Cursor — works in either):**
 ```
 Using the unrealMCP server, spawn a static mesh cube actor at world location 
 X=0, Y=0, Z=100. Name it "MCP_ConnectionTest". Confirm the actor name and location.
 ```
+
+**Reliability tier (chongdashu/unreal-mcp is community-built, not Epic):**
+- ✅ Solid: actor spawn/move/destroy, component property changes (material slot, scale, transform), level queries
+- ⚠️ Hit-or-miss: Blueprint graph node-by-node rewiring with branches and struct-pin splits — fall back to manual editor work for non-trivial graphs
 
 **MCP test scene prompt for Node 1.2 (terrain proxy simulation):**
 ```

@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "unrealMCP": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "SiteSyncAR/Plugins/UnrealMCP/Python",
+        "run",
+        "unreal_mcp_server.py"
+      ],
+      "env": {
+        "UE_MCP_HOST": "127.0.0.1",
+        "UE_MCP_PORT": "55557"
+      }
+    }
+  }
+}

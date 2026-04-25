@@ -95,5 +95,16 @@ UE 5.6's `LineTraceTrackedObjects` Blueprint API exposes only plane/feature chan
 ## 2026-04-24 — Node 1.3 PC GATE CLEARED — all Blueprints compiled and saved
 `feat(node-1.3): two-tap foundation anchoring with touch gesture placement` (commit 285207b on `main`). Assets: `BP_Foundation`, `BP_TapMarker`, `BP_ARPlayerController`, `BP_ARGameMode`, `M_FoundationDebug`, `M_MarkerDebug`, `IA_TapPlace`, `IMC_Placement`. `GlobalDefaultGameMode` flipped to `BP_ARGameMode` in `DefaultEngine.ini`. Level `SiteSync.umap` saved with `BP_LiDARMeshManager` already in scene. Editor PIE cannot test this (no AR session on Windows) — device validation pending on Mac.
 
+## 2026-04-25 — UnrealMCP wired directly to Claude Code (Cursor demoted to optional)
+Cursor was the only MCP client until now; routing every UE5 control action through Cursor forced a context switch out of Claude Code mid-session. Same Python MCP server (`SiteSyncAR/Plugins/UnrealMCP/Python/unreal_mcp_server.py`) is registered in `.mcp.json` at repo root using a relative `--directory`, so the same file works on PC and Mac. Claude Code and Cursor can both hold connections to port 55557 simultaneously — adding Claude Code is purely additive, Cursor still works if needed.
+
+**Why:** Removes Cursor as a required hop for UE5 edits done from Claude Code. Lets Claude Code do component property changes (material slots, scale, transforms) and verify them in the same chat where it's also doing git work and writing PC/Mac handoff prompts.
+
+**How to apply:**
+- After clone or first session in a new env, run `/mcp` inside Claude Code (or restart) so it registers the server. Tools then surface as `mcp__unrealMCP__*`.
+- `uv` must be on PATH. PC: `C:\Users\jruss\.local\bin\uv.exe`. Mac: `~/.local/bin/uv` or Homebrew install.
+- Reliability tier (chongdashu/unreal-mcp is community-built): solid for actor spawn/move/destroy and component property edits; hit-or-miss for Blueprint graph node-by-node rewiring with branches and struct-pin splits — fall back to manual editor work for non-trivial graphs.
+- Don't delete `.cursor/mcp.json` — keeping it as backup costs nothing and lets Cursor still drive MCP if Claude Code is unavailable.
+
 ## 2026-04-21 — UnrealMCP installed and verified working
 `chongdashu/unreal-mcp` cloned into `SiteSyncAR/Plugins/UnrealMCP/`. C++ plugin auto-starts TCP server on port 55557 when UE5 editor loads — no manual Python server start needed. Python MCP server at `Plugins/UnrealMCP/Python/unreal_mcp_server.py`; `.cursor/mcp.json` uses `uv --directory ... run unreal_mcp_server.py`. `uv` installed at `C:\Users\jruss\.local\bin\uv.exe`. One compile fix required: renamed file-scope `BufferSize` → `MCPBufferSize` in `MCPServerRunnable.cpp` (shadowed a UE5 engine global, `-Werror` treated it as fatal). Terrain proxy test (5 MCP_TerrainProxy actors) passed 2026-04-21 — MCP stack fully operational.

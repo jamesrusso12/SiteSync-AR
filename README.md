@@ -18,7 +18,7 @@ SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engin
 | Platform | iOS 18+ · iPhone 16 Pro / iPad Pro (LiDAR required) |
 | Build Toolchain | Xcode 16 · macOS 15+ |
 | BIM Ingestion | Datasmith (Revit / Rhino) |
-| AI Workflow | Claude Code · Cursor · Unreal Engine MCP |
+| AI Workflow | Claude Code · Unreal Engine MCP (Cursor optional) |
 
 > **Important API note:** The ARKit Scene Reconstruction API is used — NOT the Scene Depth API. Scene Reconstruction produces a persistent 3D triangular mesh suitable for volumetric math. Scene Depth only produces a per-frame 2D depth buffer with no persistent geometry and cannot be used for cut-and-fill calculations.
 
@@ -149,10 +149,22 @@ UE5 BIM Scene ──► GPS + Compass Anchor ──► MEP Layer Toggles ──�
 ### MCP Architecture
 
 ```
-[Claude Code / Cursor] → MCP Host → Tool Calls → Python Server (UV) → TCP Socket → UE5 C++ Plugin → UE5 API
+[Claude Code]   ← primary MCP client
+[Cursor]        ← optional, kept as backup
+       │
+       ▼
+   MCP Host → Tool Calls → Python Server (UV) → TCP Socket → UE5 C++ Plugin → UE5 API
 ```
 
-MCP is used for: test scene assembly, actor placement, batch operations, and terrain proxy simulation in the editor. Test scenes are stored under `Content/AR_SiteAnalysis/MCP_TestScenes/` and are not shipped.
+The UnrealMCP C++ plugin auto-starts a TCP server on `127.0.0.1:55557` when the UE5 editor loads — no manual server start needed. Multiple MCP clients (Claude Code + Cursor) can connect to the same port simultaneously without conflict.
+
+**Configs (both checked into repo):**
+- `.mcp.json` — primary, used by Claude Code (project-level MCP config)
+- `.cursor/mcp.json` — optional backup, used by Cursor
+
+After a fresh clone or first session, run `/mcp` inside Claude Code (or restart) so it registers the server. Tools then appear as `mcp__unrealMCP__*` and can be called directly from chat.
+
+MCP is used for: test scene assembly, actor placement, component property edits (material slots, transforms), batch operations, and terrain proxy simulation in the editor. Test scenes are stored under `Content/AR_SiteAnalysis/MCP_TestScenes/` and are not shipped. Note: Blueprint graph node-by-node rewiring via MCP is unreliable — fall back to manual editor work for non-trivial graphs.
 
 ---
 
@@ -173,8 +185,9 @@ UE5 5.5.4 is installed on both machines. James works on whichever is available �
 ### PC (Windows)
 - Unreal Engine 5.5.4
 - Visual Studio 2022 (`NativeGame` workload)
-- Cursor IDE + Unreal Engine MCP plugin
-- Claude Code
+- Claude Code (primary MCP client — `.mcp.json` at repo root)
+- `uv` at `C:\Users\jruss\.local\bin\uv.exe` (required for the UnrealMCP Python server)
+- Cursor IDE (optional — same MCP server also registered in `.cursor/mcp.json`)
 
 ### Mac
 - Unreal Engine 5.5.4
@@ -187,9 +200,9 @@ UE5 5.5.4 is installed on both machines. James works on whichever is available �
 
 | Tool | Role |
 |---|---|
-| Claude Code | Architecture, documentation, git workflow, config, C++ shim authoring |
-| Cursor | In-editor Blueprint and C++ authoring via MCP |
-| Unreal Engine MCP | Direct UE5 API control via natural language — test scene assembly, actor placement, terrain proxy simulation |
+| Claude Code | Primary IDE — architecture, documentation, git workflow, config, C++ shim authoring, AND direct UE5 control via UnrealMCP |
+| Unreal Engine MCP | Direct UE5 API control via natural language — test scene assembly, actor placement, component edits, terrain proxy simulation |
+| Cursor (optional) | Secondary MCP client — kept available but no longer required |
 
 ---
 
@@ -288,7 +301,7 @@ SiteSyncAR/
 
 ## MCP Test Scene — Node 1.2 Terrain Proxy
 
-Paste into Cursor Agent mode to simulate a LiDAR terrain surface in the editor before device testing:
+Paste into Claude Code (or Cursor Agent mode) to simulate a LiDAR terrain surface in the editor before device testing:
 
 ```
 Using unrealMCP, spawn five flat box meshes at these world locations to simulate

@@ -186,3 +186,217 @@
 2026-04-21 22:25:03,434 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
 2026-04-21 22:25:03,434 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
 2026-04-21 22:25:03,435 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:25:12,012 - mcp.server.lowlevel.server - DEBUG - [server.py:145] - Initializing server 'UnrealMCP'
+2026-04-25 09:25:12,012 - mcp.server.lowlevel.server - DEBUG - [server.py:384] - Registering handler for ListToolsRequest
+2026-04-25 09:25:12,012 - mcp.server.lowlevel.server - DEBUG - [server.py:406] - Registering handler for CallToolRequest
+2026-04-25 09:25:12,013 - mcp.server.lowlevel.server - DEBUG - [server.py:252] - Registering handler for ListResourcesRequest
+2026-04-25 09:25:12,013 - mcp.server.lowlevel.server - DEBUG - [server.py:286] - Registering handler for ReadResourceRequest
+2026-04-25 09:25:12,013 - mcp.server.lowlevel.server - DEBUG - [server.py:222] - Registering handler for PromptListRequest
+2026-04-25 09:25:12,013 - mcp.server.lowlevel.server - DEBUG - [server.py:239] - Registering handler for GetPromptRequest
+2026-04-25 09:25:12,013 - mcp.server.lowlevel.server - DEBUG - [server.py:267] - Registering handler for ListResourceTemplatesRequest
+2026-04-25 09:25:12,024 - UnrealMCP - INFO - [editor_tools.py:369] - Editor tools registered successfully
+2026-04-25 09:25:12,029 - UnrealMCP - INFO - [blueprint_tools.py:420] - Blueprint tools registered successfully
+2026-04-25 09:25:12,034 - UnrealMCP - INFO - [node_tools.py:430] - Blueprint node tools registered successfully
+2026-04-25 09:25:12,036 - UnrealMCP - INFO - [project_tools.py:64] - Project tools registered successfully
+2026-04-25 09:25:12,041 - UnrealMCP - INFO - [umg_tools.py:333] - UMG tools registered successfully
+2026-04-25 09:25:12,041 - UnrealMCP - INFO - [unreal_mcp_server.py:376] - Starting MCP server with stdio transport
+2026-04-25 09:25:12,044 - asyncio - DEBUG - [proactor_events.py:634] - Using proactor: IocpProactor
+2026-04-25 09:25:12,046 - UnrealMCP - INFO - [unreal_mcp_server.py:242] - UnrealMCP server starting up
+2026-04-25 09:25:12,046 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:25:12,046 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:25:12,046 - UnrealMCP - INFO - [unreal_mcp_server.py:246] - Connected to Unreal Engine on startup
+2026-04-25 09:25:12,052 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: root=InitializedNotification(method='notifications/initialized', params=None, jsonrpc='2.0')
+2026-04-25 09:25:12,081 - UnrealMCP - INFO - [unreal_mcp_server.py:259] - Unreal MCP server shut down
+2026-04-25 09:26:14,190 - mcp.server.lowlevel.server - DEBUG - [server.py:145] - Initializing server 'UnrealMCP'
+2026-04-25 09:26:14,190 - mcp.server.lowlevel.server - DEBUG - [server.py:384] - Registering handler for ListToolsRequest
+2026-04-25 09:26:14,190 - mcp.server.lowlevel.server - DEBUG - [server.py:406] - Registering handler for CallToolRequest
+2026-04-25 09:26:14,190 - mcp.server.lowlevel.server - DEBUG - [server.py:252] - Registering handler for ListResourcesRequest
+2026-04-25 09:26:14,190 - mcp.server.lowlevel.server - DEBUG - [server.py:286] - Registering handler for ReadResourceRequest
+2026-04-25 09:26:14,190 - mcp.server.lowlevel.server - DEBUG - [server.py:222] - Registering handler for PromptListRequest
+2026-04-25 09:26:14,190 - mcp.server.lowlevel.server - DEBUG - [server.py:239] - Registering handler for GetPromptRequest
+2026-04-25 09:26:14,190 - mcp.server.lowlevel.server - DEBUG - [server.py:267] - Registering handler for ListResourceTemplatesRequest
+2026-04-25 09:26:14,201 - UnrealMCP - INFO - [editor_tools.py:369] - Editor tools registered successfully
+2026-04-25 09:26:14,206 - UnrealMCP - INFO - [blueprint_tools.py:420] - Blueprint tools registered successfully
+2026-04-25 09:26:14,211 - UnrealMCP - INFO - [node_tools.py:430] - Blueprint node tools registered successfully
+2026-04-25 09:26:14,212 - UnrealMCP - INFO - [project_tools.py:64] - Project tools registered successfully
+2026-04-25 09:26:14,216 - UnrealMCP - INFO - [umg_tools.py:333] - UMG tools registered successfully
+2026-04-25 09:26:14,217 - UnrealMCP - INFO - [unreal_mcp_server.py:376] - Starting MCP server with stdio transport
+2026-04-25 09:26:14,219 - asyncio - DEBUG - [proactor_events.py:634] - Using proactor: IocpProactor
+2026-04-25 09:26:14,221 - UnrealMCP - INFO - [unreal_mcp_server.py:242] - UnrealMCP server starting up
+2026-04-25 09:26:14,221 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:26:14,222 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:26:14,222 - UnrealMCP - INFO - [unreal_mcp_server.py:246] - Connected to Unreal Engine on startup
+2026-04-25 09:26:14,229 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: root=InitializedNotification(method='notifications/initialized', params=None, jsonrpc='2.0')
+2026-04-25 09:26:14,231 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E0830F770>
+2026-04-25 09:26:14,231 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListToolsRequest
+2026-04-25 09:26:14,231 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListToolsRequest
+2026-04-25 09:26:14,233 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:26:14,233 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E083744A0>
+2026-04-25 09:26:14,234 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListPromptsRequest
+2026-04-25 09:26:14,234 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListPromptsRequest
+2026-04-25 09:26:14,234 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E083743B0>
+2026-04-25 09:26:14,234 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type ListResourcesRequest
+2026-04-25 09:26:14,234 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type ListResourcesRequest
+2026-04-25 09:26:14,234 - mcp.server.fastmcp.resources.resource_manager - DEBUG - [resource_manager.py:89] - Listing resources
+2026-04-25 09:26:14,234 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:26:14,234 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:28:23,098 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E08374170>
+2026-04-25 09:28:23,098 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-25 09:28:23,098 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-25 09:28:23,101 - mcp.server.lowlevel.server - DEBUG - [server.py:145] - Initializing server 'UnrealMCP'
+2026-04-25 09:28:23,101 - mcp.server.lowlevel.server - DEBUG - [server.py:384] - Registering handler for ListToolsRequest
+2026-04-25 09:28:23,101 - mcp.server.lowlevel.server - DEBUG - [server.py:406] - Registering handler for CallToolRequest
+2026-04-25 09:28:23,101 - mcp.server.lowlevel.server - DEBUG - [server.py:252] - Registering handler for ListResourcesRequest
+2026-04-25 09:28:23,101 - mcp.server.lowlevel.server - DEBUG - [server.py:286] - Registering handler for ReadResourceRequest
+2026-04-25 09:28:23,101 - mcp.server.lowlevel.server - DEBUG - [server.py:222] - Registering handler for PromptListRequest
+2026-04-25 09:28:23,101 - mcp.server.lowlevel.server - DEBUG - [server.py:239] - Registering handler for GetPromptRequest
+2026-04-25 09:28:23,101 - mcp.server.lowlevel.server - DEBUG - [server.py:267] - Registering handler for ListResourceTemplatesRequest
+2026-04-25 09:28:23,105 - UnrealMCP - INFO - [editor_tools.py:369] - Editor tools registered successfully
+2026-04-25 09:28:23,110 - UnrealMCP - INFO - [blueprint_tools.py:420] - Blueprint tools registered successfully
+2026-04-25 09:28:23,115 - UnrealMCP - INFO - [node_tools.py:430] - Blueprint node tools registered successfully
+2026-04-25 09:28:23,115 - UnrealMCP - INFO - [project_tools.py:64] - Project tools registered successfully
+2026-04-25 09:28:23,119 - UnrealMCP - INFO - [umg_tools.py:333] - UMG tools registered successfully
+2026-04-25 09:28:23,119 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:28:23,120 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:28:23,120 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:28:23,120 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:28:23,120 - UnrealMCP - INFO - [unreal_mcp_server.py:151] - Sending command: {"type": "get_actors_in_level", "params": {}}
+2026-04-25 09:28:23,368 - UnrealMCP - INFO - [unreal_mcp_server.py:101] - Received complete response (2350 bytes)
+2026-04-25 09:28:23,368 - UnrealMCP - INFO - [unreal_mcp_server.py:159] - Complete response from Unreal: {'status': 'success', 'result': {'actors': [{'name': 'WorldSettings', 'class': 'WorldSettings', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'Brush_0', 'class': 'Brush', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'PlayerStart_0', 'class': 'PlayerStart', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'MCP_TerrainProxy_1', 'class': 'StaticMeshActor', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_2', 'class': 'StaticMeshActor', 'location': [300, 0, 20], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_3', 'class': 'StaticMeshActor', 'location': [0, 300, -15], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_4', 'class': 'StaticMeshActor', 'location': [300, 300, 35], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_5', 'class': 'StaticMeshActor', 'location': [150, 150, 10], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'DefaultPhysicsVolume_0', 'class': 'DefaultPhysicsVolume', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'GameplayDebuggerPlayerManager_0', 'class': 'GameplayDebuggerPlayerManager', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'ChaosDebugDrawActor', 'class': 'Actor', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'AbstractNavData-Default', 'class': 'AbstractNavData', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'BP_LiDARMeshManager_C_1', 'class': 'BP_LiDARMeshManager_C', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}]}}
+2026-04-25 09:28:23,368 - UnrealMCP - INFO - [editor_tools.py:35] - Complete response from Unreal: {'status': 'success', 'result': {'actors': [{'name': 'WorldSettings', 'class': 'WorldSettings', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'Brush_0', 'class': 'Brush', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'PlayerStart_0', 'class': 'PlayerStart', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'MCP_TerrainProxy_1', 'class': 'StaticMeshActor', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_2', 'class': 'StaticMeshActor', 'location': [300, 0, 20], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_3', 'class': 'StaticMeshActor', 'location': [0, 300, -15], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_4', 'class': 'StaticMeshActor', 'location': [300, 300, 35], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_5', 'class': 'StaticMeshActor', 'location': [150, 150, 10], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'DefaultPhysicsVolume_0', 'class': 'DefaultPhysicsVolume', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'GameplayDebuggerPlayerManager_0', 'class': 'GameplayDebuggerPlayerManager', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'ChaosDebugDrawActor', 'class': 'Actor', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'AbstractNavData-Default', 'class': 'AbstractNavData', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'BP_LiDARMeshManager_C_1', 'class': 'BP_LiDARMeshManager_C', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}]}}
+2026-04-25 09:28:23,368 - UnrealMCP - INFO - [editor_tools.py:40] - Found 13 actors in level
+2026-04-25 09:28:23,368 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:29:51,857 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E0830F920>
+2026-04-25 09:29:51,858 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-25 09:29:51,858 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-25 09:29:51,858 - UnrealMCP - WARNING - [unreal_mcp_server.py:222] - Existing connection failed: 'NoneType' object has no attribute 'sendall'
+2026-04-25 09:29:51,858 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:29:51,858 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:29:51,858 - UnrealMCP - INFO - [unreal_mcp_server.py:231] - Successfully reconnected to Unreal Engine
+2026-04-25 09:29:51,858 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:29:51,859 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:29:51,859 - UnrealMCP - INFO - [unreal_mcp_server.py:151] - Sending command: {"type": "find_actors_by_name", "params": {"pattern": "TapMarker"}}
+2026-04-25 09:29:52,129 - UnrealMCP - INFO - [unreal_mcp_server.py:101] - Received complete response (63 bytes)
+2026-04-25 09:29:52,130 - UnrealMCP - INFO - [unreal_mcp_server.py:159] - Complete response from Unreal: {'status': 'success', 'result': {'actors': []}}
+2026-04-25 09:29:52,130 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:29:53,616 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E0830F980>
+2026-04-25 09:29:53,616 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-25 09:29:53,616 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-25 09:29:53,617 - UnrealMCP - WARNING - [unreal_mcp_server.py:222] - Existing connection failed: 'NoneType' object has no attribute 'sendall'
+2026-04-25 09:29:53,617 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:29:53,636 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:29:53,636 - UnrealMCP - INFO - [unreal_mcp_server.py:231] - Successfully reconnected to Unreal Engine
+2026-04-25 09:29:53,636 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:29:53,636 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:29:53,636 - UnrealMCP - INFO - [unreal_mcp_server.py:151] - Sending command: {"type": "find_actors_by_name", "params": {"pattern": "BP_TapMarker"}}
+2026-04-25 09:29:53,796 - UnrealMCP - INFO - [unreal_mcp_server.py:101] - Received complete response (63 bytes)
+2026-04-25 09:29:53,796 - UnrealMCP - INFO - [unreal_mcp_server.py:159] - Complete response from Unreal: {'status': 'success', 'result': {'actors': []}}
+2026-04-25 09:29:53,797 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:29:55,104 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E036BB8F0>
+2026-04-25 09:29:55,104 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-25 09:29:55,105 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-25 09:29:55,105 - UnrealMCP - WARNING - [unreal_mcp_server.py:222] - Existing connection failed: 'NoneType' object has no attribute 'sendall'
+2026-04-25 09:29:55,105 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:29:55,127 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:29:55,127 - UnrealMCP - INFO - [unreal_mcp_server.py:231] - Successfully reconnected to Unreal Engine
+2026-04-25 09:29:55,127 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:29:55,143 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:29:55,143 - UnrealMCP - INFO - [unreal_mcp_server.py:151] - Sending command: {"type": "get_actors_in_level", "params": {}}
+2026-04-25 09:29:55,463 - UnrealMCP - INFO - [unreal_mcp_server.py:101] - Received complete response (2350 bytes)
+2026-04-25 09:29:55,463 - UnrealMCP - INFO - [unreal_mcp_server.py:159] - Complete response from Unreal: {'status': 'success', 'result': {'actors': [{'name': 'WorldSettings', 'class': 'WorldSettings', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'Brush_0', 'class': 'Brush', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'PlayerStart_0', 'class': 'PlayerStart', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'MCP_TerrainProxy_1', 'class': 'StaticMeshActor', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_2', 'class': 'StaticMeshActor', 'location': [300, 0, 20], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_3', 'class': 'StaticMeshActor', 'location': [0, 300, -15], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_4', 'class': 'StaticMeshActor', 'location': [300, 300, 35], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_5', 'class': 'StaticMeshActor', 'location': [150, 150, 10], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'DefaultPhysicsVolume_0', 'class': 'DefaultPhysicsVolume', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'GameplayDebuggerPlayerManager_0', 'class': 'GameplayDebuggerPlayerManager', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'ChaosDebugDrawActor', 'class': 'Actor', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'AbstractNavData-Default', 'class': 'AbstractNavData', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'BP_LiDARMeshManager_C_1', 'class': 'BP_LiDARMeshManager_C', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}]}}
+2026-04-25 09:29:55,463 - UnrealMCP - INFO - [editor_tools.py:35] - Complete response from Unreal: {'status': 'success', 'result': {'actors': [{'name': 'WorldSettings', 'class': 'WorldSettings', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'Brush_0', 'class': 'Brush', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'PlayerStart_0', 'class': 'PlayerStart', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'MCP_TerrainProxy_1', 'class': 'StaticMeshActor', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_2', 'class': 'StaticMeshActor', 'location': [300, 0, 20], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_3', 'class': 'StaticMeshActor', 'location': [0, 300, -15], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_4', 'class': 'StaticMeshActor', 'location': [300, 300, 35], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'MCP_TerrainProxy_5', 'class': 'StaticMeshActor', 'location': [150, 150, 10], 'rotation': [0, 0, 0], 'scale': [3, 3, 0.10000000149011612]}, {'name': 'DefaultPhysicsVolume_0', 'class': 'DefaultPhysicsVolume', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'GameplayDebuggerPlayerManager_0', 'class': 'GameplayDebuggerPlayerManager', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'ChaosDebugDrawActor', 'class': 'Actor', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'AbstractNavData-Default', 'class': 'AbstractNavData', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}, {'name': 'BP_LiDARMeshManager_C_1', 'class': 'BP_LiDARMeshManager_C', 'location': [0, 0, 0], 'rotation': [0, 0, 0], 'scale': [1, 1, 1]}]}}
+2026-04-25 09:29:55,463 - UnrealMCP - INFO - [editor_tools.py:40] - Found 13 actors in level
+2026-04-25 09:29:55,464 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:32:13,415 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E08279E20>
+2026-04-25 09:32:13,416 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-25 09:32:13,416 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-25 09:32:13,416 - UnrealMCP - WARNING - [unreal_mcp_server.py:222] - Existing connection failed: 'NoneType' object has no attribute 'sendall'
+2026-04-25 09:32:13,416 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:32:13,416 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:32:13,417 - UnrealMCP - INFO - [unreal_mcp_server.py:231] - Successfully reconnected to Unreal Engine
+2026-04-25 09:32:13,417 - UnrealMCP - INFO - [blueprint_tools.py:154] - Setting static mesh properties with params: {'blueprint_name': 'BP_TapMarker', 'component_name': 'MarkerMesh', 'static_mesh': '/Engine/BasicShapes/Sphere.Sphere'}
+2026-04-25 09:32:13,417 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:32:13,417 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:32:13,417 - UnrealMCP - INFO - [unreal_mcp_server.py:151] - Sending command: {"type": "set_static_mesh_properties", "params": {"blueprint_name": "BP_TapMarker", "component_name": "MarkerMesh", "static_mesh": "/Engine/BasicShapes/Sphere.Sphere"}}
+2026-04-25 09:32:13,810 - UnrealMCP - INFO - [unreal_mcp_server.py:101] - Received complete response (76 bytes)
+2026-04-25 09:32:13,810 - UnrealMCP - INFO - [unreal_mcp_server.py:159] - Complete response from Unreal: {'status': 'success', 'result': {'component': 'MarkerMesh'}}
+2026-04-25 09:32:13,810 - UnrealMCP - INFO - [blueprint_tools.py:161] - Set static mesh properties response: {'status': 'success', 'result': {'component': 'MarkerMesh'}}
+2026-04-25 09:32:13,810 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:32:24,089 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E0823ABA0>
+2026-04-25 09:32:24,089 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-25 09:32:24,089 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-25 09:32:24,089 - UnrealMCP - WARNING - [unreal_mcp_server.py:222] - Existing connection failed: 'NoneType' object has no attribute 'sendall'
+2026-04-25 09:32:24,089 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:32:24,089 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:32:24,089 - UnrealMCP - INFO - [unreal_mcp_server.py:231] - Successfully reconnected to Unreal Engine
+2026-04-25 09:32:24,089 - UnrealMCP - INFO - [blueprint_tools.py:193] - Setting component property with params: {'blueprint_name': 'BP_TapMarker', 'component_name': 'MarkerMesh', 'property_name': 'RelativeScale3D', 'property_value': '(X=0.05,Y=0.05,Z=0.05)'}
+2026-04-25 09:32:24,089 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:32:24,090 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:32:24,090 - UnrealMCP - INFO - [unreal_mcp_server.py:151] - Sending command: {"type": "set_component_property", "params": {"blueprint_name": "BP_TapMarker", "component_name": "MarkerMesh", "property_name": "RelativeScale3D", "property_value": "(X=0.05,Y=0.05,Z=0.05)"}}
+2026-04-25 09:32:24,477 - UnrealMCP - INFO - [unreal_mcp_server.py:101] - Received complete response (108 bytes)
+2026-04-25 09:32:24,477 - UnrealMCP - INFO - [unreal_mcp_server.py:159] - Complete response from Unreal: {'status': 'error', 'error': 'Vector property requires either a single number or array of 3 numbers'}
+2026-04-25 09:32:24,477 - UnrealMCP - ERROR - [unreal_mcp_server.py:164] - Unreal error (status=error): Vector property requires either a single number or array of 3 numbers
+2026-04-25 09:32:24,477 - UnrealMCP - INFO - [blueprint_tools.py:200] - Set component property response: {'status': 'error', 'error': 'Vector property requires either a single number or array of 3 numbers'}
+2026-04-25 09:32:24,478 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:32:30,388 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E07D3DDC0>
+2026-04-25 09:32:30,388 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-25 09:32:30,388 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-25 09:32:30,388 - UnrealMCP - WARNING - [unreal_mcp_server.py:222] - Existing connection failed: 'NoneType' object has no attribute 'sendall'
+2026-04-25 09:32:30,388 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:32:30,411 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:32:30,411 - UnrealMCP - INFO - [unreal_mcp_server.py:231] - Successfully reconnected to Unreal Engine
+2026-04-25 09:32:30,411 - UnrealMCP - INFO - [blueprint_tools.py:193] - Setting component property with params: {'blueprint_name': 'BP_TapMarker', 'component_name': 'MarkerMesh', 'property_name': 'RelativeScale3D', 'property_value': [0.05, 0.05, 0.05]}
+2026-04-25 09:32:30,411 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:32:30,411 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:32:30,411 - UnrealMCP - INFO - [unreal_mcp_server.py:151] - Sending command: {"type": "set_component_property", "params": {"blueprint_name": "BP_TapMarker", "component_name": "MarkerMesh", "property_name": "RelativeScale3D", "property_value": [0.05, 0.05, 0.05]}}
+2026-04-25 09:32:30,811 - UnrealMCP - INFO - [unreal_mcp_server.py:101] - Received complete response (130 bytes)
+2026-04-25 09:32:30,812 - UnrealMCP - INFO - [unreal_mcp_server.py:159] - Complete response from Unreal: {'status': 'success', 'result': {'component': 'MarkerMesh', 'property': 'RelativeScale3D', 'success': True}}
+2026-04-25 09:32:30,812 - UnrealMCP - INFO - [blueprint_tools.py:200] - Set component property response: {'status': 'success', 'result': {'component': 'MarkerMesh', 'property': 'RelativeScale3D', 'success': True}}
+2026-04-25 09:32:30,812 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:32:41,322 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E0830F890>
+2026-04-25 09:32:41,322 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-25 09:32:41,322 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-25 09:32:41,322 - UnrealMCP - WARNING - [unreal_mcp_server.py:222] - Existing connection failed: 'NoneType' object has no attribute 'sendall'
+2026-04-25 09:32:41,322 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:32:41,322 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:32:41,322 - UnrealMCP - INFO - [unreal_mcp_server.py:231] - Successfully reconnected to Unreal Engine
+2026-04-25 09:32:41,322 - UnrealMCP - INFO - [blueprint_tools.py:193] - Setting component property with params: {'blueprint_name': 'BP_TapMarker', 'component_name': 'MarkerMesh', 'property_name': 'OverrideMaterials[0]', 'property_value': '/Game/Materials/M_MarkerDebug.M_MarkerDebug'}
+2026-04-25 09:32:41,322 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:32:41,322 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:32:41,322 - UnrealMCP - INFO - [unreal_mcp_server.py:151] - Sending command: {"type": "set_component_property", "params": {"blueprint_name": "BP_TapMarker", "component_name": "MarkerMesh", "property_name": "OverrideMaterials[0]", "property_value": "/Game/Materials/M_MarkerDebug.M_MarkerDebug"}}
+2026-04-25 09:32:41,480 - UnrealMCP - INFO - [unreal_mcp_server.py:101] - Received complete response (102 bytes)
+2026-04-25 09:32:41,480 - UnrealMCP - INFO - [unreal_mcp_server.py:159] - Complete response from Unreal: {'status': 'error', 'error': 'Property OverrideMaterials[0] not found on component MarkerMesh'}
+2026-04-25 09:32:41,480 - UnrealMCP - ERROR - [unreal_mcp_server.py:164] - Unreal error (status=error): Property OverrideMaterials[0] not found on component MarkerMesh
+2026-04-25 09:32:41,480 - UnrealMCP - INFO - [blueprint_tools.py:200] - Set component property response: {'status': 'error', 'error': 'Property OverrideMaterials[0] not found on component MarkerMesh'}
+2026-04-25 09:32:41,480 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:32:55,040 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E08279E20>
+2026-04-25 09:32:55,040 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-25 09:32:55,040 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-25 09:32:55,040 - UnrealMCP - WARNING - [unreal_mcp_server.py:222] - Existing connection failed: 'NoneType' object has no attribute 'sendall'
+2026-04-25 09:32:55,040 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:32:55,041 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:32:55,041 - UnrealMCP - INFO - [unreal_mcp_server.py:231] - Successfully reconnected to Unreal Engine
+2026-04-25 09:32:55,041 - UnrealMCP - INFO - [blueprint_tools.py:193] - Setting component property with params: {'blueprint_name': 'BP_TapMarker', 'component_name': 'MarkerMesh', 'property_name': 'OverrideMaterials', 'property_value': ['/Game/Materials/M_MarkerDebug.M_MarkerDebug']}
+2026-04-25 09:32:55,041 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:32:55,041 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:32:55,041 - UnrealMCP - INFO - [unreal_mcp_server.py:151] - Sending command: {"type": "set_component_property", "params": {"blueprint_name": "BP_TapMarker", "component_name": "MarkerMesh", "property_name": "OverrideMaterials", "property_value": ["/Game/Materials/M_MarkerDebug.M_MarkerDebug"]}}
+2026-04-25 09:32:55,164 - UnrealMCP - INFO - [unreal_mcp_server.py:101] - Received complete response (110 bytes)
+2026-04-25 09:32:55,164 - UnrealMCP - INFO - [unreal_mcp_server.py:159] - Complete response from Unreal: {'status': 'error', 'error': 'Unsupported property type: ArrayProperty for property OverrideMaterials'}
+2026-04-25 09:32:55,164 - UnrealMCP - ERROR - [unreal_mcp_server.py:164] - Unreal error (status=error): Unsupported property type: ArrayProperty for property OverrideMaterials
+2026-04-25 09:32:55,164 - UnrealMCP - INFO - [blueprint_tools.py:200] - Set component property response: {'status': 'error', 'error': 'Unsupported property type: ArrayProperty for property OverrideMaterials'}
+2026-04-25 09:32:55,164 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent
+2026-04-25 09:33:35,240 - mcp.server.lowlevel.server - DEBUG - [server.py:491] - Received message: <mcp.shared.session.RequestResponder object at 0x0000026E036BB8F0>
+2026-04-25 09:33:35,240 - mcp.server.lowlevel.server - INFO - [server.py:534] - Processing request of type CallToolRequest
+2026-04-25 09:33:35,240 - mcp.server.lowlevel.server - DEBUG - [server.py:537] - Dispatching request of type CallToolRequest
+2026-04-25 09:33:35,240 - UnrealMCP - WARNING - [unreal_mcp_server.py:222] - Existing connection failed: 'NoneType' object has no attribute 'sendall'
+2026-04-25 09:33:35,240 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:33:35,262 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:33:35,262 - UnrealMCP - INFO - [unreal_mcp_server.py:231] - Successfully reconnected to Unreal Engine
+2026-04-25 09:33:35,262 - UnrealMCP - INFO - [blueprint_tools.py:271] - Compiling blueprint: BP_TapMarker
+2026-04-25 09:33:35,262 - UnrealMCP - INFO - [unreal_mcp_server.py:49] - Connecting to Unreal at 127.0.0.1:55557...
+2026-04-25 09:33:35,262 - UnrealMCP - INFO - [unreal_mcp_server.py:63] - Connected to Unreal Engine
+2026-04-25 09:33:35,262 - UnrealMCP - INFO - [unreal_mcp_server.py:151] - Sending command: {"type": "compile_blueprint", "params": {"blueprint_name": "BP_TapMarker"}}
+2026-04-25 09:33:35,702 - UnrealMCP - INFO - [unreal_mcp_server.py:101] - Received complete response (94 bytes)
+2026-04-25 09:33:35,702 - UnrealMCP - INFO - [unreal_mcp_server.py:159] - Complete response from Unreal: {'status': 'success', 'result': {'name': 'BP_TapMarker', 'compiled': True}}
+2026-04-25 09:33:35,702 - UnrealMCP - INFO - [blueprint_tools.py:278] - Compile blueprint response: {'status': 'success', 'result': {'name': 'BP_TapMarker', 'compiled': True}}
+2026-04-25 09:33:35,702 - mcp.server.lowlevel.server - DEBUG - [server.py:572] - Response sent

@@ -14,15 +14,12 @@ At the **end of every session**, update any file whose content changed — new d
 
 ## Canonical Working Trees — HARD RULE, BOTH MACHINES
 
-There is **exactly one** working tree per machine. Every Read, Edit, Write, Glob, Grep, Bash, and `git` command must use the canonical path or be prefixed with `git -C <canonical>` / `cd <canonical>`. Tool harnesses sometimes default to other paths (OneDrive, the harness cwd, an old clone) — that path is wrong by default; switch to the canonical path before doing anything.
+There is **exactly one** working tree per machine. Every Read, Edit, Write, Glob, Grep, Bash, and `git` command must use the canonical path or be prefixed with `git -C <canonical>` / `cd <canonical>`. Tool harnesses sometimes default to other paths (an old clone, a stale cwd) — treat anything outside the canonical row below as wrong by default and switch before doing anything.
 
 | Machine | Canonical path | Notes |
 |---|---|---|
 | Windows PC | `C:\Dev\SiteSync-AR\` | Use `git -C /c/Dev/SiteSync-AR …` from bash. Open `SiteSyncAR/SiteSyncAR.uproject` for UE5; open `SiteSyncAR/SiteSyncAR.sln` for VS2022. |
-| Mac | *(confirm and lock on first Mac session — see Mac Prompt below)* | Candidate paths seen in past sessions: `~/Dev/SiteSync-AR/` and `~/Developer/SiteSync-AR/`. Mac Claude must pick one, update this row, and never reference the other. |
-
-**Deprecated paths — never use:**
-- `C:\Users\jruss\OneDrive\Desktop\Project Kickoff\SiteSync-AR\` — was a stale Windows clone. As of 2026-04-27 its `.git` is bundled to `C:\Dev\SiteSync-AR-onedrive-backup.bundle` and the tree is renamed `_DEPRECATED_SiteSync-AR_DO_NOT_USE`. If anything resolves to this path, treat it as a bug and switch to `C:\Dev\SiteSync-AR\`.
+| Mac | `~/Developer/SiteSync-AR/` | NOT under `~/Desktop/` or `~/Documents/` — those auto-sync to iCloud and `codesign` rejects iCloud xattrs. See decisions.md 2026-04-21 "Mac project relocated from Desktop to ~/Developer". |
 
 **On every prompt that crosses machines** (PC Prompt → Mac Prompt or vice versa): write file paths in the receiving machine's canonical form. Never paste a `C:\…` path into a Mac Prompt or a `~/…` / `/Users/…` path into a PC Prompt. The receiving Claude should not have to guess or translate.
 
@@ -101,7 +98,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 **Engine:** Unreal Engine 5.6.1  
 **AR Framework:** ARKit — Scene Reconstruction API (`meshWithClassification`)  
 **Platform:** iOS 18+ · iPhone 16 Pro / iPad Pro (LiDAR required)  
-**Build:** Xcode 16 · macOS 15+
+**Build:** Xcode 26 · macOS 15+ (requires `Apple_SDK.json` MaxVersion patch — see Toolchain Patch section)
 
 > **Critical API note:** The original roadmap PDF says "ARKit Scene Depth API". This is WRONG for this use case. Use the **ARKit Scene Reconstruction API** — it produces a persistent 3D triangular mesh suitable for volume math. Scene Depth only produces a per-frame 2D depth buffer with no persistent geometry.
 
@@ -114,8 +111,8 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 | Node | Description | Status |
 |---|---|---|
 | 1.1 | Source control, Git LFS, iOS config, plugin declarations | ✅ Complete |
-| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Complete (PC) · 🔄 iOS device deploy pending |
-| 1.3 | Digital foundation anchoring with touch gesture placement | ✅ Complete (PC) · 🔄 iOS device deploy pending |
+| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Device gate-cleared 2026-04-24 · ⚠️ Issue B regression under investigation 2026-04-27 (commit `ff77c58`) |
+| 1.3 | Digital foundation anchoring with touch gesture placement | ✅ Complete (PC commit `285207b`) · 🔄 iOS device deploy pending |
 | 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Pending |
 
 ### Phase 2 — 1:1 BIM Clash Overlay
@@ -141,9 +138,9 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 - Git LFS 3.7.1 installed on Mac via Homebrew
 - Remote: `git@github.com:jamesrusso12/SiteSync-AR.git` (SSH auth)
 
-**Bundle ID:** Still placeholder `com.yourcompany.SiteSyncAR` in `DefaultEngine.ini` — needs updating when Apple Developer paid account is activated.
+**Bundle ID:** `com.RussoCompany.SiteSyncAR` (final, set 2026-04-21).
 
-**Apple Developer:** Using free Apple ID for prototype. Paid ($99/yr) needed only when Cole needs TestFlight access.
+**Apple Developer:** Personal Team via Apple ID, Team ID `PD29S4YQ4P`. **No paid Developer Program** — Apple retail Business Conduct rules bar James from paid enrollment until he leaves retail. Personal Team gives wired Mac → iPhone deploy with 7-day provisioning profiles; no TestFlight, so Cole can't get external builds yet. See decisions.md 2026-04-21 "CONSTRAINT: No paid Apple Developer Program".
 
 ## What Was Built in Node 1.2
 
@@ -153,7 +150,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 - `Source/SiteSyncAR/Private/ARMeshBlueprintLibrary.cpp` — `GetAllARMeshGeometries` + `#if !PLATFORM_IOS` stub for `GetARMeshData`
 - `Source/SiteSyncAR/Private/ARMeshBlueprintLibrary_iOS.mm` — iOS impl: matches `ARMeshAnchor` by `UniqueId` from `ARSession.currentFrame`, reads `geometry.vertices` + `geometry.faces`, converts ARKit RH-Y-up meters → UE LH-Z-up cm via `FAppleARKitConversion::ToUEScale()` and `FVector(-z, x, y)` mapping
 
-**C++ compile status (Mac 2026-04-21):** NOT VERIFIED — blocked by Xcode/UE toolchain mismatch. Attempted iOS build via `RunUBT.sh` and it died in engine SharedPCH (`StringView.h`) with `-Werror,-Wdeprecated-literal-operator` on `operator "" _PrivateSV` etc. Root cause: Mac has Xcode 26.4.1 (clang too new); UE 5.5 officially targets Xcode 15.x. Same Xcode is invoked by PC-driven SSH remote-build, so remote-build is also blocked until toolchain is resolved. Options: (a) install Xcode 15 alongside and point via `xcode-select`, (b) upgrade project to UE 5.6+ (supports newer Xcode) on both machines, (c) patch UE 5.5 source to silence the warning (fragile).
+**C++ compile status:** ✅ Verified Mac iOS toolchain 2026-04-21 (post UE 5.6.1 upgrade + `Apple_SDK.json` MaxVersion patch). PC compiles clean via VS2022. The 2026-04-24 fix in `ARMeshBlueprintLibrary_iOS.mm` applies `simd_mul(FoundAnchor.transform, vert)` so anchor-local vertices land in world space — required for any per-vertex `ARAnchor` data. See decisions.md 2026-04-24.
 
 ### UE5 Editor Assets (PC session 2026-04-20)
 
@@ -169,18 +166,12 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 - Confirmed via screenshot: Apply pressed, preview sphere correct
 
 **BP_LiDARMeshManager** — `Content/Blueprints/`
-- Status: **In progress — BeginPlay complete, RebuildMesh body not yet wired, not compiled**
+- Status: **✅ Compiled, wired, gate-cleared on device 2026-04-24** (cyan mesh wraps real surfaces correctly)
 - Component: `TerrainMesh` (ProceduralMeshComponent)
 - Variables: `UpdateInterval` (Float, default 0.2), `MeshTimerHandle` (Timer Handle), `DebugMaterial` (Material Interface)
-- BeginPlay chain ✅ wired: `Event BeginPlay` → `Start AR Session` (DA_SiteSyncARConfig) → `Set Timer by Event` (RebuildMesh delegate, Time=UpdateInterval, Looping=true) → `SET MeshTimerHandle`
-- RebuildMesh body nodes specified but NOT confirmed wired — resume here:
-  1. `RebuildMesh` custom event → `Clear All Mesh Sections` (Target: TerrainMesh)
-  2. `GetAllARMeshGeometries` (ARMeshBlueprintLibrary) → For Each Loop
-  3. For Each Loop → `GetARMeshData` (MeshGeometry=Array Element, OutVertices, OutIndices)
-  4. On true → `Create Mesh Section` (Target: TerrainMesh, SectionIndex=Array Index, Vertices=OutVertices, Triangles=OutIndices, Normals=empty, CreateCollision=false)
-  5. → `Set Material` (Target: TerrainMesh, ElementIndex=Array Index, Material=DebugMaterial)
-  6. `Event EndPlay` → `Stop AR Session`
-- After wiring: Compile → assign DebugMaterial in Details panel → place actor in level
+- BeginPlay: `Event BeginPlay → StartARSession(DA_SiteSyncARConfig) → SetTimerByEvent(RebuildMesh, UpdateInterval, looping) → SET MeshTimerHandle`
+- RebuildMesh: `ClearAllMeshSections(TerrainMesh) → GetAllARMeshGeometries → ForEachLoop → GetARMeshData → Branch[true] → CreateMeshSection_LinearColor (CreateCollision=false, Normals=empty) → SetMaterial(M_LiDARDebug)`
+- **Active diagnostic** (commit `ff77c58`, 2026-04-27): `Event Tick → Get Actor Location → Format Text → Print String`. Added to investigate Issue B regression (mesh appears to follow camera). Strip once root cause is fixed.
 
 ### Shim API Reference (use these nodes in BP_LiDARMeshManager)
 ```
@@ -189,9 +180,34 @@ GetARMeshData(Geometry, OutVertices, OutIndices) → bool // vertices + indices 
 ```
 Note: `GetARMeshData` has no `OutNormals` — pass empty array to Normals pin on Create Mesh Section.
 
-### Remote Build & Deploy
-- **SSH key generation:** NOT ATTEMPTED — Project Settings → Platforms → iOS → Build → Generate SSH Key. Mac IP: 192.168.6.235, user: jamesrusso
-- **IPA packaging:** NOT ATTEMPTED — blocked on SSH + BP compile
+### Build & Deploy Pipeline (Mac, proven 2026-04-21)
+
+PC-driven SSH remote-build is NOT used; Mac builds directly. Personal Team signing via Team ID `PD29S4YQ4P`, Bundle `com.RussoCompany.SiteSyncAR`.
+
+```bash
+# 1. Toolchain patch (idempotent)
+bash scripts/patch-ue56-xcode26.sh
+
+# 2. UBT iOS Development
+Engine/Build/BatchFiles/Mac/RunUBT.sh SiteSyncAR IOS Development \
+  -project=~/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject
+
+# 3. Cook content
+UnrealEditor -run=Cook -targetplatform=IOS \
+  -project=~/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject
+
+# 4. UAT stage
+Engine/Build/BatchFiles/RunUAT.sh BuildCookRun \
+  -project=~/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject \
+  -platform=IOS -configuration=Development \
+  -stage -skipbuild -skipcook -archive
+
+# 5. Wired install
+xcrun devicectl device install app --device <UDID> \
+  ~/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+```
+
+Staged app path: `SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app`. Find device UDID with `xcrun devicectl list devices`.
 
 ## What Was Built in Node 1.3
 
@@ -337,23 +353,27 @@ Name them MCP_TerrainProxy_1 through 5. Apply a translucent cyan material.
 | Issue | Where to look |
 |---|---|
 | ARKit / LiDAR | UE5 Output Log → filter `ARKit` |
-| MCP connection | Python terminal running `server.py` first, then UE5 Output Log |
+| MCP connection | UE5 Output Log (filter `MCP`) — C++ plugin auto-starts TCP server on port 55557; if missing, restart the editor |
 | Datasmith import | Datasmith Import Log in Content Browser |
 | iOS deployment | Xcode → Devices & Simulators console |
 | C++ compile errors | Visual Studio 2022 Output window |
 
 ---
 
-## Immediate Next Actions (after Node 1.3 PC complete)
+## Immediate Next Actions (current, 2026-04-27)
 
-Node 1.3 is fully built on PC (commit `285207b`, `feat(node-1.3): two-tap foundation anchoring...`). Device verification is the remaining gate before Node 1.4.
+Two gates open in parallel:
 
-**On Mac (Node 1.3 device gate):**
-1. `cd ~/Developer/SiteSync-AR/ && git pull && git lfs pull`
-2. `bash scripts/patch-ue56-xcode26.sh` (idempotent Xcode 26 toolchain patch)
-3. Re-stage and wired-deploy via the Node 1.2 pipeline (UBT → cook → UAT `-stage -skipbuild -skipcook`), install with `xcrun devicectl` to iPhone 16 Pro
-4. Launch app → tap A on the LiDAR mesh → yellow marker appears; tap B elsewhere → second marker + orange translucent slab spans A→B, rotated to the tap vector; third tap resets everything
-5. Confirm 60fps maintained during tap + spawn (Xcode Instruments or on-screen stat fps)
-6. If hit tests miss on non-planar terrain → log for Node 1.4 polish (exact `ARMeshGeometry` ray-cast helper)
+**A. Issue B regression diagnostic** (BP_LiDARMeshManager — mesh-follows-camera bug returned post-Node 1.3)
+- Diagnostic Print String pushed at `ff77c58` (Tick prints actor world location every frame).
+- Mac: `git pull && git lfs pull && bash scripts/patch-ue56-xcode26.sh`, then run the build/cook/stage/install pipeline above. Walk around with the device and read the on-screen vector.
+- **If actor stays `(0,0,0)`** while the cyan mesh still drifts → regression is in `Source/SiteSyncAR/Private/ARMeshBlueprintLibrary_iOS.mm`. Verify the `simd_mul(FoundAnchor.transform, vert)` line is intact (this was the 2026-04-24 fix). Check `git log -p` on that file for any post-2026-04-24 commits that touched it.
+- **If X/Y/Z drift** with the camera → BP Construction Script, parent class, or pawn-spawn attachment is moving the actor. Audit those next.
+- After fix: strip the diagnostic Print String, commit, re-deploy.
 
-**Gate to Node 1.4:** foundation placement visibly correct on device.
+**B. Node 1.3 device gate** (foundation placement — built on PC commit `285207b`, not yet device-validated)
+- After Issue B is resolved, on the same build: tap A on the LiDAR mesh → yellow marker; tap B → second marker + orange translucent slab spans A→B rotated to the tap vector; third tap resets.
+- Confirm 60fps during tap + spawn (Xcode Instruments or on-screen `stat fps`).
+- If hit tests miss on non-planar terrain → log for Node 1.4 polish (`ARMeshGeometry` ray-cast helper).
+
+**Gate to Node 1.4:** Issue B closed AND foundation placement visibly correct on device.

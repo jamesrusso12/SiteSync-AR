@@ -45,6 +45,11 @@ __pycache__/
 .venv/
 .env
 
+# UnrealMCP runtime artifacts
+SiteSyncAR/Plugins/UnrealMCP/Python/unreal_mcp.log
+SiteSyncAR/Plugins/UnrealMCP/Python/__pycache__/
+*.egg-info/
+
 # Cursor / AI tooling
 .cursor/history/
 .claude/

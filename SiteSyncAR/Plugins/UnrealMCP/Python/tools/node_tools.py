@@ -385,26 +385,36 @@ def register_blueprint_node_tools(mcp: FastMCP):
         ctx: Context,
         blueprint_name: str,
         node_type = None,
-        event_type = None
+        event_name = None,
+        input_action_name = None
     ) -> Dict[str, Any]:
         """
         Find nodes in a Blueprint's event graph.
-        
+
         Args:
             blueprint_name: Name of the target Blueprint
-            node_type: Optional type of node to find (Event, Function, Variable, etc.)
-            event_type: Optional specific event type to find (BeginPlay, Tick, etc.)
-            
+            node_type: Type of node to find. Supported server-side:
+                "Event"       — match a UK2Node_Event by exact member name
+                "InputAction" — match a UK2Node_EnhancedInputAction by IA asset name
+            event_name: When node_type == "Event", the exact event member name to
+                match. Use the "Receive" prefix for standard events:
+                "ReceiveBeginPlay", "ReceiveTick", etc. Custom events use their
+                literal name.
+            input_action_name: When node_type == "InputAction", the IA asset's
+                object name (e.g. "IA_TapPlace"). Pass None or "" to return every
+                Enhanced Input Action node in the graph.
+
         Returns:
-            Response containing array of found node IDs and success status
+            Response containing array of found node GUIDs and success status
         """
         from unreal_mcp_server import get_unreal_connection
-        
+
         try:
             params = {
                 "blueprint_name": blueprint_name,
                 "node_type": node_type,
-                "event_type": event_type
+                "event_name": event_name,
+                "input_action_name": input_action_name
             }
             
             unreal = get_unreal_connection()
@@ -426,5 +436,112 @@ def register_blueprint_node_tools(mcp: FastMCP):
             error_msg = f"Error finding nodes: {e}"
             logger.error(error_msg)
             return {"success": False, "message": error_msg}
-    
+
+    @mcp.tool()
+    def disconnect_blueprint_nodes(
+        ctx: Context,
+        blueprint_name: str,
+        source_node_id: str,
+        source_pin: str,
+        target_node_id: str,
+        target_pin: str
+    ) -> Dict[str, Any]:
+        """
+        Break the link between two pins on two nodes in a Blueprint event graph.
+
+        This is the inverse of connect_blueprint_nodes. Both pins must already be
+        linked to each other; the call errors if they are not.
+
+        Args:
+            blueprint_name: Name of the target Blueprint
+            source_node_id: GUID of the source (output-side) node
+            source_pin: Name of the output pin on the source node
+            target_node_id: GUID of the target (input-side) node
+            target_pin: Name of the input pin on the target node
+
+        Returns:
+            Response with the four identifiers on success, or error message
+        """
+        from unreal_mcp_server import get_unreal_connection
+
+        try:
+            params = {
+                "blueprint_name": blueprint_name,
+                "source_node_id": source_node_id,
+                "source_pin": source_pin,
+                "target_node_id": target_node_id,
+                "target_pin": target_pin,
+            }
+
+            unreal = get_unreal_connection()
+            if not unreal:
+                logger.error("Failed to connect to Unreal Engine")
+                return {"success": False, "message": "Failed to connect to Unreal Engine"}
+
+            logger.info(
+                f"Disconnecting {source_node_id}.{source_pin} -> "
+                f"{target_node_id}.{target_pin} in '{blueprint_name}'"
+            )
+            response = unreal.send_command("disconnect_blueprint_nodes", params)
+
+            if not response:
+                logger.error("No response from Unreal Engine")
+                return {"success": False, "message": "No response from Unreal Engine"}
+
+            logger.info(f"Disconnect response: {response}")
+            return response
+
+        except Exception as e:
+            error_msg = f"Error disconnecting nodes: {e}"
+            logger.error(error_msg)
+            return {"success": False, "message": error_msg}
+
+    @mcp.tool()
+    def delete_blueprint_node(
+        ctx: Context,
+        blueprint_name: str,
+        node_id: str
+    ) -> Dict[str, Any]:
+        """
+        Delete a node from a Blueprint event graph.
+
+        Breaks all links into and out of the node, then removes it from the graph
+        and marks the Blueprint as structurally modified. Refuses to delete nodes
+        whose CanUserDeleteNode() returns false (e.g. some default event nodes).
+
+        Args:
+            blueprint_name: Name of the target Blueprint
+            node_id: GUID of the node to delete
+
+        Returns:
+            Response with the deleted node_id on success, or error message
+        """
+        from unreal_mcp_server import get_unreal_connection
+
+        try:
+            params = {
+                "blueprint_name": blueprint_name,
+                "node_id": node_id,
+            }
+
+            unreal = get_unreal_connection()
+            if not unreal:
+                logger.error("Failed to connect to Unreal Engine")
+                return {"success": False, "message": "Failed to connect to Unreal Engine"}
+
+            logger.info(f"Deleting node {node_id} from '{blueprint_name}'")
+            response = unreal.send_command("delete_blueprint_node", params)
+
+            if not response:
+                logger.error("No response from Unreal Engine")
+                return {"success": False, "message": "No response from Unreal Engine"}
+
+            logger.info(f"Delete node response: {response}")
+            return response
+
+        except Exception as e:
+            error_msg = f"Error deleting node: {e}"
+            logger.error(error_msg)
+            return {"success": False, "message": error_msg}
+
     logger.info("Blueprint node tools registered successfully")

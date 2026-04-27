@@ -16,6 +16,7 @@
 #include "Camera/CameraActor.h"
 #include "Kismet/GameplayStatics.h"
 #include "EdGraphSchema_K2.h"
+#include "UObject/UnrealType.h"
 
 // Declare the log category
 DEFINE_LOG_CATEGORY_STATIC(LogUnrealMCP, Log, All);
@@ -58,7 +59,15 @@ TSharedPtr<FJsonObject> FUnrealMCPBlueprintNodeCommands::HandleCommand(const FSt
     {
         return HandleFindBlueprintNodes(Params);
     }
-    
+    else if (CommandType == TEXT("disconnect_blueprint_nodes"))
+    {
+        return HandleDisconnectBlueprintNodes(Params);
+    }
+    else if (CommandType == TEXT("delete_blueprint_node"))
+    {
+        return HandleDeleteBlueprintNode(Params);
+    }
+
     return FUnrealMCPCommonUtils::CreateErrorResponse(FString::Printf(TEXT("Unknown blueprint node command: %s"), *CommandType));
 }
 
@@ -915,10 +924,202 @@ TSharedPtr<FJsonObject> FUnrealMCPBlueprintNodeCommands::HandleFindBlueprintNode
             }
         }
     }
-    // Add other node types as needed (InputAction, etc.)
-    
+    else if (NodeType == TEXT("InputAction"))
+    {
+        // Match Enhanced Input Action event nodes (UK2Node_EnhancedInputAction).
+        // We use reflection to avoid a hard build dep on EnhancedInputEditor — the
+        // node's UClass name is stable ("K2Node_EnhancedInputAction") and the
+        // InputAction property is a UObject* on the node.
+        FString InputActionName;
+        Params->TryGetStringField(TEXT("input_action_name"), InputActionName);
+
+        for (UEdGraphNode* Node : EventGraph->Nodes)
+        {
+            if (!Node) { continue; }
+            if (Node->GetClass()->GetName() != TEXT("K2Node_EnhancedInputAction"))
+            {
+                continue;
+            }
+
+            FProperty* InputActionProp = Node->GetClass()->FindPropertyByName(TEXT("InputAction"));
+            FObjectProperty* ObjProp = CastField<FObjectProperty>(InputActionProp);
+            if (!ObjProp)
+            {
+                continue;
+            }
+
+            UObject* InputActionObj = ObjProp->GetObjectPropertyValue_InContainer(Node);
+            if (!InputActionObj)
+            {
+                continue;
+            }
+
+            // Empty input_action_name → return every IA event node in the graph.
+            if (InputActionName.IsEmpty() || InputActionObj->GetName() == InputActionName)
+            {
+                UE_LOG(LogTemp, Display, TEXT("Found Enhanced Input Action node for '%s': %s"),
+                       *InputActionObj->GetName(), *Node->NodeGuid.ToString());
+                NodeGuidArray.Add(MakeShared<FJsonValueString>(Node->NodeGuid.ToString()));
+            }
+        }
+    }
+    // Add other node types as needed (Function, Variable, etc.)
+
     TSharedPtr<FJsonObject> ResultObj = MakeShared<FJsonObject>();
     ResultObj->SetArrayField(TEXT("node_guids"), NodeGuidArray);
-    
+
     return ResultObj;
-} 
+}
+
+TSharedPtr<FJsonObject> FUnrealMCPBlueprintNodeCommands::HandleDisconnectBlueprintNodes(const TSharedPtr<FJsonObject>& Params)
+{
+    FString BlueprintName;
+    if (!Params->TryGetStringField(TEXT("blueprint_name"), BlueprintName))
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Missing 'blueprint_name' parameter"));
+    }
+
+    FString SourceNodeId;
+    if (!Params->TryGetStringField(TEXT("source_node_id"), SourceNodeId))
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Missing 'source_node_id' parameter"));
+    }
+
+    FString TargetNodeId;
+    if (!Params->TryGetStringField(TEXT("target_node_id"), TargetNodeId))
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Missing 'target_node_id' parameter"));
+    }
+
+    FString SourcePinName;
+    if (!Params->TryGetStringField(TEXT("source_pin"), SourcePinName))
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Missing 'source_pin' parameter"));
+    }
+
+    FString TargetPinName;
+    if (!Params->TryGetStringField(TEXT("target_pin"), TargetPinName))
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Missing 'target_pin' parameter"));
+    }
+
+    UBlueprint* Blueprint = FUnrealMCPCommonUtils::FindBlueprint(BlueprintName);
+    if (!Blueprint)
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(FString::Printf(TEXT("Blueprint not found: %s"), *BlueprintName));
+    }
+
+    UEdGraph* EventGraph = FUnrealMCPCommonUtils::FindOrCreateEventGraph(Blueprint);
+    if (!EventGraph)
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Failed to get event graph"));
+    }
+
+    UEdGraphNode* SourceNode = nullptr;
+    UEdGraphNode* TargetNode = nullptr;
+    for (UEdGraphNode* Node : EventGraph->Nodes)
+    {
+        if (Node->NodeGuid.ToString() == SourceNodeId) { SourceNode = Node; }
+        else if (Node->NodeGuid.ToString() == TargetNodeId) { TargetNode = Node; }
+    }
+
+    if (!SourceNode || !TargetNode)
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Source or target node not found"));
+    }
+
+    UEdGraphPin* SourcePin = FUnrealMCPCommonUtils::FindPin(SourceNode, SourcePinName, EGPD_Output);
+    UEdGraphPin* TargetPin = FUnrealMCPCommonUtils::FindPin(TargetNode, TargetPinName, EGPD_Input);
+
+    // Allow direction-agnostic fallback: if Output/Input lookup misses, try MAX.
+    if (!SourcePin)
+    {
+        SourcePin = FUnrealMCPCommonUtils::FindPin(SourceNode, SourcePinName, EGPD_MAX);
+    }
+    if (!TargetPin)
+    {
+        TargetPin = FUnrealMCPCommonUtils::FindPin(TargetNode, TargetPinName, EGPD_MAX);
+    }
+
+    if (!SourcePin || !TargetPin)
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Source or target pin not found"));
+    }
+
+    if (!SourcePin->LinkedTo.Contains(TargetPin))
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Pins are not connected"));
+    }
+
+    SourcePin->Modify();
+    TargetPin->Modify();
+    SourcePin->BreakLinkTo(TargetPin);
+
+    FBlueprintEditorUtils::MarkBlueprintAsModified(Blueprint);
+
+    TSharedPtr<FJsonObject> ResultObj = MakeShared<FJsonObject>();
+    ResultObj->SetStringField(TEXT("source_node_id"), SourceNodeId);
+    ResultObj->SetStringField(TEXT("target_node_id"), TargetNodeId);
+    ResultObj->SetStringField(TEXT("source_pin"), SourcePinName);
+    ResultObj->SetStringField(TEXT("target_pin"), TargetPinName);
+    return ResultObj;
+}
+
+TSharedPtr<FJsonObject> FUnrealMCPBlueprintNodeCommands::HandleDeleteBlueprintNode(const TSharedPtr<FJsonObject>& Params)
+{
+    FString BlueprintName;
+    if (!Params->TryGetStringField(TEXT("blueprint_name"), BlueprintName))
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Missing 'blueprint_name' parameter"));
+    }
+
+    FString NodeId;
+    if (!Params->TryGetStringField(TEXT("node_id"), NodeId))
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Missing 'node_id' parameter"));
+    }
+
+    UBlueprint* Blueprint = FUnrealMCPCommonUtils::FindBlueprint(BlueprintName);
+    if (!Blueprint)
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(FString::Printf(TEXT("Blueprint not found: %s"), *BlueprintName));
+    }
+
+    UEdGraph* EventGraph = FUnrealMCPCommonUtils::FindOrCreateEventGraph(Blueprint);
+    if (!EventGraph)
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Failed to get event graph"));
+    }
+
+    UEdGraphNode* TargetNode = nullptr;
+    for (UEdGraphNode* Node : EventGraph->Nodes)
+    {
+        if (Node && Node->NodeGuid.ToString() == NodeId)
+        {
+            TargetNode = Node;
+            break;
+        }
+    }
+
+    if (!TargetNode)
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(FString::Printf(TEXT("Node not found in graph: %s"), *NodeId));
+    }
+
+    if (!TargetNode->CanUserDeleteNode())
+    {
+        return FUnrealMCPCommonUtils::CreateErrorResponse(TEXT("Node cannot be deleted (CanUserDeleteNode == false)"));
+    }
+
+    TargetNode->Modify();
+    EventGraph->Modify();
+    TargetNode->BreakAllNodeLinks();
+    EventGraph->RemoveNode(TargetNode);
+
+    FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(Blueprint);
+
+    TSharedPtr<FJsonObject> ResultObj = MakeShared<FJsonObject>();
+    ResultObj->SetStringField(TEXT("node_id"), NodeId);
+    ResultObj->SetBoolField(TEXT("deleted"), true);
+    return ResultObj;
+}

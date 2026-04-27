@@ -58,6 +58,19 @@ SiteSyncAR/Plugins/UnrealMCP/Python/__pycache__/
 .DS_Store
 Thumbs.db
 
+# iOS app-container / device-pull artifacts (never commit — pulled
+# from the device with `xcrun devicectl ... pull` and only useful for
+# one-off debugging). Validation `.log` files in `logs/` are kept.
+logs/device-pull*/
+**/Library/Caches/
+**/Library/Preferences/*.plist
+**/Library/SavedApplicationState/
+**/Library/SplashBoard/
+**/Library/Cookies/
+*.ktx
+*.dyld4
+*.mdb
+
 # Keep these tracked
 !Source/
 !Config/

@@ -2,6 +2,17 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-04-27 — OneDrive clone severed; canonical PC tree is C:\Dev\SiteSync-AR
+The OneDrive working tree at `C:\Users\jruss\OneDrive\Desktop\Project Kickoff\SiteSync-AR\` was severed: `.git` renamed to `.git.DEPRECATED-20260427`, `_DEPRECATED_DO_NOT_USE.md` placed at root, history bundled to `C:\Dev\SiteSync-AR-onedrive-backup.bundle`. Two MCP commits that lived only in the OneDrive clone (`f510479`, `07de387`) were ported into canonical as commit `fec1af2 feat(mcp): port in-place graph edits + Enhanced Input lookup`.
+
+**Why:** OneDrive sync had silently caused divergence — work committed in the OneDrive tree never reached origin while origin moved on with Node 1.3 work. The `f510479` MCP plugin features (`disconnect_blueprint_nodes`, `delete_blueprint_node`, `K2Node_EnhancedInputAction` lookup) sat invisible to the rest of the toolchain. James had corrected the same OneDrive trap multiple sessions running.
+
+**How to apply:**
+- PC: only ever work in `C:\Dev\SiteSync-AR\`. Mac canonical path is locked in `CLAUDE.md` "Canonical Working Trees" by the next Mac session (candidates: `~/Dev/SiteSync-AR/` vs `~/Developer/SiteSync-AR/` — pick one and update CLAUDE.md).
+- Cross-machine handoff prompts must use the **receiving** machine's canonical path, never the sender's.
+- If a tool result returns a path under `…\OneDrive\…\SiteSync-AR\…`, treat it as a bug.
+- Do not delete the OneDrive folder via the OneDrive web UI; if removed, do it locally.
+
 ## 2026-04 — ARKit Scene Reconstruction over Scene Depth
 Use `meshWithClassification` (Scene Reconstruction API), not Scene Depth API.
 Scene Depth is a per-frame 2D depth buffer — no persistent geometry, no volume math.

@@ -12,9 +12,19 @@ At the **start of every session**, read all four files in `memory/`:
 
 At the **end of every session**, update any file whose content changed — new decisions made, preferences clarified, people/roles changed. Keep entries dated. Do not duplicate existing entries; update in place.
 
-## Canonical Working Tree (PC) — MUST
+## Canonical Working Trees — HARD RULE, BOTH MACHINES
 
-Always operate out of **`C:\Dev\SiteSync-AR\`** on PC. A stale clone used to live at `C:\Users\jruss\OneDrive\Desktop\Project Kickoff\SiteSync-AR\` — it's gone or on its way out; never edit, read, or commit from that path. UE 5.6 opens the Dev-folder project; every commit, LFS smudge, and memory file lives there. Any terminal work should `cd /c/Dev/SiteSync-AR` (or `git -C /c/Dev/SiteSync-AR …`) first.
+There is **exactly one** working tree per machine. Every Read, Edit, Write, Glob, Grep, Bash, and `git` command must use the canonical path or be prefixed with `git -C <canonical>` / `cd <canonical>`. Tool harnesses sometimes default to other paths (OneDrive, the harness cwd, an old clone) — that path is wrong by default; switch to the canonical path before doing anything.
+
+| Machine | Canonical path | Notes |
+|---|---|---|
+| Windows PC | `C:\Dev\SiteSync-AR\` | Use `git -C /c/Dev/SiteSync-AR …` from bash. Open `SiteSyncAR/SiteSyncAR.uproject` for UE5; open `SiteSyncAR/SiteSyncAR.sln` for VS2022. |
+| Mac | *(confirm and lock on first Mac session — see Mac Prompt below)* | Candidate paths seen in past sessions: `~/Dev/SiteSync-AR/` and `~/Developer/SiteSync-AR/`. Mac Claude must pick one, update this row, and never reference the other. |
+
+**Deprecated paths — never use:**
+- `C:\Users\jruss\OneDrive\Desktop\Project Kickoff\SiteSync-AR\` — was a stale Windows clone. As of 2026-04-27 its `.git` is bundled to `C:\Dev\SiteSync-AR-onedrive-backup.bundle` and the tree is renamed `_DEPRECATED_SiteSync-AR_DO_NOT_USE`. If anything resolves to this path, treat it as a bug and switch to `C:\Dev\SiteSync-AR\`.
+
+**On every prompt that crosses machines** (PC Prompt → Mac Prompt or vice versa): write file paths in the receiving machine's canonical form. Never paste a `C:\…` path into a Mac Prompt or a `~/…` / `/Users/…` path into a PC Prompt. The receiving Claude should not have to guess or translate.
 
 ## Xcode 26 / UE 5.6 Toolchain Patch (Mac only) — MUST re-apply after Launcher updates
 

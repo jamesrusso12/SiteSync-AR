@@ -1,10 +1,12 @@
 # SiteSync AR
 
-> On-site spatial intelligence for civil engineers — built in Unreal Engine 5.5 with ARKit and iPhone 16 Pro LiDAR.
+> On-site spatial intelligence for civil engineers — built in Unreal Engine 5.6 with ARKit and iPhone 16 Pro LiDAR.
 
 SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engineering, Construction) professionals. Phase 1 uses LiDAR-scanned terrain to calculate real-time cut-and-fill earthwork volumes on site. Phase 2 overlays full BIM models from Revit and Rhino for 1:1 physical clash detection before ground is broken.
 
 **Developers:** James Russo & Cole — Boise, Idaho
+
+> **Working tree (devs):** PC = `C:\Dev\SiteSync-AR\`, Mac = locked per `CLAUDE.md`. Never use the deprecated OneDrive clone. See [`CLAUDE.md`](CLAUDE.md) → "Canonical Working Trees" for the full rule.
 
 ---
 
@@ -12,11 +14,11 @@ SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engin
 
 | | |
 |---|---|
-| Engine | Unreal Engine 5.5.4 |
+| Engine | Unreal Engine 5.6.1 |
 | AR Framework | ARKit · Apple ARKit Plugin (UE5) |
 | LiDAR API | ARKit Scene Reconstruction (`meshWithClassification`) |
 | Platform | iOS 18+ · iPhone 16 Pro / iPad Pro (LiDAR required) |
-| Build Toolchain | Xcode 16 · macOS 15+ |
+| Build Toolchain | Xcode 26 · macOS 15+ (requires `scripts/patch-ue56-xcode26.sh` on Mac) |
 | BIM Ingestion | Datasmith (Revit / Rhino) |
 | AI Workflow | Claude Code · Unreal Engine MCP (Cursor optional) |
 
@@ -47,9 +49,9 @@ SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engin
 | Node | Description | Status |
 |---|---|---|
 | 1.1 | Source control, Git LFS, iOS signing, project foundation | ✅ Complete |
-| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | 🔄 In Progress — M_LiDARDebug ✅ · DA_SiteSyncARConfig ⚠️ verify Scene Reconstruction setting · BP_LiDARMeshManager BeginPlay ✅ RebuildMesh body incomplete |
-| 1.3 | Digital foundation anchoring with touch gesture placement | ⏳ Pending |
-| 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Pending |
+| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Complete (PC) · 🔄 iOS device deploy pending |
+| 1.3 | Digital foundation anchoring with touch gesture placement | ✅ Complete (PC) · 🔄 iOS device deploy pending |
+| 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Next |
 
 ### Phase 2 — 1:1 BIM Clash Overlay
 
@@ -59,59 +61,7 @@ SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engin
 | 2.2 | Geospatial & compass anchoring (GPS auto-alignment) | ⏳ Pending |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
-**Gate to Node 1.3:** LiDAR mesh visible as a stable cyan translucent overlay on iPhone 16 Pro at 60fps. ✓
-
----
-
-## Current State — Node 1.2 Detail
-
-Node 1.2 introduces live LiDAR terrain meshing. The C++ layer is committed and compiles. The UE5 editor assets below must be created on the PC before the iOS deploy can be validated on Mac.
-
-### What is committed
-
-**`Source/SiteSyncAR/SiteSyncAR.Build.cs`**
-Added modules: `AugmentedReality`, `ProceduralMeshComponent`, `GeometryCore`, `GeometryScriptingCore`. `AppleARKit` is declared iOS-only.
-
-**`Source/SiteSyncAR/Public/ARMeshBlueprintLibrary.h`**
-C++ shim exposing two `BlueprintCallable` functions:
-- `GetARMeshData(UARMeshGeometry*, OutVertices, OutIndices)` — extracts vertex and index arrays from a single ARKit mesh anchor
-- `GetAllARMeshGeometries()` — returns all currently tracked `UARMeshGeometry` anchors from the active AR session
-
-**`Source/SiteSyncAR/Private/ARMeshBlueprintLibrary.cpp`**
-Implementation. Filters `UARBlueprintLibrary::GetAllGeometries()` to `UARMeshGeometry` only via Cast.
-
-**`Config/DefaultEngine.ini`**
-- `MinimumiOSVersion=IOS_18` (targets iPhone 16 Pro / iOS 18+)
-- `FrameRateLock=TARGETFRAMERATE_60`
-- `BundleIdentifier=com.yourcompany.SiteSyncAR` *(placeholder — update when Apple Developer paid account is active)*
-
-**`Config/IOS/IOSEngine.ini`**
-iOS-specific renderer overrides: Nanite off, Lumen off, Ray Tracing off, Path Tracing off, Virtual Shadow Maps off, Mobile HDR off, Bloom/MotionBlur/AutoExposure off.
-
-### Still needed on PC (UE5 editor)
-
-| Asset | Path | Description |
-|---|---|---|
-| `DA_SiteSyncARConfig` | `Content/AR_SiteAnalysis/` | ARSessionConfig data asset — World Tracking, Scene Reconstruction = Mesh With Classification |
-| `M_LiDARDebug` | `Content/AR_SiteAnalysis/Materials/` | Translucent, Unlit, Two-Sided, cyan emissive (0, 1, 0.8), opacity 0.35 |
-| `BP_LiDARMeshManager` | `Content/AR_SiteAnalysis/Blueprints/` | Actor Blueprint — ProceduralMeshComponent, 200ms looping timer, UpdateLiDARMesh event |
-
-### BP_LiDARMeshManager logic
-
-```
-BeginPlay
-  └─► Start AR Session (DA_SiteSyncARConfig)
-  └─► Set Timer by Event (0.2s, looping) → UpdateLiDARMesh
-
-UpdateLiDARMesh (Custom Event)
-  └─► GetAllARMeshGeometries → Array<UARMeshGeometry>
-  └─► Clear All Mesh Sections (TerrainMesh)
-  └─► ForEach Loop
-        └─► GetARMeshData (Geometry) → Vertices, Indices, Normals
-        └─► Branch: Vertices.Num() > 0
-              True ─► Create Mesh Section (SectionIndex=LoopIdx, CreateCollision=false)
-                   ─► Set Material (M_LiDARDebug)
-```
+**Current gate:** Nodes 1.2 and 1.3 are PC-complete; remaining gate before Node 1.4 is on-device validation on iPhone 16 Pro at 60fps. Node-by-node detail (built assets, BP graphs, decisions, next actions) lives in [`CLAUDE.md`](CLAUDE.md) — that is the canonical session context for both human and AI contributors.
 
 ---
 
@@ -176,22 +126,22 @@ MCP is used for: test scene assembly, actor placement, component property edits 
 | Remote workstation + deploy | MacBook Pro 16" M5 Pro | UE5 Blueprints (remote sessions), Xcode compilation, code signing, wired device deployment |
 | Test device | iPhone 16 Pro | LiDAR scanning, AR session validation |
 
-UE5 5.5.4 is installed on both machines. James works on whichever is available — always push before switching.
+UE5 5.6.1 is installed on both machines. James works on whichever is available — always push before switching. Canonical working trees are pinned per machine in [`CLAUDE.md`](CLAUDE.md).
 
 ---
 
 ## Development Environment
 
-### PC (Windows)
-- Unreal Engine 5.5.4
+### PC (Windows) — canonical tree `C:\Dev\SiteSync-AR\`
+- Unreal Engine 5.6.1
 - Visual Studio 2022 (`NativeGame` workload)
 - Claude Code (primary MCP client — `.mcp.json` at repo root)
 - `uv` at `C:\Users\jruss\.local\bin\uv.exe` (required for the UnrealMCP Python server)
 - Cursor IDE (optional — same MCP server also registered in `.cursor/mcp.json`)
 
-### Mac
-- Unreal Engine 5.5.4
-- Xcode 16
+### Mac — canonical tree pinned in [`CLAUDE.md`](CLAUDE.md)
+- Unreal Engine 5.6.1
+- Xcode 26 (requires `scripts/patch-ue56-xcode26.sh` after every UE 5.6 reinstall)
 - Git LFS 3.7.1 (installed via Homebrew)
 - gh CLI (GitHub auth)
 - SSH key configured for `git@github.com:jamesrusso12/SiteSync-AR.git`
@@ -275,26 +225,45 @@ Bundle ID in `DefaultEngine.ini` is currently a placeholder (`com.yourcompany.Si
 ## Project Structure
 
 ```
-SiteSyncAR/
-├── Config/
-│   ├── DefaultEngine.ini       # iOS runtime settings, Metal, 60fps lock, bundle ID
-│   ├── DefaultGame.ini         # Camera + location PList usage descriptions
-│   ├── DefaultInput.ini
-│   └── IOS/
-│       └── IOSEngine.ini       # iOS renderer overrides (Nanite/Lumen/RT all off)
-├── Source/SiteSyncAR/
-│   ├── SiteSyncAR.Build.cs     # Module deps: AugmentedReality, ProceduralMesh, GeometryCore
-│   ├── Public/
-│   │   └── ARMeshBlueprintLibrary.h
-│   └── Private/
-│       └── ARMeshBlueprintLibrary.cpp
-└── Content/AR_SiteAnalysis/
-    ├── Blueprints/              # BP_ prefix
-    ├── UI/                      # WBP_ prefix
-    ├── Meshes/                  # SM_ prefix
-    ├── Materials/               # M_ prefix
-    ├── DatasmithAssets/         # Imported BIM geometry (Phase 2)
-    └── MCP_TestScenes/          # MCP-generated test environments (not shipped)
+SiteSync-AR/                          # canonical: C:\Dev\SiteSync-AR\ on PC
+├── CLAUDE.md                         # session context — read first
+├── README.md
+├── .mcp.json                         # Claude Code MCP server config (primary)
+├── .cursor/mcp.json                  # Cursor MCP server config (optional)
+├── memory/                           # Claude Code session memory (committed)
+├── scripts/
+│   └── patch-ue56-xcode26.sh         # idempotent Xcode 26 / UE 5.6 toolchain patch (Mac)
+└── SiteSyncAR/                       # the UE5 .uproject lives here
+    ├── SiteSyncAR.uproject
+    ├── Config/
+    │   ├── DefaultEngine.ini         # iOS runtime, Metal, 60fps lock, bundle ID, GameMode
+    │   ├── DefaultGame.ini           # Camera + location PList usage descriptions
+    │   ├── DefaultInput.ini
+    │   └── IOS/
+    │       └── IOSEngine.ini         # iOS renderer overrides (Nanite/Lumen/RT all off)
+    ├── Source/SiteSyncAR/
+    │   ├── SiteSyncAR.Build.cs       # Module deps: AugmentedReality, ProceduralMesh, GeometryCore
+    │   ├── Public/
+    │   │   └── ARMeshBlueprintLibrary.h
+    │   └── Private/
+    │       ├── ARMeshBlueprintLibrary.cpp
+    │       └── ARMeshBlueprintLibrary_iOS.mm
+    ├── Plugins/UnrealMCP/            # community MCP plugin — auto-starts TCP server on 55557
+    │   ├── UnrealMCP.uplugin
+    │   ├── Source/UnrealMCP/         # C++ TCP server + command handlers
+    │   └── Python/                   # MCP server entry + tool registrations
+    │       ├── unreal_mcp_server.py
+    │       └── tools/
+    └── Content/
+        ├── AR_SiteAnalysis/
+        │   └── DA_SiteSyncARConfig
+        ├── Blueprints/               # BP_ prefix (BP_LiDARMeshManager, BP_Foundation, BP_TapMarker, BP_ARPlayerController, BP_ARGameMode)
+        ├── Materials/                # M_ prefix (M_LiDARDebug, M_FoundationDebug, M_MarkerDebug)
+        ├── Input/                    # IA_TapPlace, IMC_Placement
+        ├── Meshes/                   # SM_ prefix
+        ├── UI/                       # WBP_ prefix
+        ├── DatasmithAssets/          # Imported BIM geometry (Phase 2)
+        └── MCP_TestScenes/           # MCP-generated test environments (not shipped)
 ```
 
 ---
@@ -323,17 +292,9 @@ Name them MCP_TerrainProxy_1 through 5. Apply a translucent cyan material.
 - **Default branch:** `main`
 - **LFS tracked:** `.uasset` `.umap` `.uproject` `.fbx` `.udatasmith` and all binary asset types
 
-### Branch Naming
+### Branch Policy
 
-```
-feature/node-1.1-source-control
-feature/node-1.2-lidar-meshing
-feature/node-1.3-foundation-anchor
-feature/node-1.4-cut-fill-calc
-feature/node-2.1-datasmith-pipeline
-feature/node-2.2-geospatial-anchor
-feature/node-2.3-clash-interface
-```
+Commits go directly to `main`. No feature branches required.
 
 ### Commit Convention
 

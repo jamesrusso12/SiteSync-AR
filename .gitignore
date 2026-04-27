@@ -52,7 +52,14 @@ SiteSyncAR/Plugins/UnrealMCP/Python/__pycache__/
 
 # Cursor / AI tooling
 .cursor/history/
-.claude/
+# Repo-root .claude/: track skills + commands, ignore everything else (per-machine settings)
+.claude/*
+!.claude/skills/
+!.claude/commands/
+# Re-include the `build` skill (its dir name collides with UE's Build/ ignore)
+!.claude/skills/build/
+# Per-machine Claude Code state inside the UE project subdir — never commit
+SiteSyncAR/.claude/
 
 # OS
 .DS_Store

@@ -318,7 +318,7 @@ SiteSyncAR/Plugins/UnrealMCP/
 
 **The C++ plugin auto-starts the TCP server on port 55557 when the editor loads — no manual start needed.** Multiple MCP clients can connect to the same port at the same time; Claude Code and Cursor do not conflict.
 
-**Claude Code config (primary):** `.mcp.json` at repo root — `unrealMCP` server registered with relative `--directory` so the same file works on PC and Mac. After cloning or pulling for the first time, run `/mcp` inside Claude Code (or restart) so it picks up the server. Tools then surface as `mcp__unrealMCP__*`.
+**Claude Code config (primary):** `SiteSyncAR/.mcp.json` (next to `SiteSyncAR.uproject`) — `unrealMCP` server registered with `--directory Plugins/UnrealMCP/Python` so the same file works on PC and Mac. The path is relative to the launching cwd, which is the `SiteSyncAR/` UE project folder on both machines. After cloning or pulling for the first time, run `/mcp` inside Claude Code (or restart) so it picks up the server, and approve the project-scope server when prompted. Tools then surface as `mcp__unrealMCP__*`. **Do not** create local-scope (`-s local`) or user-scope (`-s user`) overrides — they shadow the project file and break portability; the project `.mcp.json` is the only source of truth.
 
 **Cursor config (optional backup):** `.cursor/mcp.json` in repo root — same server, registered for Cursor specifically. Kept so Cursor Agent mode still works if needed; safe to delete if Cursor is fully retired.
 

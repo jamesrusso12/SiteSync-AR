@@ -52,6 +52,9 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 		return false;
 	}
 
+	const FTransform AlignmentTransform = ARSystem->GetAlignmentTransform();
+	const FTransform TrackingToWorld = GEngine->XRSystem->GetTrackingToWorldTransform();
+
 	const FGuid TargetId = MeshGeometry->UniqueId;
 	ARMeshAnchor* FoundAnchor = nil;
 	int32 MeshAnchorCount = 0;
@@ -97,7 +100,9 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 		// Multiply by anchor.transform to land in ARKit world, then convert to UE LH Z-up cm.
 		const simd_float4 Local = simd_make_float4(V[0], V[1], V[2], 1.0f);
 		const simd_float4 World = simd_mul(AnchorXform, Local);
-		OutVertices[i] = FVector(-World.z, World.x, World.y) * FAppleARKitConversion::ToUEScale();
+		const FVector InTracking = FVector(-World.z, World.x, World.y) * FAppleARKitConversion::ToUEScale();
+		const FVector InAligned = AlignmentTransform.TransformPosition(InTracking);
+		OutVertices[i] = TrackingToWorld.TransformPosition(InAligned);
 	}
 
 	ARGeometryElement* InFaces = Geo.faces;

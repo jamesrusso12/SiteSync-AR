@@ -2,6 +2,21 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-04-28 — Node 1.4 cut/fill reference plane = slab BOTTOM face (subgrade)
+Cut-and-fill volume math computes against the **slab bottom face** (subgrade elevation), not the slab top (Finished Floor Elevation). This matches the earthworks-industry convention used by AGTEK, Trimble, and field graders: "cut 47 yd³, fill 32 yd³" describes the dirt moved to bring a site to subgrade *before* the concrete pour. Including the slab's own volume in the fill number would inflate it by the slab volume and confuse anyone who's done site grading before.
+
+**Why slab bottom specifically:**
+- Slab top is derivable for free (`slabTop = slabBottom + SlabThicknessCm`) so we lose no information.
+- Matches `BP_Foundation`'s pivot semantics: slab is centered on actor origin, so `slabBottomZ_cm = ActiveFoundation.GetActorLocation().Z - (SlabThicknessCm / 2.0)`. One subtraction, no ambiguity.
+- User-settable datum offset is **deferred to Node 1.5+** as a polish pass (a "datum offset" slider, default 0, range ±5m, that shifts `slabBottomZ_cm`). Same math, just a shifted plane — no architectural cost to deferring.
+
+**How to apply (Node 1.4 implementation spec):**
+- Cut volume = terrain mesh volume **above** the plane, clipped to the slab's XY footprint.
+- Fill volume = empty space **between** the plane and terrain **below** within the same footprint.
+- Footprint clipping is in slab-local space: project each terrain triangle into `BP_Foundation`'s local XY, clip to `[-Length/2, +Length/2] × [-WidthCm/200, +WidthCm/200]` (meters), then signed Z-integrate against the plane. The slab's yaw rotation is already baked into the local frame.
+- Unit conversion: UE works in cm. `1 yd³ = 91.44³ cm³ ≈ 764554.858 cm³`. Divide cm³ by that constant once to get yd³. **Do not apply an extra 27x factor** — the 27 is ft³→yd³, irrelevant when going straight from cm to yd via the 91.44 cm/yd direct conversion.
+- Output: two scalar yd³ values (cut, fill), displayed in a minimal UMG widget over the AR view.
+
 ## 2026-04-28 — Issue B closed: AR app needs a custom Pawn with bLockToHmd CameraComponent
 Issue B (cyan mesh + yellow markers + orange foundation slab all appearing to drift with the phone as the user walked) was misdiagnosed for two sessions as a coordinate-frame bug in either the iOS C++ shim or the BP graph. Bisection across `BP_LiDARMeshManager`, `BP_ARPlayerController`, `BP_ARGameMode`, the iOS shim, and a static-cube anchoring probe (`7037341`) — plus a null-pawn test (`cbe3c93`) — established the real cause: **the project had no Pawn whose camera tracked the ARKit device pose.** UE rendered virtual content against a static default world camera while ARKit correctly tracked the device, so passthrough shifted under stationary virtual content. Both the 2026-04-24 anchor-transform fix and the 0caf30c AlignmentTransform/TrackingToWorld fix were real and necessary, but invisible without a working camera rig.
 

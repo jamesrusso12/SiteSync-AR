@@ -375,13 +375,24 @@ Issue B was the "virtual content drifts with the camera" bug: cyan LiDAR mesh, y
 
 ## Immediate Next Actions (current, 2026-04-28)
 
-**Node 1.4 — Volumetric cut-and-fill cubic yardage output.** Includes:
+**Node 1.4 — Volumetric cut-and-fill cubic yardage output.** Three workstreams:
 
-1. C++ helper that raycasts against raw `ARMeshGeometry` triangles for non-planar terrain accuracy. Expose as `BlueprintCallable`, swap into `BP_ARPlayerController.GetWorldLocationFromTap` in place of `LineTraceTrackedObjects`. (Deferred from Node 1.3 polish.)
-2. Volume math between the LiDAR mesh (`ProcMesh` sections in `BP_LiDARMeshManager.TerrainMesh`) and the foundation slab (`BP_Foundation` rectangle). Output cut volume + fill volume separately, in cubic yards (US AEC audience).
-3. Minimal UMG widget overlay to display result.
+1. **C++ raycast helper against raw `ARMeshGeometry` triangles** for non-planar terrain accuracy. Expose as `BlueprintCallable`, swap into `BP_ARPlayerController.GetWorldLocationFromTap` in place of `LineTraceTrackedObjects`. (Deferred from Node 1.3 polish.)
+2. **Volume math** between the LiDAR mesh (`ProcMesh` sections in `BP_LiDARMeshManager.TerrainMesh`) and the foundation slab (`BP_Foundation`). Output cut + fill separately in cubic yards.
+3. **Minimal UMG widget overlay** to display the two scalars in the AR view.
 
-Outstanding ambiguity to clarify with James before starting: what defines the cut/fill reference plane — foundation slab top face? bottom? user-set elevation?
+### Volume math spec (decided 2026-04-28 — see decisions.md)
+
+- **Reference plane = slab BOTTOM face** (subgrade elevation, the dirt-work convention used by AGTEK/Trimble/field graders).
+  ```
+  slabBottomZ_cm = ActiveFoundation.GetActorLocation().Z
+                   - (BP_Foundation.SlabThicknessCm / 2.0)
+  ```
+- **Cut volume** = terrain mesh volume **above** `slabBottomZ_cm`, clipped to the slab's XY footprint.
+- **Fill volume** = empty space **between** `slabBottomZ_cm` and the terrain **below** within the same footprint.
+- **Footprint clipping** in slab-local space: project each terrain triangle into `BP_Foundation`'s local XY, clip to `[-Length/2, +Length/2] × [-WidthCm/200, +WidthCm/200]` meters, then signed Z-integrate against the plane. Slab yaw is already baked into the local frame.
+- **Unit conversion:** UE works in cm; `1 yd³ = 91.44³ cm³ ≈ 764554.858 cm³`. Divide `cm³ / 764554.858` once → yd³. **No extra 27x** (that's the ft³→yd³ factor, not applicable here).
+- **User-set datum offset** is Node 1.5+ scope. Don't build it now.
 
 ### Outstanding side cleanups (not Node 1.4 blockers)
 

@@ -332,6 +332,38 @@ X=0, Y=0, Z=100. Name it "MCP_ConnectionTest". Confirm the actor name and locati
 **Reliability tier (chongdashu/unreal-mcp is community-built, not Epic):**
 - ✅ Solid: actor spawn/move/destroy, component property changes (material slot, scale, transform), level queries
 - ⚠️ Hit-or-miss: Blueprint graph node-by-node rewiring with branches and struct-pin splits — fall back to manual editor work for non-trivial graphs
+- ⚠️ MCP edits do NOT trigger `Save All`. After any structural edit (actor delete, BP compile, etc.) the change lives in the editor's in-memory world only. James must Ctrl+S in the editor before the change touches `.umap` / `.uasset` and the working tree.
+
+**MCP plugin health & rebuild protocol — required reading.** Two failure modes have already burned a session each. Recognize them on sight:
+
+1. **Stale plugin DLL.** UE5 loaded the plugin's compiled DLL once on editor start and won't reload it. If the source has commits the DLL doesn't, MCP write commands silently misbehave (most commonly: `delete_actor` returns `Actor not found` for actors `get_actors_in_level` just enumerated, or new commands return `Unknown command`). Detect with:
+   ```bash
+   stat -c '%y' SiteSyncAR/Plugins/UnrealMCP/Binaries/Win64/UnrealEditor-UnrealMCP.dll
+   git -C . log -1 --format=%ci -- SiteSyncAR/Plugins/UnrealMCP/Source/
+   ```
+   If the DLL mtime is older than the source, rebuild.
+
+2. **Unwired dispatcher.** Adding a new `*_Commands.cpp` handler is **two edits**, not one: the per-class `HandleCommand` switch AND the dispatcher in `UnrealMCPBridge.cpp::ExecuteCommand`. The dispatcher is the gate. If a command name isn't listed there, the bridge falls through to the `else` clause and replies `Unknown command` even though the handler is compiled in and the UTF-16 string is in the DLL. Symptom shortcut: any MCP call returning `"Unknown command: <name>"` while the Python `node_tools.py` (or equivalent) advertises that name → check `UnrealMCPBridge.cpp` for the missing branch entry.
+
+**Rebuild command (PC).** UE editor must be closed first (it holds the DLL locked). Runs in ~10s on a clean tree:
+```bash
+"C:\UE_5.6\Engine\Build\BatchFiles\Build.bat" SiteSyncAREditor Win64 Development \
+  -project="C:\Dev\SiteSync-AR\SiteSyncAR\SiteSyncAR.uproject" -waitmutex
+```
+
+**Mac equivalent** (when working on Mac after pulling C++ plugin source changes):
+```bash
+"/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/Mac/Build.sh" SiteSyncAREditor Mac Development \
+  -project="$HOME/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject"
+```
+
+**Five-second sanity probe.** Bypasses MCP/stdio entirely — talks straight to the C++ TCP server on 55557. Works without a Claude Code session having unrealMCP loaded; only requires the UE editor to be open.
+```bash
+python SiteSyncAR/Plugins/UnrealMCP/Python/scripts/probe_post_rebuild.py
+```
+Expected output: `delete_blueprint_node` returns `"Blueprint not found: ..."` (handler reached), and `spawn_actor → find_actors_by_name → delete_actor` round-trips cleanly. A "Unknown command" or empty `find_actors_by_name` after spawn means one of the two failure modes above is back.
+
+**Wire protocol** (for writing further diagnostic scripts): connect to `127.0.0.1:55557`, send `{"type": "<command>", "params": {...}}` as raw UTF-8 (no newline), read until JSON parses, server closes connection after each command. Reference impl: `Plugins/UnrealMCP/Python/unreal_mcp_server.py` `UnrealConnection.send_command`.
 
 **MCP test scene prompt for Node 1.2 (terrain proxy simulation):**
 ```

@@ -125,7 +125,7 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 		OutIndices[i] = (int32)SrcIdx[i];
 	}
 
-	UE_LOG(LogSiteSyncARiOS, Log, TEXT("GetARMeshData: %ld verts, %ld tris extracted"), (long)NumVerts, (long)NumTris);
+	UE_LOG(LogSiteSyncARiOS, Verbose, TEXT("GetARMeshData: %ld verts, %ld tris extracted"), (long)NumVerts, (long)NumTris);
 	return NumVerts > 0 && NumIndices > 0;
 }
 

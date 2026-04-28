@@ -129,7 +129,7 @@ TArray<UARMeshGeometry*> UARMeshBlueprintLibrary::GetAllARMeshGeometries()
 			Result.Add(Mesh);
 		}
 	}
-	UE_LOG(LogSiteSyncAR, Log, TEXT("GetAllARMeshGeometries: %d total tracked geometries, %d mesh geometries"), AllGeos.Num(), Result.Num());
+	UE_LOG(LogSiteSyncAR, Verbose, TEXT("GetAllARMeshGeometries: %d total tracked geometries, %d mesh geometries"), AllGeos.Num(), Result.Num());
 	return Result;
 }
 
@@ -204,7 +204,7 @@ int32 UARMeshBlueprintLibrary::UpdateLiDARMeshes(UProceduralMeshComponent* Targe
 		SectionCount++;
 	}
 
-	UE_LOG(LogSiteSyncAR, Log, TEXT("UpdateLiDARMeshes: populated %d sections from %d geometries"), SectionCount, MeshGeometries.Num());
+	UE_LOG(LogSiteSyncAR, Verbose, TEXT("UpdateLiDARMeshes: populated %d sections from %d geometries"), SectionCount, MeshGeometries.Num());
 	return SectionCount;
 }
 

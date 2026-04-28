@@ -111,8 +111,8 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 | Node | Description | Status |
 |---|---|---|
 | 1.1 | Source control, Git LFS, iOS config, plugin declarations | ✅ Complete |
-| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Device gate-cleared 2026-04-24 · ⚠️ Issue B regression under investigation 2026-04-27 (commit `ff77c58`) |
-| 1.3 | Digital foundation anchoring with touch gesture placement | ✅ Complete (PC commit `285207b`) · 🔄 iOS device deploy pending |
+| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Complete · device-validated end-to-end 2026-04-28 (post BP_ARPawn fix) |
+| 1.3 | Digital foundation anchoring with touch gesture placement | ✅ Complete · device-validated 2026-04-28 |
 | 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Pending |
 
 ### Phase 2 — 1:1 BIM Clash Overlay
@@ -171,7 +171,6 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 - Variables: `UpdateInterval` (Float, default 0.2), `MeshTimerHandle` (Timer Handle), `DebugMaterial` (Material Interface)
 - BeginPlay: `Event BeginPlay → StartARSession(DA_SiteSyncARConfig) → SetTimerByEvent(RebuildMesh, UpdateInterval, looping) → SET MeshTimerHandle`
 - RebuildMesh: `ClearAllMeshSections(TerrainMesh) → GetAllARMeshGeometries → ForEachLoop → GetARMeshData → Branch[true] → CreateMeshSection_LinearColor (CreateCollision=false, Normals=empty) → SetMaterial(M_LiDARDebug)`
-- **Active diagnostic** (commit `ff77c58`, 2026-04-27): `Event Tick → Get Actor Location → Format Text → Print String`. Added to investigate Issue B regression (mesh appears to follow camera). Strip once root cause is fixed.
 
 ### Shim API Reference (use these nodes in BP_LiDARMeshManager)
 ```
@@ -360,20 +359,31 @@ Name them MCP_TerrainProxy_1 through 5. Apply a translucent cyan material.
 
 ---
 
-## Immediate Next Actions (current, 2026-04-27)
+## What Was Built in Issue B Fix (2026-04-28)
 
-Two gates open in parallel:
+Issue B was the "virtual content drifts with the camera" bug: cyan LiDAR mesh, yellow tap markers, and the orange foundation slab all appeared to follow the phone as the user walked. Bisection (commits `cbe3c93` null-pawn test, `7037341` static cube probe) proved virtual content was actually anchored correctly in UE world space — the **camera** was static, so passthrough shifted while virtual stayed put.
 
-**A. Issue B regression diagnostic** (BP_LiDARMeshManager — mesh-follows-camera bug returned post-Node 1.3)
-- Diagnostic Print String pushed at `ff77c58` (Tick prints actor world location every frame).
-- Mac: `git pull && git lfs pull && bash scripts/patch-ue56-xcode26.sh`, then run the build/cook/stage/install pipeline above. Walk around with the device and read the on-screen vector.
-- **If actor stays `(0,0,0)`** while the cyan mesh still drifts → regression is in `Source/SiteSyncAR/Private/ARMeshBlueprintLibrary_iOS.mm`. Verify the `simd_mul(FoundAnchor.transform, vert)` line is intact (this was the 2026-04-24 fix). Check `git log -p` on that file for any post-2026-04-24 commits that touched it.
-- **If X/Y/Z drift** with the camera → BP Construction Script, parent class, or pawn-spawn attachment is moving the actor. Audit those next.
-- After fix: strip the diagnostic Print String, commit, re-deploy.
+**Root cause:** project had no Pawn whose camera tracked the ARKit device pose. UE rendered against a default static world camera while ARKit correctly tracked the device.
 
-**B. Node 1.3 device gate** (foundation placement — built on PC commit `285207b`, not yet device-validated)
-- After Issue B is resolved, on the same build: tap A on the LiDAR mesh → yellow marker; tap B → second marker + orange translucent slab spans A→B rotated to the tap vector; third tap resets.
-- Confirm 60fps during tap + spawn (Xcode Instruments or on-screen `stat fps`).
-- If hit tests miss on non-planar terrain → log for Node 1.4 polish (`ARMeshGeometry` ray-cast helper).
+**Fix (commit `66b70c9`):** added `BP_ARPawn` (Pawn parent class) with components `DefaultSceneRoot → ARCamera (UCameraComponent, bLockToHmd=true)`. Auto Possess Player 0. Wired `BP_ARGameMode.DefaultPawnClass = BP_ARPawn`. PlayerStart in `SiteSync.umap` is at world (0,0,0) so pawn spawns coincident with statically-placed actors.
 
-**Gate to Node 1.4:** Issue B closed AND foundation placement visibly correct on device.
+**Companion fix (commit `0caf30c`):** iOS shim `GetARMeshData` applies `AlignmentTransform * TrackingToWorldTransform` to vertex positions, mirroring the engine's own `AppleARKitSystem.cpp:1457` chain. Required because those transforms are non-identity once a real AR pawn drives the camera; without this, mesh vertices end up in the wrong frame even with the pawn in place. **Do not remove** — re-enabling the bug.
+
+**Cleanup (commit `b416ba2`):** stripped Tick Print String diagnostic from `BP_LiDARMeshManager`; removed `TestCube_Anchored` from `SiteSync.umap`.
+
+---
+
+## Immediate Next Actions (current, 2026-04-28)
+
+**Node 1.4 — Volumetric cut-and-fill cubic yardage output.** Includes:
+
+1. C++ helper that raycasts against raw `ARMeshGeometry` triangles for non-planar terrain accuracy. Expose as `BlueprintCallable`, swap into `BP_ARPlayerController.GetWorldLocationFromTap` in place of `LineTraceTrackedObjects`. (Deferred from Node 1.3 polish.)
+2. Volume math between the LiDAR mesh (`ProcMesh` sections in `BP_LiDARMeshManager.TerrainMesh`) and the foundation slab (`BP_Foundation` rectangle). Output cut volume + fill volume separately, in cubic yards (US AEC audience).
+3. Minimal UMG widget overlay to display result.
+
+Outstanding ambiguity to clarify with James before starting: what defines the cut/fill reference plane — foundation slab top face? bottom? user-set elevation?
+
+### Outstanding side cleanups (not Node 1.4 blockers)
+
+- `MCP_TerrainProxy_1` through `_5` are still in `SiteSync.umap` from the 2026-04-21 MCP smoke test. Per the asset conventions section above they belong in `Content/MCP_TestScenes/` and aren't supposed to ship. Delete in a follow-up `chore:` commit.
+- `UnrealMCP` plugin binary on the PC is from before commit `fec1af2` (2026-04-27). Server-side it's missing the `delete_blueprint_node` and `disconnect_blueprint_nodes` handlers — confirmed empirically 2026-04-28: Python tool is registered but TCP server replies "Unknown command", and `delete_actor` / `find_actors_by_name` lookups also fail. Recompile `Plugins/UnrealMCP` in VS2022 Development Editor to refresh the .dll, then restart the editor. Until then, MCP can read level/BP state but can't drive structural edits.

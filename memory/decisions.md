@@ -2,6 +2,21 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-04-28 — Issue B closed: AR app needs a custom Pawn with bLockToHmd CameraComponent
+Issue B (cyan mesh + yellow markers + orange foundation slab all appearing to drift with the phone as the user walked) was misdiagnosed for two sessions as a coordinate-frame bug in either the iOS C++ shim or the BP graph. Bisection across `BP_LiDARMeshManager`, `BP_ARPlayerController`, `BP_ARGameMode`, the iOS shim, and a static-cube anchoring probe (`7037341`) — plus a null-pawn test (`cbe3c93`) — established the real cause: **the project had no Pawn whose camera tracked the ARKit device pose.** UE rendered virtual content against a static default world camera while ARKit correctly tracked the device, so passthrough shifted under stationary virtual content. Both the 2026-04-24 anchor-transform fix and the 0caf30c AlignmentTransform/TrackingToWorld fix were real and necessary, but invisible without a working camera rig.
+
+**Fix (`66b70c9`):** `BP_ARPawn` (Pawn parent) with components `DefaultSceneRoot → ARCamera` where `ARCamera` is a `UCameraComponent` with `bLockToHmd = true`. Auto Possess Player 0. `BP_ARGameMode.DefaultPawnClass = BP_ARPawn`. `PlayerStart` in `SiteSync.umap` at world (0,0,0) so the pawn spawns coincident with statically-placed actors.
+
+**Why:** `bLockToHmd` is what binds the CameraComponent to the live device pose on AR/XR platforms — there is no other automatic mechanism. Without it, even with `AppleARKit` plugin enabled and a session running, the engine has no idea which UE camera should follow the device.
+
+**How to apply:**
+- Any future AR-session level must use `BP_ARGameMode` (or a subclass) so `BP_ARPawn` is auto-spawned, OR manually possess a pawn with the same `bLockToHmd` CameraComponent setup.
+- Never set `DefaultPawnClass = None` on an AR GameMode — that was the `cbe3c93` bisection state and it produces the same drift symptom even though the fix is in place.
+- Keep `0caf30c` (iOS shim AlignmentTransform + TrackingToWorld application) — those transforms are non-identity once a real AR pawn drives the camera. Removing them re-opens the coordinate-frame mismatch even with `BP_ARPawn` correct.
+
+## 2026-04-28 — Node 1.2 + Node 1.3 both fully device-validated end-to-end
+After `66b70c9` landed, on iPhone 16 Pro: cyan LiDAR mesh stays glued to walls/floor/ceiling/furniture as the user walks; yellow Marker A and Marker B stay at their tap points; orange foundation slab stays anchored along the A→B edge with correct yaw rotation; third tap clears state cleanly; no crashes on empty-space taps; 3+ place→reset cycles ran without stale state. Both nodes are closed for real. Node 1.4 (volumetric cut-and-fill output) is the next active node.
+
 ## 2026-04-27 — OneDrive clone severed; canonical PC tree is C:\Dev\SiteSync-AR
 The OneDrive working tree at `C:\Users\jruss\OneDrive\Desktop\Project Kickoff\SiteSync-AR\` was severed: `.git` renamed to `.git.DEPRECATED-20260427`, `_DEPRECATED_DO_NOT_USE.md` placed at root, history bundled to `C:\Dev\SiteSync-AR-onedrive-backup.bundle`. Two MCP commits that lived only in the OneDrive clone (`f510479`, `07de387`) were ported into canonical as commit `fec1af2 feat(mcp): port in-place graph edits + Enhanced Input lookup`.
 

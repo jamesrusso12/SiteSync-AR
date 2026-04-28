@@ -4,6 +4,7 @@ Build/
 DerivedDataCache/
 Intermediate/
 Saved/
+ArchivedBuilds/
 
 # IDE artifacts
 .vs/

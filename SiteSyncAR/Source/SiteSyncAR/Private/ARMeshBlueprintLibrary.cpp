@@ -210,9 +210,6 @@ int32 UARMeshBlueprintLibrary::UpdateLiDARMeshes(UProceduralMeshComponent* Targe
 
 bool UARMeshBlueprintLibrary::CalculateCutFillVolumes(UProceduralMeshComponent* TerrainMesh,
                                                       AActor* FoundationActor,
-                                                      float SlabLengthCm,
-                                                      float SlabWidthCm,
-                                                      float SlabThicknessCm,
                                                       float& OutCutCubicYards,
                                                       float& OutFillCubicYards)
 {
@@ -222,7 +219,15 @@ bool UARMeshBlueprintLibrary::CalculateCutFillVolumes(UProceduralMeshComponent* 
 	OutFillCubicYards = 0.0f;
 
 	if (!TerrainMesh || !FoundationActor) return false;
-	if (SlabLengthCm <= 0.0f || SlabWidthCm <= 0.0f) return false;
+
+	// BP_Foundation.InitFromCorners stores slab dimensions as actor scale in METERS
+	// (the unit-cube static mesh is sized to a 1m^3 reference cube). Multiply by 100
+	// to recover cm.
+	const FVector ScaleMeters = FoundationActor->GetActorScale3D();
+	const float SlabLengthCm = static_cast<float>(ScaleMeters.X) * 100.0f;
+	const float SlabWidthCm = static_cast<float>(ScaleMeters.Y) * 100.0f;
+	const float SlabThicknessCm = static_cast<float>(ScaleMeters.Z) * 100.0f;
+	if (SlabLengthCm <= 0.0f || SlabWidthCm <= 0.0f || SlabThicknessCm <= 0.0f) return false;
 
 	// Plane sits at slab BOTTOM face. Slab actor pivot is the slab center, so subgrade in
 	// slab-local space is z = -SlabThicknessCm/2.

@@ -35,13 +35,13 @@ public:
 
 	// Computes earthwork cut and fill volumes between the LiDAR-tracked terrain and the
 	// slab BOTTOM face (subgrade convention), clipped to the slab's XY footprint.
-	// Returns false if inputs are invalid. Output volumes are in cubic yards (US AEC unit).
+	// FoundationActor's scale is interpreted as the slab's full extent in METERS
+	// (matches BP_Foundation.InitFromCorners convention) — multiplied by 100 internally
+	// for cm. Output volumes are in cubic yards (US AEC unit).
+	// Returns false if inputs are invalid or the slab has zero scale on any axis.
 	UFUNCTION(BlueprintCallable, Category = "SiteSync|Volume")
 	static bool CalculateCutFillVolumes(UProceduralMeshComponent* TerrainMesh,
 	                                    AActor* FoundationActor,
-	                                    float SlabLengthCm,
-	                                    float SlabWidthCm,
-	                                    float SlabThicknessCm,
 	                                    float& OutCutCubicYards,
 	                                    float& OutFillCubicYards);
 };

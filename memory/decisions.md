@@ -155,6 +155,28 @@ UE 5.6's `LineTraceTrackedObjects` Blueprint API exposes only plane/feature chan
 ## 2026-04-24 — Node 1.3 PC GATE CLEARED — all Blueprints compiled and saved
 `feat(node-1.3): two-tap foundation anchoring with touch gesture placement` (commit 285207b on `main`). Assets: `BP_Foundation`, `BP_TapMarker`, `BP_ARPlayerController`, `BP_ARGameMode`, `M_FoundationDebug`, `M_MarkerDebug`, `IA_TapPlace`, `IMC_Placement`. `GlobalDefaultGameMode` flipped to `BP_ARGameMode` in `DefaultEngine.ini`. Level `SiteSync.umap` saved with `BP_LiDARMeshManager` already in scene. Editor PIE cannot test this (no AR session on Windows) — device validation pending on Mac.
 
+## 2026-04-28 — chongdashu UnrealMCP UMG tools have Python↔C++ param-name mismatches
+The Python tool wrappers in `Plugins/UnrealMCP/Python/tools/umg_tools.py` send param keys that don't match what the C++ command handlers in `Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPUMGCommands.cpp` expect. Confirmed empirically 2026-04-28:
+
+- `create_umg_widget_blueprint`: Python sends `widget_name`, C++ reads `name` → "Missing 'name' parameter" error.
+- `add_text_block_to_widget`: Python sends `widget_name` + `text_block_name`, C++ reads `blueprint_name` + `widget_name` → "Missing 'blueprint_name' parameter" error.
+- Likely affects `set_text_block_binding`, `add_widget_to_viewport`, `bind_widget_event` too — same files, same author, same issue class.
+
+**Why:** chongdashu's Python tool layer was written with one naming scheme (everything is `widget_name`) and the C++ command dispatcher uses another (`blueprint_name` for the Widget Blueprint asset, `widget_name` for the child component inside it). The two never got reconciled.
+
+**Workaround for now:** for any UMG operation, fall back to manual editor work — drag widgets in the Designer, set properties in the Details panel. MCP add-text-block etc. are unusable until the Python is patched.
+
+**How to apply / fix permanently:** patch `Plugins/UnrealMCP/Python/tools/umg_tools.py` so each tool's `params = {...}` dict uses the keys the C++ side expects. Then the Python MCP server picks up the changes on next Claude Code session start (no rebuild needed since this is Python only). Also worth filing upstream to chongdashu, but our local copy is canonical for this project so the patch lands in our tree. Tagged for Node 1.5 polish alongside the variable-type fix below.
+
+## 2026-04-28 — chongdashu UnrealMCP add_blueprint_variable creates Integer when asked for "Float"
+Calling `mcp__unrealMCP__add_blueprint_variable(blueprint_name, name, variable_type="Float", is_exposed=false)` returns `{"status": "success", "result": {"variable_name": ..., "variable_type": "Float"}}` — but the variable actually created in the BP is **Integer**, not Float. Confirmed empirically on BP_Foundation.CutCubicYards and FillCubicYards (2026-04-28). When wired to a single-precision-float function output, UE auto-inserts a `Truncate (FTrunc)` node and the var holds the int-truncated value, silently losing all fractional yardage.
+
+**Why:** the chongdashu Python `add_blueprint_variable` tool's type-string mapping doesn't recognize "Float" and falls back to Integer (or the C++ side's switch-case has the same gap). MCP returns success because the variable was created; the type check happens elsewhere.
+
+**Workaround:** after MCP creates the var, manually change its type in My Blueprint → Variables → Details → "Variable Type" dropdown to `Float (single-precision)` (or `Float (double-precision)` if the caller wants double). Truncate nodes UE auto-inserted will then disconnect — delete them and re-wire data direct.
+
+**How to apply:** never trust the `variable_type` echoed back from `add_blueprint_variable`. After creating any non-Integer variable via MCP, verify the actual type in the editor (or via a graph dump) before wiring. Better: fix the chongdashu mapping in `Plugins/UnrealMCP/Python/tools/blueprint_tools.py` so "Float" maps correctly — would close out the bug for the whole project. Tagged for Node 1.5 polish.
+
 ## 2026-04-25 — chongdashu UnrealMCP can't set component materials (verified empirically)
 While driving Fix 2 on `BP_TapMarker`, confirmed that the chongdashu plugin has **no material-handling tool at all** (none in `Plugins/UnrealMCP/Python/tools/*.py`), and the generic `set_component_property` rejects `OverrideMaterials` with `"Unsupported property type: ArrayProperty"`. The `[0]` indexer syntax (`OverrideMaterials[0]`) is also not parsed — returns `"Property OverrideMaterials[0] not found on component"`.
 

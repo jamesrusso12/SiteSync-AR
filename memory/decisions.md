@@ -2,6 +2,25 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-04-28 — UnrealMCP "half-broken" was a stale plugin DLL (H1), not a config conflict (H2)
+
+Symptom set on PC: `delete_blueprint_node` returned `"Unknown command: delete_blueprint_node"`, `delete_actor` and `find_actors_by_name` returned `"Actor not found"` / `[]` for actors that `get_actors_in_level` had just listed. Investigation followed the two-hypothesis protocol — H2 (user-scope config override) checked first since it's the cheapest test; H1 (binary stale relative to `fec1af2`) confirmed second.
+
+**H1 confirmed (root cause):** `SiteSyncAR/Plugins/UnrealMCP/Binaries/Win64/UnrealEditor-UnrealMCP.dll` mtime was **2026-04-24 10:22:46**, but commit `fec1af2 feat(mcp): port in-place graph edits + Enhanced Input lookup` landed **2026-04-27 13:10:00** and added the C++ handlers for `delete_blueprint_node` / `disconnect_blueprint_nodes` / `K2Node_EnhancedInputAction` lookup. Source on disk had the handlers; the running DLL did not. UE5 had loaded the older binary on editor start and was still using it. UTF-16 string scan of the stale DLL would have shown the new command names absent.
+
+**H2 ruled out:** `~/.claude.json` top-level `mcpServers` was `{}` and no project entry under `projects.*.mcpServers` had any non-empty server map — only `enabledMcpjsonServers` flags pointing at the project-scope `SiteSyncAR/.mcp.json`. The `.cursor/mcp.json` is untouched and irrelevant to Claude Code.
+
+**Fix:** rebuilt with `C:\UE_5.6\Engine\Build\BatchFiles\Build.bat SiteSyncAREditor Win64 Development -project=...uproject -waitmutex` (13.4s, warnings only). New DLL at `09:00:08`; UTF-16 grep confirms `delete_blueprint_node`, `disconnect_blueprint_nodes`, `find_blueprint_nodes` are now embedded.
+
+**How to detect the same condition in future sessions:**
+1. `stat -c '%y'` on `SiteSyncAR/Plugins/UnrealMCP/Binaries/Win64/UnrealEditor-UnrealMCP.dll` and compare to `git log -1 --format=%ci -- SiteSyncAR/Plugins/UnrealMCP/Source/`. If the DLL mtime is older than the most recent source commit, the binary is stale.
+2. Symptom shortcut: any MCP write returning `"Unknown command: <name>"` while the Python `node_tools.py` advertises `<name>` ⇒ DLL is from before the C++ handler was added. Always rebuild before debugging the handler logic itself.
+3. Build command (PC): `"C:\UE_5.6\Engine\Build\BatchFiles\Build.bat" SiteSyncAREditor Win64 Development -project="C:\Dev\SiteSync-AR\SiteSyncAR\SiteSyncAR.uproject" -waitmutex` — UE editor must be closed first because UE holds the DLL locked.
+
+**Symptom (C) (`delete_actor` + `find_actors_by_name` failing on actors that `get_actors_in_level` enumerates) did not reproduce after the rebuild.** Direct TCP probe `Plugins/UnrealMCP/Python/scripts/probe_post_rebuild.py` cleanly round-tripped a spawned cube through `spawn_actor → find_actors_by_name → delete_actor`; pre-existing `MCP_TerrainProxy_*` actors are also visible to lookup-by-name. Best read of the original 2026-04-28 morning observation: the actor under test (`StaticMeshActor_0`) had been manually renamed/replaced between the `get_actors_in_level` call and the `delete_actor` call as James ran his diagnostic, so the names captured at one moment didn't refer to the same UObject by the next. No code change required for (C).
+
+**Second bug found while verifying (B):** `fec1af2` added `delete_blueprint_node` and `disconnect_blueprint_nodes` handlers in `UnrealMCPBlueprintNodeCommands.cpp` but never registered the new command names in the dispatcher in `UnrealMCPBridge.cpp::ExecuteCommand`. The "Blueprint Node Commands" branch only listed the original commands (`connect_blueprint_nodes`, `find_blueprint_nodes`, …), so the new commands fell through to the `else` clause and the bridge replied "Unknown command" before ever reaching the handler. Fixed by adding both names to that branch, then second rebuild. Probe now returns `"Blueprint not found"` for `delete_blueprint_node` with a bogus name — error from the handler, not from the dispatcher. Anyone porting future commands into the plugin must update **both** the per-class `HandleCommand` switch **and** the dispatcher in `UnrealMCPBridge.cpp` — the dispatcher is the gate, the per-class switch is the second-pass.
+
 ## 2026-04-28 — Node 1.4 cut/fill reference plane = slab BOTTOM face (subgrade)
 Cut-and-fill volume math computes against the **slab bottom face** (subgrade elevation), not the slab top (Finished Floor Elevation). This matches the earthworks-industry convention used by AGTEK, Trimble, and field graders: "cut 47 yd³, fill 32 yd³" describes the dirt moved to bring a site to subgrade *before* the concrete pour. Including the slab's own volume in the fill number would inflate it by the slab volume and confuse anyone who's done site grading before.
 

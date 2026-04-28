@@ -397,4 +397,3 @@ Issue B was the "virtual content drifts with the camera" bug: cyan LiDAR mesh, y
 ### Outstanding side cleanups (not Node 1.4 blockers)
 
 - `MCP_TerrainProxy_1` through `_5` are still in `SiteSync.umap` from the 2026-04-21 MCP smoke test. Per the asset conventions section above they belong in `Content/MCP_TestScenes/` and aren't supposed to ship. Delete in a follow-up `chore:` commit.
-- `UnrealMCP` plugin binary on the PC is from before commit `fec1af2` (2026-04-27). Server-side it's missing the `delete_blueprint_node` and `disconnect_blueprint_nodes` handlers — confirmed empirically 2026-04-28: Python tool is registered but TCP server replies "Unknown command", and `delete_actor` / `find_actors_by_name` lookups also fail. Recompile `Plugins/UnrealMCP` in VS2022 Development Editor to refresh the .dll, then restart the editor. Until then, MCP can read level/BP state but can't drive structural edits.

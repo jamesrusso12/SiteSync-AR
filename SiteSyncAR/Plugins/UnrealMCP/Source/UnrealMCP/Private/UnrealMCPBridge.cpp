@@ -251,7 +251,9 @@ FString UUnrealMCPBridge::ExecuteCommand(const FString& CommandType, const TShar
                 ResultJson = BlueprintCommands->HandleCommand(CommandType, Params);
             }
             // Blueprint Node Commands
-            else if (CommandType == TEXT("connect_blueprint_nodes") || 
+            else if (CommandType == TEXT("connect_blueprint_nodes") ||
+                     CommandType == TEXT("disconnect_blueprint_nodes") ||
+                     CommandType == TEXT("delete_blueprint_node") ||
                      CommandType == TEXT("add_blueprint_get_self_component_reference") ||
                      CommandType == TEXT("add_blueprint_self_reference") ||
                      CommandType == TEXT("find_blueprint_nodes") ||

@@ -69,6 +69,7 @@ Thumbs.db
 # from the device with `xcrun devicectl ... pull` and only useful for
 # one-off debugging). Validation `.log` files in `logs/` are kept.
 logs/device-pull*/
+logs/dev-pull*/
 **/Library/Caches/
 **/Library/Preferences/*.plist
 **/Library/SavedApplicationState/

@@ -32,4 +32,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "SiteSync|AR")
 	static int32 UpdateLiDARMeshes(UProceduralMeshComponent* TargetMeshComponent,
 	                               UMaterialInterface* DebugMaterial);
+
+	// Computes earthwork cut and fill volumes between the LiDAR-tracked terrain and the
+	// slab BOTTOM face (subgrade convention), clipped to the slab's XY footprint.
+	// Returns false if inputs are invalid. Output volumes are in cubic yards (US AEC unit).
+	UFUNCTION(BlueprintCallable, Category = "SiteSync|Volume")
+	static bool CalculateCutFillVolumes(UProceduralMeshComponent* TerrainMesh,
+	                                    AActor* FoundationActor,
+	                                    float SlabLengthCm,
+	                                    float SlabWidthCm,
+	                                    float SlabThicknessCm,
+	                                    float& OutCutCubicYards,
+	                                    float& OutFillCubicYards);
 };

@@ -155,6 +155,19 @@ UE 5.6's `LineTraceTrackedObjects` Blueprint API exposes only plane/feature chan
 ## 2026-04-24 — Node 1.3 PC GATE CLEARED — all Blueprints compiled and saved
 `feat(node-1.3): two-tap foundation anchoring with touch gesture placement` (commit 285207b on `main`). Assets: `BP_Foundation`, `BP_TapMarker`, `BP_ARPlayerController`, `BP_ARGameMode`, `M_FoundationDebug`, `M_MarkerDebug`, `IA_TapPlace`, `IMC_Placement`. `GlobalDefaultGameMode` flipped to `BP_ARGameMode` in `DefaultEngine.ini`. Level `SiteSync.umap` saved with `BP_LiDARMeshManager` already in scene. Editor PIE cannot test this (no AR session on Windows) — device validation pending on Mac.
 
+## 2026-04-28 — UMG widget value display: use push-from-source, NOT poll-via-property-binding (iOS jetsam learning)
+First Node 1.4 device deploy on iPhone 16 Pro got iOS-jetsammed within seconds of slab placement. Diagnosis (Mac session, commit 27c7464 + handoff): the WBP_VolumeReadout text bindings called `GetActorOfClass(BP_Foundation)` every frame and read `CutCubicYards`/`FillCubicYards` directly off the result. Pre-placement (and during widget reconstruction order) the result is None, so the engine emits "Accessed None trying to read property" warnings every frame, each followed by a full script-callstack dump. ~10 dumps/frame × 60fps = ~600 expensive script-stack dumps per second → main-thread saturation → iOS watchdog kill. Not a SEGV; `applicationWillTerminate:` callstack confirms iOS-initiated termination.
+
+**Decision:** for any widget displaying live values from a transient/optional source actor, **push values from the source on update, do NOT poll via property bindings.**
+- Widget owns its display state as plain text (`SetText`), initialized to a placeholder.
+- Source actor (the one that owns the data) holds a typed reference to the widget instance and calls `SetX(value)` only when its value changes (or on its existing recalc tick).
+- Acquire the widget reference via the natural owner — usually a PlayerController promotes `CreateWidget` output to a `Public, Instance Editable` variable, and other actors read it via `GetPlayerController(0) → Cast → GetHUDWidget` once on `BeginPlay` and cache.
+- Guard with `IsValid` on the cached reference at call sites; never read properties off `None`.
+
+**Why not property bindings:** they're convenient for static data tied to `self` but pathological for "actor that may not exist yet" lookups. UE re-evaluates bound functions every frame regardless of whether the source actor exists, and the cost of an "Accessed None" warning chain is 10–100× the cost of a clean read.
+
+**How to apply:** any future Node (volume readout polish, GPS/compass HUD in 2.2, MEP layer toggles in 2.3) that displays values from a placed-by-tap actor follows the push model. Property bindings remain fine when the binding function reads from `self` only or from a guaranteed-resident actor (PlayerController, GameMode, etc.).
+
 ## 2026-04-28 — chongdashu UnrealMCP UMG tools have Python↔C++ param-name mismatches
 The Python tool wrappers in `Plugins/UnrealMCP/Python/tools/umg_tools.py` send param keys that don't match what the C++ command handlers in `Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPUMGCommands.cpp` expect. Confirmed empirically 2026-04-28:
 

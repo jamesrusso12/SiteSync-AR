@@ -218,16 +218,36 @@ bool UARMeshBlueprintLibrary::CalculateCutFillVolumes(UProceduralMeshComponent* 
 	OutCutCubicYards = 0.0f;
 	OutFillCubicYards = 0.0f;
 
-	if (!TerrainMesh || !FoundationActor) return false;
+	if (!TerrainMesh || !FoundationActor)
+	{
+		UE_LOG(LogSiteSyncAR, Warning, TEXT("CalculateCutFillVolumes: null TerrainMesh=%p FoundationActor=%p"),
+		       TerrainMesh, FoundationActor);
+		return false;
+	}
 
 	// BP_Foundation.InitFromCorners stores slab dimensions as actor scale in METERS
 	// (the unit-cube static mesh is sized to a 1m^3 reference cube). Multiply by 100
 	// to recover cm.
 	const FVector ScaleMeters = FoundationActor->GetActorScale3D();
-	const float SlabLengthCm = static_cast<float>(ScaleMeters.X) * 100.0f;
-	const float SlabWidthCm = static_cast<float>(ScaleMeters.Y) * 100.0f;
-	const float SlabThicknessCm = static_cast<float>(ScaleMeters.Z) * 100.0f;
-	if (SlabLengthCm <= 0.0f || SlabWidthCm <= 0.0f || SlabThicknessCm <= 0.0f) return false;
+	const float RawLengthCm = static_cast<float>(ScaleMeters.X) * 100.0f;
+	const float RawWidthCm = static_cast<float>(ScaleMeters.Y) * 100.0f;
+	const float RawThicknessCm = static_cast<float>(ScaleMeters.Z) * 100.0f;
+
+	UE_LOG(LogSiteSyncAR, Log,
+	       TEXT("CalculateCutFillVolumes: enter scale=(%.3f,%.3f,%.3f)m raw_dims=(%.1f,%.1f,%.1f)cm sections=%d"),
+	       ScaleMeters.X, ScaleMeters.Y, ScaleMeters.Z,
+	       RawLengthCm, RawWidthCm, RawThicknessCm,
+	       TerrainMesh->GetNumSections());
+
+	if (RawLengthCm <= 0.0f || RawWidthCm <= 0.0f || RawThicknessCm <= 0.0f) return false;
+
+	// Clamp slab dimensions to sane ranges so a wonky tap (e.g., A and B on
+	// different LiDAR plane heights producing a 2m thick slab) doesn't break
+	// the math. Real foundations: length 50cm-50m, width 50cm-50m, thickness
+	// 5cm-50cm.
+	const float SlabLengthCm = FMath::Clamp(RawLengthCm, 50.0f, 5000.0f);
+	const float SlabWidthCm = FMath::Clamp(RawWidthCm, 50.0f, 5000.0f);
+	const float SlabThicknessCm = FMath::Clamp(RawThicknessCm, 5.0f, 50.0f);
 
 	// Plane sits at slab BOTTOM face. Slab actor pivot is the slab center, so subgrade in
 	// slab-local space is z = -SlabThicknessCm/2.
@@ -253,12 +273,21 @@ bool UARMeshBlueprintLibrary::CalculateCutFillVolumes(UProceduralMeshComponent* 
 
 		const TArray<FProcMeshVertex>& Verts = Section->ProcVertexBuffer;
 		const TArray<uint32>& Indices = Section->ProcIndexBuffer;
+		const int32 NumVerts = Verts.Num();
 
 		for (int32 i = 0; i + 2 < Indices.Num(); i += 3)
 		{
-			const FVector PaW = CompToWorld.TransformPosition(Verts[Indices[i + 0]].Position);
-			const FVector PbW = CompToWorld.TransformPosition(Verts[Indices[i + 1]].Position);
-			const FVector PcW = CompToWorld.TransformPosition(Verts[Indices[i + 2]].Position);
+			const uint32 Ia = Indices[i + 0];
+			const uint32 Ib = Indices[i + 1];
+			const uint32 Ic = Indices[i + 2];
+			if (Ia >= (uint32)NumVerts || Ib >= (uint32)NumVerts || Ic >= (uint32)NumVerts)
+			{
+				continue;
+			}
+
+			const FVector PaW = CompToWorld.TransformPosition(Verts[Ia].Position);
+			const FVector PbW = CompToWorld.TransformPosition(Verts[Ib].Position);
+			const FVector PcW = CompToWorld.TransformPosition(Verts[Ic].Position);
 
 			const FVector Pa = WorldToLocal.TransformPosition(PaW);
 			const FVector Pb = WorldToLocal.TransformPosition(PbW);

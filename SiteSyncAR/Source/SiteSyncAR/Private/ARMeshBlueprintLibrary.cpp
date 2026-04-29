@@ -214,6 +214,7 @@ bool UARMeshBlueprintLibrary::CalculateCutFillVolumes(UProceduralMeshComponent* 
                                                       float& OutCutCubicYards,
                                                       float& OutFillCubicYards)
 {
+	UE_LOG(LogSiteSyncAR, Warning, TEXT("CalculateCutFillVolumes: invoked"));
 	using namespace SiteSyncARVolume;
 
 	OutCutCubicYards = 0.0f;

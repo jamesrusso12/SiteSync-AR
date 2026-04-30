@@ -223,7 +223,7 @@ Digital foundation anchoring — user places a rectangular pad on the LiDAR-trac
 - `Materials/M_MarkerDebug.uasset` — translucent yellow unlit, 0.85 opacity
 - `Blueprints/BP_TapMarker.uasset` — 5cm sphere, `M_MarkerDebug`
 - `Blueprints/BP_Foundation.uasset` — static mesh cube (`M_FoundationDebug`) with `InitFromCorners(A, B)` function; uses Math Expression nodes for center `(A+B)/2`, delta `B-A`, yaw `atan2(Y,X)*57.29578`, length `sqrt(X²+Y²)/100`, width `WidthCm/100`, thickness `abs(V)/100`
-- `Input/IA_TapPlace.uasset` — Axis2D IA (returns tap screen coords in pixels)
+- `Input/IA_TapPlace.uasset` — **Digital (bool)** IA, single `Pressed` trigger. Was Axis2D in early Node 1.3 work but `Pressed` trigger LATCHES on Axis2D + iOS touch (Touch1.X/Y don't reset to (0,0) on finger release, so magnitude stays > actuation threshold and Pressed never re-arms — only first tap fires). Tap screen coords come from `GetInputTouchState(Touch1)` separately, not from this IA's ActionValue, so changing Value Type to Digital is graph-safe.
 - `Input/IMC_Placement.uasset` — maps `Touch 1` → `IA_TapPlace`
 - `Blueprints/BP_ARPlayerController.uasset` — owns `IMC_Placement` via EnhancedInputLocalPlayerSubsystem on BeginPlay; `IA_TapPlace (Started)` drives the state machine: Is Valid(ActiveFoundation) → reset, else tap state. Calls `GetWorldLocationFromTap(ScreenLocation) → WorldLocation, Hit` via `LineTraceTrackedObjects`. Vars: `bHasFirstTap`, `FirstTapLocation`, `MarkerA`, `MarkerB`, `ActiveFoundation`, `TapMarkerClass`, `FoundationClass`, `PlacementContext`.
 - `Blueprints/BP_ARGameMode.uasset` — `GameModeBase` subclass with `PlayerControllerClass = BP_ARPlayerController`

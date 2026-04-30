@@ -2,6 +2,18 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-04-29 — IA_TapPlace must be Digital (bool), NOT Axis2D, on iOS
+
+EnhancedInput's `Pressed` trigger latches on Axis2D + iOS touch. Symptom: first tap fires the IA event normally, every subsequent tap is silently dropped (event handler doesn't run at all). Marker A spawns, Marker B never does. ~12 deploy cycles burned diagnosing this through layers of red herrings (BP wire severance, IsValid macro corruption, C++ silent crash hypothesis, BP_ARPlayerController BeginPlay regression, etc.) before Print String diagnostics on every branch of the tap state machine proved that the IA event itself was firing exactly once per app session.
+
+**Why it latches:** UE's `Pressed` trigger fires when the input value's magnitude crosses the actuation threshold (~0.5) from below. For Axis2D with iOS Touch1, the value is the screen coordinate. iOS does NOT reset `Touch1.X/Y` to (0,0) on finger release — those coordinates retain the last touched position. So magnitude `sqrt(x² + y²)` stays at e.g. 583px after a (300, 500) tap. Pressed sees the input as "still actuated" and never re-arms. The "is currently pressed" digital state IS reset on iOS — Digital(bool) value type uses that signal directly and re-arms cleanly per tap.
+
+**Fix (commit pending):** Open `Content/Input/IA_TapPlace`, change Value Type from `Axis2D` to `Digital (bool)`. Keep the single `Pressed` trigger. No other changes — the BP graph reads tap screen coords via `GetInputTouchState(Touch1)` separately, not from the IA's `ActionValue` pin (which is unconnected in BP_ARPlayerController per direct graph inspection of K2Node_EnhancedInputAction_0 ActionValue PinId=9C2E8DA7).
+
+**How to apply:** Any future iOS touch IA that uses a `Pressed` trigger and only needs "did the user tap?" semantics MUST be Digital(bool). Use Axis2D only when the BP actually needs the screen coordinates from the IA itself, AND configure with a `Tap` or `Released` trigger instead of `Pressed`. The `Tap` trigger is also a safe alternative for single-tap detection on Axis2D — it requires a complete down-and-up cycle within a time threshold.
+
+**Symptom shortcut for future debugging:** if Print String diagnostics on the IA event handler fire exactly ONCE per app session and never again on subsequent taps, before going down BP-graph rabbit holes, check the IA's Value Type. Latched-Pressed-on-Axis2D is the most likely cause on iOS.
+
 ## 2026-04-28 — UnrealMCP "half-broken" was a stale plugin DLL (H1), not a config conflict (H2)
 
 Symptom set on PC: `delete_blueprint_node` returned `"Unknown command: delete_blueprint_node"`, `delete_actor` and `find_actors_by_name` returned `"Actor not found"` / `[]` for actors that `get_actors_in_level` had just listed. Investigation followed the two-hypothesis protocol — H2 (user-scope config override) checked first since it's the cheapest test; H1 (binary stale relative to `fec1af2`) confirmed second.

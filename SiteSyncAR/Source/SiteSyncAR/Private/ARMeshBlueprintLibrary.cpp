@@ -227,10 +227,12 @@ bool UARMeshBlueprintLibrary::CalculateCutFillVolumes(UProceduralMeshComponent* 
 		return false;
 	}
 
-	// BP_Foundation visually scales SlabMesh.RelativeScale3D (in meters) — actor
-	// scale itself stays at (1,1,1). Read SlabMesh's relative scale to get the
-	// real placed dimensions. Falls back to actor scale if no SlabMesh found.
-	FVector ScaleMeters = FoundationActor->GetActorScale3D();
+	// BP_Foundation may set the slab dimensions as either ACTOR scale or
+	// SlabMesh component relative scale (or both, depending on InitFromCorners
+	// wiring). Effective world scale of the slab visual = actor scale ×
+	// component relative scale, so multiply both sources to be wiring-agnostic.
+	const FVector ActorScale = FoundationActor->GetActorScale3D();
+	FVector ScaleMeters = ActorScale;
 	UStaticMeshComponent* SlabMesh = nullptr;
 	{
 		TArray<UStaticMeshComponent*> SMs;
@@ -244,7 +246,7 @@ bool UARMeshBlueprintLibrary::CalculateCutFillVolumes(UProceduralMeshComponent* 
 			}
 		}
 		if (!SlabMesh && SMs.Num() > 0) SlabMesh = SMs[0];
-		if (SlabMesh) ScaleMeters = SlabMesh->GetRelativeScale3D();
+		if (SlabMesh) ScaleMeters = ActorScale * SlabMesh->GetRelativeScale3D();
 	}
 
 	const float RawLengthCm = static_cast<float>(ScaleMeters.X) * 100.0f;

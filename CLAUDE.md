@@ -113,13 +113,13 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 | 1.1 | Source control, Git LFS, iOS config, plugin declarations | ✅ Complete |
 | 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Complete · device-validated end-to-end 2026-04-28 (post BP_ARPawn fix) |
 | 1.3 | Digital foundation anchoring with touch gesture placement | ✅ Complete · device-validated 2026-04-28 |
-| 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ✅ Device-validated v17 (2026-05-11) · v18 HUD cleanup pushed pending visual verification |
+| 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ✅ **Complete** · v20 device-validated 2026-05-11 (5 reset cycles · markers on mesh within ±3cm · all 4 log success patterns confirmed) |
 
 ### Phase 2 — 1:1 BIM Clash Overlay
 
 | Node | Description | Status |
 |---|---|---|
-| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ⏳ Pending |
+| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🔜 **Next** |
 | 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ⏳ Pending |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
@@ -473,19 +473,24 @@ Issue B was the "virtual content drifts with the camera" bug: cyan LiDAR mesh, y
 
 ## Immediate Next Actions (current, 2026-05-11)
 
-**Node 1.4 is substantively done.** v17 device-validated end-to-end (2026-05-11); v18 HUD cleanup pushed (commit `838abf6`) pending visual verification on device.
+**Node 1.4 is CLOSED.** v20 device-validated end-to-end (2026-05-11, commit `af4c2ec`). All four success patterns confirmed in device log:
 
-### Pending in-flight
+- `Tap Fired` = 16 events across 5 reset cycles, no post-reset death (Bug A fixed via Tick rising-edge bypassing EnhancedInput)
+- `RaycastTerrainFromScreen: hit at` = 10 events, Z-cluster -111.3 to -113.9 cm (2.6 cm spread on the floor mesh — Bug 3 fixed)
+- `InitFoundationFromCorners` = 5 spawns, slab lengths 67-304 cm proportional to taps, W=100 cm and T=10 cm consistent
+- `Path: MarkerA (HasFirstTap=false)` correctly follows every `Path: Reset` — reset/replace loop is breakable indefinitely
 
-1. **Mac v18 cook + stage + install** — pull `838abf6`, redeploy, confirm HUD shows only WBP_VolumeReadout cut/fill (no stacked diagnostic text). Mac Prompt already issued this session.
-2. **Visual confirmation** of the two known on-screen "Hello" diagnostics from BP_Foundation (Recalc tick + Cast FAILED). Acceptable for now; silence in v19 if annoying.
+Phase 1 is complete. Moving to Phase 2 — Datasmith ingestion (Node 2.1).
 
-### Node 1.4 future polish (deferred, not blocking Node 2.1)
+### Node 1.4 future polish (deferred to Node 1.5, not blocking Node 2.1)
 
-- **C++ raycast against raw `ARMeshGeometry` triangles** in place of `LineTraceTrackedObjects` for non-planar terrain accuracy. Current BP plane-trace is fine for indoor floor demo but won't handle uneven outdoor terrain cleanly. Expose as `BlueprintCallable`, swap into `BP_ARPlayerController.GetWorldLocationFromTap`.
-- **Datum offset slider** in WBP_VolumeReadout. Shifts `slabBottomZ_cm` by ±5m for as-built grade vs design subgrade comparison. Node 1.5 scope.
-- **Delete dead `BP_Foundation.InitFromCorners` function** — replaced by C++ `InitFoundationFromCorners` (commit `52b905e`). BP function still exists as dead code.
-- **Silence or rename the two on-screen "Hello" diagnostics** — Recalc tick and Cast FAILED PrintStrings in BP_Foundation. `InString` defaulted to `"Hello"` because the MCP `params` arg used to create them didn't actually set the text. Fix by editing `InString` to meaningful text + clearing `bPrintToScreen` for log-only.
+- **Datum offset slider** in WBP_VolumeReadout. Shifts `slabBottomZ_cm` by ±5m for as-built grade vs design subgrade comparison.
+- **Width / thickness sliders** on the HUD. Right now both are baked at the BP node pin (W=100 cm, T=10 cm). Real construction estimating needs runtime adjustment.
+- **Spot elevation / slope readouts** at marker positions. Z values are already captured (visible in `InitFoundationFromCorners` log lines) — just need WBP widget fields.
+- **Delete dead BP code**: `BP_Foundation.InitFromCorners` (replaced by C++ `InitFoundationFromCorners` in commit `52b905e`), `IA_TapPlace` + `IMC_Placement` assets (replaced by Tick rising-edge in v20).
+- **AABB cull before Möller-Trumbore** in `RaycastTerrainFromScreen` if scan size grows past current ~150k tris. Currently <10ms per tap, acceptable.
+- **Triangle skip cap** in `CalculateCutFillVolumes` — currently hits the 250k cap routinely, skipping ~140k tris per pass. Add per-section AABB filter to limit work to triangles inside the slab footprint.
+- **Surface classification visualization** — ARKit anchors are tagged (floor/wall/ceiling/table). Could color-code the cyan mesh to make the scan more readable.
 
 ### Volume math spec reference (implemented in C++ `CalculateCutFillVolumes`)
 

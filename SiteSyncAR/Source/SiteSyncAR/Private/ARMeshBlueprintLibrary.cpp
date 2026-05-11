@@ -406,3 +406,47 @@ Done:
 	       TrianglesProcessed, TrianglesSkipped, OutCutCubicYards, OutFillCubicYards);
 	return true;
 }
+
+bool UARMeshBlueprintLibrary::InitFoundationFromCorners(AActor* FoundationActor,
+                                                         FVector CornerA,
+                                                         FVector CornerB,
+                                                         float WidthCm,
+                                                         float ThicknessCm)
+{
+	if (!FoundationActor)
+	{
+		UE_LOG(LogSiteSyncAR, Warning, TEXT("InitFoundationFromCorners: null FoundationActor"));
+		return false;
+	}
+
+	const float ClampedWidthCm = FMath::Clamp(WidthCm, 50.0f, 5000.0f);
+	const float ClampedThicknessCm = FMath::Clamp(ThicknessCm, 5.0f, 50.0f);
+
+	const FVector Center = (CornerA + CornerB) * 0.5;
+	const FVector Delta = CornerB - CornerA;
+
+	const float DeltaXY = FMath::Sqrt(static_cast<float>(Delta.X * Delta.X + Delta.Y * Delta.Y));
+	const float LengthCm = FMath::Clamp(DeltaXY, 50.0f, 5000.0f);
+	const float YawDeg = FMath::RadiansToDegrees(FMath::Atan2(Delta.Y, Delta.X));
+
+	// Slab visual scale is interpreted in METERS (engine cube is 100cm at scale 1.0,
+	// so scale=N produces an N-meter side). CalculateCutFillVolumes reads back the
+	// same convention via ActorScale × SlabMesh.RelativeScale3D.
+	const FVector ScaleMeters(LengthCm / 100.0f,
+	                          ClampedWidthCm / 100.0f,
+	                          ClampedThicknessCm / 100.0f);
+
+	FoundationActor->SetActorLocation(Center);
+	FoundationActor->SetActorRotation(FRotator(0.0f, YawDeg, 0.0f));
+	FoundationActor->SetActorScale3D(ScaleMeters);
+
+	UE_LOG(LogSiteSyncAR, Warning,
+	       TEXT("InitFoundationFromCorners: A=(%.1f,%.1f,%.1f) B=(%.1f,%.1f,%.1f) center=(%.1f,%.1f,%.1f) yaw=%.1f° L=%.1fcm W=%.1fcm T=%.1fcm scale_m=(%.3f,%.3f,%.3f)"),
+	       CornerA.X, CornerA.Y, CornerA.Z,
+	       CornerB.X, CornerB.Y, CornerB.Z,
+	       Center.X, Center.Y, Center.Z,
+	       YawDeg, LengthCm, ClampedWidthCm, ClampedThicknessCm,
+	       ScaleMeters.X, ScaleMeters.Y, ScaleMeters.Z);
+
+	return true;
+}

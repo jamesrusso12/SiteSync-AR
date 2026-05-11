@@ -44,4 +44,16 @@ public:
 	                                    AActor* FoundationActor,
 	                                    float& OutCutCubicYards,
 	                                    float& OutFillCubicYards);
+
+	// Places FoundationActor as an edge-aligned slab spanning CornerA → CornerB (long edge),
+	// with the given width and thickness. Sets actor location (midpoint), yaw rotation
+	// (atan2(deltaY, deltaX)), and scale3D in meters — replacing the fragile BP exec chain
+	// in BP_Foundation.InitFromCorners. WidthCm / ThicknessCm are clamped to [50,5000] /
+	// [5,50] respectively. Returns false on null actor.
+	UFUNCTION(BlueprintCallable, Category = "SiteSync|Foundation")
+	static bool InitFoundationFromCorners(AActor* FoundationActor,
+	                                      FVector CornerA,
+	                                      FVector CornerB,
+	                                      float WidthCm = 500.0f,
+	                                      float ThicknessCm = 10.0f);
 };

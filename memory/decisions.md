@@ -2,6 +2,62 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-11 — EnhancedInput IA_TapPlace abandoned for iOS taps in favor of Tick rising-edge poll
+
+v19 (commit `9dc54b2`) restored the Tick → GetInputTouchState poll thinking that would keep IA_TapPlace.Started alive. v19 device log: **102 `Touch ACTIVE` prints + 4+ distinct post-reset tap attempts, ZERO `Tap Fired` events**. The Tick chain proved the touch queue was flowing — `bIsCurrentlyPressed` was correctly toggling — but the EnhancedInput subsystem still refused to re-fire `IA_TapPlace.Started` after a state transition (specifically, after `Path: Reset → ResetPlacement → ActiveFoundation=null`).
+
+**Workaround attempts that all failed:** changing Value Type (2026-04-29 fix), changing trigger from Pressed → Tap, restoring the Tick poll (v19), Refresh All Nodes on the BP. None made IA_TapPlace.Started re-arm post-reset. EnhancedInput's trigger state machine appears irrecoverable after certain state transitions on iOS — the underlying cause is in the Engine, not our BP.
+
+**v20 fix:** abandon IA_TapPlace entirely. Implement tap detection in Event Tick via rising-edge poll on a `bWasPressed` Boolean variable:
+
+```
+Event Tick → Sequence
+  .then_0 → Branch(bIsCurrentlyPressed AND NOT bWasPressed) → Tap Fired (existing state machine downstream)
+  .then_1 → SET bWasPressed ← bIsCurrentlyPressed
+```
+
+The Sequence order matters: `.then_0` reads the PREVIOUS frame's `bWasPressed` to detect the rising edge, then `.then_1` updates `bWasPressed` for next frame. IA_TapPlace.Started link broken via right-click → Break Link. IA asset + IMC_Placement asset remain in the project as dead code for Node 1.5 cleanup.
+
+**How to apply:** when iOS EnhancedInput stops firing IA events but `GetInputTouchState` shows touches arriving in the Tick log, **do not chase IA trigger configurations**. Implement Tick polling and move on. Long-term, consider removing IA_TapPlace + IMC_Placement assets and the BeginPlay `AddMappingContext` call.
+
+## 2026-05-11 — RaycastTerrainFromScreen (C++ Möller-Trumbore) replaces LineTraceTrackedObjects for marker placement
+
+Bug 3 from the original Node 1.4 handoff (decisions.md 2026-04-24) finally closed. `LineTraceTrackedObjects` hits ARKit plane anchors, not raw mesh triangles — plane anchors sit ~5-30cm above the actual scanned surface on uneven terrain (worse on outdoor sites). Markers visibly floated above the cyan LiDAR mesh in v15-v19.
+
+**Mac C++ helper (commit `ae629f9`):** `URaycastTerrainFromScreen(APlayerController*, UProceduralMeshComponent* TerrainMesh, FVector2D ScreenPosition, FVector& OutHitLocation, FVector& OutHitNormal) → bool`. Möller-Trumbore ray-tri intersection against the live `TerrainMesh` ProcMeshSections (the same mesh `BP_LiDARMeshManager` rebuilds every 200ms from ARKit mesh anchors). Returns nearest-along-ray hit world location. UE_LOG line: `RaycastTerrainFromScreen: hit at (X,Y,Z)`.
+
+**Performance:** ~150k triangles per typical AR scene, <10ms per tap on iPhone 16 Pro. No AABB cull yet — Node 1.5 polish if outdoor scenes push tri count higher.
+
+**BP wiring inside `GetWorldLocationFromTap` function body (v20):**
+```
+Input(ScreenLocation).exec → Get Actor Of Class(BP_LiDARMeshManager).exec → Raycast Terrain From Screen.exec → Return Node
+  Get Player Controller(Index=0).Return Value → Raycast.Player Controller
+  Get Actor Of Class.Return Value → Get Component By Class(ProceduralMeshComponent).Target
+  Get Component By Class.Return Value → Raycast.Terrain Mesh
+  Input.ScreenLocation → Raycast.Screen Position
+  Raycast.Out Hit Location → Return.WorldLocation
+  Raycast.Return Value → Return.bHit
+```
+
+**Gotcha:** `Get Actor Of Class` is impure in UE 5.6 and has no "Convert to Pure" context-menu option. Must be wired into the exec chain (between Input and Raycast) — not just connected via pure data wires. Otherwise BP compile warns `"Get Actor Of Class was pruned because its Exec pin is not connected"` and the actor lookup returns the default value (null), making the raycast silently miss.
+
+`Out Hit Normal` left unconnected — reserved for future surface-alignment work (rotating the marker to face the local terrain normal).
+
+## 2026-05-11 — `probe_post_rebuild.py` uses fixed actor name `MCP_FixCheck_01`, do not call in a loop
+
+While waiting for the editor to come up I used a Monitor loop running `probe_post_rebuild.py` to detect MCP readiness. The script spawns `StaticMeshActor` named `MCP_FixCheck_01`, then deletes it. If the editor becomes responsive mid-poll, the first iteration succeeds in spawning; before the delete fires on the next probe call, a second iteration tries to spawn another `MCP_FixCheck_01` and UE5.6 raises a **fatal** assertion:
+
+```
+Cannot generate unique name for 'MCP_FixCheck_01' in level 'Level /Game/SiteSync.SiteSync:PersistentLevel'
+[Callstack] UnrealEditor-UnrealMCP.dll!FUnrealMCPEditorCommands::HandleSpawnActor() [...UnrealMCPEditorCommands.cpp:186]
+```
+
+The editor crashes immediately, no recovery dialog. SiteSync.umap was not corrupted (the crash happens before save), but the session is dead — must relaunch.
+
+**Don't use that script in a polling loop.** Either: (a) just sleep a fixed timeout and let James confirm editor-ready, (b) write a different probe script that uses a random actor-name suffix, or (c) use a probe that doesn't spawn anything (e.g. just `get_actors_in_level` returns success-with-zero-keys once MCP is up).
+
+**For future Monitor strategies:** prefer probes that are idempotent under repetition. Anything with a fixed-name side effect crashes on the second hit.
+
 ## 2026-05-11 — BP_ARPlayerController Tick → GetInputTouchState poll is load-bearing on iOS, do not delete
 
 v18 (commit `838abf6`) deleted BP_ARPlayerController's `Event Tick → ExecutionSequence → Branch → GetInputTouchState → PrintString "Touch ACTIVE"` chain on the assumption it was diagnostic-only. v18 device log proved it was actually pumping the iOS touch queue:

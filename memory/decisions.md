@@ -2,6 +2,21 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-11 — BP_ARPlayerController Tick → GetInputTouchState poll is load-bearing on iOS, do not delete
+
+v18 (commit `838abf6`) deleted BP_ARPlayerController's `Event Tick → ExecutionSequence → Branch → GetInputTouchState → PrintString "Touch ACTIVE"` chain on the assumption it was diagnostic-only. v18 device log proved it was actually pumping the iOS touch queue:
+
+- v17 device log: Tap 4 (post-reset MarkerA) fires correctly. "Tap Fired" event prints every tap.
+- v18 device log: Tap 4 never fires. Zero `Tap Fired` events in the 8 seconds after `Path: Reset` before the app backgrounded. Foundation IS destroyed (`CalculateCutFillVolumes` call count drops to 0 after reset, confirming `ResetPlacement` worked), but `IA_TapPlace.Started` doesn't re-arm — same latching family as the 2026-04-29 Axis2D bug, but on a different cause.
+
+**Root cause.** Per the 2026-04-29 entry, iOS does NOT clear `Touch1.X/Y` on finger release. EnhancedInput's `Pressed`/`Tap` triggers on `IA_TapPlace` rely on something inside UE driving the touch-state queue every frame. The Tick chain's `GetInputTouchState(Touch1)` call was performing exactly that drive — incidentally, not deliberately. Without it, the EnhancedInput subsystem's view of `bIsCurrentlyPressed` goes stale between taps and the trigger doesn't re-edge.
+
+**Fix.** Restore the v17 chain with `bPrintToScreen = false` so the HUD stays clean (post-v18 spam cleanup intent). `bPrintToLog` stays on for device-log verification of the v19 build.
+
+**How to apply.** Every active `APlayerController` (BP or C++) that consumes iOS Enhanced Input touches MUST contain a per-frame `GetInputTouchState` call. A log-only PrintString downstream is fine — the load-bearing thing is the call itself, not the print. Future cleanups must NOT delete this chain even if it looks like dead diagnostic code. Long-term fix is to rewire tap detection to a rising-edge Tick poll bypassing EnhancedInput entirely (Node 1.5 polish scope).
+
+**Symptom shortcut.** If `IA_TapPlace` (or any iOS Enhanced Input action) fires the first 1–N times then goes silent — and Value Type is already `Digital (bool)` per the 2026-04-29 fix — check whether the active PlayerController has a Tick → GetInputTouchState call. Missing pump is the next most likely cause after stale Value Type.
+
 ## 2026-05-11 — Session lessons: MCP toolkit limits + cook-time silent BP fallback + Win64 rebuild discipline
 
 Session covered v7→v8 regression fix and v17 WidthCm/ResetPlacement fix on PC. Four lessons worth not re-learning.

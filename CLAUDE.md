@@ -113,7 +113,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 | 1.1 | Source control, Git LFS, iOS config, plugin declarations | ✅ Complete |
 | 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Complete · device-validated end-to-end 2026-04-28 (post BP_ARPawn fix) |
 | 1.3 | Digital foundation anchoring with touch gesture placement | ✅ Complete · device-validated 2026-04-28 |
-| 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Pending |
+| 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ✅ Device-validated v17 (2026-05-11) · v18 HUD cleanup pushed pending visual verification |
 
 ### Phase 2 — 1:1 BIM Clash Overlay
 
@@ -234,6 +234,72 @@ PIE can't exercise this — `Start AR Session` returns false on Windows, so `Lin
 
 ### Gate to Node 1.4
 Tap twice in an AR session on device → orange translucent slab appears spanning the two taps, rotated to the tap vector, sitting on the LiDAR-tracked surface. Third tap removes it. 60fps maintained.
+
+---
+
+## What Was Built in Node 1.4
+
+Volumetric cut-and-fill cubic yardage output. Computes earthwork volumes between the LiDAR-tracked terrain and the slab subgrade plane, displays results in an AR-overlay HUD.
+
+### C++ (committed to origin/main)
+
+`Source/SiteSyncAR/Public/ARMeshBlueprintLibrary.h` + `Private/ARMeshBlueprintLibrary.cpp` added two `BlueprintCallable` UFUNCTIONs:
+
+- **`CalculateCutFillVolumes(TerrainMesh, FoundationActor, OutCutCubicYards, OutFillCubicYards) → bool`** — earthwork math. Reference plane = slab BOTTOM face = `FoundationActor.GetActorLocation().Z − (SlabThicknessCm / 2)`. Iterates `ProceduralMeshComponent` triangles, projects each into the slab's local XY frame, clips to `[-Length/2, +Length/2] × [-Width/2, +Width/2]`, signed-Z-integrates against the plane. Cut = volume above. Fill = empty space below + above-plane terrain that's UNDER the slab (subgrade-fill convention). Unit conversion: cm³ → yd³ via `÷ 764554.858` (`91.44³`, NOT `÷27` — that's ft³→yd³). FoundationActor scale is interpreted as full extent in meters per `InitFromCorners` convention; multiplied by 100 internally for cm. Returns false on null inputs or zero scale on any axis. Logs `"CalculateCutFillVolumes: scale=(...)m"` at `Warning` level so it appears in default-verbosity device logs.
+
+- **`InitFoundationFromCorners(FoundationActor, CornerA, CornerB, WidthCm, ThicknessCm) → bool`** — slab placement in C++, added 2026-05-11 (commit `52b905e`). Replaces the fragile BP exec chain in `BP_Foundation.InitFromCorners` that was leaving slab scale at (1,1,1). Sets actor location (midpoint of A→B), yaw (`atan2(deltaY, deltaX)`), and `SetActorScale3D` in meters. `WidthCm` clamped to [50, 5000], `ThicknessCm` to [5, 50]. Logs `"InitFoundationFromCorners: A=... B=... yaw=... L=... W=... T=... scale_m=(...)"` at `Warning` level. BP_ARPlayerController calls this after `SpawnActor BP_Foundation` instead of running the BP `InitFromCorners` math chain. The BP function still exists but is dead code; safe to remove in a future cleanup.
+
+### BP changes — `BP_ARPlayerController.uasset`
+
+- **Tap state machine** on `IA_TapPlace.Started` exec (Pressed trigger):
+  - `IsValid(ActiveFoundation)` → valid: `ResetPlacement` function (destroys + nulls all 3 actor refs + clears `bHasFirstTap`). NotValid: continue.
+  - `GetWorldLocationFromTap(ScreenLocation)` → traces via `LineTraceTrackedObjects`. (C++ raycast against raw `ARMeshGeometry` triangles is deferred — current BP plane-trace works for indoor floor demo.)
+  - `Branch(bHit)` → true: `Branch(bHasFirstTap)` → false: spawn MarkerA + SET FirstTapLocation + SET bHasFirstTap=true. true: spawn MarkerB + spawn BP_Foundation + call `InitFoundationFromCorners(NewFoundation, FirstTapLocation, SecondTapLocation, WidthCm=100, ThicknessCm=10)` + SET ActiveFoundation + SET bHasFirstTap=false.
+  - `InitFoundationFromCorners.WidthCm` pin = **100cm** (NOT 500cm). Indoor taps at ~30–100cm spacing produce a slab proportional to marker spacing instead of a 5m strip overflowing the room. Bump back to 500 for outdoor construction-site testing.
+- **BeginPlay** on the controller wires `IMC_Placement` via `EnhancedInputLocalPlayerSubsystem.AddMappingContext`, then `CreateWidget(WBP_VolumeReadout) → SET HUDWidget → AddToViewport`. No Event Tick override (stripped in v18 cleanup).
+
+### BP changes — `BP_Foundation.uasset`
+
+- **Class Defaults:** `SlabThicknessCm = 10`, `WidthCm = 500`, `CornerA = CornerB = (0,0,0)`, `CachedReadout = None`. `Initial Life Span = 0` (immortal). `SlabMesh.Mobility = Movable`, `SlabMesh.Simulate Physics = false`, `SlabMesh.Collision Presets = NoCollision`.
+- **BeginPlay chain:** `Cast to BP_ARPlayerController → SET CachedReadout = (cast).HUDWidget → Delay 1.0 → recalc loop body`. Loop body: `GetActorOfClass(BP_LiDARMeshManager) → GetComponentByClass(ProceduralMeshComponent) → CalculateCutFillVolumes(TerrainMesh, Self) → SET CutCubicYards / SET FillCubicYards → IsValid(CachedReadout) → SetCutText / SetFillText → loop back to Delay`. The Cast Failed branch wires to a `BP_Foundation Cast FAILED` PrintString (log-only would be cleaner; currently still on-screen — see Known minor diagnostics below).
+- **`InitFromCorners(A, B)` function** — still exists in BP but is dead code as of v17. BP_ARPlayerController calls the C++ `InitFoundationFromCorners` instead. Safe to delete in a future cleanup.
+- **`ResetPlacement` function** — three IsValid-guarded blocks (ActiveFoundation, MarkerA, MarkerB), each: `IsValid → DestroyActor → SET to None → next block`. Final node: `SET bHasFirstTap = false`. v17 fix wired `SET MarkerB.then → SET bHasFirstTap.execute` (via two reroute knots) so the "MarkerB was valid" reset path converges on `bHasFirstTap=false` instead of leaving the flag latched. Both valid- and not-valid paths through Block C now end at the bHasFirstTap clear.
+
+### BP changes — `WBP_VolumeReadout.uasset`
+
+UMG widget that displays Cut and Fill values in cubic yards over the AR view. Two TextBlocks (`CutText`, `FillText`) inside a `SafeZone` wrapping a `VerticalBox` (auto-respects iPhone notch). Font size 28pt for outdoor readability. `SetCutText(float)` and `SetFillText(float)` are `BlueprintCallable` graph functions that update the text via the push pattern (NOT data binding — see decisions.md 2026-04-29 on the binding-vs-push tradeoff). BP_Foundation calls these once per recalc tick.
+
+### IA_TapPlace + IMC_Placement config
+
+- `IA_TapPlace.uasset`: **Value Type = Digital (bool)**, single `Pressed` trigger. NOT `Axis2D` — see decisions.md 2026-04-29 on the iOS Axis2D + Pressed latching bug. Tap screen coords come from `GetInputTouchState(Touch1)` separately, not from this IA's ActionValue.
+- `IMC_Placement.uasset`: maps `Touch 1 → IA_TapPlace` with no per-mapping trigger (uses the IA-level Pressed trigger).
+
+### Diagnostic cleanup (v18, commit `838abf6`, 2026-05-11)
+
+After v17 validated the full chain end-to-end on device, the on-screen HUD was cluttered with diagnostic text accumulated during the v15–v17 bug hunt. v18 stripped them:
+
+- Deleted: `BP_ARPlayerController` Event Tick → ExecutionSequence → Branch → GetInputTouchState → PrintString "Touch ACTIVE" probe (per-frame iOS-touch-delivery diagnostic, no longer needed).
+- Routed to log-only (`bPrintToScreen → false`, `bPrintToLog` kept `true`): seven `IA_TapPlace`-path PrintStrings (`Tap Fired`, `Path: Reset`, `Path: NotValid`, `bHit OK`, `bHit MISS`, `Path: MarkerA (HasFirstTap=false)`, `Path: MarkerB (HasFirstTap=true)`).
+- Deleted: BP_Foundation BeginPlay-chain `"Hello"` PrintString between `SET CachedReadout` and `Delay`.
+
+### Known minor diagnostics still on-screen
+
+Two `BP_Foundation` PrintStrings remain visible on device, both with `InString="Hello"` (default — the MCP `params` arg that should have set custom text didn't take when they were created earlier this session):
+
+- **Recalc tick** — fires at 1Hz from inside the recalc loop body. Tells us the loop is running.
+- **Cast FAILED** — fires only if `Cast to BP_ARPlayerController` fails on BeginPlay. Rare in practice.
+
+Both are functional diagnostics worth keeping in v18 to confirm v17 fixes hold. Silence them (or rename `InString`) in a future cleanup if they become noise.
+
+### Device validation milestones
+
+- **v16 (2026-05-11):** Mac added `InitFoundationFromCorners` C++. Device log shows `InitFoundationFromCorners: yaw=82.8° L=50.0cm W=500.0cm T=10.0cm scale_m=(0.500,5.000,0.100)` and `CalculateCutFillVolumes: scale=(0.500,5.000,0.100)m` with non-zero cut/fill. **1m³ phantom slab bug killed.**
+- **v17 (2026-05-11):** WidthCm pin 500→100 + ResetPlacement convergence wire. Indoor 30–100cm taps produce a slab proportional to marker spacing. Third tap clears slab; fourth tap fires fresh first-tap branch with `bHasFirstTap=false`. `CalculateCutFillVolumes` call count drops to zero after reset (foundation really destroyed, not orphaned ref). **Third-tap reset loop killed.** Full Node 1.4 chain device-validated end-to-end.
+- **v18 (2026-05-11):** HUD spam cleanup pushed (commit `838abf6`). Pending visual verification on device that the WBP_VolumeReadout cut/fill numbers are the only on-screen text.
+
+### Gate to Node 2.1
+
+Indoor: 2 taps within ~30–100cm produce a flat slab proportional to tap distance (`L × 1m × 10cm`). Cut and fill cubic-yard values appear in the HUD widget. Third tap clears slab + markers. Fourth tap fires a fresh "first tap" branch (MarkerA spawn). Loop is breakable indefinitely without jetsam or crash. 60fps maintained.
 
 ---
 
@@ -405,27 +471,30 @@ Issue B was the "virtual content drifts with the camera" bug: cyan LiDAR mesh, y
 
 ---
 
-## Immediate Next Actions (current, 2026-04-28)
+## Immediate Next Actions (current, 2026-05-11)
 
-**Node 1.4 — Volumetric cut-and-fill cubic yardage output.** Three workstreams:
+**Node 1.4 is substantively done.** v17 device-validated end-to-end (2026-05-11); v18 HUD cleanup pushed (commit `838abf6`) pending visual verification on device.
 
-1. **C++ raycast helper against raw `ARMeshGeometry` triangles** for non-planar terrain accuracy. Expose as `BlueprintCallable`, swap into `BP_ARPlayerController.GetWorldLocationFromTap` in place of `LineTraceTrackedObjects`. (Deferred from Node 1.3 polish.)
-2. **Volume math** between the LiDAR mesh (`ProcMesh` sections in `BP_LiDARMeshManager.TerrainMesh`) and the foundation slab (`BP_Foundation`). Output cut + fill separately in cubic yards.
-3. **Minimal UMG widget overlay** to display the two scalars in the AR view.
+### Pending in-flight
 
-### Volume math spec (decided 2026-04-28 — see decisions.md)
+1. **Mac v18 cook + stage + install** — pull `838abf6`, redeploy, confirm HUD shows only WBP_VolumeReadout cut/fill (no stacked diagnostic text). Mac Prompt already issued this session.
+2. **Visual confirmation** of the two known on-screen "Hello" diagnostics from BP_Foundation (Recalc tick + Cast FAILED). Acceptable for now; silence in v19 if annoying.
 
-- **Reference plane = slab BOTTOM face** (subgrade elevation, the dirt-work convention used by AGTEK/Trimble/field graders).
-  ```
-  slabBottomZ_cm = ActiveFoundation.GetActorLocation().Z
-                   - (BP_Foundation.SlabThicknessCm / 2.0)
-  ```
-- **Cut volume** = terrain mesh volume **above** `slabBottomZ_cm`, clipped to the slab's XY footprint.
-- **Fill volume** = empty space **between** `slabBottomZ_cm` and the terrain **below** within the same footprint.
-- **Footprint clipping** in slab-local space: project each terrain triangle into `BP_Foundation`'s local XY, clip to `[-Length/2, +Length/2] × [-WidthCm/200, +WidthCm/200]` meters, then signed Z-integrate against the plane. Slab yaw is already baked into the local frame.
-- **Unit conversion:** UE works in cm; `1 yd³ = 91.44³ cm³ ≈ 764554.858 cm³`. Divide `cm³ / 764554.858` once → yd³. **No extra 27x** (that's the ft³→yd³ factor, not applicable here).
-- **User-set datum offset** is Node 1.5+ scope. Don't build it now.
+### Node 1.4 future polish (deferred, not blocking Node 2.1)
 
-### Outstanding side cleanups (not Node 1.4 blockers)
+- **C++ raycast against raw `ARMeshGeometry` triangles** in place of `LineTraceTrackedObjects` for non-planar terrain accuracy. Current BP plane-trace is fine for indoor floor demo but won't handle uneven outdoor terrain cleanly. Expose as `BlueprintCallable`, swap into `BP_ARPlayerController.GetWorldLocationFromTap`.
+- **Datum offset slider** in WBP_VolumeReadout. Shifts `slabBottomZ_cm` by ±5m for as-built grade vs design subgrade comparison. Node 1.5 scope.
+- **Delete dead `BP_Foundation.InitFromCorners` function** — replaced by C++ `InitFoundationFromCorners` (commit `52b905e`). BP function still exists as dead code.
+- **Silence or rename the two on-screen "Hello" diagnostics** — Recalc tick and Cast FAILED PrintStrings in BP_Foundation. `InString` defaulted to `"Hello"` because the MCP `params` arg used to create them didn't actually set the text. Fix by editing `InString` to meaningful text + clearing `bPrintToScreen` for log-only.
 
-- `MCP_TerrainProxy_1` through `_5` are still in `SiteSync.umap` from the 2026-04-21 MCP smoke test. Per the asset conventions section above they belong in `Content/MCP_TestScenes/` and aren't supposed to ship. Delete in a follow-up `chore:` commit.
+### Volume math spec reference (implemented in C++ `CalculateCutFillVolumes`)
+
+- Reference plane = slab BOTTOM face = `ActiveFoundation.GetActorLocation().Z − (SlabThicknessCm / 2)` (subgrade convention used by AGTEK / Trimble / field graders).
+- Cut = terrain volume above the plane, clipped to slab XY footprint.
+- Fill = empty space between the plane and terrain below within the same footprint.
+- Footprint clipping in slab-local space; slab yaw baked into the local frame.
+- Unit conversion: `cm³ ÷ 764554.858 → yd³` (NOT `÷27`).
+
+### Toward Node 2.1 — Datasmith ingestion pipeline
+
+Phase 2 starts here. Datasmith Direct Link from Revit/Rhino → UE5, mobile LODs, BIM model overlay in AR for clash detection. No code or assets in repo yet.

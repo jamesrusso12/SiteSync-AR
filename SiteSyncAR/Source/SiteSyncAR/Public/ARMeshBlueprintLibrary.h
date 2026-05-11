@@ -7,6 +7,7 @@
 class UARMeshGeometry;
 class UProceduralMeshComponent;
 class UMaterialInterface;
+class APlayerController;
 
 UCLASS()
 class SITESYNCAR_API UARMeshBlueprintLibrary : public UBlueprintFunctionLibrary
@@ -56,4 +57,17 @@ public:
 	                                      FVector CornerB,
 	                                      float WidthCm = 500.0f,
 	                                      float ThicknessCm = 10.0f);
+
+	// Casts a ray from the given screen position into the LiDAR terrain mesh and returns
+	// the world-space location of the nearest triangle hit (Möller-Trumbore). Replaces
+	// LineTraceTrackedObjects in BP_ARPlayerController.GetWorldLocationFromTap so marker
+	// placement lands on the actual scanned surface instead of the ARKit plane-anchor
+	// approximation (which can sit a few cm above the mesh).
+	// Returns false if no triangle is hit or inputs are invalid.
+	UFUNCTION(BlueprintCallable, Category = "SiteSync|AR")
+	static bool RaycastTerrainFromScreen(APlayerController* PlayerController,
+	                                     UProceduralMeshComponent* TerrainMesh,
+	                                     FVector2D ScreenPosition,
+	                                     FVector& OutHitLocation,
+	                                     FVector& OutHitNormal);
 };

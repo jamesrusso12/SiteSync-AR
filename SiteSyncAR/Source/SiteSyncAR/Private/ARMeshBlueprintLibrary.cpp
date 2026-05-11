@@ -3,6 +3,8 @@
 #include "ARTrackable.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/PlayerController.h"
+#include "Kismet/GameplayStatics.h"
 #include "Logging/LogMacros.h"
 #include "ProceduralMeshComponent.h"
 
@@ -449,4 +451,114 @@ bool UARMeshBlueprintLibrary::InitFoundationFromCorners(AActor* FoundationActor,
 	       ScaleMeters.X, ScaleMeters.Y, ScaleMeters.Z);
 
 	return true;
+}
+
+bool UARMeshBlueprintLibrary::RaycastTerrainFromScreen(APlayerController* PlayerController,
+                                                       UProceduralMeshComponent* TerrainMesh,
+                                                       FVector2D ScreenPosition,
+                                                       FVector& OutHitLocation,
+                                                       FVector& OutHitNormal)
+{
+	OutHitLocation = FVector::ZeroVector;
+	OutHitNormal = FVector::UpVector;
+
+	if (!PlayerController || !TerrainMesh)
+	{
+		UE_LOG(LogSiteSyncAR, Warning,
+		       TEXT("RaycastTerrainFromScreen: null PC=%p TerrainMesh=%p"),
+		       PlayerController, TerrainMesh);
+		return false;
+	}
+
+	FVector RayOrigin, RayDirection;
+	if (!UGameplayStatics::DeprojectScreenToWorld(PlayerController, ScreenPosition, RayOrigin, RayDirection))
+	{
+		UE_LOG(LogSiteSyncAR, Verbose, TEXT("RaycastTerrainFromScreen: deproject failed at (%.0f,%.0f)"),
+		       ScreenPosition.X, ScreenPosition.Y);
+		return false;
+	}
+
+	const FTransform CompToWorld = TerrainMesh->GetComponentTransform();
+
+	float NearestHitT = TNumericLimits<float>::Max();
+	FVector NearestHitLoc = FVector::ZeroVector;
+	FVector NearestHitNormal = FVector::UpVector;
+	bool bAnyHit = false;
+
+	constexpr float MaxRayLength = 50000.0f; // 500m — way more than any AR scene
+	constexpr float MinDet = 1e-6f;
+
+	int32 TrianglesTested = 0;
+
+	const int32 NumSections = TerrainMesh->GetNumSections();
+	for (int32 SectionIdx = 0; SectionIdx < NumSections; ++SectionIdx)
+	{
+		const FProcMeshSection* Section = TerrainMesh->GetProcMeshSection(SectionIdx);
+		if (!Section) continue;
+
+		const TArray<FProcMeshVertex>& Verts = Section->ProcVertexBuffer;
+		const TArray<uint32>& Indices = Section->ProcIndexBuffer;
+		const int32 NumVerts = Verts.Num();
+
+		for (int32 i = 0; i + 2 < Indices.Num(); i += 3)
+		{
+			const uint32 Ia = Indices[i + 0];
+			const uint32 Ib = Indices[i + 1];
+			const uint32 Ic = Indices[i + 2];
+			if (Ia >= (uint32)NumVerts || Ib >= (uint32)NumVerts || Ic >= (uint32)NumVerts) continue;
+
+			const FVector V0 = CompToWorld.TransformPosition(Verts[Ia].Position);
+			const FVector V1 = CompToWorld.TransformPosition(Verts[Ib].Position);
+			const FVector V2 = CompToWorld.TransformPosition(Verts[Ic].Position);
+
+			// Möller-Trumbore ray-triangle intersection
+			const FVector E1 = V1 - V0;
+			const FVector E2 = V2 - V0;
+			const FVector P = FVector::CrossProduct(RayDirection, E2);
+			const float Det = static_cast<float>(FVector::DotProduct(E1, P));
+			if (FMath::Abs(Det) < MinDet) continue;
+
+			const float InvDet = 1.0f / Det;
+			const FVector T = RayOrigin - V0;
+			const float U = static_cast<float>(FVector::DotProduct(T, P)) * InvDet;
+			if (U < 0.0f || U > 1.0f) continue;
+
+			const FVector Q = FVector::CrossProduct(T, E1);
+			const float Vv = static_cast<float>(FVector::DotProduct(RayDirection, Q)) * InvDet;
+			if (Vv < 0.0f || U + Vv > 1.0f) continue;
+
+			const float HitT = static_cast<float>(FVector::DotProduct(E2, Q)) * InvDet;
+			if (HitT < 0.0f || HitT > MaxRayLength) continue;
+
+			TrianglesTested++;
+
+			if (HitT < NearestHitT)
+			{
+				NearestHitT = HitT;
+				NearestHitLoc = RayOrigin + RayDirection * HitT;
+				FVector N = FVector::CrossProduct(E1, E2).GetSafeNormal();
+				// Flip normal toward the ray origin so callers always get a "face up"
+				// oriented normal regardless of triangle winding.
+				if (FVector::DotProduct(N, RayDirection) > 0.0f) N = -N;
+				NearestHitNormal = N;
+				bAnyHit = true;
+			}
+		}
+	}
+
+	if (bAnyHit)
+	{
+		OutHitLocation = NearestHitLoc;
+		OutHitNormal = NearestHitNormal;
+		UE_LOG(LogSiteSyncAR, Log,
+		       TEXT("RaycastTerrainFromScreen: hit at (%.1f,%.1f,%.1f) t=%.1f screen=(%.0f,%.0f) candidates=%d"),
+		       NearestHitLoc.X, NearestHitLoc.Y, NearestHitLoc.Z, NearestHitT,
+		       ScreenPosition.X, ScreenPosition.Y, TrianglesTested);
+		return true;
+	}
+
+	UE_LOG(LogSiteSyncAR, Verbose,
+	       TEXT("RaycastTerrainFromScreen: no triangle hit screen=(%.0f,%.0f) sections=%d"),
+	       ScreenPosition.X, ScreenPosition.Y, NumSections);
+	return false;
 }

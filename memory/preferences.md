@@ -2,6 +2,7 @@
 
 ## Response Format
 - Blueprint work → ordered node-by-node walkthroughs with pin types and connection order
+- **Identify Blueprint nodes by display name + variable/function reference** (e.g. "the `SET MarkerB` node", "the PrintString with InString 'Hello'", "the `IsValid` macro in Block C") — NOT by `NodePosX`/`NodePosY` coordinates from the .uasset text dump. Coordinates aren't visible in the editor UI; James locates nodes by reading their labels visually. Use coordinates ONLY as a last-resort tiebreaker when multiple nodes share the same display name AND can't be distinguished by their connected pins.
 - C++ → minimal files only; always show `BlueprintCallable` declaration alongside implementation
 - MCP prompts → copy-paste-ready natural language blocks
 - Every appended prompt block must carry a labeled header so James can route it at a glance:

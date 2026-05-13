@@ -2,6 +2,21 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-12 — DatasmithRuntime is desktop-only (Win/Mac); iOS not supported in any version through 5.7
+
+Earlier scoping in CLAUDE.md and Node 2.1 commit `88f98ba` framed DatasmithRuntime as a "Node 2.3 candidate" for runtime BIM loading on iPhone. Research pass on 2026-05-12 (Twinmotion + UE 5.6 deep dive) corrected this: per Epic's Datasmith Supported Platforms doc, DatasmithRuntime supports Windows + macOS only, with Linux experimental. **iOS and Android are not listed and have never been supported.** The "Beta" tag in the Plugins window refers to API maturity on desktop, not a path to mobile.
+
+**Implication for SiteSync AR Phase 2:** there is no future-state where the iPhone app loads `.udatasmith` files at runtime. All Datasmith work must happen at editor cook time on Mac/PC, baked to standard UStaticMesh / UMaterialInstance assets, then cooked through the normal iOS pipeline. The `DatasmithContent` plugin (different — handles cooked Datasmith *content*, not runtime parsing) is the only Datasmith-family runtime piece that ships to iOS.
+
+**Cook-time gotchas worth planning for** (not yet hit in our codebase):
+- Datasmith-imported materials default to Translucent + complex shading models that mobile FL5 mis-renders. Re-parent to mobile-compatible MIs at import time.
+- Datasmith meshes default Nanite-eligible in 5.5+. Per-mesh disable + auto-LOD. (Project-level Nanite already off in `Config/IOS/IOSEngine.ini`.)
+- First iOS cook of a real archviz/BIM model: hours, not minutes (DDC + shader-permutation compile).
+- Revit MEP models are 5–50M tris; iPhone 16 Pro AR wants <500k visible. Plan a Dataprep decimation + material-merge recipe between raw `.udatasmith` and shipped iOS content.
+- **Datasmith Twinmotion Content** plugin for UE 5.6 must be verified published on Fab before using Twinmotion as archviz front-end — historically lags engine releases by months. If absent, Twinmotion materials arrive broken in the project.
+
+**How to apply:** any Phase 2 design discussion that posits "user loads a `.udatasmith` on device" or "live Direct Link from Revit to the iPhone" is impossible — redirect to the cook-time pipeline. The runtime BIM-loading idea reappears every few months in Datasmith roadmap discussions; check the linked Epic doc before re-litigating.
+
 ## 2026-05-11 — EnhancedInput IA_TapPlace abandoned for iOS taps in favor of Tick rising-edge poll
 
 v19 (commit `9dc54b2`) restored the Tick → GetInputTouchState poll thinking that would keep IA_TapPlace.Started alive. v19 device log: **102 `Touch ACTIVE` prints + 4+ distinct post-reset tap attempts, ZERO `Tap Fired` events**. The Tick chain proved the touch queue was flowing — `bIsCurrentlyPressed` was correctly toggling — but the EnhancedInput subsystem still refused to re-fire `IA_TapPlace.Started` after a state transition (specifically, after `Path: Reset → ResetPlacement → ActiveFoundation=null`).

@@ -70,4 +70,27 @@ public:
 	                                     FVector2D ScreenPosition,
 	                                     FVector& OutHitLocation,
 	                                     FVector& OutHitNormal);
+
+	// Node 2.1 — places BIMActor at the surveyor "corner + baseline" origin convention:
+	// CornerWorld is the building footprint origin (one corner of the slab); ForwardWorld
+	// is a second point along the building's +X axis (the baseline shot). Yaw is computed
+	// as atan2(ForwardY - CornerY, ForwardX - CornerX). Building dimensions are passed as
+	// LengthCm (along +X) / WidthCm (along +Y) / HeightCm (along +Z) and applied as actor
+	// scale in METERS — matches BP_Foundation's scale-in-meters convention so the same
+	// math reads back via ActorScale × MeshComponent.RelativeScale3D.
+	//
+	// IMPORTANT pivot convention: BP_BIMOverlay's mesh component must be offset so the
+	// building CORNER (not center) sits at the actor origin — otherwise CornerWorld won't
+	// match what the user tapped. For a unit cube /Engine/BasicShapes/Cube, this means
+	// MeshComponent.RelativeLocation = (50, 50, 50) at component scale 1.0, with the
+	// actor handling all dimensional scaling.
+	//
+	// Returns false on null actor or zero-distance Corner→Forward delta.
+	UFUNCTION(BlueprintCallable, Category = "SiteSync|BIM")
+	static bool PlaceBIMByCornerForward(AActor* BIMActor,
+	                                    FVector CornerWorld,
+	                                    FVector ForwardWorld,
+	                                    float LengthCm = 500.0f,
+	                                    float WidthCm = 500.0f,
+	                                    float HeightCm = 900.0f);
 };

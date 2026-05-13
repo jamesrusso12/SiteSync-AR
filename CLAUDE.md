@@ -502,9 +502,16 @@ Phase 1 is complete. Moving to Phase 2 — Datasmith ingestion (Node 2.1).
 
 ### Node 2.1 — Datasmith ingestion pipeline (IN PROGRESS, started 2026-05-12)
 
-Phase 2 starts here. BIM model overlay in AR for clash detection. The path is **cooked-Datasmith first, runtime-Datasmith deferred**: import BIM in the PC editor, let UE auto-generate LODs, cook into the iOS package as static meshes. `DatasmithRuntime` is Experimental in 5.6 with shaky iOS support — revisit at Node 2.3 once the cooked path is proven.
+Phase 2 starts here. BIM model overlay in AR for clash detection. The path is **cooked-Datasmith only** — there is no runtime alternative on iOS. `DatasmithRuntime` is "Beta" in 5.6's Plugins window, but Beta refers to API maturity on its supported desktop platforms (Windows + macOS only). **iOS and Android are not supported targets in any Datasmith version through 5.7** (per Epic's Datasmith Supported Platforms doc, confirmed via 2026-05-12 research). Earlier doc claims that DatasmithRuntime was "viable for Node 2.3" were wrong — there is no path to load `.udatasmith` files on the iPhone, ever. All Datasmith work happens at editor cook time.
 
-**Tradeoff accepted:** every BIM swap requires re-cook + re-deploy from Mac (~5–10min). In return, no engine-experimental risk in the v1 pipeline.
+**Tradeoff accepted:** every BIM swap requires re-cook + re-deploy from Mac (~5–10min). The runtime alternative does not exist on this platform.
+
+**Cook-time gotchas to plan for** (per 2026-05-12 research, not yet hit in this project):
+- Datasmith-imported materials often use Translucent + complex shading models that mobile FL5 won't render correctly. Re-parent to mobile-compatible material instances at import time.
+- Datasmith-imported meshes default to Nanite-eligible in 5.5+. Disable Nanite per-mesh and generate auto-LODs. (Project-level Nanite is already disabled in `Config/IOS/IOSEngine.ini` — just verify per-mesh settings don't override.)
+- First iOS cook of a real BIM model can be **hours**, not minutes (DDC + shader-permutation compile). Plan accordingly.
+- Real Revit MEP models are 5–50M tris; iPhone 16 Pro AR wants <500k visible. Expect to need a **Dataprep recipe** for decimation + material consolidation between raw `.udatasmith` and shipped iOS content.
+- The **Datasmith Twinmotion Content** plugin for UE 5.6 must be verified published on Fab before relying on Twinmotion as an archviz front-end — historically it lags the engine release by several months. If absent, materials from Twinmotion-exported `.udatasmith` arrive broken.
 
 #### Plugins enabled (commit pending, 2026-05-12)
 
@@ -537,12 +544,29 @@ Rely on UE5 auto-LOD on import (Datasmith importer's "Generate Lightmap UVs" + "
 
 **Mobile target:** keep total cooked Datasmith content under 200MB per model so the .ipa stays manageable for Personal Team weekly re-deploy. Anything over needs LOD intervention before ingest.
 
-#### Open scope items for Node 2.1
+#### What was built this session (2026-05-12)
 
-- Pick a sample BIM (Epic ships some — `Datasmith Sample` content pack) for first end-to-end pipeline test, BEFORE James spends time exporting from Revit/Rhino.
-- BP architecture for spawning + positioning the Datasmith model in the AR session (likely a new `BP_BIMOverlay` actor with placement semantics borrowed from `BP_Foundation`'s two-tap origin).
-- Define a "BIM origin marker" placement UX — Node 2.2 (GPS/compass) is the real auto-alignment, but Node 2.1 needs a manual placement interaction so we can validate the cooked geometry on device without waiting for geo-anchoring.
-- Cook-size measurement after first import — confirm iOS .ipa stays deployable.
+**Placement primitive (committed in this Node 2.1 work):**
+- `UARMeshBlueprintLibrary::PlaceBIMByCornerForward(BIMActor, CornerWorld, ForwardWorld, LengthCm=500, WidthCm=500, HeightCm=900) → bool` — sets BIMActor location to CornerWorld, yaw to `atan2(ForwardY-CornerY, ForwardX-CornerX)`, scale to (L/100, W/100, H/100) meters. Mirrors the proven `InitFoundationFromCorners` pattern. Logs at Warning level for device-log verification.
+- Pivot convention: BP_BIMOverlay's mesh component must be offset so the **building corner** sits at the actor origin. For the engine cube placeholder (`/Engine/BasicShapes/Cube`, naturally 100×100×100 cm centered), this means BIMMesh.RelativeLocation = (50, 50, 50) at component scale 1.0. Actor scale handles all dimensional scaling.
+- Survey origin convention chosen (per 2026-05-12 decisions): **Tap A = building corner, Tap B = +X axis baseline shot**. Matches Trimble Siteworks / AGTEK / traditional surveyor practice. (BP_Foundation in Phase 1 uses center+edge instead — different semantic, deliberate.)
+
+**MCP-driven scaffold (in editor memory until Ctrl+S):**
+- `BP_BIMOverlay` (Actor parent) — BIMMesh StaticMeshComponent with `/Engine/BasicShapes/Cube`, RelativeLocation (50,50,50). Compiled.
+- `BP_ARGameMode_BIM` (GameModeBase parent) — empty defaults, awaiting class refs.
+
+**Pending walkthrough work** (MCP can't drive these):
+- `M_BIMOverlay` material — translucent orange unlit, mirrors M_FoundationDebug pattern.
+- Apply M_BIMOverlay to BP_BIMOverlay.BIMMesh material slot (MCP can't edit TArray properties).
+- `BP_ARPlayerController_BIM` — duplicate BP_ARPlayerController v20, retarget Foundation refs → BIM refs, swap InitFoundationFromCorners call → PlaceBIMByCornerForward call. State machine structure identical (Tick rising-edge tap detection + corner/forward 3-state).
+- `BP_ARGameMode_BIM` class defaults: DefaultPawnClass = BP_ARPawn, PlayerControllerClass = BP_ARPlayerController_BIM.
+- `SiteSync_BIMTest.umap` new level — PlayerStart at (0,0,0), BP_LiDARMeshManager spawned, GameMode override = BP_ARGameMode_BIM.
+
+#### Open scope items for Node 2.1 (deferred)
+
+- WBP_BIMPlacementHUD widget — visual states per `docs/node-2.1-placement-ux.png` mockup (Ready / Forward / Placed + toolbar). Defer to v22 once placement chain is device-validated.
+- Real BIM import test — `.udatasmith` from Revit/Rhino + Dataprep decimation pass. Requires either (a) a real BIM file from a client, (b) Twinmotion sample if Datasmith Twinmotion Content plugin is published for 5.6, or (c) free Fab "ArchViz Template Lite" as a starting scene.
+- iOS cook-size measurement after first real-BIM import — confirm .ipa stays deployable for Personal Team weekly re-deploy cycle.
 
 #### Gate to Node 2.2
 

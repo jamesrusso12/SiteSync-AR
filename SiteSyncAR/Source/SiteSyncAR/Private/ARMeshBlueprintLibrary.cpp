@@ -562,3 +562,49 @@ bool UARMeshBlueprintLibrary::RaycastTerrainFromScreen(APlayerController* Player
 	       ScreenPosition.X, ScreenPosition.Y, NumSections);
 	return false;
 }
+
+bool UARMeshBlueprintLibrary::PlaceBIMByCornerForward(AActor* BIMActor,
+                                                     FVector CornerWorld,
+                                                     FVector ForwardWorld,
+                                                     float LengthCm,
+                                                     float WidthCm,
+                                                     float HeightCm)
+{
+	if (!BIMActor)
+	{
+		UE_LOG(LogSiteSyncAR, Warning, TEXT("PlaceBIMByCornerForward: null BIMActor"));
+		return false;
+	}
+
+	const FVector Delta = ForwardWorld - CornerWorld;
+	const float DeltaXY = FMath::Sqrt(static_cast<float>(Delta.X * Delta.X + Delta.Y * Delta.Y));
+	if (DeltaXY < 1.0f)
+	{
+		UE_LOG(LogSiteSyncAR, Warning,
+		       TEXT("PlaceBIMByCornerForward: Corner→Forward XY delta %.2fcm too small, abort"), DeltaXY);
+		return false;
+	}
+
+	const float ClampedLength = FMath::Clamp(LengthCm, 100.0f, 50000.0f);
+	const float ClampedWidth = FMath::Clamp(WidthCm, 100.0f, 50000.0f);
+	const float ClampedHeight = FMath::Clamp(HeightCm, 100.0f, 30000.0f);
+
+	const float YawDeg = FMath::RadiansToDegrees(FMath::Atan2(Delta.Y, Delta.X));
+
+	const FVector ScaleMeters(ClampedLength / 100.0f,
+	                          ClampedWidth / 100.0f,
+	                          ClampedHeight / 100.0f);
+
+	BIMActor->SetActorLocation(CornerWorld);
+	BIMActor->SetActorRotation(FRotator(0.0f, YawDeg, 0.0f));
+	BIMActor->SetActorScale3D(ScaleMeters);
+
+	UE_LOG(LogSiteSyncAR, Warning,
+	       TEXT("PlaceBIMByCornerForward: Corner=(%.1f,%.1f,%.1f) Forward=(%.1f,%.1f,%.1f) yaw=%.1f° L=%.1fcm W=%.1fcm H=%.1fcm scale_m=(%.3f,%.3f,%.3f)"),
+	       CornerWorld.X, CornerWorld.Y, CornerWorld.Z,
+	       ForwardWorld.X, ForwardWorld.Y, ForwardWorld.Z,
+	       YawDeg, ClampedLength, ClampedWidth, ClampedHeight,
+	       ScaleMeters.X, ScaleMeters.Y, ScaleMeters.Z);
+
+	return true;
+}

@@ -10,6 +10,12 @@ SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engin
 
 ---
 
+## Where the project is right now (May 2026)
+
+Phase 1 — the cut-and-fill earthwork calculator — is **finished and working on a real iPhone 16 Pro**. Walk into a room, tap two points on the floor, and the app drops a digital concrete pad between those taps and tells you how many cubic yards of dirt you'd need to cut or fill to bring the ground level with the pad's bottom. The numbers update live. We just started **Phase 2**, which is the harder half: take a real Revit or Rhino BIM model from an architect, import it into the app, and stand it up at full scale on the actual construction site so an engineer can walk around it and see where the planned building would clash with what's actually there. We're at the very beginning of Phase 2 — the import pipeline is wired up but no BIM model has been brought through it yet. Next step is a sample model download to prove the pipeline works end-to-end before pulling in real Revit/Rhino files.
+
+---
+
 ## Stack
 
 | | |
@@ -49,19 +55,19 @@ SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engin
 | Node | Description | Status |
 |---|---|---|
 | 1.1 | Source control, Git LFS, iOS signing, project foundation | ✅ Complete |
-| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Complete (PC) · 🔄 iOS device deploy pending |
-| 1.3 | Digital foundation anchoring with touch gesture placement | ✅ Complete (PC) · 🔄 iOS device deploy pending |
-| 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ⏳ Next |
+| 1.2 | LiDAR environmental meshing via ARKit Scene Reconstruction | ✅ Device-validated |
+| 1.3 | Digital foundation anchoring with touch gesture placement | ✅ Device-validated |
+| 1.4 | Volumetric geometry scripting — cut-and-fill cubic yardage output | ✅ Device-validated (v20, 2026-05-11) |
 
 ### Phase 2 — 1:1 BIM Clash Overlay
 
 | Node | Description | Status |
 |---|---|---|
-| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ⏳ Pending |
+| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🚧 In progress (started 2026-05-12) |
 | 2.2 | Geospatial & compass anchoring (GPS auto-alignment) | ⏳ Pending |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
-**Current gate:** Nodes 1.2 and 1.3 are PC-complete; remaining gate before Node 1.4 is on-device validation on iPhone 16 Pro at 60fps. Node-by-node detail (built assets, BP graphs, decisions, next actions) lives in [`CLAUDE.md`](CLAUDE.md) — that is the canonical session context for both human and AI contributors.
+**Current gate:** Phase 1 is closed. Node 2.1 needs an end-to-end Datasmith import (sample BIM first, then real Revit/Rhino) cooked into the iOS package and rendering on iPhone 16 Pro at 60fps. Node-by-node detail (built assets, BP graphs, decisions, next actions) lives in [`CLAUDE.md`](CLAUDE.md) — the canonical session context for both human and AI contributors.
 
 ---
 

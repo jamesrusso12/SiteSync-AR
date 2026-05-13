@@ -119,7 +119,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 
 | Node | Description | Status |
 |---|---|---|
-| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🔜 **Next** |
+| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🚧 **In progress** (started 2026-05-12) |
 | 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ⏳ Pending |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
@@ -500,6 +500,50 @@ Phase 1 is complete. Moving to Phase 2 — Datasmith ingestion (Node 2.1).
 - Footprint clipping in slab-local space; slab yaw baked into the local frame.
 - Unit conversion: `cm³ ÷ 764554.858 → yd³` (NOT `÷27`).
 
-### Toward Node 2.1 — Datasmith ingestion pipeline
+### Node 2.1 — Datasmith ingestion pipeline (IN PROGRESS, started 2026-05-12)
 
-Phase 2 starts here. Datasmith Direct Link from Revit/Rhino → UE5, mobile LODs, BIM model overlay in AR for clash detection. No code or assets in repo yet.
+Phase 2 starts here. BIM model overlay in AR for clash detection. The path is **cooked-Datasmith first, runtime-Datasmith deferred**: import BIM in the PC editor, let UE auto-generate LODs, cook into the iOS package as static meshes. `DatasmithRuntime` is Experimental in 5.6 with shaky iOS support — revisit at Node 2.3 once the cooked path is proven.
+
+**Tradeoff accepted:** every BIM swap requires re-cook + re-deploy from Mac (~5–10min). In return, no engine-experimental risk in the v1 pipeline.
+
+#### Plugins enabled (commit pending, 2026-05-12)
+
+Added to `SiteSyncAR.uproject`:
+- `DatasmithImporter` (editor-time importer + runtime translators)
+- `DatasmithContent` (runtime support so cooked Datasmith assets work on device)
+- `DatasmithFBXImporter` (fallback path for Revit FBX exports if Direct Link is unavailable)
+
+No `SupportedTargetPlatforms` restriction — Datasmith plugin descriptors leave that field empty (all platforms), and UE's Editor/Runtime module typing already excludes editor modules from iOS cook automatically. Restricting in the project descriptor produces a `LogGameProjectGeneration` warning every editor load and offers no real isolation benefit.
+
+`DatasmithCADImporter` and `DatasmithC4DImporter` deliberately NOT enabled — Revit/Rhino don't need them and they bloat the editor load.
+
+#### Folder convention
+
+`Content/AR_SiteAnalysis/DatasmithAssets/` — anchor with `.gitkeep`. All imported BIM goes under here, one subfolder per source model (e.g. `DatasmithAssets/SampleOffice/`, `DatasmithAssets/SiteX/`). Datasmith importer creates `Geometries/`, `Materials/`, `Textures/` subfolders automatically per import.
+
+#### Source app coverage
+
+| Source | Path | Status |
+|---|---|---|
+| Revit | Datasmith Direct Link or `.udatasmith` export via Datasmith Revit Exporter (free Epic plugin) | Untested in this project |
+| Rhino | Datasmith Direct Link or `.udatasmith` export via Datasmith Rhino Exporter (free Epic plugin) | Untested in this project |
+| Revit FBX fallback | Revit → FBX → Datasmith FBX Importer | Available, lossy on materials |
+
+James to confirm which source app he'll use for the first BIM ingest before we shape the importer config.
+
+#### LOD strategy (Node 2.1 baseline)
+
+Rely on UE5 auto-LOD on import (Datasmith importer's "Generate Lightmap UVs" + "Auto Generate Collisions" settings + per-static-mesh LOD0/1/2 chain). Hand-tuned HLODs deferred to Node 2.3 once we know the actual tri count of a real BIM model.
+
+**Mobile target:** keep total cooked Datasmith content under 200MB per model so the .ipa stays manageable for Personal Team weekly re-deploy. Anything over needs LOD intervention before ingest.
+
+#### Open scope items for Node 2.1
+
+- Pick a sample BIM (Epic ships some — `Datasmith Sample` content pack) for first end-to-end pipeline test, BEFORE James spends time exporting from Revit/Rhino.
+- BP architecture for spawning + positioning the Datasmith model in the AR session (likely a new `BP_BIMOverlay` actor with placement semantics borrowed from `BP_Foundation`'s two-tap origin).
+- Define a "BIM origin marker" placement UX — Node 2.2 (GPS/compass) is the real auto-alignment, but Node 2.1 needs a manual placement interaction so we can validate the cooked geometry on device without waiting for geo-anchoring.
+- Cook-size measurement after first import — confirm iOS .ipa stays deployable.
+
+#### Gate to Node 2.2
+
+A real BIM model (or Epic sample) imports cleanly via Datasmith on PC, gets cooked into the iOS package, and renders on iPhone 16 Pro inside the AR session at 60fps with manual placement. Cook size + load time documented. No Datasmith Direct Link / runtime path required at this gate.

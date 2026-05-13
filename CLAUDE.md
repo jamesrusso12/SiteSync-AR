@@ -555,12 +555,26 @@ Rely on UE5 auto-LOD on import (Datasmith importer's "Generate Lightmap UVs" + "
 - `BP_BIMOverlay` (Actor parent) — BIMMesh StaticMeshComponent with `/Engine/BasicShapes/Cube`, RelativeLocation (50,50,50). Compiled.
 - `BP_ARGameMode_BIM` (GameModeBase parent) — empty defaults, awaiting class refs.
 
-**Pending walkthrough work** (MCP can't drive these):
-- `M_BIMOverlay` material — translucent orange unlit, mirrors M_FoundationDebug pattern.
-- Apply M_BIMOverlay to BP_BIMOverlay.BIMMesh material slot (MCP can't edit TArray properties).
-- `BP_ARPlayerController_BIM` — duplicate BP_ARPlayerController v20, retarget Foundation refs → BIM refs, swap InitFoundationFromCorners call → PlaceBIMByCornerForward call. State machine structure identical (Tick rising-edge tap detection + corner/forward 3-state).
-- `BP_ARGameMode_BIM` class defaults: DefaultPawnClass = BP_ARPawn, PlayerControllerClass = BP_ARPlayerController_BIM.
-- `SiteSync_BIMTest.umap` new level — PlayerStart at (0,0,0), BP_LiDARMeshManager spawned, GameMode override = BP_ARGameMode_BIM.
+**Walkthrough work — current state as of 2026-05-13 mid-day handoff to Mac**
+
+**✅ DONE on PC** (committed in [73ae982](https://github.com/jamesrusso12/SiteSync-AR/commit/73ae982) + [a5c90f4](https://github.com/jamesrusso12/SiteSync-AR/commit/a5c90f4)):
+- `M_BIMOverlay.uasset` — translucent orange unlit material, two-sided. Constant3Vector (1.0, 0.5, 0.2) → Emissive Color; Constant 0.4 → Opacity.
+- `BP_BIMOverlay.uasset` — Actor with `BIMMesh` StaticMeshComponent (engine cube), `RelativeLocation=(50,50,50)` so corner sits at actor origin, `M_BIMOverlay` applied to material slot 0.
+- `BP_ARPlayerController_BIM.uasset` — duplicated from BP_ARPlayerController v20 + retargeted:
+  - Variables renamed: `FoundationClass` → `BIMOverlayClass` (type `BP_BIMOverlay` Class Reference, default value `BP_BIMOverlay`), `ActiveFoundation` → `ActiveBIM` (type `BP_BIMOverlay` Object Reference), `MarkerA/B` → `MarkerCorner/Forward`, `FirstTapLocation` → `CornerLocation`.
+  - `ResetPlacement` function v17 structure intact, retargeted to BP_BIMOverlay_C / BP_TapMarker_C types. 3-block IsValid pattern (ActiveBIM, MarkerCorner, MarkerForward) converging on `SET bHasFirstTap=false`. Compile green.
+  - Spawn-tap branch swaps `InitFoundationFromCorners` → `PlaceBIMByCornerForward(BIMActor, CornerLocation, SecondTapHit, 500, 500, 900)`.
+
+**⚠️ BROKEN — needs Mac fix before Part 4 can finish:**
+
+1. **BeginPlay deleted entirely.** James deleted the whole BeginPlay event (intending to remove just the WBP_VolumeReadout creation chain). This kills the **AddMappingContext(IMC_Placement)** chain too. Per decisions.md 2026-05-11 "BP_ARPlayerController Tick → GetInputTouchState poll is load-bearing on iOS" — without AddMappingContext OR the Tick GetInputTouchState pump, taps will never fire on device. MUST restore. Cleanest path: open BP_ARPlayerController v20 (Phase 1) in a side tab, look at its BeginPlay (Sequence node with two outputs: AddMappingContext chain + the WBP creation chain), recreate ONLY the AddMappingContext chain in BP_ARPlayerController_BIM. Three nodes to NOT recreate: `Construct Object from Class` (Class=WBP_VolumeReadout), `SET HUDWidget`, `Add to Viewport`.
+
+2. **`BP_ARGameMode_BIM` may have wrong parent class.** When chongdashu MCP `create_blueprint` was called with `parent_class=GameModeBase`, the resulting asset doesn't expose `Default Pawn Class` / `Player Controller Class` in the Class Defaults panel — those properties don't appear in MCP's `set_blueprint_property` either ("Property not found"). Suggests the parent didn't get honored and the BP is parented to Actor or Object. **Fix by deleting the MCP-created shell and duplicating from the working Phase 1 `BP_ARGameMode`** (which has DefaultPawnClass=BP_ARPawn already correct), then changing `Player Controller Class` from `BP_ARPlayerController` → `BP_ARPlayerController_BIM`. Document this as a known chongdashu MCP gotcha for future sessions.
+
+**⏳ Still pending — Part 4 work that hasn't started:**
+- `SiteSync_BIMTest.umap` new level — PlayerStart at (0,0,0), `BP_LiDARMeshManager` spawned, World Settings → GameMode Override = BP_ARGameMode_BIM.
+
+**Mac iOS cook + deploy** — once the above lands, follow the standard Node 1.4 pipeline (`patch-ue56-xcode26.sh` → UBT → Cook → UAT stage → `xcrun devicectl device install`). The cook should target the new test level via `-map=/Game/SiteSync_BIMTest`. Reference: CLAUDE.md "Build & Deploy Pipeline" section above.
 
 #### Open scope items for Node 2.1 (deferred)
 

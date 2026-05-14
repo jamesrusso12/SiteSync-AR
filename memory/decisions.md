@@ -2,6 +2,56 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-14 — Mac editor "Save Current Level As" crashes when stale Desktop paths leak from old project location
+
+Editor crashed every time on `File → Save Current Level As` for a new level. `Saved/Crashes/.../SiteSyncAR.log` showed:
+
+```
+LongPackageNameToFilename failed to convert
+'/Users/jamesrusso/Desktop/Github/Xcode/SiteSync-AR/SiteSyncAR/Content/NewMap'.
+Path does not map to any roots.
+```
+
+The project was moved from `~/Desktop/Github/Xcode/SiteSync-AR/` to `~/Developer/SiteSync-AR/` on 2026-04-21 (see entry below). A symlink remains at the Desktop path for backward-compat. UE's package system mounts `/Game/` → `<ProjectDir>/Content/` at editor startup based on the path UE used to open the project; if any cached config still references the Desktop path, Save-As path resolution can route through it and fail because UE didn't mount that path as a content root.
+
+**Three configs had to be purged of the Desktop reference:**
+
+1. `~/Library/Application Support/Epic/UnrealEngine/Editor/ProjectEditorRecords.json` — persistent project record list
+2. `~/Library/Application Support/Epic/UnrealEngine/5.6/Saved/Config/MacEditor/EditorSettings.ini` — `RecentlyOpenedProjectFiles` array entry
+3. `SiteSyncAR/Saved/Config/MacEditor/EditorPerProjectUserSettings.ini` — `SwarmIntermediateFolder` + last-used-folder paths (`BRUSH`, `FBX`, `FBXAnim`, `GenericImport`)
+
+**Fix:** `sed -i.bak 's|/Users/jamesrusso/Desktop/Github/Xcode/SiteSync-AR|/Users/jamesrusso/Developer/SiteSync-AR|g'` on the two global files; deleted the project per-user file (UE regenerates clean on next open). Save-As immediately worked.
+
+**How to apply:** If ever the Mac editor save-as / cook starts complaining about unknown content roots, `grep -rl "Desktop/Github" "$HOME/Library/Application Support/Epic" SiteSyncAR/Saved/Config` and purge any matches. Backups are kept at `.bak` so the fix is reversible.
+
+## 2026-05-14 — chongdashu MCP `create_blueprint` does not honor `parent_class` for GameModeBase; duplicate from a working asset instead
+
+PC session 2026-05-13 created `BP_ARGameMode_BIM` via `mcp__unrealMCP__create_blueprint(name="BP_ARGameMode_BIM", parent_class="GameModeBase")`. MCP returned success, but the resulting asset's Class Defaults panel had no `Default Pawn Class` or `Player Controller Class` properties visible, and `set_blueprint_property` returned "Property not found" for both. The asset was effectively parented to `UObject` (or `AActor`), not `AGameModeBase`.
+
+**Fix (Mac, 2026-05-14):** deleted the broken `BP_ARGameMode_BIM`, right-click → Duplicate on the working Phase 1 `BP_ARGameMode` in Content Browser, renamed to `BP_ARGameMode_BIM`. The duplicate carried correct parent class + populated Class Defaults. Changed `Player Controller Class` from `BP_ARPlayerController` → `BP_ARPlayerController_BIM`. Compiled clean.
+
+**How to apply:** When MCP `create_blueprint` is needed for any non-Actor parent class (GameModeBase, PlayerController, Pawn, UserWidget, etc.), verify Class Defaults populates correctly *before* moving on. If empty, fall back to Content Browser Duplicate of an existing working asset of the same parent class. Add to the Reliability Tier list in CLAUDE.md / MCP architecture section.
+
+## 2026-05-14 — `SET <var>` nodes need BOTH exec wire AND data-input wire; an unconnected object-input pin silently sets the variable to None
+
+v21 device test: `PlaceBIMByCornerForward` C++ helper logged 5 successful BIM placements with correct scale, BUT `IsValid(ActiveBIM)` returned false on every tap, so `Path: Reset` count = 0 and BIMs piled up forever.
+
+Root cause: `BP_ARPlayerController_BIM.EventGraph` had `SET ActiveBIM` wired into the spawn-tap exec chain correctly (execute pin connected from `PlaceBIMByCornerForward.then`, then pin connected to `SET bHasFirstTap.execute`), but the **`ActiveBIM` data-input pin had no `LinkedTo` clause in the .uasset graph dump.** Every spawn fired `SET ActiveBIM = (default object reference) = None`. UE doesn't surface this as a compile warning because the pin has a valid default — it just silently uses None.
+
+**Fix:** dragged a wire from `SpawnActor BP_BIMOverlay.ReturnValue` (BP_BIMOverlay_C blue object pin) → `SET ActiveBIM.ActiveBIM` input pin. UE auto-inserted a reroute knot for the long span. `SpawnActor.ReturnValue` now has two downstream connections: `PlaceBIMByCornerForward.BIMActor` (existing) and `SET ActiveBIM.ActiveBIM` (new via Knot_6). v22 device log: 5/5/5/5/5/10 perfect cycle symmetry.
+
+**How to apply:** When debugging a BP state machine where the exec chain runs but state variables seem to retain default values, dump the graph and look for a `K2Node_VariableSet` whose data input pin has no `LinkedTo` clause. Pin-by-pin verification is the only way — UE compile is permissive about unconnected data inputs (they're "valid" by virtue of the pin default).
+
+**Long-term mitigation idea:** add a BP best-practices section to onboarding docs warning that "every spawn-and-store pattern needs the data wire wired to the same SpawnActor.ReturnValue that feeds the consumer below — two destinations from one source pin is the correct topology."
+
+## 2026-05-14 — Cook with `-map=...` does NOT update the boot map; `GameDefaultMap` must be flipped separately
+
+v21 cook ran with `-map=/Game/Maps/SiteSync_BIMTest` to include the new BIM test level in the package, but the iPhone still booted into the Phase 1 `SiteSync.umap` because `DefaultEngine.ini → [/Script/EngineSettings.GameMapsSettings] → GameDefaultMap` still pointed at `/Game/SiteSync.SiteSync`. Cook's `-map` parameter only tells the cooker WHICH maps to include and their dependencies; it doesn't set boot behavior.
+
+**Fix:** Edited `DefaultEngine.ini` to flip `GameDefaultMap` + `EditorStartupMap` to `/Game/Maps/SiteSync_BIMTest.SiteSync_BIMTest`. Recooked + redeployed. Phase 2 level became the boot map.
+
+**How to apply:** When adding a new test level to the cook, decide if it should be the new boot map. If yes, edit DefaultEngine.ini's `GameMapsSettings` block before cooking. For Tier B "menu level" work, the boot map will eventually become a `SiteSync_Menu.umap` that offers Phase 1 / Phase 2 selection.
+
 ## 2026-05-12 — DatasmithRuntime is desktop-only (Win/Mac); iOS not supported in any version through 5.7
 
 Earlier scoping in CLAUDE.md and Node 2.1 commit `88f98ba` framed DatasmithRuntime as a "Node 2.3 candidate" for runtime BIM loading on iPhone. Research pass on 2026-05-12 (Twinmotion + UE 5.6 deep dive) corrected this: per Epic's Datasmith Supported Platforms doc, DatasmithRuntime supports Windows + macOS only, with Linux experimental. **iOS and Android are not listed and have never been supported.** The "Beta" tag in the Plugins window refers to API maturity on desktop, not a path to mobile.

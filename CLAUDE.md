@@ -125,6 +125,57 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 
 ---
 
+## Demo Deadline — Idaho Technology Council, Tuesday 2026-05-19
+
+James and Cole are attending the **Idaho Technology Council** conference on **Tuesday 2026-05-19** to network with potential clients and investors. **The goal is NOT to finish the app** — it's to get the current state into something **a stranger can understand without prior explanation**.
+
+Today is 2026-05-14. Working calendar between now and the demo:
+
+| Day | James availability |
+|---|---|
+| Thu 2026-05-14 | Until ~10:30 AM Mountain, then work until 4:30 PM, evening session after |
+| Fri 2026-05-15 | James's birthday — relaxed, partial day available |
+| Sat 2026-05-16 | Relaxed, work time available |
+| Sun 2026-05-17 | Roommate's birthday BBQ, maybe partial evening |
+| Mon 2026-05-18 | Full work session expected |
+| Tue 2026-05-19 | Demo day — no further work |
+
+### Current state — what a stranger sees today
+
+After v22 (`commit 476752b`), the BIM mode on iPhone shows: cyan LiDAR mesh, then two taps drop a **room-sized 5m × 5m × 9m orange translucent placeholder** that fills the view and tints everything orange. **No HUD, no numbers, no on-screen prompts.** Reset/replace loop works perfectly, but it doesn't read as anything to an outsider.
+
+Phase 1 (cut/fill) is functionally complete and visually richer (live cut/fill yd³ HUD) but currently NOT the boot map.
+
+### Pre-Tuesday goal: real BIM ingestion + intelligible demo flow
+
+**The single biggest visual unlock** is replacing the orange cube with a **real-looking building model imported via Datasmith** (or a swap-in Static Mesh from a free Fab / Twinmotion / Epic sample). Plus a minimal HUD that walks the viewer through the workflow.
+
+#### Tier A — must-have for the demo to read as a real product
+
+1. **Real BIM model swapped into BP_BIMOverlay** — either via Datasmith Direct Link / `.udatasmith` import or a free Static Mesh asset that LOOKS like a building (sample office, hotel, residential pad). Replace the engine cube. Keep the corner-at-origin pivot convention so `PlaceBIMByCornerForward` math still works.
+2. **`WBP_BIMPlacementHUD`** — three-state instruction overlay:
+   - Pre-corner: "Tap the floor to mark a building corner"
+   - Post-corner: "Tap a second point along the building's front edge"
+   - Post-placement: "Building placed (L×W×H m). Tap anywhere to reset."
+   - Plus a small dimensions readout
+3. **Shrink placeholder defaults** in `PlaceBIMByCornerForward.h` (or override at the BP call site) to room-scale (e.g., 4m × 4m × 3m) so even the placeholder reads as an object before real BIM lands.
+
+#### Tier B — nice-to-have if Tier A finishes early
+
+- **`SiteSync_Menu.umap`** — main menu level with two buttons to launch Phase 1 (cut/fill) or Phase 2 (BIM) flows. Lets James demo *both* modes during a conversation. Today the boot map is `/Game/Maps/SiteSync_BIMTest` (Phase 2 only).
+- BIM placeholder material polish (wireframe edges, dimension label hovering)
+- Demo script with talking points
+
+#### Explicitly NOT in scope for Tuesday
+
+- TestFlight for Cole (Personal Team only, weekly re-deploy)
+- Multi-pad layouts
+- Width / thickness runtime sliders
+- Node 2.2 GPS+compass anchoring
+- Node 2.3 clash interface
+
+---
+
 ## What Was Built in Node 1.1
 
 - `.gitignore` — strict UE5 exclusions, source guards
@@ -471,16 +522,22 @@ Issue B was the "virtual content drifts with the camera" bug: cyan LiDAR mesh, y
 
 ---
 
-## Immediate Next Actions (current, 2026-05-11)
+## Immediate Next Actions (current, 2026-05-14)
 
-**Node 1.4 is CLOSED.** v20 device-validated end-to-end (2026-05-11, commit `af4c2ec`). All four success patterns confirmed in device log:
+**Node 2.1 first-sighting cleared (v22, commit `476752b`).** Five clean place→reset cycles on device, 5/5/5 cycle symmetry between MarkerA / MarkerB / BIM spawns. Reset/replace loop breakable indefinitely. See `decisions.md 2026-05-14` for the wire-fix lesson.
+
+**Now driving toward the Idaho Technology Council demo (Tuesday 2026-05-19).** Goal: replace the room-sized orange placeholder with a real-looking building model + a state-driven BIM placement HUD so a stranger can understand what the app is doing. See the **Demo Deadline** section above for the full Tier A / B plan and the day-by-day schedule.
+
+**Phase 1 is closed for the demo cycle.** v20 was the final cut/fill release. Phase 1 docs preserved below for reference / for if we revive the cut/fill path in a multi-mode menu (Tier B).
+
+### Phase 1 (Node 1.4) recap
+
+v20 device-validated end-to-end (2026-05-11, commit `af4c2ec`). All four success patterns confirmed in device log:
 
 - `Tap Fired` = 16 events across 5 reset cycles, no post-reset death (Bug A fixed via Tick rising-edge bypassing EnhancedInput)
 - `RaycastTerrainFromScreen: hit at` = 10 events, Z-cluster -111.3 to -113.9 cm (2.6 cm spread on the floor mesh — Bug 3 fixed)
 - `InitFoundationFromCorners` = 5 spawns, slab lengths 67-304 cm proportional to taps, W=100 cm and T=10 cm consistent
 - `Path: MarkerA (HasFirstTap=false)` correctly follows every `Path: Reset` — reset/replace loop is breakable indefinitely
-
-Phase 1 is complete. Moving to Phase 2 — Datasmith ingestion (Node 2.1).
 
 ### Node 1.4 future polish (deferred to Node 1.5, not blocking Node 2.1)
 

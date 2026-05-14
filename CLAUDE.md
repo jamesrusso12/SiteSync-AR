@@ -119,7 +119,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 
 | Node | Description | Status |
 |---|---|---|
-| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🚧 **In progress** (started 2026-05-12) |
+| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🚧 **In progress** (started 2026-05-12) · v22 first-sighting cleared 2026-05-14 (placeholder BIM placement loop: 5/5/5 cycle symmetry) |
 | 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ⏳ Pending |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 

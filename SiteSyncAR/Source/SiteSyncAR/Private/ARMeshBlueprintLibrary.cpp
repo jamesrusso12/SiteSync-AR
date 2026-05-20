@@ -585,9 +585,11 @@ bool UARMeshBlueprintLibrary::PlaceBIMByCornerForward(AActor* BIMActor,
 		return false;
 	}
 
-	const float ClampedLength = FMath::Clamp(LengthCm, 100.0f, 50000.0f);
-	const float ClampedWidth = FMath::Clamp(WidthCm, 100.0f, 50000.0f);
-	const float ClampedHeight = FMath::Clamp(HeightCm, 100.0f, 30000.0f);
+	// Clamp lower bound is 10cm = actor scale 0.1× → supports "tabletop / dollhouse" Model Scale
+	// for indoor demos in addition to the 1:1 Site Scale production use case.
+	const float ClampedLength = FMath::Clamp(LengthCm, 10.0f, 50000.0f);
+	const float ClampedWidth = FMath::Clamp(WidthCm, 10.0f, 50000.0f);
+	const float ClampedHeight = FMath::Clamp(HeightCm, 10.0f, 30000.0f);
 
 	const float YawDeg = FMath::RadiansToDegrees(FMath::Atan2(Delta.Y, Delta.X));
 

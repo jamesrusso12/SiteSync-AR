@@ -583,19 +583,30 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 ---
 
-## Immediate Next Actions (current, 2026-05-20)
+## Immediate Next Actions (current, 2026-05-20 — A3 complete)
 
-**Open task — house renders black; add lights to `SiteSync_BIMTest.umap`.** This is the single live problem. The A3 real-house swap is functionally complete (placement, scale, HUD all validated on device 2026-05-20) but the imported house renders as a pure-black silhouette because its Lit materials get no illumination in a level with no lights. Fix chosen: add a Movable Directional Light + Movable Sky Light to the level. Full context + the next-step walkthrough is in `docs/node-2.1-a3-lighting-handoff.md` — **start there.**
+**A3 is done.** The demo-prep arc (A1 → A2 → wireframe → A3) is complete, device-validated, committed, and pushed. There is **no open blocking task.** Pick up the next session from `docs/node-2.1-a3-lighting-handoff.md` → "What's next" — summarized below.
 
-### Session 2026-05-14 → 2026-05-20 summary (demo-prep arc)
+### Next work (no rush — Idaho Technology Council demo postponed indefinitely)
 
-Demo prep for the Idaho Technology Council event (which **postponed indefinitely** mid-session 2026-05-19 — see Demo Snapshot section + `decisions.md 2026-05-19`). Completed and pushed to `origin/main`:
+In priority order:
+1. **C++ logging hygiene pass** (highest value) — make `PlaceBIMByCornerForward` log raw→clamped values, audit `InitFoundationFromCorners` + `CalculateCutFillVolumes` for the same hidden-clamp pattern, document all clamp ranges in `ARMeshBlueprintLibrary.h` doc comments. Durable fix for the bug class that cost ~2 hours on 2026-05-20.
+2. **BP cleanup** on `BP_ARPlayerController_BIM` — remove the dead `AddMappingContext` BeginPlay chain (EnhancedInput abandoned in v20), rename the stale "Spawn Foundations" comment.
+3. **Cook-size check** — `Content/Fab/` is ~213 MB of source textures; verify the cooked iOS `.ipa` stays deployable for Personal Team (<200 MB target).
+4. **Node 2.1 proper deliverable** — real Datasmith ingest of a Revit/Rhino sample per the `Gate to Node 2.2` criteria below. The Fab glTF house was a tactical demo asset, not the true Node 2.1 exit artifact.
+5. **Tier B** — `SiteSync_Menu.umap` two-button launcher for Phase 1 (cut/fill) + Phase 2 (BIM).
+
+### Session 2026-05-14 → 2026-05-20 summary (demo-prep arc — all complete)
+
+Demo prep for the Idaho Technology Council event (which **postponed indefinitely** mid-session 2026-05-19 — see Demo Snapshot section + `decisions.md 2026-05-19`). All committed + pushed to `origin/main`:
 
 - **A1** (`8fb93d3`) — BIM placeholder shrunk to 3×3×2.5m
 - **A2** (`b7abe86`) — `WBP_BIMPlacementHUD` three-state placement HUD
 - **Tier B wireframe** (`90471e8`) — UV-edge wireframe glow on `M_BIMOverlay`
+- **A3** (`b5747df`) — real house BIM model: imported Fab "Free Small Old House" (Jimbogies, CC BY 4.0), Model Scale, C++ clamp fix, `SiteSync_BIMTest` lighting. Device-validated 2026-05-20 — house places via two taps at dollhouse scale (~2.3 m), fully lit with realistic textures.
+- **docs** (`f367aa6`) — session bug write-ups, A3 handoff doc, demo-postponed reframe
 
-**A3 — real building model (UNCOMMITTED, in progress):** imported Fab "Free Small Old House" (Jimbogies, CC BY 4.0), swapped into `BP_BIMOverlay`, retargeted Model Scale. This arc surfaced four bugs — all now in the Bugs Index + `decisions.md` (2026-05-19/20): glTF 100× oversize, the `PlaceBIMByCornerForward` min-100 C++ clamp, the BIMMesh root-component scale clobber, and the current black-house lighting issue. Scale chain is solved (`774m glTF × 0.01 Build Scale × 0.3 actor = 2.3m dollhouse`). The C++ clamp fix (`ARMeshBlueprintLibrary.cpp`, min 100→10) is built but uncommitted. **Lighting is the only thing between here and A3 done.**
+The A3 arc surfaced and fixed four bugs — all in the Bugs Index + `decisions.md` (2026-05-19/20): glTF 100× oversize (Build Scale 0.01), the `PlaceBIMByCornerForward` min-100 C++ clamp, the BIMMesh root-component scale clobber, and the black-house lighting gap. Final scale chain: `774m glTF × 0.01 Build Scale × 0.3 actor = 2.3m dollhouse`.
 
 **Phase 1 is closed.** v20 was the final cut/fill release. Phase 1 docs preserved below for reference / for if we revive the cut/fill path in a multi-mode menu (Tier B).
 

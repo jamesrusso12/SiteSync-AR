@@ -125,11 +125,13 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 
 ---
 
-## Demo Deadline — Idaho Technology Council, Tuesday 2026-05-19
+## Demo Snapshot — Idaho Technology Council (postponed indefinitely as of 2026-05-19)
 
-James and Cole are attending the **Idaho Technology Council** conference on **Tuesday 2026-05-19** to network with potential clients and investors. **The goal is NOT to finish the app** — it's to get the current state into something **a stranger can understand without prior explanation**.
+James and Cole were scheduled to attend the **Idaho Technology Council** conference on Tuesday 2026-05-19 to network with potential clients and investors. The event was **postponed indefinitely** mid-debug on the morning of 2026-05-19; no rescheduled date provided. See `memory/decisions.md` 2026-05-19 "Idaho Technology Council demo postponed" for context.
 
-Today is 2026-05-14. Working calendar between now and the demo:
+Treat this section as a **demo-ready snapshot specification** rather than a deadline. The work in `main` (Model Scale, WBP_BIMPlacementHUD, wireframe-edge M_BIMOverlay, Fab "Free Small Old House" placeholder, scale-modes docs) is kept as a known-good baseline for whenever the event reschedules or another demo opportunity arrives. **Goal is unchanged:** get the current state into something **a stranger can understand without prior explanation.**
+
+Original working calendar (kept as historical context for what the team was planning around):
 
 | Day | James availability |
 |---|---|
@@ -138,13 +140,24 @@ Today is 2026-05-14. Working calendar between now and the demo:
 | Sat 2026-05-16 | Relaxed, work time available |
 | Sun 2026-05-17 | Roommate's birthday BBQ, maybe partial evening |
 | Mon 2026-05-18 | Full work session expected |
-| Tue 2026-05-19 | Demo day — no further work |
+| Tue 2026-05-19 | Originally demo day; now freed up — event postponed mid-morning |
 
 ### Current state — what a stranger sees today
 
 After v22 (`commit 476752b`), the BIM mode on iPhone shows: cyan LiDAR mesh, then two taps drop a **room-sized 5m × 5m × 9m orange translucent placeholder** that fills the view and tints everything orange. **No HUD, no numbers, no on-screen prompts.** Reset/replace loop works perfectly, but it doesn't read as anything to an outsider.
 
 Phase 1 (cut/fill) is functionally complete and visually richer (live cut/fill yd³ HUD) but currently NOT the boot map.
+
+### Scale modes — Site Scale (1:1) vs Model Scale (~0.3×)
+
+Phase 2's `PlaceBIMByCornerForward` placement primitive supports two scale modes via its `LengthCm/WidthCm/HeightCm` parameters:
+
+- **Site Scale (production)** — `L=100, W=100, H=100` → actor scale `(1, 1, 1)` → mesh renders at native size. For real on-site 1:1 walkthrough where the planned building is overlaid lifesize on the survey corner.
+- **Model Scale (demo / indoor review)** — `L=30, W=30, H=30` → actor scale `(0.3, 0.3, 0.3)` → mesh renders at ~30% native. For indoor design reviews, client presentations, or trade-show demos where the viewer needs to see the whole building from outside without standing inside opaque walls.
+
+For Tuesday 2026-05-19, `BP_ARPlayerController_BIM` uses Model Scale. The imported Fab "Free Small Old House" mesh (native ~7.7m × 8.3m × 2.4m) renders at ~2.3m × 2.5m × 0.7m, and `ShowPostPlacement` HUD reads "(2.3 m × 2.5 m × 0.7 m)" to match.
+
+Trimble Sitevision and Autodesk Construction Cloud AR both ship with toggleable site/model review modes — the distinction is AEC industry-standard. Surfacing as a runtime HUD toggle is post-demo roadmap. See `memory/decisions.md` 2026-05-18 for full rationale + demo talking-point framing.
 
 ### Pre-Tuesday goal: real BIM ingestion + intelligible demo flow
 
@@ -522,13 +535,69 @@ Issue B was the "virtual content drifts with the camera" bug: cyan LiDAR mesh, y
 
 ---
 
-## Immediate Next Actions (current, 2026-05-14)
+## Bugs & Workflow Gotchas — Index
 
-**Node 2.1 first-sighting cleared (v22, commit `476752b`).** Five clean place→reset cycles on device, 5/5/5 cycle symmetry between MarkerA / MarkerB / BIM spawns. Reset/replace loop breakable indefinitely. See `decisions.md 2026-05-14` for the wire-fix lesson.
+Consolidated quick-reference index of bugs / workflow snags hit during development. Each entry links to its full write-up in `memory/decisions.md` (which has cause, symptom, fix, and "how to apply" detail). When a NEW bug surfaces in a future session, log it to `decisions.md` first, then add a one-line pointer here. Format: **`YYYY-MM-DD — short headline`** — one-line "what bites you / how to recognize it" hook.
 
-**Now driving toward the Idaho Technology Council demo (Tuesday 2026-05-19).** Goal: replace the room-sized orange placeholder with a real-looking building model + a state-driven BIM placement HUD so a stranger can understand what the app is doing. See the **Demo Deadline** section above for the full Tier A / B plan and the day-by-day schedule.
+### UE5 Editor / Save Discipline
 
-**Phase 1 is closed for the demo cycle.** v20 was the final cut/fill release. Phase 1 docs preserved below for reference / for if we revive the cut/fill path in a multi-mode menu (Tier B).
+- **2026-05-19 — Static Mesh `Apply Changes` doesn't save to disk** — Build Settings changes (Build Scale, etc.) rebuild in-memory only; you MUST Cmd+S with the Static Mesh tab focused, not just global Save All. Verify with `stat` on the .uasset mtime.
+- **2026-05-19 — BP pin "weird save" — re-type to clear** — pin literal changes sometimes don't propagate to cooked bytecode even after Compile + Save + cook. Re-typing the same value, re-compiling, re-saving clears it. Suspected dirty-tracking miss.
+- **2026-05-14 — Mac editor `Save Current Level As` crashes from stale Desktop paths** — `LongPackageNameToFilename` errors when old `/Users/.../Desktop/Github/Xcode/...` paths leak into UE config. `grep -rl "Desktop/Github"` in `~/Library/Application Support/Epic` and `Saved/Config`, sed-replace with current canonical path.
+- **2026-05-14 — `SET <object var>` needs BOTH exec wire AND data-input wire** — UE doesn't warn at compile time when the data input is unconnected; it silently sets the var to None. Symptom: state-machine path runs but state vars retain default values.
+
+### Blueprint / Graph
+
+- **2026-05-14 — chongdashu MCP `create_blueprint` doesn't honor non-Actor parent classes** — produces shells without expected Class Defaults (GameModeBase, PlayerController, Pawn, UserWidget). Fall back to Content Browser → Duplicate of a working asset with the right parent.
+- **2026-05-11 — EnhancedInput `IA_TapPlace.Started` doesn't re-fire after state transitions on iOS** — abandoned for Tick rising-edge poll on `GetInputTouchState`. IA + IMC assets retained as dead code.
+- **2026-05-20 — `BIMMesh` is the root component of `BP_BIMOverlay`; `SetActorScale3D` overwrites its `RelativeScale3D`** — component-level scale is a dead lever for the BIM overlay. Only Build Scale (mesh) + actor scale (PlaceBIMByCornerForward L/W/H pins) actually move the size.
+
+### C++ / BlueprintCallable
+
+- **2026-05-20 — `PlaceBIMByCornerForward` silently clamped L/W/H to min 100.0f and logged only the post-clamp value** — cost ~2 hours chasing a phantom "BP save bug." Fixed: clamp min lowered to 10. **Durable lesson: any BlueprintCallable that clamps inputs must log raw→clamped, and clamp ranges must be documented in the `.h` comment.** See `decisions.md 2026-05-20`.
+
+### Asset Import
+
+- **2026-05-19/20 — glTF imports from Fab arrive ~100× oversized (NOT 10×)** — correct Build Scale is `(0.01, 0.01, 0.01)`, not `0.1`. A 7.7m house imports as 774m. Apply Build Scale 0.01 + **Cmd+S with the Static Mesh tab focused** (Apply Changes alone doesn't persist).
+
+### Rendering / Lighting
+
+- **2026-05-20 — imported glTF asset renders pure black on device** — its materials are **Lit** and the AR level (`SiteSync_BIMTest`) has no lights. The project's own debug/overlay materials are Unlit so they always render; imported Lit materials need Movable Directional + Sky lights in the level. See `decisions.md 2026-05-20`.
+
+### iOS Deployment & Signing
+
+- **2026-05-18 — Xcode loses Apple ID between sessions** — manifests mid-cook-pipeline as `No Accounts / No profiles`. Re-add Apple ID in Xcode → Settings → Accounts. Cook+deploy works again.
+- **2026-05-12 — DatasmithRuntime is desktop-only (Win/Mac); iOS not supported through 5.7** — all Datasmith work must happen at editor cook time. No path to load `.udatasmith` at runtime on iPhone in any UE 5.x version. Don't relitigate.
+- **2026-05-14 — Cook `-map=...` does NOT update boot map** — `-map` only tells the cooker WHICH maps to include. Boot map is `DefaultEngine.ini` → `[/Script/EngineSettings.GameMapsSettings] → GameDefaultMap`. Edit separately.
+
+### MCP / Diagnostic Tooling
+
+- **2026-05-11 — `probe_post_rebuild.py` uses fixed actor name** — spawning `MCP_FixCheck_01` in a polling loop causes a fatal "cannot generate unique name" assertion if the prior probe's delete is still pending. Don't `while`-loop the probe.
+- **MCP plugin DLL/dispatcher hygiene** — see "MCP plugin health & rebuild protocol" section above. Two recurring failure modes: stale DLL after source-only updates, and missing dispatcher entry in `UnrealMCPBridge.cpp::ExecuteCommand` when adding new commands.
+
+### Project Context
+
+- **2026-05-19 — Idaho Technology Council demo postponed indefinitely** — all "ship by Tuesday" pressure removed; current `main` state retained as demo-ready baseline. See `decisions.md 2026-05-19` entry.
+- **2026-05-18 — Phase 2 supports Site Scale (1:1, production) vs Model Scale (~0.3×, indoor demo)** — controlled by L/W/H pins on `PlaceBIMByCornerForward`. Same primitive, different use case. Trimble Sitevision / Autodesk Construction Cloud have same dual-mode pattern.
+- **2026-04-21 — No paid Apple Developer Program until James leaves retail** — Personal Team Apple ID + 7-day provisioning profiles. No TestFlight. Wired Mac→iPhone deploy only.
+
+---
+
+## Immediate Next Actions (current, 2026-05-20)
+
+**Open task — house renders black; add lights to `SiteSync_BIMTest.umap`.** This is the single live problem. The A3 real-house swap is functionally complete (placement, scale, HUD all validated on device 2026-05-20) but the imported house renders as a pure-black silhouette because its Lit materials get no illumination in a level with no lights. Fix chosen: add a Movable Directional Light + Movable Sky Light to the level. Full context + the next-step walkthrough is in `docs/node-2.1-a3-lighting-handoff.md` — **start there.**
+
+### Session 2026-05-14 → 2026-05-20 summary (demo-prep arc)
+
+Demo prep for the Idaho Technology Council event (which **postponed indefinitely** mid-session 2026-05-19 — see Demo Snapshot section + `decisions.md 2026-05-19`). Completed and pushed to `origin/main`:
+
+- **A1** (`8fb93d3`) — BIM placeholder shrunk to 3×3×2.5m
+- **A2** (`b7abe86`) — `WBP_BIMPlacementHUD` three-state placement HUD
+- **Tier B wireframe** (`90471e8`) — UV-edge wireframe glow on `M_BIMOverlay`
+
+**A3 — real building model (UNCOMMITTED, in progress):** imported Fab "Free Small Old House" (Jimbogies, CC BY 4.0), swapped into `BP_BIMOverlay`, retargeted Model Scale. This arc surfaced four bugs — all now in the Bugs Index + `decisions.md` (2026-05-19/20): glTF 100× oversize, the `PlaceBIMByCornerForward` min-100 C++ clamp, the BIMMesh root-component scale clobber, and the current black-house lighting issue. Scale chain is solved (`774m glTF × 0.01 Build Scale × 0.3 actor = 2.3m dollhouse`). The C++ clamp fix (`ARMeshBlueprintLibrary.cpp`, min 100→10) is built but uncommitted. **Lighting is the only thing between here and A3 done.**
+
+**Phase 1 is closed.** v20 was the final cut/fill release. Phase 1 docs preserved below for reference / for if we revive the cut/fill path in a multi-mode menu (Tier B).
 
 ### Phase 1 (Node 1.4) recap
 

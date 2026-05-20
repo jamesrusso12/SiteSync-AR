@@ -2,6 +2,119 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-19 — Idaho Technology Council demo postponed indefinitely; current state retained as future demo baseline
+
+Original demo was scheduled for Tuesday 2026-05-19 at the Idaho Technology Council conference. James notified mid-debug that the event was postponed "until further notice" (no new date provided). All "must ship today" pressure removed.
+
+**How to apply:** Demo-state code paths (Model Scale, WBP_BIMPlacementHUD, wireframe-edge M_BIMOverlay, Fab "Free Small Old House" placeholder) remain valid as a known-good baseline for future demo events — keep them on `main`, don't strip. The pacing of remaining Node 2.x work shifts from "ship by Tuesday" to "land the proper Node 2.1 Datasmith deliverable per the gate criteria in CLAUDE.md." All `## Demo Deadline` framing in CLAUDE.md / README.md should be softened to "Demo-ready snapshot" language.
+
+## 2026-05-19 — UE5 BP pin "weird save" — values persist on the editor surface but cooked bytecode keeps stale values; re-type + re-save clears it
+
+Symptom: opened `BP_ARPlayerController_BIM`, changed `PlaceBIMByCornerForward` pin literals from 100 → 30, Compile (green), Cmd+S, File → Save All, Cmd+Q. Cooked + deployed. Device runtime log (`xcrun devicectl device copy from --domain-type appDataContainer`) showed `PlaceBIMByCornerForward: L=100.0cm W=100.0cm H=100.0cm` — the OLD values. The on-disk `.uasset` correctly contained `DefaultValue="30.000000"` (verified with `strings`).
+
+Two possible explanations (not yet root-caused):
+1. Compile + Save somehow flushed source pin values to disk but stale compiled bytecode also persisted, and the cook used the bytecode rather than recompiling from source.
+2. The cook produced correct bytes but the install/launch step didn't replace the running app's cached package data.
+
+**Fix that worked:** re-open the BP, **re-type the pin values** (even to the same value 30), re-compile, re-save. Next cook+deploy picked up the new values correctly. Suggests the editor's "is this asset dirty?" tracking missed the original change, so the actual save was a no-op despite the file's mtime updating from related metadata.
+
+**How to apply:** When a runtime log shows pin values that don't match the on-disk source, don't trust either side. Re-type + re-save + re-cook. If the values STILL don't propagate, dig into `Saved/Cooked/IOS/` and confirm the cooked `.uasset` matches expected.
+
+## 2026-05-19 — Static Mesh Build Settings: `Apply Changes` rebuilds in-memory only; you must Cmd+S the Static Mesh tab itself to persist
+
+Symptom: changed Build Scale 3D on the Fab-imported house from `(1, 1, 1)` to `(0.1, 0.1, 0.1)` and clicked **Apply Changes**. Approx Size readout in the viewport updated. Closed the editor. Cooked + deployed. Device showed the house at full native size (~77m × 82m × 24m) — the Build Scale had not persisted to disk. CLI check confirmed: `stat -f "%Sm" scene.uasset` showed the import-time mtime, unchanged.
+
+**Cause:** `Apply Changes` in the Build Settings panel rebuilds the cached mesh data (bounds, distance field, collision) in memory so the viewport updates, but does NOT mark the .uasset itself as dirty in a way that Cmd+S triggered from elsewhere would catch. You must have the Static Mesh tab focused and press Cmd+S explicitly to persist the new Build Settings to disk.
+
+**Fix:** Re-open the Static Mesh, click into the Build Scale field (to re-dirty it), confirm `(0.1, 0.1, 0.1)`, click Apply Changes again, then immediately **Cmd+S with the Static Mesh tab focused**. Verify with `stat -f "%Sm" <path>.uasset` that the mtime updated.
+
+**How to apply:** Any time you change Build Settings on a Static Mesh asset, the workflow is **Apply Changes → Cmd+S on that exact tab**, not just Apply Changes + global Save All. Save All has been observed to miss Static Mesh Build Settings changes.
+
+## 2026-05-19/20 — glTF imports from Fab arrive 100× oversized; correct Build Scale is 0.01, not 0.1
+
+Symptom: imported "Free Small Old House" (Jimbogies, CC BY 4.0) from Fab. Asset's `Approx Size` overlay in Static Mesh editor showed `77,431 × 82,643 × 24,407` cm — i.e., 774m × 826m × 244m. Visually obviously a small one-story house, so the bounds were ~100× too large.
+
+**Cause:** glTF unit-scale mismatch between the source modeling tool and UE's glTF importer. The net result for this asset (and likely most Fab glTF building assets) is a **100× oversize** in UE units — a 7.7m house imports as 774m.
+
+**Fix — and the trap that cost a full debugging session:** the correct Build Scale 3D is **`(0.01, 0.01, 0.01)`**, not `(0.1, 0.1, 0.1)`. An initial 0.1 was applied and looked plausible (774m → 77m) but 77m is still a skyscraper. It took a second pass to realize the oversize was 100×, not 10×, and the mesh needed `0.01`. After `0.01`: Approx Size drops to ~`774 × 826 × 244` cm = a realistic 7.7m house.
+
+**How to apply:** First action after any glTF import from Fab — open the Static Mesh, check Approx Size against the asset's real-world expected size. Fab building assets have been ~100× oversized; expect to apply Build Scale `0.01`. Apply Changes + **Cmd+S with the Static Mesh tab focused** (Apply Changes alone does not persist — see the Static Mesh save entry above). Verify with `stat` that the mesh `.uasset` mtime updated.
+
+## 2026-05-20 — PlaceBIMByCornerForward C++ silently clamped L/W/H to min 100.0f; logged only the post-clamp value, hiding it for ~2 hours
+
+**The single worst debugging trap of the Node 2.1 work.** After importing the real house and switching to Model Scale, the BIM placement refused to render at dollhouse size no matter what `LengthCm/WidthCm/HeightCm` pin values were set in `BP_ARPlayerController_BIM`. Device logs always showed `PlaceBIMByCornerForward: L=100.0cm W=100.0cm H=100.0cm` regardless of whether the BP pins were 30, 17, or 100.
+
+Hours were spent suspecting a UE5 "BP pin save bug" — re-typing values, re-compiling, full cooks, DDC theories, comparing cooked vs staged `.uasset` md5s. All a wild goose chase.
+
+**Actual cause:** `ARMeshBlueprintLibrary.cpp::PlaceBIMByCornerForward` clamped the inputs:
+```cpp
+const float ClampedLength = FMath::Clamp(LengthCm, 100.0f, 50000.0f);  // min 100!
+```
+Any value below 100 was floored to 100. The BP was correctly passing 30 the whole time — C++ clamped it up. And the `UE_LOG` line printed `ClampedLength` (the post-clamp value), so the log showed `100` and gave no hint a clamp had occurred.
+
+**Fix (commit pending):** lowered the clamp minimum to `10.0f` (supports actor scale down to 0.1× for tabletop/dollhouse Model Scale). Rebuilt iOS C++. Runtime then correctly showed `L=30.0cm scale_m=(0.300,...)`.
+
+**How to apply — two durable lessons:**
+1. **Any `BlueprintCallable` C++ function that clamps/transforms its inputs MUST log the raw input alongside the result** — e.g. `L=%.1f→%.1fcm` (raw→clamped). A log that prints only the post-transform value is actively misleading. Audit `InitFoundationFromCorners` and `CalculateCutFillVolumes` for the same pattern.
+2. **Clamp bounds belong in the `.h` doc comment.** `ARMeshBlueprintLibrary.h`'s `PlaceBIMByCornerForward` comment said nothing about a 100cm floor. A BP author has no way to know `30` becomes `100`. Document all clamp ranges in the header.
+3. When a runtime value contradicts the on-disk source, **suspect the C++ callee before suspecting the BP/cook pipeline.**
+
+## 2026-05-20 — BIMMesh is the root component of BP_BIMOverlay → SetActorScale3D overwrites its RelativeScale3D
+
+While debugging the oversized house, the BIMMesh component's `RelativeScale3D` was set to `0.1` as an attempted scale fix. It did nothing.
+
+**Cause:** `BIMMesh` is the **root component** of `BP_BIMOverlay` (no separate scene-root). `PlaceBIMByCornerForward` calls `BIMActor->SetActorScale3D(ScaleMeters)`, which sets the **root component's** scale directly — overwriting whatever `RelativeScale3D` was authored on BIMMesh. Every placement clobbers it.
+
+**Implication:** the only reliable mesh-size levers for the BIM overlay are (a) the Static Mesh's **Build Scale** (asset-level, baked into mesh data) and (b) the **actor scale** set by `PlaceBIMByCornerForward`'s L/W/H pins. The component `RelativeScale3D` is a dead lever — leave it at `1.0`.
+
+**Final working scale chain for the house:** `774m glTF import × 0.01 Build Scale = 7.74m mesh → × 0.3 actor scale (L=30 pin) = 2.32m rendered` dollhouse. Component scale stays 1.0.
+
+**How to apply:** If a single-component BP actor needs a persistent base scale separate from its placement scale, either bake it into the mesh's Build Scale, or add a dedicated `USceneComponent` as root with the mesh as a child (then the child's RelativeScale3D survives SetActorScale3D).
+
+## 2026-05-20 — Imported glTF house renders pure black on device — Lit materials + AR level has no lights
+
+Symptom: after the scale was finally correct, the dollhouse-sized house rendered as a pure-black silhouette on iPhone.
+
+**Cause:** the Fab house's 8 imported material slots (Door, Glass01, WindowMetal, Concrete02, Road, Wood, Block02, roof) are standard **Lit** PBR materials — they require scene lighting to be visible. `SiteSync_BIMTest.umap` was created minimal (PlayerStart + BP_LiDARMeshManager only) with **no lights**. Everything previously visible in this app — cyan LiDAR mesh, the orange placeholder box — used **Unlit** materials (M_LiDARDebug, M_BIMOverlay), which ignore lighting entirely. The real house's Lit materials got zero illumination → rendered black.
+
+**Fix (in progress, chosen 2026-05-20):** add a **Movable Directional Light** + **Movable Sky Light** to `SiteSync_BIMTest.umap`. AR scenes require Movable lights (no baked lighting). James chose this over the alternative (re-parent all 8 slots to Unlit / M_BIMOverlay) to keep the realistic textures. Tuning of intensities pending device validation.
+
+**How to apply:** any imported asset with Lit materials placed into an AR level needs Movable lights in that level. Unlit materials (like the project's debug/overlay materials) are the exception that "just works" without lights. If a future imported BIM model renders black, check the level's lighting before suspecting the material itself.
+
+## 2026-05-18 — Xcode loses Apple ID account between sessions; manifests as "No Accounts" / "No profiles" build error mid-deploy pipeline
+
+Symptom: ran the standard cook + UAT stage + devicectl install pipeline (the same script that worked Friday). Cook succeeded. UAT BuildCookRun's internal xcodebuild step failed with:
+```
+error: No Accounts: Add a new account in Accounts settings.
+error: No profiles for 'com.RussoCompany.SiteSyncAR' were found
+```
+UAT reported `BUILD SUCCESSFUL` anyway because it copied an older `Binaries/IOS/SiteSyncAR.app` to the archive directory, but `Saved/StagedBuilds/IOS/SiteSyncAR.app` was never produced. `devicectl install` then failed with `CoreDeviceError 3002`: "Access to the resource was denied by this process' sandbox" + "The file couldn't be opened because it doesn't exist."
+
+**Cause:** Xcode 26's Accounts pane (Settings → Accounts) had no Apple ID, despite the macOS account (`MobileMeAccounts` defaults) being correctly signed in to `jrusso03@icloud.com`. Something between Friday's working deploy and Monday evening's broken one — possibly an Xcode update, possibly a Sign-Out + Sign-In on macOS, possibly a Keychain reset — evicted the Apple ID from Xcode specifically.
+
+**Fix:** Open Xcode → Settings (Cmd+,) → Accounts tab → **+ → Apple ID** → sign in with the Personal Team Apple ID. After the account appears with Team ID `PD29S4YQ4P` listed, click **Download Manual Profiles** to refresh signing assets. Quit Xcode. Re-run the cook + deploy pipeline.
+
+**How to apply:** If a deploy that worked previously suddenly fails with `No Accounts` / `No profiles`, check the Xcode Accounts pane first before debugging signing-cert paths or provisioning profile expiry. This will likely recur after future Xcode updates.
+
+## 2026-05-18 — Phase 2 BIM overlay supports two scale modes (Site / Model); demo uses Model Scale
+
+Phase 2's `PlaceBIMByCornerForward` placement primitive drives both production and demo workflows from a single C++ function. The only difference between modes is the `LengthCm/WidthCm/HeightCm` parameters passed at the call site, which set the actor's scale:
+
+- **Site Scale (production, 1:1)** — `L=100, W=100, H=100` → actor scale `(1, 1, 1)` → mesh renders at native size. For a real construction site where a surveyor has set a corner stake and shot a baseline; the planned building is overlaid lifesize and crews can walk *through* the structure before any concrete is poured.
+- **Model Scale (demo / indoor review, ~0.3×)** — `L=30, W=30, H=30` → actor scale `(0.3, 0.3, 0.3)` → mesh renders at ~30% native. For indoor design reviews, client presentations, contractor walkthroughs in an office, or trade-show demos where the viewer needs to see the whole building from outside.
+
+For the Idaho Technology Council demo 2026-05-19, `BP_ARPlayerController_BIM` uses Model Scale. The imported Fab "Free Small Old House" mesh (Jimbogies, CC BY 4.0, native ~7.7m × 8.3m × 2.4m) renders at ~2.3m × 2.5m × 0.7m, and the `ShowPostPlacement` HUD readout uses (2.3, 2.5, 0.7) to match.
+
+**Why:** A 1:1 lifesize building dropped at a tap point in an indoor conference space puts the user inside opaque walls — the model is rendering but invisible because the viewer's camera is inside the building. Model Scale lets them step back ~1–3m and see the whole structure. Both modes are legitimate workflows in AEC AR tooling — Trimble Sitevision and Autodesk Construction Cloud AR both ship with toggleable site/model review modes. The distinction is industry-standard, not a workaround.
+
+**How to apply:** When demoing indoors or showing the workflow without a real construction site, pass `L/W/H` in the 30–60 range (~0.3–0.6× scale → 2–5m max building dimension). For production / real-site code paths, pass `L/W/H = 100` (native size) and trust the survey corner stake. Future work: surface as a runtime HUD toggle so the user can switch modes without recompiling.
+
+**Demo talking-point framing (for the verbal pitch):**
+
+> "What you're seeing is **model review mode** — a scaled-down BIM walkthrough. Construction professionals use this for indoor design reviews, client meetings, in a trailer on-site. The same app at a job site runs in **1:1 site scale** — the planned building renders at lifesize, anchored to the survey corner stake. Crews walk *inside* the planned building before any concrete is poured. Same `PlaceBIMByCornerForward` placement primitive in both modes — just driven by a scale parameter that's tied to the use case."
+
+The distinction is AEC-native; investors and industry attendees will recognize it. For non-AEC audiences: "dollhouse review mode" vs "real-size site mode" lands the same point.
+
 ## 2026-05-14 — Mac editor "Save Current Level As" crashes when stale Desktop paths leak from old project location
 
 Editor crashed every time on `File → Save Current Level As` for a new level. `Saved/Crashes/.../SiteSyncAR.log` showed:

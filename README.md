@@ -46,6 +46,17 @@ Phase 1 — the cut-and-fill earthwork calculator — is **finished and working 
 - MEP layer toggle panel (structural, mechanical, electrical, plumbing)
 - Visual clash highlighting where BIM geometry intersects scanned environment
 
+### Phase 2 review modes — Site Scale vs Model Scale
+
+The `PlaceBIMByCornerForward` placement primitive drives both production and demo workflows from a single C++ function — they differ only in the L/W/H scale parameters passed at the call site.
+
+- **Site Scale (production, 1:1).** At a real construction site, a surveyor sets a corner stake and shoots a baseline. The app places the planned building at lifesize, anchored to that corner. Crews walk *through* the planned structure before any concrete is poured. Call site passes `LengthCm/WidthCm/HeightCm = 100` → actor scale `(1, 1, 1)` → mesh renders at native size.
+- **Model Scale (review, ~0.3×).** For office reviews, client presentations, contractor walkthroughs, or trade-show demos. Building renders at ~30% native size so the viewer can step back and see the whole structure from outside. Same tap-to-place workflow, same survey-origin convention; just scaled to fit an indoor space. Call site passes `LengthCm/WidthCm/HeightCm = 30` → actor scale `(0.3, 0.3, 0.3)`.
+
+Both modes are real workflows in AEC AR tooling — Trimble Sitevision and Autodesk Construction Cloud AR both ship with toggleable site/model review modes. Surfacing a runtime HUD toggle for the user is on the post-demo roadmap.
+
+> **Demo-ready snapshot (Idaho Technology Council, postponed indefinitely as of May 19, 2026).** SiteSync AR was prepared for the May 19, 2026 Idaho Technology Council conference; the event was postponed mid-prep with no new date. The current `main` is retained as a demo-ready baseline for whenever the event reschedules. In that snapshot, SiteSync AR demos in **Model Scale**: a ~7.7m × 8.3m × 2.4m small house (Fab → Jimbogies, CC BY 4.0) renders at ~2.3m × 2.5m × 0.7m, dropped onto the venue floor via two taps. Lets attendees walk *around* the BIM model in the demo space instead of standing *inside* an opaque wall.
+
 ---
 
 ## Development Roadmap
@@ -317,6 +328,41 @@ chore:  config, LFS, MCP test scenes
 git lfs install
 git lfs pull
 ```
+
+---
+
+## Engineering Challenges
+
+A non-exhaustive list of the hard problems we hit and what we did about them. We log each new gotcha to `memory/decisions.md` with cause / symptom / fix / "how to apply" detail, and surface a one-line index in `CLAUDE.md` → "Bugs & Workflow Gotchas — Index" for fast lookup. These are the ones worth surfacing for anyone reading the repo.
+
+### iOS / Mac toolchain drift
+
+- **Xcode 26 vs UE 5.6.1 SDK gate.** UE 5.6's `Apple_SDK.json` caps iOS SDK MaxVersion at 16.9.0, which predates the Xcode 26 we're building against. Without a patch, every iOS build fails with `Platform IOS is not a valid platform to build`. We ship [`scripts/patch-ue56-xcode26.sh`](scripts/patch-ue56-xcode26.sh) which bumps the MaxVersion in-place; it must be re-run after any Epic Launcher update that touches UE 5.6, because the patch lives in shared engine files outside git.
+- **Xcode loses Apple ID between sessions.** A pipeline that worked one day can fail the next with `No Accounts / No profiles for 'com.RussoCompany.SiteSyncAR' were found`. The macOS-level Apple ID stays signed in, but Xcode's own Accounts pane evicts the account — likely after Xcode auto-updates. Fix: re-add the Apple ID in Xcode → Settings → Accounts. Worth checking before debugging signing-cert paths.
+- **Stale path drift in UE config.** The project was moved from `~/Desktop/Github/Xcode/SiteSync-AR/` to `~/Developer/SiteSync-AR/` to escape iCloud xattrs that broke `codesign`. Old path references can linger in `~/Library/Application Support/Epic/UnrealEngine/Editor/ProjectEditorRecords.json` and the project's per-user `EditorPerProjectUserSettings.ini`, causing `LongPackageNameToFilename failed to convert` crashes on Save-As. We `grep -rl "Desktop/Github"` and sed-replace when this surfaces.
+
+### UE5 editor save discipline
+
+UE has multiple "dirty" states (in-memory rebuild, compiled bytecode, on-disk asset) that don't always travel together. Two save bugs caught us during demo prep:
+
+- **Static Mesh `Apply Changes` doesn't persist to disk.** Build Settings changes rebuild cached mesh data (bounds, distance field, collision) in memory so the viewport updates. But the .uasset itself isn't marked dirty in a way `Save All` catches. You must Cmd+S with the Static Mesh tab focused. We verify with `stat -f "%Sm"` on the .uasset mtime.
+- **BP pin literal changes occasionally need a re-type to "take".** Changed a pin from 100 → 30, compiled green, saved, cooked. Runtime still saw 100 even though `strings` on the .uasset showed `30.000000`. Re-opening the BP, re-typing 30 (same value), recompiling, re-saving, and re-cooking fixed it. Suspected dirty-tracking miss inside UE's compile pipeline.
+
+### Platform-imposed constraints
+
+- **No paid Apple Developer Program** (yet). The lead developer's day-job employer's Business Conduct rules bar paid enrollment until employment ends. The project runs on a Personal Team Apple ID with 7-day provisioning profiles and wired Mac → iPhone deploy. No TestFlight; co-developer can't get external builds. Influences: deploy cadence, can't share builds with prospects, partner has to physically come to a machine to see new builds.
+- **DatasmithRuntime is desktop-only.** Common Phase 2 design discussions presume "user loads a `.udatasmith` on the iPhone at runtime" or "live Direct Link from Revit to the phone." These are impossible. Per Epic's Datasmith Supported Platforms doc, DatasmithRuntime supports Windows + macOS only — iOS and Android have never been supported and aren't on any 5.x roadmap. All Datasmith work happens at editor cook time on PC/Mac, baked to standard `UStaticMesh` / `UMaterialInstance`, then cooked through the normal iOS pipeline.
+- **glTF imports often arrive 10× oversized.** Modelers commonly export in millimeters; UE's glTF importer reads positions as centimeters by default. A 7.7m house comes in as 77m. We apply Build Scale `(0.1, 0.1, 0.1)` on the Static Mesh's LOD 0 → Build Settings as the standard fix-on-import.
+
+### iOS input + state machine subtleties
+
+- **EnhancedInput `IA_TapPlace.Started` doesn't re-fire after some state transitions on iOS.** v19 of Node 1.4 chased this for a full session — restored Tick polling, changed trigger types, refreshed nodes — none of it made the IA re-arm post-reset. UE's EnhancedInput trigger state machine appears irrecoverable in this specific iOS scenario; the underlying cause is in the engine, not our BP. v20 abandoned IA_TapPlace entirely and switched to a Tick rising-edge poll on `bWasPressed`/`bIsCurrentlyPressed`. The IA + IMC assets remain in the project as dead code we'll clean up in a future pass.
+- **`SET <object var>` nodes need BOTH exec wire AND data-input wire.** UE doesn't warn at compile time when the data input is unconnected — it silently sets the variable to None using the pin default. This burned us in `BP_ARPlayerController_BIM` where `SET ActiveBIM` had a valid exec chain but the data input pin was unwired, so every BIM spawn set ActiveBIM = None and the reset logic never fired. Always dump-and-verify the graph when state vars seem stuck.
+
+### Diagnostic-tool footguns
+
+- **MCP plugin DLL goes stale after source-only updates.** UE5 loads the compiled DLL once at editor start; subsequent commits to the plugin source don't take effect until the DLL is rebuilt. Symptom: MCP commands that should work return `Unknown command` or other silent misbehavior. See `CLAUDE.md` "MCP plugin health & rebuild protocol" for the rebuild command + 5-second sanity probe.
+- **`probe_post_rebuild.py` uses a fixed actor name** (`MCP_FixCheck_01`). Polling it in a `while` loop can fatal-crash the editor when a delete from the prior probe is still pending and a new spawn collides on the same name. Don't loop the probe.
 
 ---
 

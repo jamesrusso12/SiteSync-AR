@@ -7,7 +7,7 @@
 - MCP prompts → copy-paste-ready natural language blocks
 - Every appended prompt block must carry a labeled header so James can route it at a glance:
   - `## Mac Prompt` — Mac / iOS compile / Xcode / wired deploy / Homebrew / gh on Mac
-  - `## PC Prompt` — Windows PC / UE5 on PC / VS2022 / Cursor / MCP server
+  - `## PC Prompt` — Windows PC / UE5 on PC / VS2022 / MCP server
   - `## UE5 Prompt` — genuinely machine-agnostic UE5 editor work (James picks the machine)
   - `## Note` — content intended for CLAUDE.md / README.md / in-repo docs (not executed)
 - If work spans machines, split into separate labeled blocks — never combine
@@ -20,7 +20,7 @@
 
 ## Git
 - Conventional Commits: `feat:`, `fix:`, `docs:`, `chore:`
-- Branch naming: `feature/node-X.Y-short-description`
+- Commit directly to `main` — no feature branches (per CLAUDE.md Git Workflow). Confirmed 2026-05-20.
 - LFS required for binary assets — always run `git lfs install` + `git lfs pull` on new machines
 
 ## Performance Non-Negotiables

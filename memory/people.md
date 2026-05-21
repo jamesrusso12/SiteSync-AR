@@ -5,7 +5,7 @@
 - Blueprint-first UE5 developer; escalate to C++ only when Blueprints cannot do the job
 - Works across two machines (see below); always end PC-relevant responses with a PC Prompt block
 - Prefers node-by-node Blueprint walkthroughs (input pins, output pins, variable types, connection order)
-- Wants MCP prompts written as copy-paste-ready natural language for Cursor or Claude Desktop
+- Wants MCP prompts written as copy-paste-ready natural language for Claude Code
 - Ask clarifying questions before starting a Node if requirements are ambiguous
 
 ## Cole — Partner

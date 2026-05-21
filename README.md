@@ -26,7 +26,7 @@ Phase 1 — the cut-and-fill earthwork calculator — is **finished and working 
 | Platform | iOS 18+ · iPhone 16 Pro / iPad Pro (LiDAR required) |
 | Build Toolchain | Xcode 26 · macOS 15+ (requires `scripts/patch-ue56-xcode26.sh` on Mac) |
 | BIM Ingestion | Datasmith (Revit / Rhino) |
-| AI Workflow | Claude Code · Unreal Engine MCP (Cursor optional) |
+| AI Workflow | Claude Code · Unreal Engine MCP |
 
 > **Important API note:** The ARKit Scene Reconstruction API is used — NOT the Scene Depth API. Scene Reconstruction produces a persistent 3D triangular mesh suitable for volumetric math. Scene Depth only produces a per-frame 2D depth buffer with no persistent geometry and cannot be used for cut-and-fill calculations.
 
@@ -116,18 +116,16 @@ UE5 BIM Scene ──► GPS + Compass Anchor ──► MEP Layer Toggles ──�
 ### MCP Architecture
 
 ```
-[Claude Code]   ← primary MCP client
-[Cursor]        ← optional, kept as backup
+[Claude Code]
        │
        ▼
    MCP Host → Tool Calls → Python Server (UV) → TCP Socket → UE5 C++ Plugin → UE5 API
 ```
 
-The UnrealMCP C++ plugin auto-starts a TCP server on `127.0.0.1:55557` when the UE5 editor loads — no manual server start needed. Multiple MCP clients (Claude Code + Cursor) can connect to the same port simultaneously without conflict.
+The UnrealMCP C++ plugin auto-starts a TCP server on `127.0.0.1:55557` when the UE5 editor loads — no manual server start needed. The server accepts multiple concurrent connections, so a direct-TCP diagnostic script can run alongside the Claude Code MCP session.
 
-**Configs (both checked into repo):**
-- `.mcp.json` — primary, used by Claude Code (project-level MCP config)
-- `.cursor/mcp.json` — optional backup, used by Cursor
+**Config (checked into repo):**
+- `.mcp.json` — Claude Code MCP server config (project-level)
 
 After a fresh clone or first session, run `/mcp` inside Claude Code (or restart) so it registers the server. Tools then appear as `mcp__unrealMCP__*` and can be called directly from chat.
 
@@ -152,9 +150,8 @@ UE5 5.6.1 is installed on both machines. James works on whichever is available �
 ### PC (Windows) — canonical tree `C:\Dev\SiteSync-AR\`
 - Unreal Engine 5.6.1
 - Visual Studio 2022 (`NativeGame` workload)
-- Claude Code (primary MCP client — `.mcp.json` at repo root)
+- Claude Code (MCP client — `.mcp.json` at repo root)
 - `uv` at `C:\Users\jruss\.local\bin\uv.exe` (required for the UnrealMCP Python server)
-- Cursor IDE (optional — same MCP server also registered in `.cursor/mcp.json`)
 
 ### Mac — canonical tree pinned in [`CLAUDE.md`](CLAUDE.md)
 - Unreal Engine 5.6.1
@@ -169,7 +166,6 @@ UE5 5.6.1 is installed on both machines. James works on whichever is available �
 |---|---|
 | Claude Code | Primary IDE — architecture, documentation, git workflow, config, C++ shim authoring, AND direct UE5 control via UnrealMCP |
 | Unreal Engine MCP | Direct UE5 API control via natural language — test scene assembly, actor placement, component edits, terrain proxy simulation |
-| Cursor (optional) | Secondary MCP client — kept available but no longer required |
 
 ---
 
@@ -245,8 +241,7 @@ Bundle ID in `DefaultEngine.ini` is currently a placeholder (`com.yourcompany.Si
 SiteSync-AR/                          # canonical: C:\Dev\SiteSync-AR\ on PC
 ├── CLAUDE.md                         # session context — read first
 ├── README.md
-├── .mcp.json                         # Claude Code MCP server config (primary)
-├── .cursor/mcp.json                  # Cursor MCP server config (optional)
+├── .mcp.json                         # Claude Code MCP server config
 ├── memory/                           # Claude Code session memory (committed)
 ├── scripts/
 │   └── patch-ue56-xcode26.sh         # idempotent Xcode 26 / UE 5.6 toolchain patch (Mac)
@@ -287,7 +282,7 @@ SiteSync-AR/                          # canonical: C:\Dev\SiteSync-AR\ on PC
 
 ## MCP Test Scene — Node 1.2 Terrain Proxy
 
-Paste into Claude Code (or Cursor Agent mode) to simulate a LiDAR terrain surface in the editor before device testing:
+Paste into Claude Code to simulate a LiDAR terrain surface in the editor before device testing:
 
 ```
 Using unrealMCP, spawn five flat box meshes at these world locations to simulate

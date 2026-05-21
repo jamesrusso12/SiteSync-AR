@@ -51,8 +51,6 @@ SiteSyncAR/Plugins/UnrealMCP/Python/unreal_mcp.log
 SiteSyncAR/Plugins/UnrealMCP/Python/__pycache__/
 *.egg-info/
 
-# Cursor / AI tooling
-.cursor/history/
 # Repo-root .claude/: track skills + commands, ignore everything else (per-machine settings)
 .claude/*
 !.claude/skills/

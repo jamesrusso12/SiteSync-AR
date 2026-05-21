@@ -45,7 +45,7 @@ This patch is Mac-only. PC does not need it (Windows build path doesn't use Appl
 Every copy-paste prompt block appended to a response must carry an explicit header identifying where it runs. Pick the single most specific label; if a workflow truly spans machines, split into separate blocks (e.g. `## PC Prompt` for packaging + `## Mac Prompt` for deploy) rather than one ambiguous block.
 
 - `## Mac Prompt` — runs on the MacBook Pro (iOS compile, Xcode, wired deploy, `scripts/patch-ue56-xcode26.sh`, Homebrew, git/gh CLI from Mac)
-- `## PC Prompt` — runs on the Windows PC (UE5 editor on PC, Visual Studio 2022, Cursor, MCP server, PowerShell/cmd)
+- `## PC Prompt` — runs on the Windows PC (UE5 editor on PC, Visual Studio 2022, MCP server, PowerShell/cmd)
 - `## UE5 Prompt` — UE5 editor / Blueprints / Claude Code inside UE5 when work is genuinely machine-agnostic. James decides which machine to run it on.
 - `## Note` — content intended for `CLAUDE.md`, `README.md`, or other in-repo docs. Not executed — read by James or pasted into the doc.
 
@@ -71,7 +71,7 @@ Example:
 **How James works:**
 - Blueprint logic → deliver as ordered node-by-node walkthroughs (input pins, output pins, variable types, connection order)
 - C++ → minimal files only, always show the `BlueprintCallable` declaration alongside so he can wire immediately
-- MCP prompts → write as copy-paste-ready natural language for Cursor or Claude Desktop
+- MCP work → Claude Code drives the UE5 editor directly via the `unrealMCP` tools; no copy-paste prompt blocks needed for MCP-able work
 - Ask clarifying questions before starting a Node if requirements are ambiguous
 
 ---
@@ -80,7 +80,7 @@ Example:
 
 | Machine | Role | Key Tools |
 |---|---|---|
-| Windows PC | UE5 Blueprints, Datasmith, asset management, MCP server | UE5.6.1, VS2022, Cursor, Claude Code |
+| Windows PC | UE5 Blueprints, Datasmith, asset management, MCP server | UE5.6.1, VS2022, Claude Code |
 | MacBook Pro 16" M5 Pro | UE5 Blueprints (remote sessions), iOS compilation, Xcode signing, wired device deploy | UE5.6.1, Xcode 26, Git, Homebrew, gh CLI |
 | iPhone 16 Pro | LiDAR testing, AR session validation | — |
 
@@ -197,8 +197,7 @@ Trimble Sitevision and Autodesk Construction Cloud AR both ship with toggleable 
 - `Config/IOS/IOSEngine.ini` — disables Nanite, Lumen, Ray Tracing, Path Tracing for iOS
 - `Config/DefaultGame.ini` — camera + location PList usage descriptions
 - `SiteSyncAR.uproject` — plugins declared: `AppleARKit`, `AugmentedReality`, `GeometryScripting`, `ProceduralMeshComponent`, `EnhancedInput`, `ModelingToolsEditorMode`
-- `.mcp.json` (repo root) — Claude Code ↔ UnrealMCP server connection config (primary)
-- `.cursor/mcp.json` — Cursor ↔ UnrealMCP server connection config (optional backup)
+- `.mcp.json` (repo root) — Claude Code ↔ UnrealMCP server connection config
 - Git LFS 3.7.1 installed on Mac via Homebrew
 - Remote: `git@github.com:jamesrusso12/SiteSync-AR.git` (SSH auth)
 
@@ -429,8 +428,7 @@ git lfs pull
 ## Unreal Engine MCP — Architecture
 
 ```
-[Claude Code]   ← primary
-[Cursor]        ← optional, kept as backup
+[Claude Code]
        │
        ▼
    MCP Host → Tool Calls → Python Server (UV) → TCP Socket → UE5 C++ Plugin → UE5 API
@@ -445,15 +443,13 @@ SiteSyncAR/Plugins/UnrealMCP/
     unreal_mcp_server.py
 ```
 
-**The C++ plugin auto-starts the TCP server on port 55557 when the editor loads — no manual start needed.** Multiple MCP clients can connect to the same port at the same time; Claude Code and Cursor do not conflict.
+**The C++ plugin auto-starts the TCP server on port 55557 when the editor loads — no manual start needed.** The server accepts multiple concurrent connections on that port, so a direct-TCP diagnostic script (e.g. `dev/mcp_client.py`) can run alongside the Claude Code MCP session without conflict.
 
 **Claude Code config (primary):** `SiteSyncAR/.mcp.json` (next to `SiteSyncAR.uproject`) — `unrealMCP` server registered with `--directory Plugins/UnrealMCP/Python` so the same file works on PC and Mac. The path is relative to the launching cwd, which is the `SiteSyncAR/` UE project folder on both machines. After cloning or pulling for the first time, run `/mcp` inside Claude Code (or restart) so it picks up the server, and approve the project-scope server when prompted. Tools then surface as `mcp__unrealMCP__*`. **Do not** create local-scope (`-s local`) or user-scope (`-s user`) overrides — they shadow the project file and break portability; the project `.mcp.json` is the only source of truth.
 
-**Cursor config (optional backup):** `.cursor/mcp.json` in repo root — same server, registered for Cursor specifically. Kept so Cursor Agent mode still works if needed; safe to delete if Cursor is fully retired.
-
 **Prereq on both machines:** `uv` must be on PATH. PC: `C:\Users\jruss\.local\bin\uv.exe`. Mac: typically `~/.local/bin/uv` or via Homebrew.
 
-**MCP verification prompt (paste into Claude Code or Cursor — works in either):**
+**MCP verification prompt (paste into Claude Code):**
 ```
 Using the unrealMCP server, spawn a static mesh cube actor at world location 
 X=0, Y=0, Z=100. Name it "MCP_ConnectionTest". Confirm the actor name and location.

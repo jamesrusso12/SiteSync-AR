@@ -2,6 +2,16 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-21 — Cursor fully removed from the project
+
+Cursor was only ever in this project as a second MCP client for driving the UnrealMCP server. Claude Code now drives the `unrealMCP` tools directly (and the C++ TCP bridge on port 55557 can be hit directly via `dev/mcp_client.py` for diagnostics), so Cursor has no remaining role.
+
+**Removed:** `.cursor/mcp.json` (deleted; the `.cursor/` dir is now gone), the `.cursor/history/` rule + "Cursor / AI tooling" comment from `.gitignore`, and all Cursor mentions from `CLAUDE.md`, `README.md`, `memory/preferences.md`, `memory/people.md`.
+
+**Safe because:** `.cursor/mcp.json` is a Cursor-only config — it has zero effect on the UE build, the UE project, or Claude Code's MCP (Claude Code connects via the repo-root `.mcp.json`; the C++ plugin auto-starts the TCP server regardless). Deleting it cannot break anything.
+
+**Supersedes** the 2026-04-25 entry "UnrealMCP wired directly to Claude Code (Cursor demoted to optional)" — specifically its "How to apply" guidance to keep `.cursor/mcp.json` as a backup. That backup is no longer wanted. The 2026-04-25 entry is retained below as history; do not act on its `.cursor/mcp.json` advice.
+
 ## 2026-05-19 — Idaho Technology Council demo postponed indefinitely; current state retained as future demo baseline
 
 Original demo was scheduled for Tuesday 2026-05-19 at the Idaho Technology Council conference. James notified mid-debug that the event was postponed "until further notice" (no new date provided). All "must ship today" pressure removed.

@@ -590,7 +590,14 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 `BP_BIMOverlay.BIMMesh` now renders `SM_TestBuilding_Merged` — the 6 imported `TestBuilding` pieces (Floor / 4 walls / Roof) combined via Merge Actors with **Pivot Point at Zero**, so the merged mesh origin sits at the building corner. Committed `2703f54`. The two-tap `PlaceBIMByCornerForward` flow now drops the real BIM model. Editor-wiring gate met.
 
-**Next for Node 2.1 — iOS device validation (Mac):** cook + deploy `SiteSync_BIMTest`, confirm `TestBuilding` places via two taps on the iPhone. `PlaceBIMByCornerForward` L/W/H pins are at `30/30/30` (Model Scale — the 6 m building places at ~1.8 m dollhouse); decide 30 vs 100 during the device test. Deploy pipeline: `docs/node-2.1-a3-lighting-handoff.md`.
+**Next for Node 2.1 — iOS device validation (Mac):** cook + deploy `SiteSync_BIMTest`, confirm `TestBuilding` places via two taps on the iPhone. `PlaceBIMByCornerForward` L/W/H pins are at `30/30/30` (Model Scale — the 6 m building places at ~1.8 m dollhouse); decide 30 vs 100 during the device test. Deploy pipeline: `docs/node-2.1-a3-lighting-handoff.md`; cook+deploy handoff: `docs/node-2.1-cook-deploy-handoff.md`.
+
+#### PC session 2026-05-21 (continued) — commits
+
+- `e0338e4` — **Cursor fully removed.** `.cursor/mcp.json` deleted, all Cursor mentions stripped from `CLAUDE.md` / `README.md` / `memory/`. Claude Code drives the `unrealMCP` tools directly. Mac made a parallel removal (`c64227f`); reconciled in merge `bdf4998`. See `decisions.md 2026-05-21`.
+- `2703f54` — **`TestBuilding` wired into `BP_BIMOverlay`** (see status above). `SM_TestBuilding_Merged` created via Merge Actors (Pivot Point at Zero), saved to `Content/AR_SiteAnalysis/DatasmithAssets/TestBuilding/`. `BP_BIMOverlay` compile verified clean via MCP.
+- `4d42a18` — **CLAUDE.md Node 2.1 section cleaned up.** Removed superseded "engine cube `(50,50,50)`" references and the obsolete 2026-05-13 handoff block (`⚠️ BROKEN` BeginPlay / GameMode / Part-4 items — all long resolved). Known follow-up not yet done: the `### Pre-Tuesday goal` / Tier A–B section still carries hard demo-deadline framing that `decisions.md 2026-05-19` said to soften to "Demo-ready snapshot" language.
+- **No C++ changed this session.** The device binary's C++ is current as of `0c38146` (logging hygiene, already deployed) — so the next iOS deploy is a content-only cook, no `Build.sh` step required.
 
 ### Backlog (lower priority)
 1. ✅ **C++ logging hygiene pass** — done 2026-05-21, commit `0c38146` (deployed to device). `PlaceBIMByCornerForward` / `InitFoundationFromCorners` / `CalculateCutFillVolumes` now log raw→clamped values; clamp ranges documented in `ARMeshBlueprintLibrary.h` doc comments.

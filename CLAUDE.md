@@ -119,7 +119,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 
 | Node | Description | Status |
 |---|---|---|
-| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🚧 **In progress** (started 2026-05-12) · v22 first-sighting cleared 2026-05-14 (placeholder BIM placement loop: 5/5/5 cycle symmetry) |
+| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🚧 **In progress** · 2026-05-21: first real Datasmith model imported — Rhino `TestBuilding` (6-box test building) ingested as 9 UE assets via headless `pythonscript` commandlet, committed `bdf4998`. Next: wire into `BP_BIMOverlay`. |
 | 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ⏳ Pending |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
@@ -554,6 +554,7 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 ### Asset Import
 
+- **2026-05-21 — UE 5.6 has no working Datasmith GUI import** — no toolbar button; Content Browser Import greys out `.udatasmith`; drag-drop fails `Unknown extension 'udatasmith'`. Import via the `DatasmithSceneElement` Python API — headless `UnrealEditor-Cmd -run=pythonscript` or in-editor `py`. Reusable script: `dev/import_datasmith.py`. See `decisions.md 2026-05-21`.
 - **2026-05-19/20 — glTF imports from Fab arrive ~100× oversized (NOT 10×)** — correct Build Scale is `(0.01, 0.01, 0.01)`, not `0.1`. A 7.7m house imports as 774m. Apply Build Scale 0.01 + **Cmd+S with the Static Mesh tab focused** (Apply Changes alone doesn't persist).
 
 ### Rendering / Lighting
@@ -579,18 +580,24 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 ---
 
-## Immediate Next Actions (current, 2026-05-20 — A3 complete)
+## Immediate Next Actions (current, 2026-05-21 — TestBuilding imported)
 
-**A3 is done.** The demo-prep arc (A1 → A2 → wireframe → A3) is complete, device-validated, committed, and pushed. There is **no open blocking task.** Pick up the next session from `docs/node-2.1-a3-lighting-handoff.md` → "What's next" — summarized below.
+**Node 2.1 Datasmith import works end-to-end.** A real Rhino-authored BIM model — `TestBuilding`, a 6-box test building (6 m × 5 m × 3.4 m, one box per Floor / 4 walls / Roof, each on its own layer) — was modeled in Rhino 8, exported to `.udatasmith`, and imported into the project as 9 UE assets (6 Static Meshes + 2 materials + Datasmith Scene). Committed + pushed in `bdf4998`. Raw source in `BIM_Source/TestBuilding/`; imported assets in `Content/AR_SiteAnalysis/DatasmithAssets/TestBuilding/TestBuilding/`.
 
-### Next work (no rush — Idaho Technology Council demo postponed indefinitely)
+**Key fact for all future imports:** UE 5.6 has no working Datasmith GUI import (no toolbar button; Content Browser import + drag-drop both fail "Unknown extension"). Imports run through the `DatasmithSceneElement` Python API — reusable script `dev/import_datasmith.py`. `PythonScriptPlugin` is now enabled in `SiteSyncAR.uproject`. See `decisions.md 2026-05-21`.
 
-In priority order:
-1. **C++ logging hygiene pass** (highest value) — make `PlaceBIMByCornerForward` log raw→clamped values, audit `InitFoundationFromCorners` + `CalculateCutFillVolumes` for the same hidden-clamp pattern, document all clamp ranges in `ARMeshBlueprintLibrary.h` doc comments. Durable fix for the bug class that cost ~2 hours on 2026-05-20.
-2. **BP cleanup** on `BP_ARPlayerController_BIM` — remove the dead `AddMappingContext` BeginPlay chain (EnhancedInput abandoned in v20), rename the stale "Spawn Foundations" comment.
-3. **Cook-size check** — `Content/Fab/` is ~213 MB of source textures; verify the cooked iOS `.ipa` stays deployable for Personal Team (<200 MB target).
-4. **Node 2.1 proper deliverable** — real Datasmith ingest of a Revit/Rhino sample per the `Gate to Node 2.2` criteria below. The Fab glTF house was a tactical demo asset, not the true Node 2.1 exit artifact.
-5. **Tier B** — `SiteSync_Menu.umap` two-button launcher for Phase 1 (cut/fill) + Phase 2 (BIM).
+### Open task — wire `TestBuilding` into `BP_BIMOverlay`
+
+The building is in the Content Browser but not yet placeable in AR. Next: replace `BP_BIMOverlay`'s engine-cube `BIMMesh` with the imported `TestBuilding` geometry so the two-tap `PlaceBIMByCornerForward` flow drops the real building instead of the orange placeholder. Facts for this task:
+- The building is **6 separate Static Meshes** (`extrusion`..`extrusion_6`), each centered on its own origin, positioned by these offsets (cm, UE space): Floor (300,−250,0), South_Wall (300,−10,20), North_Wall (300,−490,20), West_Wall (10,−250,20), East_Wall (590,−250,20), Roof (300,−250,320).
+- `BP_BIMOverlay.BIMMesh` is the **root component**; `PlaceBIMByCornerForward` scales the whole actor. Scale-mode is set by its L/W/H pins (100 = 1:1 Site Scale, 30 = ~dollhouse Model Scale) — pass 100/100/100 or 30/30/30, NOT literal dimensions, since the mesh is already real-world sized.
+- Two viable approaches — decide at the editor: merge the 6 meshes into one Static Mesh for `BIMMesh`, or add them as 6 child components with the offsets above.
+
+### Backlog (lower priority)
+1. **C++ logging hygiene pass** — make `PlaceBIMByCornerForward` log raw→clamped values, audit `InitFoundationFromCorners` + `CalculateCutFillVolumes` for the same hidden-clamp pattern, document clamp ranges in `ARMeshBlueprintLibrary.h`.
+2. **BP cleanup** on `BP_ARPlayerController_BIM` — remove the dead `AddMappingContext` BeginPlay chain (EnhancedInput abandoned in v20).
+3. **Cook-size check** — `Content/Fab/` is ~213 MB; verify the cooked iOS `.ipa` stays deployable (<200 MB target).
+4. **Tier B** — `SiteSync_Menu.umap` two-button launcher for Phase 1 (cut/fill) + Phase 2 (BIM).
 
 ### Session 2026-05-14 → 2026-05-20 summary (demo-prep arc — all complete)
 

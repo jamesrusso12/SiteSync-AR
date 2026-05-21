@@ -2,6 +2,16 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-21 — UE 5.6 Datasmith import: GUI is a dead end, use the Python API
+
+UE 5.6 exposes **no working GUI path** to import a `.udatasmith` file: the DatasmithImporter plugin adds no toolbar button, the Content Browser **Import** button greys out `.udatasmith`, and dragging the file in fails with `Failed to import ... Unknown extension 'udatasmith'`. The standard importer has no factory registered for the extension — Datasmith was always a separate import path.
+
+**Working method:** the official `unreal.DatasmithSceneElement` Python API — `construct_datasmith_scene_from_file()` → `import_scene(dest)`. Run it in-editor via the `py` console command, or headless via `UnrealEditor-Cmd <uproject> -run=pythonscript -script=<file>`. Reusable script committed at `dev/import_datasmith.py` (edit the two path constants for a new model).
+
+**Enabled `PythonScriptPlugin`** in `SiteSyncAR.uproject` to make this possible — it was not on before.
+
+**How to apply:** never try to GUI-import `.udatasmith` on this engine version. Re-export from the source app, then run `dev/import_datasmith.py`. The headless commandlet route requires the UE editor to be **closed** (it locks the project); the in-editor `py` route needs it open. First real import: Rhino `TestBuilding`, committed `bdf4998`.
+
 ## 2026-05-21 — Cursor fully removed from the project
 
 Cursor was only ever in this project as a second MCP client for driving the UnrealMCP server. Claude Code now drives the `unrealMCP` tools directly (and the C++ TCP bridge on port 55557 can be hit directly via `dev/mcp_client.py` for diagnostics), so Cursor has no remaining role.

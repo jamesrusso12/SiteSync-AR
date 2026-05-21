@@ -38,7 +38,9 @@ public:
 	// slab BOTTOM face (subgrade convention), clipped to the slab's XY footprint.
 	// FoundationActor's scale is interpreted as the slab's full extent in METERS
 	// (matches BP_Foundation.InitFromCorners convention) — multiplied by 100 internally
-	// for cm. Output volumes are in cubic yards (US AEC unit).
+	// for cm. Output volumes are in cubic yards (US AEC unit). The slab dimensions read
+	// from FoundationActor scale are clamped before integration: length/width to
+	// [50, 5000] cm, thickness to [5, 50] cm.
 	// Returns false if inputs are invalid or the slab has zero scale on any axis.
 	UFUNCTION(BlueprintCallable, Category = "SiteSync|Volume")
 	static bool CalculateCutFillVolumes(UProceduralMeshComponent* TerrainMesh,
@@ -49,8 +51,9 @@ public:
 	// Places FoundationActor as an edge-aligned slab spanning CornerA → CornerB (long edge),
 	// with the given width and thickness. Sets actor location (midpoint), yaw rotation
 	// (atan2(deltaY, deltaX)), and scale3D in meters — replacing the fragile BP exec chain
-	// in BP_Foundation.InitFromCorners. WidthCm / ThicknessCm are clamped to [50,5000] /
-	// [5,50] respectively. Returns false on null actor.
+	// in BP_Foundation.InitFromCorners. Clamp ranges: slab length (the CornerA→CornerB XY
+	// distance) to [50, 5000] cm, WidthCm to [50, 5000] cm, ThicknessCm to [5, 50] cm.
+	// Returns false on null actor.
 	UFUNCTION(BlueprintCallable, Category = "SiteSync|Foundation")
 	static bool InitFoundationFromCorners(AActor* FoundationActor,
 	                                      FVector CornerA,
@@ -84,6 +87,10 @@ public:
 	// match what the user tapped. For a unit cube /Engine/BasicShapes/Cube, this means
 	// MeshComponent.RelativeLocation = (50, 50, 50) at component scale 1.0, with the
 	// actor handling all dimensional scaling.
+	//
+	// Clamp ranges: LengthCm / WidthCm to [10, 50000] cm, HeightCm to [10, 30000] cm.
+	// The 10cm floor = actor scale 0.1×, which supports tabletop/dollhouse Model Scale
+	// for indoor demos alongside the 1:1 Site Scale production use case.
 	//
 	// Returns false on null actor or zero-distance Corner→Forward delta.
 	UFUNCTION(BlueprintCallable, Category = "SiteSync|BIM")

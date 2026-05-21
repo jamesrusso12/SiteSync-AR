@@ -272,6 +272,10 @@ bool UARMeshBlueprintLibrary::CalculateCutFillVolumes(UProceduralMeshComponent* 
 	const float SlabWidthCm = FMath::Clamp(RawWidthCm, 50.0f, 5000.0f);
 	const float SlabThicknessCm = FMath::Clamp(RawThicknessCm, 5.0f, 50.0f);
 
+	UE_LOG(LogSiteSyncAR, Log,
+	       TEXT("CalculateCutFillVolumes: slab dims raw→clamped L=%.1f→%.1fcm W=%.1f→%.1fcm T=%.1f→%.1fcm"),
+	       RawLengthCm, SlabLengthCm, RawWidthCm, SlabWidthCm, RawThicknessCm, SlabThicknessCm);
+
 	// Plane sits at slab BOTTOM face. Slab actor pivot is the slab center, so subgrade in
 	// slab-local space is z = -SlabThicknessCm/2.
 	const double PlaneZ = -static_cast<double>(SlabThicknessCm) * 0.5;
@@ -443,11 +447,12 @@ bool UARMeshBlueprintLibrary::InitFoundationFromCorners(AActor* FoundationActor,
 	FoundationActor->SetActorScale3D(ScaleMeters);
 
 	UE_LOG(LogSiteSyncAR, Warning,
-	       TEXT("InitFoundationFromCorners: A=(%.1f,%.1f,%.1f) B=(%.1f,%.1f,%.1f) center=(%.1f,%.1f,%.1f) yaw=%.1f° L=%.1fcm W=%.1fcm T=%.1fcm scale_m=(%.3f,%.3f,%.3f)"),
+	       TEXT("InitFoundationFromCorners: A=(%.1f,%.1f,%.1f) B=(%.1f,%.1f,%.1f) center=(%.1f,%.1f,%.1f) yaw=%.1f° L=%.1f→%.1fcm W=%.1f→%.1fcm T=%.1f→%.1fcm scale_m=(%.3f,%.3f,%.3f)"),
 	       CornerA.X, CornerA.Y, CornerA.Z,
 	       CornerB.X, CornerB.Y, CornerB.Z,
 	       Center.X, Center.Y, Center.Z,
-	       YawDeg, LengthCm, ClampedWidthCm, ClampedThicknessCm,
+	       YawDeg,
+	       DeltaXY, LengthCm, WidthCm, ClampedWidthCm, ThicknessCm, ClampedThicknessCm,
 	       ScaleMeters.X, ScaleMeters.Y, ScaleMeters.Z);
 
 	return true;
@@ -602,10 +607,11 @@ bool UARMeshBlueprintLibrary::PlaceBIMByCornerForward(AActor* BIMActor,
 	BIMActor->SetActorScale3D(ScaleMeters);
 
 	UE_LOG(LogSiteSyncAR, Warning,
-	       TEXT("PlaceBIMByCornerForward: Corner=(%.1f,%.1f,%.1f) Forward=(%.1f,%.1f,%.1f) yaw=%.1f° L=%.1fcm W=%.1fcm H=%.1fcm scale_m=(%.3f,%.3f,%.3f)"),
+	       TEXT("PlaceBIMByCornerForward: Corner=(%.1f,%.1f,%.1f) Forward=(%.1f,%.1f,%.1f) yaw=%.1f° L=%.1f→%.1fcm W=%.1f→%.1fcm H=%.1f→%.1fcm scale_m=(%.3f,%.3f,%.3f)"),
 	       CornerWorld.X, CornerWorld.Y, CornerWorld.Z,
 	       ForwardWorld.X, ForwardWorld.Y, ForwardWorld.Z,
-	       YawDeg, ClampedLength, ClampedWidth, ClampedHeight,
+	       YawDeg,
+	       LengthCm, ClampedLength, WidthCm, ClampedWidth, HeightCm, ClampedHeight,
 	       ScaleMeters.X, ScaleMeters.Y, ScaleMeters.Z);
 
 	return true;

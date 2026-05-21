@@ -119,7 +119,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 
 | Node | Description | Status |
 |---|---|---|
-| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🚧 **In progress** · 2026-05-21: first real Datasmith model imported — Rhino `TestBuilding` (6-box test building) ingested as 9 UE assets via headless `pythonscript` commandlet, committed `bdf4998`. Next: wire into `BP_BIMOverlay`. |
+| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🚧 **In progress** · 2026-05-21: Rhino `TestBuilding` imported (9 UE assets via headless `pythonscript`) and wired into `BP_BIMOverlay` as `SM_TestBuilding_Merged` (commit `2703f54`). Next: iOS device validation. |
 | 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ⏳ Pending |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
@@ -586,12 +586,11 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 **Key fact for all future imports:** UE 5.6 has no working Datasmith GUI import (no toolbar button; Content Browser import + drag-drop both fail "Unknown extension"). Imports run through the `DatasmithSceneElement` Python API — reusable script `dev/import_datasmith.py`. `PythonScriptPlugin` is now enabled in `SiteSyncAR.uproject`. See `decisions.md 2026-05-21`.
 
-### Open task — wire `TestBuilding` into `BP_BIMOverlay`
+### Node 2.1 status — `TestBuilding` wired into `BP_BIMOverlay` ✅
 
-The building is in the Content Browser but not yet placeable in AR. Next: replace `BP_BIMOverlay`'s engine-cube `BIMMesh` with the imported `TestBuilding` geometry so the two-tap `PlaceBIMByCornerForward` flow drops the real building instead of the orange placeholder. Facts for this task:
-- The building is **6 separate Static Meshes** (`extrusion`..`extrusion_6`), each centered on its own origin, positioned by these offsets (cm, UE space): Floor (300,−250,0), South_Wall (300,−10,20), North_Wall (300,−490,20), West_Wall (10,−250,20), East_Wall (590,−250,20), Roof (300,−250,320).
-- `BP_BIMOverlay.BIMMesh` is the **root component**; `PlaceBIMByCornerForward` scales the whole actor. Scale-mode is set by its L/W/H pins (100 = 1:1 Site Scale, 30 = ~dollhouse Model Scale) — pass 100/100/100 or 30/30/30, NOT literal dimensions, since the mesh is already real-world sized.
-- Two viable approaches — decide at the editor: merge the 6 meshes into one Static Mesh for `BIMMesh`, or add them as 6 child components with the offsets above.
+`BP_BIMOverlay.BIMMesh` now renders `SM_TestBuilding_Merged` — the 6 imported `TestBuilding` pieces (Floor / 4 walls / Roof) combined via Merge Actors with **Pivot Point at Zero**, so the merged mesh origin sits at the building corner. Committed `2703f54`. The two-tap `PlaceBIMByCornerForward` flow now drops the real BIM model. Editor-wiring gate met.
+
+**Next for Node 2.1 — iOS device validation (Mac):** cook + deploy `SiteSync_BIMTest`, confirm `TestBuilding` places via two taps on the iPhone. `PlaceBIMByCornerForward` L/W/H pins are at `30/30/30` (Model Scale — the 6 m building places at ~1.8 m dollhouse); decide 30 vs 100 during the device test. Deploy pipeline: `docs/node-2.1-a3-lighting-handoff.md`.
 
 ### Backlog (lower priority)
 1. ✅ **C++ logging hygiene pass** — done 2026-05-21, commit `0c38146` (deployed to device). `PlaceBIMByCornerForward` / `InitFoundationFromCorners` / `CalculateCutFillVolumes` now log raw→clamped values; clamp ranges documented in `ARMeshBlueprintLibrary.h` doc comments.
@@ -686,43 +685,21 @@ Rely on UE5 auto-LOD on import (Datasmith importer's "Generate Lightmap UVs" + "
 
 **Mobile target:** keep total cooked Datasmith content under 200MB per model so the .ipa stays manageable for Personal Team weekly re-deploy. Anything over needs LOD intervention before ingest.
 
-#### What was built this session (2026-05-12)
+#### Node 2.1 assets + key conventions
 
-**Placement primitive (committed in this Node 2.1 work):**
-- `UARMeshBlueprintLibrary::PlaceBIMByCornerForward(BIMActor, CornerWorld, ForwardWorld, LengthCm=500, WidthCm=500, HeightCm=900) → bool` — sets BIMActor location to CornerWorld, yaw to `atan2(ForwardY-CornerY, ForwardX-CornerX)`, scale to (L/100, W/100, H/100) meters. Mirrors the proven `InitFoundationFromCorners` pattern. Logs at Warning level for device-log verification.
-- Pivot convention: BP_BIMOverlay's mesh component must be offset so the **building corner** sits at the actor origin. For the engine cube placeholder (`/Engine/BasicShapes/Cube`, naturally 100×100×100 cm centered), this means BIMMesh.RelativeLocation = (50, 50, 50) at component scale 1.0. Actor scale handles all dimensional scaling.
-- Survey origin convention chosen (per 2026-05-12 decisions): **Tap A = building corner, Tap B = +X axis baseline shot**. Matches Trimble Siteworks / AGTEK / traditional surveyor practice. (BP_Foundation in Phase 1 uses center+edge instead — different semantic, deliberate.)
+**C++ placement primitive — `UARMeshBlueprintLibrary::PlaceBIMByCornerForward`** — sets the BIM actor's location to CornerWorld, yaw to `atan2(ForwardY−CornerY, ForwardX−CornerX)`, scale to `(L/100, W/100, H/100)` meters. Mirrors the proven `InitFoundationFromCorners` pattern; logs raw→clamped values at Warning level (clamp ranges documented in the `.h` doc comment). Survey origin convention: **Tap A = building corner, Tap B = +X axis baseline shot** — Trimble Siteworks / AGTEK practice. BP_Foundation in Phase 1 deliberately uses center+edge instead — different semantic.
 
-**MCP-driven scaffold (in editor memory until Ctrl+S):**
-- `BP_BIMOverlay` (Actor parent) — BIMMesh StaticMeshComponent with `/Engine/BasicShapes/Cube`, RelativeLocation (50,50,50). Compiled.
-- `BP_ARGameMode_BIM` (GameModeBase parent) — empty defaults, awaiting class refs.
+**Corner-at-origin pivot convention** — the BIM mesh's own origin must sit at the building corner so CornerWorld matches the tapped point. `SM_TestBuilding_Merged` satisfies this natively (Merge Actors run with Pivot Point at Zero). `BIMMesh` is the **root** component of `BP_BIMOverlay` so it carries no relative offset; `SetActorScale3D` (called by `PlaceBIMByCornerForward`) clobbers any component-level scale — component scale is a dead lever, only the mesh's Build Scale and the actor scale move size.
 
-**Walkthrough work — current state as of 2026-05-13 mid-day handoff to Mac**
+**Phase 2 BP assets (all on `main`):**
+- `BP_BIMOverlay` — Actor; `BIMMesh` root StaticMeshComponent = `SM_TestBuilding_Merged` (commit `2703f54`). Earlier placeholders (engine cube → Fab glTF house) are superseded.
+- `BP_ARPlayerController_BIM` — duplicated from BP_ARPlayerController v20, retargeted to BIM types (`BIMOverlayClass`, `ActiveBIM`, `MarkerCorner/Forward`, `CornerLocation`). Tap state machine + `ResetPlacement` 3-block IsValid pattern intact; spawn-tap branch calls `PlaceBIMByCornerForward`.
+- `BP_ARGameMode_BIM` — DefaultPawnClass = `BP_ARPawn`, PlayerControllerClass = `BP_ARPlayerController_BIM`.
+- `SiteSync_BIMTest.umap` — PlayerStart (0,0,0) + `BP_LiDARMeshManager` + Directional/Sky lights (A3 lighting fix) + GameMode override = `BP_ARGameMode_BIM`.
+- `WBP_BIMPlacementHUD` — three-state placement HUD (A2, commit `b7abe86`).
+- `M_BIMOverlay` — translucent orange unlit material with UV-edge wireframe glow (Tier B). Currently unused — `SM_TestBuilding_Merged` kept its plain white import material.
 
-**✅ DONE on PC** (committed in [73ae982](https://github.com/jamesrusso12/SiteSync-AR/commit/73ae982) + [a5c90f4](https://github.com/jamesrusso12/SiteSync-AR/commit/a5c90f4)):
-- `M_BIMOverlay.uasset` — translucent orange unlit material, two-sided. Constant3Vector (1.0, 0.5, 0.2) → Emissive Color; Constant 0.4 → Opacity.
-- `BP_BIMOverlay.uasset` — Actor with `BIMMesh` StaticMeshComponent (engine cube), `RelativeLocation=(50,50,50)` so corner sits at actor origin, `M_BIMOverlay` applied to material slot 0.
-- `BP_ARPlayerController_BIM.uasset` — duplicated from BP_ARPlayerController v20 + retargeted:
-  - Variables renamed: `FoundationClass` → `BIMOverlayClass` (type `BP_BIMOverlay` Class Reference, default value `BP_BIMOverlay`), `ActiveFoundation` → `ActiveBIM` (type `BP_BIMOverlay` Object Reference), `MarkerA/B` → `MarkerCorner/Forward`, `FirstTapLocation` → `CornerLocation`.
-  - `ResetPlacement` function v17 structure intact, retargeted to BP_BIMOverlay_C / BP_TapMarker_C types. 3-block IsValid pattern (ActiveBIM, MarkerCorner, MarkerForward) converging on `SET bHasFirstTap=false`. Compile green.
-  - Spawn-tap branch swaps `InitFoundationFromCorners` → `PlaceBIMByCornerForward(BIMActor, CornerLocation, SecondTapHit, 500, 500, 900)`.
-
-**⚠️ BROKEN — needs Mac fix before Part 4 can finish:**
-
-1. **BeginPlay deleted entirely.** James deleted the whole BeginPlay event (intending to remove just the WBP_VolumeReadout creation chain). This kills the **AddMappingContext(IMC_Placement)** chain too. Per decisions.md 2026-05-11 "BP_ARPlayerController Tick → GetInputTouchState poll is load-bearing on iOS" — without AddMappingContext OR the Tick GetInputTouchState pump, taps will never fire on device. MUST restore. Cleanest path: open BP_ARPlayerController v20 (Phase 1) in a side tab, look at its BeginPlay (Sequence node with two outputs: AddMappingContext chain + the WBP creation chain), recreate ONLY the AddMappingContext chain in BP_ARPlayerController_BIM. Three nodes to NOT recreate: `Construct Object from Class` (Class=WBP_VolumeReadout), `SET HUDWidget`, `Add to Viewport`.
-
-2. **`BP_ARGameMode_BIM` may have wrong parent class.** When chongdashu MCP `create_blueprint` was called with `parent_class=GameModeBase`, the resulting asset doesn't expose `Default Pawn Class` / `Player Controller Class` in the Class Defaults panel — those properties don't appear in MCP's `set_blueprint_property` either ("Property not found"). Suggests the parent didn't get honored and the BP is parented to Actor or Object. **Fix by deleting the MCP-created shell and duplicating from the working Phase 1 `BP_ARGameMode`** (which has DefaultPawnClass=BP_ARPawn already correct), then changing `Player Controller Class` from `BP_ARPlayerController` → `BP_ARPlayerController_BIM`. Document this as a known chongdashu MCP gotcha for future sessions.
-
-**⏳ Still pending — Part 4 work that hasn't started:**
-- `SiteSync_BIMTest.umap` new level — PlayerStart at (0,0,0), `BP_LiDARMeshManager` spawned, World Settings → GameMode Override = BP_ARGameMode_BIM.
-
-**Mac iOS cook + deploy** — once the above lands, follow the standard Node 1.4 pipeline (`patch-ue56-xcode26.sh` → UBT → Cook → UAT stage → `xcrun devicectl device install`). The cook should target the new test level via `-map=/Game/SiteSync_BIMTest`. Reference: CLAUDE.md "Build & Deploy Pipeline" section above.
-
-#### Open scope items for Node 2.1 (deferred)
-
-- WBP_BIMPlacementHUD widget — visual states per `docs/node-2.1-placement-ux.png` mockup (Ready / Forward / Placed + toolbar). Defer to v22 once placement chain is device-validated.
-- Real BIM import test — `.udatasmith` from Revit/Rhino + Dataprep decimation pass. Requires either (a) a real BIM file from a client, (b) Twinmotion sample if Datasmith Twinmotion Content plugin is published for 5.6, or (c) free Fab "ArchViz Template Lite" as a starting scene.
-- iOS cook-size measurement after first real-BIM import — confirm .ipa stays deployable for Personal Team weekly re-deploy cycle.
+> **Build history** — the 2026-05-12/13 PC scaffold and the Mac Part-4 fixes (BeginPlay AddMappingContext restore, `BP_ARGameMode_BIM` parent-class re-create, `SiteSync_BIMTest` creation) are all resolved and committed. The A1/A2/A3/Tier-B demo-prep arc is summarized under "Session 2026-05-14 → 2026-05-20" above. One reusable gotcha from that arc: chongdashu MCP `create_blueprint` does not reliably honor `parent_class` — verify the parent in Class Settings after any MCP-created BP, or duplicate an existing correctly-parented BP instead.
 
 #### Gate to Node 2.2
 

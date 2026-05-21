@@ -1,0 +1,4 @@
+# Raw BIM source files live here: Rhino .3dm models and exported .udatasmith
+# bundles (one subfolder per model). This folder is OUTSIDE Content/ so it is
+# never cooked into the iOS .ipa. The imported .uasset files land in
+# Content/AR_SiteAnalysis/DatasmithAssets/<ModelName>/ instead.

@@ -116,16 +116,16 @@ UE5 BIM Scene ──► GPS + Compass Anchor ──► MEP Layer Toggles ──�
 ### MCP Architecture
 
 ```
-[Claude Code]   ← MCP client
+[Claude Code]
        │
        ▼
    MCP Host → Tool Calls → Python Server (UV) → TCP Socket → UE5 C++ Plugin → UE5 API
 ```
 
-The UnrealMCP C++ plugin auto-starts a TCP server on `127.0.0.1:55557` when the UE5 editor loads — no manual server start needed.
+The UnrealMCP C++ plugin auto-starts a TCP server on `127.0.0.1:55557` when the UE5 editor loads — no manual server start needed. The server accepts multiple concurrent connections, so a direct-TCP diagnostic script can run alongside the Claude Code MCP session.
 
 **Config (checked into repo):**
-- `.mcp.json` — used by Claude Code (project-level MCP config)
+- `.mcp.json` — Claude Code MCP server config (project-level)
 
 After a fresh clone or first session, run `/mcp` inside Claude Code (or restart) so it registers the server. Tools then appear as `mcp__unrealMCP__*` and can be called directly from chat.
 

@@ -71,7 +71,7 @@ Example:
 **How James works:**
 - Blueprint logic → deliver as ordered node-by-node walkthroughs (input pins, output pins, variable types, connection order)
 - C++ → minimal files only, always show the `BlueprintCallable` declaration alongside so he can wire immediately
-- MCP prompts → write as copy-paste-ready natural language for Claude Code
+- MCP work → Claude Code drives the UE5 editor directly via the `unrealMCP` tools; no copy-paste prompt blocks needed for MCP-able work
 - Ask clarifying questions before starting a Node if requirements are ambiguous
 
 ---
@@ -443,9 +443,9 @@ SiteSyncAR/Plugins/UnrealMCP/
     unreal_mcp_server.py
 ```
 
-**The C++ plugin auto-starts the TCP server on port 55557 when the editor loads — no manual start needed.**
+**The C++ plugin auto-starts the TCP server on port 55557 when the editor loads — no manual start needed.** The server accepts multiple concurrent connections on that port, so a direct-TCP diagnostic script (e.g. `dev/mcp_client.py`) can run alongside the Claude Code MCP session without conflict.
 
-**Claude Code config:** `SiteSyncAR/.mcp.json` (next to `SiteSyncAR.uproject`) — `unrealMCP` server registered with `--directory Plugins/UnrealMCP/Python` so the same file works on PC and Mac. The path is relative to the launching cwd, which is the `SiteSyncAR/` UE project folder on both machines. After cloning or pulling for the first time, run `/mcp` inside Claude Code (or restart) so it picks up the server, and approve the project-scope server when prompted. Tools then surface as `mcp__unrealMCP__*`. **Do not** create local-scope (`-s local`) or user-scope (`-s user`) overrides — they shadow the project file and break portability; the project `.mcp.json` is the only source of truth.
+**Claude Code config (primary):** `SiteSyncAR/.mcp.json` (next to `SiteSyncAR.uproject`) — `unrealMCP` server registered with `--directory Plugins/UnrealMCP/Python` so the same file works on PC and Mac. The path is relative to the launching cwd, which is the `SiteSyncAR/` UE project folder on both machines. After cloning or pulling for the first time, run `/mcp` inside Claude Code (or restart) so it picks up the server, and approve the project-scope server when prompted. Tools then surface as `mcp__unrealMCP__*`. **Do not** create local-scope (`-s local`) or user-scope (`-s user`) overrides — they shadow the project file and break portability; the project `.mcp.json` is the only source of truth.
 
 **Prereq on both machines:** `uv` must be on PATH. PC: `C:\Users\jruss\.local\bin\uv.exe`. Mac: typically `~/.local/bin/uv` or via Homebrew.
 

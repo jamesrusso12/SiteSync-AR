@@ -594,10 +594,10 @@ The building is in the Content Browser but not yet placeable in AR. Next: replac
 - Two viable approaches — decide at the editor: merge the 6 meshes into one Static Mesh for `BIMMesh`, or add them as 6 child components with the offsets above.
 
 ### Backlog (lower priority)
-1. **C++ logging hygiene pass** — make `PlaceBIMByCornerForward` log raw→clamped values, audit `InitFoundationFromCorners` + `CalculateCutFillVolumes` for the same hidden-clamp pattern, document clamp ranges in `ARMeshBlueprintLibrary.h`.
-2. **BP cleanup** on `BP_ARPlayerController_BIM` — remove the dead `AddMappingContext` BeginPlay chain (EnhancedInput abandoned in v20).
-3. **Cook-size check** — `Content/Fab/` is ~213 MB; verify the cooked iOS `.ipa` stays deployable (<200 MB target).
-4. **Tier B** — `SiteSync_Menu.umap` two-button launcher for Phase 1 (cut/fill) + Phase 2 (BIM).
+1. ✅ **C++ logging hygiene pass** — done 2026-05-21, commit `0c38146` (deployed to device). `PlaceBIMByCornerForward` / `InitFoundationFromCorners` / `CalculateCutFillVolumes` now log raw→clamped values; clamp ranges documented in `ARMeshBlueprintLibrary.h` doc comments.
+2. ✅ **BP cleanup** on `BP_ARPlayerController_BIM` — done 2026-05-21, commit `a11f754`. Dead `AddMappingContext` chain + `PlacementContext` variable removed from BeginPlay; "Spawn Foundations" comment renamed "Spawn Markers + BIM Overlay".
+3. ✅ **Cook-size check** — done 2026-05-21. Staged `.app` = 574 MB: 339 MB Development binary (code, not content) + 234 MB cooked. Fab glTF house = 91 MB cooked (4K textures). Not blocking wired deploy. No texture pass on the Fab house — it is superseded by the `TestBuilding` Datasmith model; apply texture/LOD discipline to `TestBuilding` instead.
+4. **Tier B** — `SiteSync_Menu.umap` two-button launcher for Phase 1 (cut/fill) + Phase 2 (BIM). Part 1 walkthrough (create level + `WBP_MainMenu` layout) delivered 2026-05-21; Parts 2–3 pending.
 
 ### Session 2026-05-14 → 2026-05-20 summary (demo-prep arc — all complete)
 

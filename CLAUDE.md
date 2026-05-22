@@ -546,7 +546,8 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 - **2026-05-14 — chongdashu MCP `create_blueprint` doesn't honor non-Actor parent classes** — produces shells without expected Class Defaults (GameModeBase, PlayerController, Pawn, UserWidget). Fall back to Content Browser → Duplicate of a working asset with the right parent.
 - **2026-05-11 — EnhancedInput `IA_TapPlace.Started` doesn't re-fire after state transitions on iOS** — abandoned for Tick rising-edge poll on `GetInputTouchState`. IA + IMC assets retained as dead code.
-- **2026-05-20 — `BIMMesh` is the root component of `BP_BIMOverlay`; `SetActorScale3D` overwrites its `RelativeScale3D`** — component-level scale is a dead lever for the BIM overlay. Only Build Scale (mesh) + actor scale (PlaceBIMByCornerForward L/W/H pins) actually move the size.
+- **2026-05-20 — `BIMMesh` is the root component of `BP_BIMOverlay`; `SetActorScale3D` overwrites its `RelativeScale3D`** — component-level scale is a dead lever for the BIM overlay. Only Build Scale (mesh) + actor scale (PlaceBIMByCornerForward L/W/H pins) actually move the size. Fixed 2026-05-21 (`116e4b5`): added an `OverlayRoot` scene component as root.
+- **2026-05-21 — cut/fill HUD numbers never settle** — `BP_Foundation` recalcs `CalculateCutFillVolumes` at 10 Hz against the live (still-scanning) LiDAR mesh, so the readout chases a moving input. Not a math bug. Fix = freeze/finalize on placement. **PRIORITY post-Phase-2.** See `decisions.md 2026-05-21`.
 
 ### C++ / BlueprintCallable
 
@@ -609,11 +610,13 @@ Known issue logged + deferred: ~1s green flash at startup before AR passthrough 
 
 With Node 2.1 complete, the agreed order is **Tier B menu → Node 2.2 → Node 2.3**:
 
-1. **Tier B — `SiteSync_Menu.umap` two-button launcher** for Phase 1 (cut/fill) + Phase 2 (BIM). Part 1 walkthrough (create the level + `WBP_MainMenu` layout) delivered 2026-05-21; James started it — no assets saved yet (clean pickup). Parts 2 (widget graph `OnClicked → Open Level` + level BeginPlay `Create Widget`) and 3 (boot config flip in `DefaultEngine.ini` + cook) pending. Menu level uses a `GameModeBase` World Settings override (no AR). Maps: Phase 1 = `/Game/SiteSync`, Phase 2 = `/Game/Maps/SiteSync_BIMTest`.
+1. **Tier B — `SiteSync_Menu.umap` launcher** — ✅ functionally done, device-validated 2026-05-21. `WBP_MainMenu` (two buttons → Open Level Phase 1 / Phase 2), `WBP_BackButton` (return to menu from both AR levels), boot map flipped to `SiteSync_Menu` in `DefaultEngine.ini`. Commits `2cd7286` / `9c94cb0` / `e2bdfb5`. **In flight:** re-anchor `WBP_BackButton` to bottom-left so it stops overlapping the cut/fill HUD. **Deferred polish** (non-blocking, `decisions.md 2026-05-21`): bare black menu background needs a designed UI (do incrementally); AR camera passthrough isn't stopped on return to the menu.
 2. **Node 2.2** — geospatial & compass anchoring (GPS + compass auto-alignment).
 3. **Node 2.3** — engineering clash interface (MEP layer toggles + clash highlighting). Will want a Revit-sourced model for the BIM metadata Datasmith preserves — James is acquiring Revit.
 
-Done earlier this session (✅): C++ logging hygiene (`0c38146`), `BP_ARPlayerController_BIM` cleanup (`a11f754`), cook-size check. Cook-size note: 339 MB of the 483 MB `.app` is the Development binary (code); no texture pass needed on the superseded Fab glTF house — apply texture/LOD discipline to real Datasmith models instead.
+**★ Post-Phase-2 priority (James, 2026-05-21):** once Phase 2 closes, the **FIRST** item in the Phase-1 cleanup pass is the **cut/fill HUD instability** — the readout never settles because the volume is recomputed at 10 Hz against the live, still-scanning LiDAR mesh. Fix = freeze/finalize the measurement (compute once on slab placement, or a Recalculate button). See `decisions.md 2026-05-21` + Bugs Index.
+
+Done earlier this session (✅): C++ logging hygiene (`0c38146`), `BP_ARPlayerController_BIM` cleanup (`a11f754`), cook-size check. Cook-size note: 339 MB of the 483 MB `.app` is the Development binary (code); no texture pass needed on the superseded Fab glTF house.
 
 ### Session 2026-05-14 → 2026-05-20 summary (demo-prep arc — all complete)
 

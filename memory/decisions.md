@@ -2,6 +2,23 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-21 — Cut/fill HUD readout never settles — 10 Hz recalc vs live LiDAR mesh — PRIORITY post-Phase-2 fix
+
+In the Phase 1 cut/fill scene, after the slab is placed the HUD cut/fill cubic-yard numbers fluctuate continuously and never settle on a usable value (e.g. cut climbs 100 → 120 → 140, sometimes drifting either way). Reported by James 2026-05-21.
+
+**Cause — not a math bug:** `BP_Foundation`'s recalc loop calls `CalculateCutFillVolumes` at ~10 Hz (a 0.1 s Delay loop), integrating against the LiDAR terrain mesh — which is itself live. `BP_LiDARMeshManager` rebuilds it every 200 ms and ARKit keeps refining/expanding the scanned mesh as the user moves. So the volume integrates a moving input and the readout chases it. The 250k-triangle `MaxTrianglesPerCall` cap compounds it: each pass processes a different triangle subset → jitter.
+
+**Fix:** replace the 10 Hz loop with a freeze/finalize model — compute the volume once when the slab is placed (against the terrain as-scanned at that moment) and hold it, or expose a "Recalculate" button. Ties into the already-logged triangle-cap AABB-filter item (CLAUDE.md "Node 1.4 future polish").
+
+**Priority — James 2026-05-21:** this is to be the **FIRST** item fixed in the post-Phase-2 Phase-1 cleanup pass. Flagged in CLAUDE.md "Next — agreed plan" + Bugs Index.
+
+## 2026-05-21 — Tier B menu — two deferred polish items (non-blocking)
+
+Surfaced during Tier B device testing 2026-05-21. The launcher works; both are cosmetic/UX:
+
+1. **Bare menu screen** — `SiteSync_Menu` shows the title + two buttons over plain black. Wants a simple designed UI / background. James: build the menu UI incrementally over time, not in one pass.
+2. **AR camera stays on in the menu** — returning to `SiteSync_Menu` via `Open Level` from an AR scene does not stop the ARKit session (it outlives the actor that started it), so the camera passthrough persists behind the menu — jarring. Fix: explicitly Stop AR Session on AR-level `EndPlay`, or on menu `BeginPlay`.
+
 ## 2026-05-21 — Green-screen flash at app startup (pre-AR-passthrough) — known cosmetic issue, deferred
 
 Since the `TestBuilding` Datasmith content was cooked into the iOS build, the app shows a ~1-second solid-green flash on every launch, before the ARKit camera passthrough appears. Reported by James 2026-05-21 during Node 2.1 device validation.

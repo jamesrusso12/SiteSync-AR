@@ -12,7 +12,13 @@ SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engin
 
 ## Where the project is right now (May 2026)
 
-Phase 1 — the cut-and-fill earthwork calculator — is **finished and working on a real iPhone 16 Pro**. Walk into a room, tap two points on the floor, and the app drops a digital concrete pad between those taps and tells you how many cubic yards of dirt you'd need to cut or fill to bring the ground level with the pad's bottom. The numbers update live. We just started **Phase 2**, which is the harder half: take a real Revit or Rhino BIM model from an architect, import it into the app, and stand it up at full scale on the actual construction site so an engineer can walk around it and see where the planned building would clash with what's actually there. We're at the very beginning of Phase 2 — the import pipeline is wired up but no BIM model has been brought through it yet. Next step is a sample model download to prove the pipeline works end-to-end before pulling in real Revit/Rhino files.
+**Phase 1 — the cut-and-fill earthwork calculator — is finished and device-validated on a real iPhone 16 Pro.** Walk into a space, tap two points on the floor, and the app drops a digital concrete pad between those taps and reports the cubic yards of cut and fill needed to bring the ground level with the pad's bottom.
+
+**Phase 2 is well underway.** Node 2.1 — the Datasmith BIM ingestion pipeline — is **complete and device-validated**: a real Rhino-authored BIM model is exported to `.udatasmith`, imported into UE5, cooked into the iOS package, and placed in AR on the iPhone via a two-tap survey-corner workflow at 60 fps. The hard part of Phase 2 — getting a real architectural model onto the device — is proven end-to-end.
+
+The app now also has a **main-menu shell**: it boots to a `SiteSync AR` menu where the user chooses **Earthwork (Cut & Fill)** or **BIM Clash Overlay**, with a back button to return. Two complete AR modes behind one launcher.
+
+**Next:** Node 2.2 — geospatial & compass anchoring, auto-aligning the BIM model to real-world site coordinates via GPS + compass.
 
 ---
 
@@ -34,11 +40,15 @@ Phase 1 — the cut-and-fill earthwork calculator — is **finished and working 
 
 ## Features
 
+### Application shell
+- Boots to a `SiteSync AR` main menu — pick **Earthwork (Cut & Fill)** or **BIM Clash Overlay**
+- In-AR back button returns to the menu from either mode
+
 ### Phase 1 — Cut-and-Fill AR Calculator
 - Real-time LiDAR terrain meshing via ARKit Scene Reconstruction
-- Touch-to-place foundation anchor with pinch-to-scale and rotate gestures
-- Per-cell volumetric diff: foundation plane vs. scanned terrain
-- Live cubic yardage output (cut and fill) displayed in AR HUD
+- Two-tap edge-aligned foundation placement — tap two corners, the pad rotates to the tap vector
+- Volumetric diff: foundation subgrade plane vs. scanned terrain, clipped to the slab footprint
+- Cubic yardage output (cut and fill) displayed in an AR HUD
 
 ### Phase 2 — 1:1 BIM Clash Overlay
 - Full architectural model ingestion via Datasmith (Revit / Rhino → UE5)
@@ -55,7 +65,7 @@ The `PlaceBIMByCornerForward` placement primitive drives both production and dem
 
 Both modes are real workflows in AEC AR tooling — Trimble Sitevision and Autodesk Construction Cloud AR both ship with toggleable site/model review modes. Surfacing a runtime HUD toggle for the user is on the post-demo roadmap.
 
-> **Demo-ready snapshot (Idaho Technology Council, postponed indefinitely as of May 19, 2026).** SiteSync AR was prepared for the May 19, 2026 Idaho Technology Council conference; the event was postponed mid-prep with no new date. The current `main` is retained as a demo-ready baseline for whenever the event reschedules. In that snapshot, SiteSync AR demos in **Model Scale**: a ~7.7m × 8.3m × 2.4m small house (Fab → Jimbogies, CC BY 4.0) renders at ~2.3m × 2.5m × 0.7m, dropped onto the venue floor via two taps. Lets attendees walk *around* the BIM model in the demo space instead of standing *inside* an opaque wall.
+> **Demo-ready snapshot (Idaho Technology Council, postponed indefinitely as of May 19, 2026).** SiteSync AR was prepared for the May 19, 2026 Idaho Technology Council conference; the event was postponed mid-prep with no new date. The current `main` is retained as a demo-ready baseline. In that snapshot SiteSync AR demos in **Model Scale**: a real Rhino-authored test building (6 m × 5 m × 3.4 m) renders at ~1.8 m and is dropped onto the venue floor via two taps — attendees walk *around* the BIM model instead of standing *inside* an opaque wall.
 
 ---
 
@@ -74,11 +84,13 @@ Both modes are real workflows in AEC AR tooling — Trimble Sitevision and Autod
 
 | Node | Description | Status |
 |---|---|---|
-| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🚧 In progress (started 2026-05-12) |
-| 2.2 | Geospatial & compass anchoring (GPS auto-alignment) | ⏳ Pending |
+| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ✅ Device-validated (2026-05-21) |
+| 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | 🚧 Next |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
-**Current gate:** Phase 1 is closed. Node 2.1 needs an end-to-end Datasmith import (sample BIM first, then real Revit/Rhino) cooked into the iOS package and rendering on iPhone 16 Pro at 60fps. Node-by-node detail (built assets, BP graphs, decisions, next actions) lives in [`CLAUDE.md`](CLAUDE.md) — the canonical session context for both human and AI contributors.
+**App shell:** a `SiteSync_Menu` launcher level boots first — two buttons open the Phase 1 (cut/fill) and Phase 2 (BIM) AR modes, with an in-AR back button returning to the menu.
+
+**Current status:** Phase 1 closed; Phase 2 Node 2.1 closed — a real Rhino BIM model is device-validated in AR. Node 2.2 (GPS + compass anchoring) is next. Node-by-node detail — built assets, BP graphs, decisions, next actions — lives in [`CLAUDE.md`](CLAUDE.md), the canonical session context for both human and AI contributors.
 
 ---
 
@@ -171,55 +183,46 @@ UE5 5.6.1 is installed on both machines. James works on whichever is available �
 
 ## iOS Build & Deploy Workflow
 
-UE5 runs on the PC. iOS apps must be compiled on macOS (Apple requirement). The connection between them is UE5's **Remote Build** feature, which SSH's into the Mac to run the iOS compile step.
+iOS builds run **directly on the Mac** — there is no PC-driven SSH remote build. UE 5.6.1 runs on both machines for Blueprint/editor work, but iOS packaging (C++ compile, content cook, code signing, wired deploy) is done entirely on the Mac with UE 5.6 + Xcode 26.
 
-### Remote Build Setup (one-time, on PC)
+### Mac prerequisites
 
-In UE5: `Project Settings → Platforms → iOS → Build`
+- Xcode 26 with the iOS 18 SDK; Apple ID added under Xcode → Settings → Accounts (Personal Team, Team ID `PD29S4YQ4P`).
+- `scripts/patch-ue56-xcode26.sh` — run once per session (idempotent; patches the UE 5.6 ↔ Xcode 26 SDK-version gate).
+- Git LFS installed and pulled.
 
-| Setting | Value |
-|---|---|
-| Remote Server Name | Mac's local IP (`ipconfig getifaddr en0` on Mac) |
-| Remote User Name | Mac username |
-| SSH Key | Click "Generate SSH Key" and complete the pairing prompt on Mac |
-
-### Mac Prerequisites (verify before first deploy)
+### Deploy pipeline (Mac · from the repo root · editor fully quit)
 
 ```bash
-# Confirm Xcode CLI tools are active
-xcode-select --print-path
-# Expected: /Applications/Xcode.app/Contents/Developer
+bash scripts/patch-ue56-xcode26.sh          # toolchain patch (idempotent)
 
-# Accept Xcode license
-sudo xcodebuild -license accept
+# C++ build — ONLY when Source/ changed:
+".../UE_5.6/Engine/Build/BatchFiles/Mac/Build.sh" SiteSyncAR IOS Development \
+  -project=".../SiteSyncAR/SiteSyncAR.uproject"
 
-# Confirm Remote Login (SSH) is enabled
-sudo systemsetup -getremotelogin
+# Cook content for the target map(s):
+UnrealEditor ".../SiteSyncAR.uproject" -run=Cook -targetplatform=IOS -map=<map(+map...)>
 
-# Confirm iOS 18 SDK is present
-xcodebuild -showsdks | grep iphoneos
+# Stage into a deployable .app:
+".../UE_5.6/Engine/Build/BatchFiles/RunUAT.sh" BuildCookRun \
+  -project=".../SiteSyncAR.uproject" -platform=IOS -configuration=Development \
+  -stage -skipbuild -skipcook -archive
+
+# Install + launch on the wired iPhone:
+xcrun devicectl device install app    --device <UDID> ".../StagedBuilds/IOS/SiteSyncAR.app"
+xcrun devicectl device process launch --device <UDID> --terminate-existing com.RussoCompany.SiteSyncAR
 ```
 
-### Deploy Flow
-
-1. PC: `Platforms → iOS → Package Project` — UE5 SSH's into Mac, compiles, outputs `.ipa`
-2. Mac: Install wired to iPhone 16 Pro
-
-```bash
-# Option A — drag .ipa onto Xcode Devices & Simulators "Installed Apps"
-
-# Option B — command line
-xcrun devicectl device install app --device <UDID> /path/to/SiteSyncAR.ipa
-```
+Content-only changes skip the `Build.sh` step. The editor must be fully quit before cooking (it locks the cook output dirs). Full commands with absolute paths live in [`CLAUDE.md`](CLAUDE.md) → "Build & Deploy Pipeline."
 
 ### iOS Signing
 
 | Phase | Account | Capability |
 |---|---|---|
-| Prototype | Free Apple ID | Wired deploy only · Re-sign every 7 days |
-| Distribution | Apple Developer ($99/yr) | TestFlight · 1-year provisioning · App Store |
+| Prototype (current) | Personal Team — free Apple ID, Team ID `PD29S4YQ4P` | Wired Mac → iPhone deploy · 7-day provisioning |
+| Distribution (future) | Apple Developer Program ($99/yr) | TestFlight · 1-year provisioning · App Store |
 
-Bundle ID in `DefaultEngine.ini` is currently a placeholder (`com.yourcompany.SiteSyncAR`). Update it when a paid Apple Developer account is activated.
+Bundle ID: **`com.RussoCompany.SiteSyncAR`** (finalized). No paid Apple Developer Program yet — a retail-employment Business Conduct rule bars enrollment for now, so there is no TestFlight and the co-developer needs a wired machine to see builds. See [`CLAUDE.md`](CLAUDE.md) for the full constraint.
 
 ---
 

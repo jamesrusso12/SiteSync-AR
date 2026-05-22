@@ -1,0 +1,38 @@
+SiteSync AR — Proprietary License
+Copyright (c) 2026 James Russo and Cole. All rights reserved.
+
+This repository and its contents (the "Software") are the proprietary and
+confidential property of the copyright holders. The source is publicly
+viewable on GitHub for reference and transparency only; public visibility
+does NOT grant any license to use the Software.
+
+No permission is granted to any person or entity to use, copy, modify, merge,
+publish, distribute, sublicense, create derivative works of, or sell any part
+of the Software, in source or compiled form, without the prior written
+permission of the copyright holders.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR
+IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-------------------------------------------------------------------------------
+Third-party components
+-------------------------------------------------------------------------------
+
+This license applies to the original code and assets authored for SiteSync AR.
+The repository also contains third-party components that remain governed by
+their own licenses, including but not limited to:
+
+  - Unreal Engine integration and Epic-provided plugins (Datasmith and others)
+    — governed by the Unreal Engine End User License Agreement.
+
+  - Plugins/UnrealMCP/ — the community "unreal-mcp" plugin (chongdashu),
+    governed by its own upstream license.
+
+  - Content/Fab/Free_Small_Old_House/ — "Free Small Old House" by Jimbogies,
+    licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+
+Use of those components is subject to their respective licenses, not this one.

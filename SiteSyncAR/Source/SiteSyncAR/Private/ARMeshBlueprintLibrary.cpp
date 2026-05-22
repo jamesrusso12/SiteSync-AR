@@ -1,3 +1,5 @@
+// Copyright (c) 2026 James Russo and Cole. All rights reserved. SiteSync AR is proprietary software — see LICENSE.
+
 #include "ARMeshBlueprintLibrary.h"
 #include "ARBlueprintLibrary.h"
 #include "ARTrackable.h"

@@ -388,3 +388,5 @@ UE has multiple "dirty" states (in-memory rebuild, compiled bytecode, on-disk as
 ---
 
 *Built by James Russo & Cole · Boise, Idaho*
+
+© 2026 James Russo and Cole. All rights reserved. SiteSync AR is proprietary software — see [`LICENSE`](LICENSE). The repository is publicly viewable for reference; public visibility does not grant a license to use the code.

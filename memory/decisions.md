@@ -2,6 +2,16 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-21 — Green-screen flash at app startup (pre-AR-passthrough) — known cosmetic issue, deferred
+
+Since the `TestBuilding` Datasmith content was cooked into the iOS build, the app shows a ~1-second solid-green flash on every launch, before the ARKit camera passthrough appears. Reported by James 2026-05-21 during Node 2.1 device validation.
+
+**Best diagnosis (not device-confirmed):** the AR camera-passthrough texture rendering uninitialised GPU memory in the gap between the map finishing load and ARKit delivering its first camera frame — Metal commonly clears uninitialised buffers to a solid colour. The green was most likely always present but sub-perceptible; the larger Datasmith payload lengthened the load gap enough to make it visible. NOT caused by `TestBuilding` geometry — `BP_BIMOverlay` only spawns on the second tap, it is not in `SiteSync_BIMTest` at startup.
+
+**Status:** deferred. ~1s cosmetic startup artifact, non-blocking — Node 2.1's gate is met regardless. James chose (2026-05-21) to log it and move on rather than chase it mid-flow.
+
+**Fix when revisited:** add a full-screen black UMG widget on BeginPlay that covers the viewport until the first AR frame / stable tracking, then remove it. Confirm the cause first with a fresh-startup device-log pull (`xcrun devicectl device copy from ... appDataContainer` → `Saved/Logs/SiteSyncAR.log`).
+
 ## 2026-05-21 — UE 5.6 Datasmith import: GUI is a dead end, use the Python API
 
 UE 5.6 exposes **no working GUI path** to import a `.udatasmith` file: the DatasmithImporter plugin adds no toolbar button, the Content Browser **Import** button greys out `.udatasmith`, and dragging the file in fails with `Failed to import ... Unknown extension 'udatasmith'`. The standard importer has no factory registered for the extension — Datasmith was always a separate import path.

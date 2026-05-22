@@ -119,7 +119,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 
 | Node | Description | Status |
 |---|---|---|
-| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | 🚧 **In progress** · 2026-05-21: Rhino `TestBuilding` imported (9 UE assets via headless `pythonscript`) and wired into `BP_BIMOverlay` as `SM_TestBuilding_Merged` (commit `2703f54`). Next: iOS device validation. |
+| 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ✅ **Complete** · device-validated 2026-05-21 — Rhino `TestBuilding` places via the two-tap flow on iPhone 16 Pro, flush on the floor, 60fps, HUD reads correct dims. Gate to Node 2.2 cleared. |
 | 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ⏳ Pending |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
@@ -560,6 +560,7 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 ### Rendering / Lighting
 
 - **2026-05-20 — imported glTF asset renders pure black on device** — its materials are **Lit** and the AR level (`SiteSync_BIMTest`) has no lights. The project's own debug/overlay materials are Unlit so they always render; imported Lit materials need Movable Directional + Sky lights in the level. See `decisions.md 2026-05-20`.
+- **2026-05-21 — ~1s green flash at app startup before AR passthrough** — likely the uninitialised camera-passthrough buffer showing during the map-load → first-ARKit-frame gap; surfaced once the Datasmith payload lengthened load time. Cosmetic, non-blocking, deferred. See `decisions.md 2026-05-21`.
 
 ### iOS Deployment & Signing
 
@@ -580,17 +581,22 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 ---
 
-## Immediate Next Actions (current, 2026-05-21 — TestBuilding imported)
+## Immediate Next Actions (current, 2026-05-21 — Node 2.1 complete)
 
 **Node 2.1 Datasmith import works end-to-end.** A real Rhino-authored BIM model — `TestBuilding`, a 6-box test building (6 m × 5 m × 3.4 m, one box per Floor / 4 walls / Roof, each on its own layer) — was modeled in Rhino 8, exported to `.udatasmith`, and imported into the project as 9 UE assets (6 Static Meshes + 2 materials + Datasmith Scene). Committed + pushed in `bdf4998`. Raw source in `BIM_Source/TestBuilding/`; imported assets in `Content/AR_SiteAnalysis/DatasmithAssets/TestBuilding/TestBuilding/`.
 
 **Key fact for all future imports:** UE 5.6 has no working Datasmith GUI import (no toolbar button; Content Browser import + drag-drop both fail "Unknown extension"). Imports run through the `DatasmithSceneElement` Python API — reusable script `dev/import_datasmith.py`. `PythonScriptPlugin` is now enabled in `SiteSyncAR.uproject`. See `decisions.md 2026-05-21`.
 
-### Node 2.1 status — `TestBuilding` wired into `BP_BIMOverlay` ✅
+### Node 2.1 — COMPLETE ✅ (device-validated 2026-05-21)
 
-`BP_BIMOverlay.BIMMesh` now renders `SM_TestBuilding_Merged` — the 6 imported `TestBuilding` pieces (Floor / 4 walls / Roof) combined via Merge Actors with **Pivot Point at Zero**, so the merged mesh origin sits at the building corner. Committed `2703f54`. The two-tap `PlaceBIMByCornerForward` flow now drops the real BIM model. Editor-wiring gate met.
+Rhino `TestBuilding` device-validated on iPhone 16 Pro: imports via Datasmith → cooks → renders in the AR session at 60fps, places **flush on the floor** via the two-tap `PlaceBIMByCornerForward` flow (Model Scale `30/30/30` → ~1.8 m dollhouse), reset/replace loop works, HUD reads correct real dimensions (6 × 5 × 3.4 m). **Gate to Node 2.2 cleared.** Cook size: 483 MB `.app` (339 MB Development binary + 142 MB cooked — the Fab glTF house dropped out of the cook once `BP_BIMOverlay` stopped referencing it).
 
-**Next for Node 2.1 — iOS device validation (Mac):** cook + deploy `SiteSync_BIMTest`, confirm `TestBuilding` places via two taps on the iPhone. `PlaceBIMByCornerForward` L/W/H pins are at `30/30/30` (Model Scale — the 6 m building places at ~1.8 m dollhouse); decide 30 vs 100 during the device test. Deploy pipeline: `docs/node-2.1-a3-lighting-handoff.md`; cook+deploy handoff: `docs/node-2.1-cook-deploy-handoff.md`.
+Three device-test fixes landed in the final pass:
+- **`116e4b5`** — float fix: `BP_BIMOverlay` given an `OverlayRoot` scene-component root with `BIMMesh` reparented under it at RelativeLocation `(-370, 480, -90)`, so the merged-mesh pivot lands the building's bottom corner on the actor origin and `PlaceBIMByCornerForward` seats it flush on the tapped floor point. Also resolves the 2026-05-20 BIMMesh-is-root structural gap. Adds `dev/print_mesh_bounds.py` (reusable pivot probe).
+- **`e6716b6`** — HUD fix: `BP_ARPlayerController_BIM`'s `ShowPostPlacement` call reads the building's real size live from `BIMMesh` local bounds (`(Max-Min) × 0.01` → m) instead of hardcoded Fab-house numbers — `WBP_BIMPlacementHUD.ShowPostPlacement` was already parametrised.
+- **`9b8f579`** — backlog doc cross-off.
+
+Known issue logged + deferred: ~1s green flash at startup before AR passthrough (cosmetic, non-blocking) — see `decisions.md 2026-05-21` + Bugs Index.
 
 #### PC session 2026-05-21 (continued) — commits
 
@@ -599,11 +605,15 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 - `4d42a18` — **CLAUDE.md Node 2.1 section cleaned up.** Removed superseded "engine cube `(50,50,50)`" references and the obsolete 2026-05-13 handoff block (`⚠️ BROKEN` BeginPlay / GameMode / Part-4 items — all long resolved). Known follow-up not yet done: the `### Pre-Tuesday goal` / Tier A–B section still carries hard demo-deadline framing that `decisions.md 2026-05-19` said to soften to "Demo-ready snapshot" language.
 - **No C++ changed this session.** The device binary's C++ is current as of `0c38146` (logging hygiene, already deployed) — so the next iOS deploy is a content-only cook, no `Build.sh` step required.
 
-### Backlog (lower priority)
-1. ✅ **C++ logging hygiene pass** — done 2026-05-21, commit `0c38146` (deployed to device). `PlaceBIMByCornerForward` / `InitFoundationFromCorners` / `CalculateCutFillVolumes` now log raw→clamped values; clamp ranges documented in `ARMeshBlueprintLibrary.h` doc comments.
-2. ✅ **BP cleanup** on `BP_ARPlayerController_BIM` — done 2026-05-21, commit `a11f754`. Dead `AddMappingContext` chain + `PlacementContext` variable removed from BeginPlay; "Spawn Foundations" comment renamed "Spawn Markers + BIM Overlay".
-3. ✅ **Cook-size check** — done 2026-05-21. Staged `.app` = 574 MB: 339 MB Development binary (code, not content) + 234 MB cooked. Fab glTF house = 91 MB cooked (4K textures). Not blocking wired deploy. No texture pass on the Fab house — it is superseded by the `TestBuilding` Datasmith model; apply texture/LOD discipline to `TestBuilding` instead.
-4. **Tier B** — `SiteSync_Menu.umap` two-button launcher for Phase 1 (cut/fill) + Phase 2 (BIM). Part 1 walkthrough (create level + `WBP_MainMenu` layout) delivered 2026-05-21; Parts 2–3 pending.
+### Next — agreed plan (2026-05-21)
+
+With Node 2.1 complete, the agreed order is **Tier B menu → Node 2.2 → Node 2.3**:
+
+1. **Tier B — `SiteSync_Menu.umap` two-button launcher** for Phase 1 (cut/fill) + Phase 2 (BIM). Part 1 walkthrough (create the level + `WBP_MainMenu` layout) delivered 2026-05-21; James started it — no assets saved yet (clean pickup). Parts 2 (widget graph `OnClicked → Open Level` + level BeginPlay `Create Widget`) and 3 (boot config flip in `DefaultEngine.ini` + cook) pending. Menu level uses a `GameModeBase` World Settings override (no AR). Maps: Phase 1 = `/Game/SiteSync`, Phase 2 = `/Game/Maps/SiteSync_BIMTest`.
+2. **Node 2.2** — geospatial & compass anchoring (GPS + compass auto-alignment).
+3. **Node 2.3** — engineering clash interface (MEP layer toggles + clash highlighting). Will want a Revit-sourced model for the BIM metadata Datasmith preserves — James is acquiring Revit.
+
+Done earlier this session (✅): C++ logging hygiene (`0c38146`), `BP_ARPlayerController_BIM` cleanup (`a11f754`), cook-size check. Cook-size note: 339 MB of the 483 MB `.app` is the Development binary (code); no texture pass needed on the superseded Fab glTF house — apply texture/LOD discipline to real Datasmith models instead.
 
 ### Session 2026-05-14 → 2026-05-20 summary (demo-prep arc — all complete)
 

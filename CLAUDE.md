@@ -610,7 +610,7 @@ Known issue logged + deferred: ~1s green flash at startup before AR passthrough 
 
 With Node 2.1 complete, the agreed order is **Tier B menu → Node 2.2 → Node 2.3**:
 
-1. **Tier B — `SiteSync_Menu.umap` launcher** — ✅ functionally done, device-validated 2026-05-21. `WBP_MainMenu` (two buttons → Open Level Phase 1 / Phase 2), `WBP_BackButton` (return to menu from both AR levels), boot map flipped to `SiteSync_Menu` in `DefaultEngine.ini`. Commits `2cd7286` / `9c94cb0` / `e2bdfb5`. **In flight:** re-anchor `WBP_BackButton` to bottom-left so it stops overlapping the cut/fill HUD. **Deferred polish** (non-blocking, `decisions.md 2026-05-21`): bare black menu background needs a designed UI (do incrementally); AR camera passthrough isn't stopped on return to the menu.
+1. **Tier B — `SiteSync_Menu.umap` launcher** — ✅ **COMPLETE**, device-validated 2026-05-21. `WBP_MainMenu` (two buttons → Open Level Phase 1 / Phase 2), `WBP_BackButton` (bottom-left, returns to menu from both AR levels), boot map flipped to `SiteSync_Menu` in `DefaultEngine.ini`. Commits `2cd7286` / `9c94cb0` / `e2bdfb5` / `ddb3135`. **Deferred polish** (non-blocking, `decisions.md 2026-05-21`): bare black menu background needs a designed UI (do incrementally); AR camera passthrough isn't stopped on return to the menu.
 2. **Node 2.2** — geospatial & compass anchoring (GPS + compass auto-alignment).
 3. **Node 2.3** — engineering clash interface (MEP layer toggles + clash highlighting). Will want a Revit-sourced model for the BIM metadata Datasmith preserves — James is acquiring Revit.
 

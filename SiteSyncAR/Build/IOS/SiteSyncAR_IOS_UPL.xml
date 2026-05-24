@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    UPL (Unreal Plugin Language) for SiteSyncAR iOS plist injection.
+
+    UE 5.6's IOSRuntimeSettings.AdditionalPlistData (ini) is unreliable —
+    AppleARKit_IOS_UPL.xml overwrites NSCameraUsageDescription and our
+    location keys never reach the staged Info.plist. UPL is the same
+    mechanism AppleARKit uses, so it lands the keys deterministically.
+
+    NSLocationWhenInUseUsageDescription is REQUIRED — our CoreLocation
+    shim calls -requestWhenInUseAuthorization (NOT Always, which iOS
+    now treats as legacy on-demand and denies for new apps).
+-->
+<root>
+    <init>
+        <log text="SiteSyncAR adding location usage descriptions to plist..."/>
+    </init>
+
+    <iosPListUpdates>
+        <addElements tag="dict" once="true">
+            <key>NSLocationWhenInUseUsageDescription</key>
+            <string>SiteSync AR uses your location to anchor BIM models to real-world coordinates.</string>
+            <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+            <string>SiteSync AR uses your location to anchor BIM models to real-world coordinates.</string>
+        </addElements>
+    </iosPListUpdates>
+</root>

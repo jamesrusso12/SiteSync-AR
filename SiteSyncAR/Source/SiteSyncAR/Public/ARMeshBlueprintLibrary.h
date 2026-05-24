@@ -102,4 +102,25 @@ public:
 	                                    float LengthCm = 500.0f,
 	                                    float WidthCm = 500.0f,
 	                                    float HeightCm = 900.0f);
+
+	// Node 2.2a — replacement for UE's flaky LocationServicesIOSImpl.GetLastKnownLocation.
+	// Internally manages a CLLocationManager and calls -requestWhenInUseAuthorization
+	// (NOT Always — iOS treats Always-without-prior-WhenInUse as legacy on-demand
+	// authorization and denies new apps with kCLErrorDomain Code=1). First call
+	// triggers the system permission prompt; subsequent calls return the most
+	// recent fix or false if no fix yet / unauthorized / location services off.
+	//
+	// Doubles are used for lat/long so we preserve <1cm precision (float32 carries
+	// only ~7 sig figs which loses ~10cm at typical geo magnitudes).
+	//
+	// Returns false if:
+	//   - not running on iOS
+	//   - user denied authorization
+	//   - location services disabled in system settings
+	//   - no GPS fix received yet (transient; HUD should keep polling)
+	UFUNCTION(BlueprintCallable, Category = "SiteSync|Geo")
+	static bool GetDeviceGeoLocation(double& OutLatitude,
+	                                 double& OutLongitude,
+	                                 double& OutAltitudeMeters,
+	                                 double& OutHorizontalAccuracyMeters);
 };

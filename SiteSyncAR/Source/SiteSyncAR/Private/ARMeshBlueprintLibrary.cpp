@@ -147,6 +147,18 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 	OutIndices.Reset();
 	return false;
 }
+
+bool UARMeshBlueprintLibrary::GetDeviceGeoLocation(double& OutLatitude,
+                                                   double& OutLongitude,
+                                                   double& OutAltitudeMeters,
+                                                   double& OutHorizontalAccuracyMeters)
+{
+	OutLatitude = 0.0;
+	OutLongitude = 0.0;
+	OutAltitudeMeters = 0.0;
+	OutHorizontalAccuracyMeters = 0.0;
+	return false;
+}
 #endif
 
 int32 UARMeshBlueprintLibrary::UpdateLiDARMeshes(UProceduralMeshComponent* TargetMeshComponent,

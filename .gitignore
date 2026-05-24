@@ -6,6 +6,15 @@ Intermediate/
 Saved/
 ArchivedBuilds/
 
+# Exception: hand-written source files that UE convention puts under Build/.
+# Re-includes require un-excluding the parent dirs first, then re-excluding
+# the generated children, then re-including the source.
+!SiteSyncAR/Build/
+SiteSyncAR/Build/*
+!SiteSyncAR/Build/IOS/
+SiteSyncAR/Build/IOS/*
+!SiteSyncAR/Build/IOS/SiteSyncAR_IOS_UPL.xml
+
 # IDE artifacts
 .vs/
 .vscode/

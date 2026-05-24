@@ -11,6 +11,7 @@
 #include "Logging/LogMacros.h"
 
 #import <ARKit/ARKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 DEFINE_LOG_CATEGORY_STATIC(LogSiteSyncARiOS, Log, All);
 
@@ -129,6 +130,157 @@ bool UARMeshBlueprintLibrary::GetARMeshData(UARMeshGeometry* MeshGeometry,
 
 	UE_LOG(LogSiteSyncARiOS, Verbose, TEXT("GetARMeshData: %ld verts, %ld tris extracted"), (long)NumVerts, (long)NumTris);
 	return NumVerts > 0 && NumIndices > 0;
+}
+
+// =============================================================================
+// CoreLocation shim — Node 2.2a GPS readout.
+//
+// Replaces UE's LocationServicesIOSImpl which calls -requestAlwaysAuthorization.
+// iOS Console.app on 2026-05-23 outdoor test confirmed locationd treats Always-
+// without-prior-WhenInUse as "legacy on-demand authorization, not supported for
+// new apps" and rejects with kCLErrorDomain Code=1 (Denied) — even when iOS
+// Settings shows the app with "While Using + Precise" granted. The correct
+// modern pattern is WhenInUse-first.
+// =============================================================================
+
+@interface FSiteSyncLocationDelegate : NSObject<CLLocationManagerDelegate>
+@property(strong, nonatomic) CLLocationManager* Manager;
+@property(assign, atomic) BOOL HasFix;
+@property(assign, atomic) double Lat;
+@property(assign, atomic) double Lon;
+@property(assign, atomic) double Alt;
+@property(assign, atomic) double Acc;
++ (instancetype)shared;
+- (void)kick;
+@end
+
+@implementation FSiteSyncLocationDelegate
+
++ (instancetype)shared
+{
+	static FSiteSyncLocationDelegate* sInstance = nil;
+	static dispatch_once_t sOnce;
+	dispatch_once(&sOnce, ^{
+		sInstance = [[FSiteSyncLocationDelegate alloc] init];
+	});
+	return sInstance;
+}
+
+- (instancetype)init
+{
+	if ((self = [super init]))
+	{
+		self.HasFix = NO;
+		self.Lat = 0.0; self.Lon = 0.0; self.Alt = 0.0; self.Acc = -1.0;
+		// CLLocationManager must be created on a thread with a run loop.
+		// Game thread on iOS doesn't have one by default — use main queue.
+		dispatch_async(dispatch_get_main_queue(), ^{
+			self.Manager = [[CLLocationManager alloc] init];
+			self.Manager.delegate = self;
+			self.Manager.desiredAccuracy = kCLLocationAccuracyBest;
+			self.Manager.distanceFilter = kCLDistanceFilterNone;
+			UE_LOG(LogSiteSyncARiOS, Warning,
+			       TEXT("CoreLocation shim init: requesting WhenInUse authorization"));
+			[self.Manager requestWhenInUseAuthorization];
+			if ([CLLocationManager locationServicesEnabled])
+			{
+				[self.Manager startUpdatingLocation];
+				UE_LOG(LogSiteSyncARiOS, Warning, TEXT("CoreLocation shim: startUpdatingLocation called"));
+			}
+			else
+			{
+				UE_LOG(LogSiteSyncARiOS, Warning,
+				       TEXT("CoreLocation shim: locationServicesEnabled=NO — user disabled in Settings"));
+			}
+		});
+	}
+	return self;
+}
+
+- (void)kick
+{
+	// First Blueprint call may land before the async init block has run.
+	// Kick the manager again to make sure updates are flowing.
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if (self.Manager != nil && [CLLocationManager locationServicesEnabled])
+		{
+			[self.Manager startUpdatingLocation];
+		}
+	});
+}
+
+- (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray<CLLocation*>*)locations
+{
+	CLLocation* loc = [locations lastObject];
+	if (loc == nil) return;
+	self.Lat = loc.coordinate.latitude;
+	self.Lon = loc.coordinate.longitude;
+	self.Alt = loc.altitude;
+	self.Acc = loc.horizontalAccuracy;
+	if (!self.HasFix)
+	{
+		UE_LOG(LogSiteSyncARiOS, Warning,
+		       TEXT("CoreLocation shim: first fix lat=%.7f lon=%.7f alt=%.2fm acc=±%.1fm"),
+		       self.Lat, self.Lon, self.Alt, self.Acc);
+	}
+	self.HasFix = YES;
+}
+
+- (void)locationManager:(CLLocationManager*)manager didFailWithError:(NSError*)error
+{
+	const FString Domain = error.domain ? FString(error.domain) : TEXT("?");
+	const FString Desc = error.localizedDescription ? FString(error.localizedDescription) : TEXT("?");
+	UE_LOG(LogSiteSyncARiOS, Warning,
+	       TEXT("CoreLocation shim: didFailWithError domain=%s code=%ld desc=%s"),
+	       *Domain, (long)error.code, *Desc);
+}
+
+- (void)locationManagerDidChangeAuthorization:(CLLocationManager*)manager API_AVAILABLE(ios(14.0))
+{
+	CLAuthorizationStatus status = manager.authorizationStatus;
+	const TCHAR* statusName = TEXT("?");
+	switch (status)
+	{
+		case kCLAuthorizationStatusNotDetermined:       statusName = TEXT("NotDetermined"); break;
+		case kCLAuthorizationStatusRestricted:          statusName = TEXT("Restricted"); break;
+		case kCLAuthorizationStatusDenied:              statusName = TEXT("Denied"); break;
+		case kCLAuthorizationStatusAuthorizedAlways:    statusName = TEXT("AuthorizedAlways"); break;
+		case kCLAuthorizationStatusAuthorizedWhenInUse: statusName = TEXT("AuthorizedWhenInUse"); break;
+		default: break;
+	}
+	UE_LOG(LogSiteSyncARiOS, Warning,
+	       TEXT("CoreLocation shim: authorization changed → %s (raw=%d)"),
+	       statusName, (int)status);
+
+	if (status == kCLAuthorizationStatusAuthorizedWhenInUse ||
+	    status == kCLAuthorizationStatusAuthorizedAlways)
+	{
+		[manager startUpdatingLocation];
+	}
+}
+
+@end
+
+bool UARMeshBlueprintLibrary::GetDeviceGeoLocation(double& OutLatitude,
+                                                   double& OutLongitude,
+                                                   double& OutAltitudeMeters,
+                                                   double& OutHorizontalAccuracyMeters)
+{
+	FSiteSyncLocationDelegate* shim = [FSiteSyncLocationDelegate shared];
+	if (!shim.HasFix)
+	{
+		[shim kick];
+		OutLatitude = 0.0;
+		OutLongitude = 0.0;
+		OutAltitudeMeters = 0.0;
+		OutHorizontalAccuracyMeters = 0.0;
+		return false;
+	}
+	OutLatitude = shim.Lat;
+	OutLongitude = shim.Lon;
+	OutAltitudeMeters = shim.Alt;
+	OutHorizontalAccuracyMeters = shim.Acc;
+	return true;
 }
 
 #endif // PLATFORM_IOS

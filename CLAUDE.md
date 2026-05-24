@@ -120,7 +120,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 | Node | Description | Status |
 |---|---|---|
 | 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ✅ **Complete** · device-validated 2026-05-21 — Rhino `TestBuilding` places via the two-tap flow on iPhone 16 Pro, flush on the floor, 60fps, HUD reads correct dims. Gate to Node 2.2 cleared. |
-| 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ⏳ Pending |
+| 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | 🟡 In progress — **2.2a GPS shim ✅ device-validated 2026-05-24**; 2.2b/c/d pending |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
 ---
@@ -556,6 +556,10 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 ### Asset Import
 
 - **2026-05-21 — UE 5.6 has no working Datasmith GUI import** — no toolbar button; Content Browser Import greys out `.udatasmith`; drag-drop fails `Unknown extension 'udatasmith'`. Import via the `DatasmithSceneElement` Python API — headless `UnrealEditor-Cmd -run=pythonscript` or in-editor `py`. Reusable script: `dev/import_datasmith.py`. See `decisions.md 2026-05-21`.
+- **2026-05-24 — `IOSRuntimeSettings.AdditionalPlistData=` (ini) is unreliable in UE 5.6** — UE silently drops it and AppleARKit's UPL injects a default `NSCameraUsageDescription` instead. Symptom: app launches but iOS Console.app shows `locationd: is creating a CLLocationManager, but does not have any NSLocation*UsageDescription keys` → `kCLErrorDomain Code=1` (Denied) on every GPS call even with Settings showing the app permitted. Fix: inject plist keys via a hand-authored UPL XML (`Build/IOS/<Project>_IOS_UPL.xml`) wired in through `Build.cs` `AdditionalPropertiesForReceipt.Add("IOSPlugin", ...)`. Same mechanism AppleARKit uses, so it lands deterministically. See `decisions.md 2026-05-24` + commit `2dd1d77`.
+- **2026-05-24 — UE `LocationServicesIOSImpl.GetLastKnownLocation` is broken on modern iOS** — calls `-requestAlwaysAuthorization` which iOS now treats as "legacy on-demand authorization, not supported for new apps" and rejects with `kCLErrorDomain Code=1` even when WhenInUse + Precise are granted. Don't use the engine's BP node. Use our `UARMeshBlueprintLibrary::GetDeviceGeoLocation` shim instead — own CLLocationManager + `-requestWhenInUseAuthorization`. See `decisions.md 2026-05-24` + commit `2dd1d77`.
+- **2026-05-24 — bare `UnrealEditor-Cmd -run=Cook -targetplatform=IOS` only cooks GameDefaultMap + Entry** — cooker doesn't follow runtime string refs (`Open Level by Name`), so any other maps must be declared. Symptom: app launches into menu fine, but Phase 1 / Phase 2 buttons visibly highlight then do nothing. Fix: `+MapsToCook=(FilePath="/Game/Maps/<Map>")` entries under `[/Script/UnrealEd.ProjectPackagingSettings]` in `DefaultGame.ini` (permanent, every cook picks them up). See `decisions.md 2026-05-24` + commit `6bbefef`.
+- **2026-05-24 — Mac editor module must be rebuilt after C++ source changes for cook to see new UFUNCTIONs** — `Build.sh SiteSyncAR IOS Development` builds only the iOS *target* binary (game runtime for the device), not the Mac editor that cook runs as. Cook re-compiles every BP from source against the Mac editor's stale UClass reflection, so new UFUNCTIONs vanish: `LogBlueprint: Error: [Compiler] Could not find a function named "<Func>" in '<Class>'`. Mac mirror of the PC `Build.bat SiteSyncAREditor Win64` rule: `Build.sh SiteSyncAREditor Mac Development`. Run this after every C++ change, before cooking. See `decisions.md 2026-05-24`.
 - **2026-05-19/20 — glTF imports from Fab arrive ~100× oversized (NOT 10×)** — correct Build Scale is `(0.01, 0.01, 0.01)`, not `0.1`. A 7.7m house imports as 774m. Apply Build Scale 0.01 + **Cmd+S with the Static Mesh tab focused** (Apply Changes alone doesn't persist).
 
 ### Rendering / Lighting
@@ -582,7 +586,21 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 ---
 
-## Immediate Next Actions (current, 2026-05-21 — Node 2.1 complete)
+## Immediate Next Actions (current, 2026-05-24 — Node 2.2a complete)
+
+**Node 2.2a (GPS shim) device-validated 2026-05-24.** `UARMeshBlueprintLibrary::GetDeviceGeoLocation` reads CoreLocation via our own CLLocationManager singleton (`-requestWhenInUseAuthorization`, NOT Always — the engine's `LocationServicesIOSImpl` calls Always which iOS rejects as "legacy on-demand auth"). `WBP_GeoReadout` is anchored bottom-right and displays `GPS lat, lon` / `alt N m  ±M m` at 1 Hz via a Set Timer by Event loop on `BP_ARPlayerController_BIM`. First fix landed indoors on the iPhone 16 Pro test (alt 864.374 m ±2.124 m for Boise — sane). **Gate to Node 2.2b cleared.** Commits: `2dd1d77` (C++ shim + UPL plist injection), `356394d` (PC BP swap), `6bbefef` (`+MapsToCook` cook config), `349bf70` + `b27a648` (WBP_GeoReadout polish — bottom-right anchor, real newline, position tweaks).
+
+Four systemic UE 5.6 / iOS gotchas surfaced during this deploy — all logged in Bugs Index + `decisions.md 2026-05-24`:
+1. `IOSRuntimeSettings.AdditionalPlistData=` (ini) is silently dropped — use a UPL XML wired via `AdditionalPropertiesForReceipt` instead.
+2. `LocationServicesIOSImpl.GetLastKnownLocation` calls `requestAlwaysAuthorization` which modern iOS denies — engine BP node is unusable; use our shim.
+3. Bare `Cook -targetplatform=IOS` only cooks GameDefaultMap; must declare `+MapsToCook=...` in `DefaultGame.ini`.
+4. Mac editor must be rebuilt (`Build.sh SiteSyncAREditor Mac Development`) after C++ changes — cook re-compiles BPs against editor reflection.
+
+### Next — Node 2.2b ARKit Gravity-and-Heading (next step in `docs/node-2.2-plan.md`)
+
+Configure `DA_SiteSyncARConfig` to use `EARWorldAlignment::GravityAndHeading` so ARKit's tracking-space +Z = up and +X = magnetic north, giving us a known mapping between ARKit world and compass heading. Required input for Node 2.2c (geo→local math). Validation needs an outdoor session (compass quality is unreliable indoors).
+
+## Immediate Next Actions (prior, 2026-05-21 — Node 2.1 complete)
 
 **Node 2.1 Datasmith import works end-to-end.** A real Rhino-authored BIM model — `TestBuilding`, a 6-box test building (6 m × 5 m × 3.4 m, one box per Floor / 4 walls / Roof, each on its own layer) — was modeled in Rhino 8, exported to `.udatasmith`, and imported into the project as 9 UE assets (6 Static Meshes + 2 materials + Datasmith Scene). Committed + pushed in `bdf4998`. Raw source in `BIM_Source/TestBuilding/`; imported assets in `Content/AR_SiteAnalysis/DatasmithAssets/TestBuilding/TestBuilding/`.
 

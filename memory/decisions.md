@@ -2,6 +2,67 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-24 — Node 2.2a (GPS shim) device-validated — 4 systemic UE 5.6 / iOS gotchas
+
+Node 2.2a complete. App shows live `GPS lat, lon` / `alt N m  ±M m` in `WBP_GeoReadout` bottom-right of `SiteSync_BIMTest`. First indoor fix on iPhone 16 Pro: alt 864 m ±2 m (sane for Boise). Built end-to-end in one Mac session with PC mid-session for the BP swap. Commits: `2dd1d77` (shim + UPL), `356394d` (BP swap), `6bbefef` (MapsToCook), `349bf70` + `b27a648` (widget polish). Four reusable lessons came out of this — recording each so they don't bite again:
+
+### 1. `IOSRuntimeSettings.AdditionalPlistData=` (ini) is unreliable in UE 5.6 — use a UPL XML
+
+Spent the prior session diagnosing why the iOS location-permission prompt never appeared. `DefaultGame.ini` had `[/Script/IOSRuntimeSettings.IOSRuntimeSettings] AdditionalPlistData=<key>NSCameraUsageDescription</key>...<key>NSLocationWhenInUseUsageDescription</key>...`. The staged `Info.plist` contained only `NSCameraUsageDescription = "The camera is used for augmenting reality."` — and that string isn't from our ini either; it's the hardcoded value in `AppleARKit_IOS_UPL.xml` (`Engine/Plugins/Runtime/AR/AppleAR/AppleARKit/Source/AppleARKit/AppleARKit_IOS_UPL.xml` line 11). UE 5.6's plist generator either ignores the ini line entirely or only emits a single key from it; AppleARKit's UPL then overwrites whatever did land. **Symptom on device:** iOS Console.app shows `locationd: com.RussoCompany.SiteSyncAR is creating a CLLocationManager, but does not have any NSLocation*UsageDescription keys` → `Missing UsageDescription key for requested authorization: 3` → every CoreLocation call returns `kCLErrorDomain Code=1` even with Settings showing the app permitted WhenInUse + Precise.
+
+**Why:** UE 5.6 must have changed how `AdditionalPlistData` is parsed and the ini-to-plist path got fragile/dropped.
+
+**Fix — UPL XML, the same mechanism AppleARKit uses:** authored `SiteSyncAR/Build/IOS/SiteSyncAR_IOS_UPL.xml` with `<iosPListUpdates><addElements tag="dict" once="true">` blocks for `NSLocationWhenInUseUsageDescription` + `NSLocationAlwaysAndWhenInUseUsageDescription`. Wired in via `SiteSyncAR.Build.cs`: `AdditionalPropertiesForReceipt.Add("IOSPlugin", Path.Combine(ModuleDirectory, "../../Build/IOS/SiteSyncAR_IOS_UPL.xml"))`. `.gitignore` patched to track this one file through the project-wide `Build/` exclusion (the un-exclude needs both the parent dirs un-excluded first AND a wildcard re-exclude of generated siblings). Verified post-stage with `PlistBuddy -c "Print :NSLocationWhenInUseUsageDescription" .../Info.plist`.
+
+**How to apply:** never add `AdditionalPlistData=` lines to a SiteSync `.ini` again — they're dead code in UE 5.6. Any future plist keys go in `SiteSyncAR_IOS_UPL.xml`. The `[/Script/IOSRuntimeSettings.IOSRuntimeSettings]` section in `DefaultGame.ini` was stripped 2026-05-24 with a comment marker so a future contributor doesn't recreate the bug. Camera key continues to come from AppleARKit's own UPL — don't duplicate it.
+
+### 2. UE `LocationServicesIOSImpl.GetLastKnownLocation` is broken on modern iOS — wrote a shim
+
+Engine implementation lives at `Engine/Plugins/Runtime/LocationServicesIOSImpl/Source/LocationServicesIOSImpl/Private/LocationServicesIOSImpl.cpp` and calls `[LocManager requestAlwaysAuthorization]` (line 49) on session start. iOS now treats `Always` requested **without a prior `WhenInUse` grant** as the "legacy on-demand authorization" pattern and denies it outright. Console.app: `locationd: #AuthPrompt #Notice ERROR: Client is depending on legacy on-demand authorization, which is not supported for new apps`. So even with the plist keys present (from the UPL fix above), the BP node `Get Last Known Location` returns garbage / zeros forever.
+
+**Fix:** new `UFUNCTION` in `UARMeshBlueprintLibrary`:
+```cpp
+static bool GetDeviceGeoLocation(double& OutLatitude, double& OutLongitude,
+                                  double& OutAltitudeMeters, double& OutHorizontalAccuracyMeters);
+```
+iOS implementation in `ARMeshBlueprintLibrary_iOS.mm` is an Objective-C singleton `FSiteSyncLocationDelegate` (created on dispatch_once, CLLocationManager allocated lazily on the main queue because game thread on iOS doesn't have a run loop). Calls `requestWhenInUseAuthorization` (the modern pattern), starts updating, caches latest fix in atomic properties. Outputs are doubles — float32 loses ~10cm at typical lat/long magnitudes. `PublicFrameworks.Add("CoreLocation")` added in `Build.cs` to link it.
+
+**How to apply:** delete the `LocationServicesIOSImpl` plugin entry from `SiteSyncAR.uproject` in a future cleanup once we're confident nothing else references the engine BP node — left in place at the time of the Node 2.2a commit so the existing `Get Last Known Location` references didn't break BP compile mid-swap. The shim is the only sanctioned path for GPS in this project. Node 2.2b/c/d will build on top of it.
+
+### 3. Bare `Cook -targetplatform=IOS` only cooks `GameDefaultMap` + `Entry`
+
+After the first end-to-end deploy of the GPS shim, the app launched into `SiteSync_Menu` fine but the Phase 1 and Phase 2 buttons fired and did nothing — visible button press feedback, no map transition. Cause: `find .../cookeddata -name "*.umap"` showed only `entry.umap` and `sitesync_menu.umap`; `sitesync.umap` (Phase 1) and `sitesync_bimtest.umap` (Phase 2) were absent. `WBP_MainMenu`'s `Open Level by Name` calls resolve at runtime through string lookups in the cooked package — when the cooker doesn't include the map, the call silently no-ops on device (no exception, no log line). The cooker only follows hard references, not string-name lookups.
+
+**Why bare Cook missed them:** with no `+MapsToCook=` entries declared, UE 5.6 `Cook by the book` defaults to `GameDefaultMap` + `Entry` and walks dependencies from there. Maps reachable only by `Open Level by Name` are invisible to the dependency walker. The "bare Cook works" mental model came from earlier sessions that always passed `-map=Foo+Bar+Baz` explicitly on the command line — that habit got dropped in the Node 2.2a deploy script, exposing the gap.
+
+**Fix:** added to `DefaultGame.ini`:
+```ini
+[/Script/UnrealEd.ProjectPackagingSettings]
++MapsToCook=(FilePath="/Game/Maps/SiteSync_Menu")
++MapsToCook=(FilePath="/Game/Maps/SiteSync_BIMTest")
++MapsToCook=(FilePath="/Game/SiteSync")
+```
+Now every cook (with or without `-map=`) picks them up. Committed as `6bbefef`.
+
+**How to apply:** **every new map James adds anywhere reachable via `Open Level by Name` MUST get a `+MapsToCook=` entry here.** Forgetting this is a silent-no-op-on-device bug that's hard to attribute to the cook step from the symptom alone. A pre-stage sanity check is a one-liner: `find .../StagedBuilds/IOS/SiteSyncAR.app/cookeddata -name "*.umap" | sort` — every map the menu can reach should appear.
+
+### 4. Mac editor module must be rebuilt after C++ source changes for cook to see new UFUNCTIONs
+
+After the MapsToCook fix above, re-cook errored on `BP_ARPlayerController_BIM`: `LogBlueprint: Error: [Compiler] Could not find a function named "GetDeviceGeoLocation" in 'ARMeshBlueprintLibrary'.` and warnings that `Get Device Geo Location` pins (`Out Latitude`, `Out Longitude`, etc.) "no longer exist on node." But the BP had compiled clean on PC and we'd verified the iOS target binary linked the function (the Build.sh log showed `Compile [Apple] ARMeshBlueprintLibrary_iOS.mm`).
+
+**Why:** `Build.sh SiteSyncAR IOS Development` builds the iOS **target** binary — the game runtime that runs on the device. The Mac editor is a separate target (`SiteSyncAREditor Mac Development`). The cook tool runs as the Mac editor in command-line mode (`UnrealEditor-Cmd -run=Cook`), so when it re-compiles every BP from source during the cook, it does so against the Mac editor's stale UClass reflection — which still doesn't know about the new UFUNCTION. PC hit the same wall (which is why the PC rebuild prompt explicitly rebuilds `SiteSyncAREditor Win64 Development` before opening the editor). Mac just got missed in the rush.
+
+**Fix:** Mac mirror of the PC rule:
+```bash
+"/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/Mac/Build.sh" SiteSyncAREditor Mac Development \
+  -project="$HOME/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject"
+```
+Run this AFTER any C++ source change, BEFORE cooking. Takes ~5-10s on an incremental build.
+
+**How to apply:** the Mac iOS deploy pipeline now has 3 conditional steps in order: (a) `Build.sh SiteSyncAR IOS Development` if the iOS target needs to relink (always after C++ change), (b) `Build.sh SiteSyncAREditor Mac Development` if any C++ source changed (so cook can compile BPs against the new reflection), (c) `Cook` + `RunUAT ... -stage`. Skipping (b) after a C++ change → BP cook errors that look like "save bug" symptoms. The error message `Could not find a function named "<X>"` after a C++ source change is the unambiguous fingerprint. Update the build script / next deploy walkthrough to include (b).
+
+---
+
 ## 2026-05-21 — Cut/fill HUD readout never settles — 10 Hz recalc vs live LiDAR mesh — PRIORITY post-Phase-2 fix
 
 In the Phase 1 cut/fill scene, after the slab is placed the HUD cut/fill cubic-yard numbers fluctuate continuously and never settle on a usable value (e.g. cut climbs 100 → 120 → 140, sometimes drifting either way). Reported by James 2026-05-21.

@@ -120,7 +120,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 | Node | Description | Status |
 |---|---|---|
 | 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ✅ **Complete** · device-validated 2026-05-21 — Rhino `TestBuilding` places via the two-tap flow on iPhone 16 Pro, flush on the floor, 60fps, HUD reads correct dims. Gate to Node 2.2 cleared. |
-| 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | 🟡 In progress — **2.2a GPS shim ✅ device-validated 2026-05-24**; 2.2b/c/d pending |
+| 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | 🟡 In progress — **2.2a GPS shim ✅ 2026-05-24** · **2.2b GravityAndHeading ✅ 2026-05-26** (indoor smoke test passed; outdoor axis verification deferred to 2.2c end-to-end); 2.2c/d pending |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
 ---
@@ -596,9 +596,17 @@ Four systemic UE 5.6 / iOS gotchas surfaced during this deploy — all logged in
 3. Bare `Cook -targetplatform=IOS` only cooks GameDefaultMap; must declare `+MapsToCook=...` in `DefaultGame.ini`.
 4. Mac editor must be rebuilt (`Build.sh SiteSyncAREditor Mac Development`) after C++ changes — cook re-compiles BPs against editor reflection.
 
-### Next — Node 2.2b ARKit Gravity-and-Heading (next step in `docs/node-2.2-plan.md`)
+### Node 2.2b done (2026-05-26) — derived axis mapping under GravityAndHeading
 
-Configure `DA_SiteSyncARConfig` to use `EARWorldAlignment::GravityAndHeading` so ARKit's tracking-space +Z = up and +X = magnetic north, giving us a known mapping between ARKit world and compass heading. Required input for Node 2.2c (geo→local math). Validation needs an outdoor session (compass quality is unreliable indoors).
+`DA_SiteSyncARConfig.WorldAlignment` flipped from `Gravity` to `GravityAndHeading` via `dev/set_ar_alignment.py` (reusable Python helper — no editor session needed, headless `UnrealEditor-Cmd -run=pythonscript`). Indoor device smoke test 2026-05-26: cyan LiDAR mesh appears, GeoReadout still shows GPS, no measurable startup delay added.
+
+**Derived axis mapping** (Apple ARKit docs + our engine's RH→LH conversion in `ARMeshBlueprintLibrary_iOS.mm`):
+- ARKit space (GravityAndHeading): `+X = east`, `+Y = up`, `-Z = true north`
+- After UE conversion `UE = (-ARKit.Z, ARKit.X, ARKit.Y)`: **UE `+X = true north`**, **UE `+Y = east`**, `UE +Z = up`
+
+**Outdoor verification deferred to Node 2.2c end-to-end test.** Doing a standalone "tap-and-walk-north" verification on device is flimsy without a heading HUD; the 2.2c geo→local placement test will land a building at a known GPS coordinate and any axis sign error would show up as a 90° or 180° offset — much more decisive evidence. If 2.2c reveals an axis bug, the fix is in `GeoToLocalOffsetCm`, not in the DA config.
+
+### Next — Node 2.2c geo→local placement math (C++)
 
 ## Immediate Next Actions (prior, 2026-05-21 — Node 2.1 complete)
 

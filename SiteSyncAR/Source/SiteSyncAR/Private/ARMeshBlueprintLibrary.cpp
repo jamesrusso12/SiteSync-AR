@@ -161,6 +161,58 @@ bool UARMeshBlueprintLibrary::GetDeviceGeoLocation(double& OutLatitude,
 }
 #endif
 
+bool UARMeshBlueprintLibrary::GeoToLocalOffsetCm(double DeviceLatitude,
+                                                  double DeviceLongitude,
+                                                  double TargetLatitude,
+                                                  double TargetLongitude,
+                                                  FVector& OutOffsetCm)
+{
+	OutOffsetCm = FVector::ZeroVector;
+
+	if (!FMath::IsFinite(DeviceLatitude) || !FMath::IsFinite(DeviceLongitude) ||
+	    !FMath::IsFinite(TargetLatitude) || !FMath::IsFinite(TargetLongitude))
+	{
+		UE_LOG(LogSiteSyncAR, Warning,
+		       TEXT("GeoToLocalOffsetCm: non-finite input (device=%.7f,%.7f target=%.7f,%.7f) — abort"),
+		       DeviceLatitude, DeviceLongitude, TargetLatitude, TargetLongitude);
+		return false;
+	}
+
+	// WGS84 mean earth radius in meters. Equirectangular projection is correct
+	// enough for sub-km site work — we're not crossing tectonic plates.
+	constexpr double EarthRadiusM = 6378137.0;
+	constexpr double DegToRad = PI / 180.0;
+
+	const double DeltaLatRad = (TargetLatitude - DeviceLatitude) * DegToRad;
+	const double DeltaLongRad = (TargetLongitude - DeviceLongitude) * DegToRad;
+	const double DeviceLatRad = DeviceLatitude * DegToRad;
+
+	const double MetersNorth = DeltaLatRad * EarthRadiusM;
+	const double MetersEast = DeltaLongRad * EarthRadiusM * FMath::Cos(DeviceLatRad);
+
+	// UE world axes under DA_SiteSyncARConfig.WorldAlignment = GravityAndHeading
+	// (Node 2.2b): UE +X = true north, UE +Y = east, UE +Z = up.
+	// If an axis sign issue surfaces in 2.2c end-to-end testing, the fix is
+	// here (sign-flip on X or Y) — NOT in the AR config.
+	OutOffsetCm.X = MetersNorth * 100.0;
+	OutOffsetCm.Y = MetersEast * 100.0;
+	OutOffsetCm.Z = 0.0;
+
+	// Straight-line distance for log readability.
+	const double DistanceM = FMath::Sqrt(MetersNorth * MetersNorth + MetersEast * MetersEast);
+	// Bearing from device to target, degrees, 0=N CW (matches compass app convention).
+	const double BearingDeg = FMath::RadiansToDegrees(FMath::Atan2(MetersEast, MetersNorth));
+	const double BearingNorm = BearingDeg < 0.0 ? BearingDeg + 360.0 : BearingDeg;
+
+	UE_LOG(LogSiteSyncAR, Warning,
+	       TEXT("GeoToLocalOffsetCm: device=(%.7f,%.7f) target=(%.7f,%.7f) -> north=%.2fm east=%.2fm dist=%.2fm bearing=%.1f° offset_cm=(%.1f,%.1f,%.1f)"),
+	       DeviceLatitude, DeviceLongitude, TargetLatitude, TargetLongitude,
+	       MetersNorth, MetersEast, DistanceM, BearingNorm,
+	       OutOffsetCm.X, OutOffsetCm.Y, OutOffsetCm.Z);
+
+	return true;
+}
+
 int32 UARMeshBlueprintLibrary::UpdateLiDARMeshes(UProceduralMeshComponent* TargetMeshComponent,
                                                  UMaterialInterface* DebugMaterial)
 {

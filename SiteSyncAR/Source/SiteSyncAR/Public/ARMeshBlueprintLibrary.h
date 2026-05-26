@@ -123,4 +123,35 @@ public:
 	                                 double& OutLongitude,
 	                                 double& OutAltitudeMeters,
 	                                 double& OutHorizontalAccuracyMeters);
+
+	// Node 2.2c — equirectangular projection: distance between two lat/long
+	// points expressed as a UE world-space offset in centimeters.
+	//
+	// Math:
+	//   metersNorth = (TargetLat - DeviceLat) * π/180 * 6378137
+	//   metersEast  = (TargetLong - DeviceLong) * π/180 * 6378137 * cos(DeviceLat)
+	//
+	// Mapping to UE world axes (requires DA_SiteSyncARConfig.WorldAlignment =
+	// GravityAndHeading — see Node 2.2b):
+	//   UE +X = true north  -> OutOffsetCm.X = metersNorth * 100
+	//   UE +Y = east        -> OutOffsetCm.Y = metersEast  * 100
+	//   UE +Z = up          -> OutOffsetCm.Z = 0 (altitude not used here;
+	//                                            BIM placement uses LiDAR
+	//                                            ground hit for Z)
+	//
+	// Accuracy: equirectangular is sub-metre out to ~1 km from DeviceLat —
+	// fine at construction-site scale. Beyond ~10 km, prefer Haversine.
+	//
+	// Logs raw inputs and computed metersNorth/metersEast + final FVector at
+	// Warning level (visible in default-verbosity device logs) for diagnosis
+	// of axis sign issues during 2.2c end-to-end testing.
+	//
+	// Returns false if any input is NaN/Inf. Returns true otherwise (no
+	// distance cap — caller decides if the offset is sane for the use case).
+	UFUNCTION(BlueprintCallable, Category = "SiteSync|Geo")
+	static bool GeoToLocalOffsetCm(double DeviceLatitude,
+	                               double DeviceLongitude,
+	                               double TargetLatitude,
+	                               double TargetLongitude,
+	                               FVector& OutOffsetCm);
 };

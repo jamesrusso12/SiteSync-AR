@@ -57,6 +57,7 @@
 #include "Commands/UnrealMCPProjectCommands.h"
 #include "Commands/UnrealMCPCommonUtils.h"
 #include "Commands/UnrealMCPUMGCommands.h"
+#include "Commands/UnrealMCPSystemCommands.h"
 
 // Default settings
 #define MCP_SERVER_HOST "127.0.0.1"
@@ -69,6 +70,7 @@ UUnrealMCPBridge::UUnrealMCPBridge()
     BlueprintNodeCommands = MakeShared<FUnrealMCPBlueprintNodeCommands>();
     ProjectCommands = MakeShared<FUnrealMCPProjectCommands>();
     UMGCommands = MakeShared<FUnrealMCPUMGCommands>();
+    SystemCommands = MakeShared<FUnrealMCPSystemCommands>();
 }
 
 UUnrealMCPBridge::~UUnrealMCPBridge()
@@ -78,6 +80,7 @@ UUnrealMCPBridge::~UUnrealMCPBridge()
     BlueprintNodeCommands.Reset();
     ProjectCommands.Reset();
     UMGCommands.Reset();
+    SystemCommands.Reset();
 }
 
 // Initialize subsystem
@@ -279,6 +282,14 @@ FString UUnrealMCPBridge::ExecuteCommand(const FString& CommandType, const TShar
                      CommandType == TEXT("add_widget_to_viewport"))
             {
                 ResultJson = UMGCommands->HandleCommand(CommandType, Params);
+            }
+            // System Commands — execute_python, save_*, reparent_actor_root, list_commands
+            // Single source of truth: FUnrealMCPSystemCommands::GetSupportedCommands().
+            // Add a new system command in UnrealMCPSystemCommands.{h,cpp} and the dispatcher
+            // picks it up automatically — no second edit here required.
+            else if (FUnrealMCPSystemCommands::GetSupportedCommands().Contains(CommandType))
+            {
+                ResultJson = SystemCommands->HandleCommand(CommandType, Params);
             }
             else
             {

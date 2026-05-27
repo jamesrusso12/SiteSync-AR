@@ -63,7 +63,8 @@ public class UnrealMCP : ModuleRules
 					"PropertyEditor",      // For widget property editing
 					"ToolMenus",           // For editor UI
 					"BlueprintEditorLibrary", // For Blueprint utilities
-					"UMGEditor"           // For WidgetBlueprint.h and other UMG editor functionality
+					"UMGEditor",          // For WidgetBlueprint.h and other UMG editor functionality
+					"PythonScriptPlugin"  // For execute_python system command (IPythonScriptPlugin)
 				}
 			);
 		}

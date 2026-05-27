@@ -271,13 +271,15 @@ from tools.blueprint_tools import register_blueprint_tools
 from tools.node_tools import register_blueprint_node_tools
 from tools.project_tools import register_project_tools
 from tools.umg_tools import register_umg_tools
+from tools.system_tools import register_system_tools
 
 # Register tools
 register_editor_tools(mcp)
 register_blueprint_tools(mcp)
 register_blueprint_node_tools(mcp)
 register_project_tools(mcp)
-register_umg_tools(mcp)  
+register_umg_tools(mcp)
+register_system_tools(mcp)
 
 @mcp.prompt()
 def info():
@@ -334,6 +336,19 @@ def info():
     
     ## Project Tools
     - `create_input_mapping(action_name, key, input_type)` - Create input mappings
+
+    ## System Tools (added 2026-05-27)
+    - `execute_python(script=..., script_file=..., mode="statement|file|eval")` — run any
+       editor Python without a C++ rebuild. The architectural unlock: any operation
+       reachable via the `unreal` module (Datasmith import, Merge Actors, asset
+       rename/move, DataAsset edits, etc.) is one tool call away.
+    - `save_all_dirty_packages(save_content_packages=True, save_map_packages=True)` —
+       persist MCP edits to .uasset / .umap on disk so changes survive editor restart.
+    - `save_package(package_path)` — save a single asset by package path.
+    - `reparent_actor_root(actor_name, new_root)` — promote a SceneComponent to
+       RootComponent (solves BIMMesh-is-root SetActorScale3D bugs).
+    - `list_system_commands()` — introspection: returns every command the System
+       dispatcher recognizes. Use this when "Unknown command" suggests stale-DLL.
     
     ## Best Practices
     

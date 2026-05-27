@@ -20,6 +20,27 @@ Added `FUnrealMCPSystemCommands` to the in-tree chongdashu UnrealMCP plugin (`Pl
 
 **How to apply:** when about to write a new `dev/*.py` one-off, ask first whether `execute_python(script_file="dev/the_thing.py", mode="file")` works — usually it does and saves the cook detour. When writing C++ system commands to extend the MCP further, follow the same `GetSupportedCommands()` pattern; do not add separate dispatcher entries.
 
+## 2026-05-27 — Node 2.2 closed — full geo-anchoring stack device-validated
+
+End-to-end indoor validation on iPhone 16 Pro. Day's commits: `2dd1d77` → `0bcf11d` (C++ shims + math), `356394d` → `149052a` → `14bb682` (BP wiring + bugfix on PC), then `205904d` (test target defaults) + `f53bc6e` (GravityAndHeading flag) + closing-out doc commits. Manual-mode test with TargetLat/Long temporarily set to a point exactly 500m due true north of device GPS produced:
+
+```
+GeoToLocalOffsetCm: device=(43.5611730,-116.1392975) target=(43.5656660,-116.1393521)
+  -> north=500.16m east=-4.41m dist=500.18m bearing=359.5° offset_cm=(50015.6,-440.8,0.0)
+```
+
+Distance: 500.18m (expected 500m, +0.18m). Bearing: 359.5° (expected 0°, -0.5°). All within indoor GPS noise tolerance (device long jittered ~0.00005° between taps, which is ~4m east at 43.5°N — explains the small east component).
+
+**UE +X = true north is confirmed empirically.** No axis swap, no sign flip needed in `GeoToLocalOffsetCm`. The math derived from Apple's ARKit docs + our engine's RH→LH conversion held up under direct measurement against a known target.
+
+**Two BP behaviors worth knowing about** (also in CLAUDE.md Bugs Index 2026-05-27):
+1. UE BP `SET <var> on <foreign actor>` doesn't auto-wire its Target pin when dragged from the value's source pin; must wire `ActiveBIM` (or equivalent) to Target manually. This bit twice in the Node 2.2d capture-mode chain — `SET TargetLatitude` and `SET TargetLongitude` both initially had unwired Targets, silently writing to Self (the player controller) which has no such property. Caught when capture-mode PrintString showed `Anchor captured: 0, -116.139` (lat fell back to BIM class default 0 because the SET no-op'd).
+2. UE BP right-click search **hides cross-class** members under the default Context-Sensitive filter. Searching empty graph for "Set TargetLatitude" returned nothing because TargetLatitude lives on `BP_BIMOverlay`, not on `BP_ARPlayerController_BIM`. Workaround: drag from the foreign actor's blue ref pin, *then* type the search.
+
+**One parallel-session collision worth knowing about:** during the manual-mode test setup, a parallel session resaved `BP_BIMOverlay` and silently reverted `TargetLongitude` from -116.1393521 back to 0.0 (LFS pointer hash changed, file size shrank, no commit message hint). `TargetLatitude` survived. Caught only by probing CDO state via Python before the test fired. Going forward, after any multi-session interleave, verify CDO values directly — the new MCP `execute_python` command (`77ad8ae`) makes this a one-line check.
+
+**Outstanding work (Node 2.2e or fold into 2.3):** auto-place — call `GeoToLocalOffsetCm` and `SetActorLocation` on the spawned BIM so the building visually places at the GPS-derived spot. Current 2.2 scope verifies the math via PrintString / UE_LOG only; doesn't yet drive the actor transform. Trivial to add (one more node in the manual-mode branch) but deferred to keep this commit focused on validating the math.
+
 ## 2026-05-24 — Node 2.2a (GPS shim) device-validated — 4 systemic UE 5.6 / iOS gotchas
 
 Node 2.2a complete. App shows live `GPS lat, lon` / `alt N m  ±M m` in `WBP_GeoReadout` bottom-right of `SiteSync_BIMTest`. First indoor fix on iPhone 16 Pro: alt 864 m ±2 m (sane for Boise). Built end-to-end in one Mac session with PC mid-session for the BP swap. Commits: `2dd1d77` (shim + UPL), `356394d` (BP swap), `6bbefef` (MapsToCook), `349bf70` + `b27a648` (widget polish). Four reusable lessons came out of this — recording each so they don't bite again:

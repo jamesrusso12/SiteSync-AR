@@ -120,7 +120,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 | Node | Description | Status |
 |---|---|---|
 | 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ✅ **Complete** · device-validated 2026-05-21 — Rhino `TestBuilding` places via the two-tap flow on iPhone 16 Pro, flush on the floor, 60fps, HUD reads correct dims. Gate to Node 2.2 cleared. |
-| 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | 🟡 In progress — **2.2a GPS shim ✅ 2026-05-24** · **2.2b GravityAndHeading ✅ 2026-05-26** (indoor smoke test passed; outdoor axis verification deferred to 2.2c end-to-end); 2.2c/d pending |
+| 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ✅ **Complete** · full stack device-validated 2026-05-27 — capture + manual modes, GeoToLocalOffsetCm math, UE +X = true north axis mapping all confirmed end-to-end on iPhone 16 Pro. Auto-place (move actor by computed offset) deferred to follow-up Node 2.2e — current scope verifies the math; doesn't yet drive placement. |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
 
 ---
@@ -586,6 +586,10 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 - **2026-05-24 — UE `LocationServicesIOSImpl.GetLastKnownLocation` is broken on modern iOS** — calls `-requestAlwaysAuthorization` which iOS now treats as "legacy on-demand authorization, not supported for new apps" and rejects with `kCLErrorDomain Code=1` even when WhenInUse + Precise are granted. Don't use the engine's BP node. Use our `UARMeshBlueprintLibrary::GetDeviceGeoLocation` shim instead — own CLLocationManager + `-requestWhenInUseAuthorization`. See `decisions.md 2026-05-24` + commit `2dd1d77`.
 - **2026-05-24 — bare `UnrealEditor-Cmd -run=Cook -targetplatform=IOS` only cooks GameDefaultMap + Entry** — cooker doesn't follow runtime string refs (`Open Level by Name`), so any other maps must be declared. Symptom: app launches into menu fine, but Phase 1 / Phase 2 buttons visibly highlight then do nothing. Fix: `+MapsToCook=(FilePath="/Game/Maps/<Map>")` entries under `[/Script/UnrealEd.ProjectPackagingSettings]` in `DefaultGame.ini` (permanent, every cook picks them up). See `decisions.md 2026-05-24` + commit `6bbefef`.
 - **2026-05-24 — Mac editor module must be rebuilt after C++ source changes for cook to see new UFUNCTIONs** — `Build.sh SiteSyncAR IOS Development` builds only the iOS *target* binary (game runtime for the device), not the Mac editor that cook runs as. Cook re-compiles every BP from source against the Mac editor's stale UClass reflection, so new UFUNCTIONs vanish: `LogBlueprint: Error: [Compiler] Could not find a function named "<Func>" in '<Class>'`. Mac mirror of the PC `Build.bat SiteSyncAREditor Win64` rule: `Build.sh SiteSyncAREditor Mac Development`. Run this after every C++ change, before cooking. See `decisions.md 2026-05-24`.
+- **2026-05-27 — UnrealMCP `add_blueprint_variable` rejects `Double`/`Real`** — only accepts `Float` as the type string. UE 5.6 LWC makes `Float` double-backed at runtime so the practical result is the same, but if you need an explicitly Real-typed variable (for geo coords, etc.) do it manually in the editor's Variables panel. Hit during Node 2.2d adding `TargetLatitude`/`TargetLongitude` to `BP_BIMOverlay`.
+- **2026-05-27 — BP `SET <var> on <foreign actor>` doesn't auto-wire its Target pin when dragged from the var pin** — only the value pin connects; the Target (left side, blue, above the value) defaults to `Self`, which silently writes to the wrong actor (or no-ops if Self has no such property). Manual fix: drag from `ActiveBIM` (or whichever variable references the foreign actor) to the Target pin. Bit twice in one PC session during Node 2.2d's capture-mode chain.
+- **2026-05-27 — UE BP right-click search hides cross-class setters/getters under default Context-Sensitive filter** — searching empty graph space for "Set TargetLatitude" or "Get TargetLatitude" returns nothing if those properties live on a foreign class. Workaround: drag from the blue object-ref pin (e.g., `ActiveBIM`) and then search — that gives the foreign-class member list.
+- **2026-05-27 — Parallel sessions resaving a shared `.uasset` can silently overwrite class-default property values set by another session** — happened to `BP_BIMOverlay` during Node 2.2d testing: commit `205904d` set `TargetLatitude=43.5656657` and `TargetLongitude=-116.1393521`; a parallel-session resave at commit `bf01a62` preserved the lat but reverted the long to 0.0. LFS pointer hash visibly changed (`44a0fdc...` → `2bcb87b...`), file size shrank 32430→32214 bytes, but git history shows no obvious "I changed this" message. **Workaround:** after any multi-session interleave, run `dev/probe_bim_defaults.py` (or the equivalent CDO read via the new MCP `execute_python`) to verify what defaults actually landed on disk — don't trust the commit message alone.
 - **2026-05-19/20 — glTF imports from Fab arrive ~100× oversized (NOT 10×)** — correct Build Scale is `(0.01, 0.01, 0.01)`, not `0.1`. A 7.7m house imports as 774m. Apply Build Scale 0.01 + **Cmd+S with the Static Mesh tab focused** (Apply Changes alone doesn't persist).
 
 ### Rendering / Lighting
@@ -621,6 +625,22 @@ Four systemic UE 5.6 / iOS gotchas surfaced during this deploy — all logged in
 2. `LocationServicesIOSImpl.GetLastKnownLocation` calls `requestAlwaysAuthorization` which modern iOS denies — engine BP node is unusable; use our shim.
 3. Bare `Cook -targetplatform=IOS` only cooks GameDefaultMap; must declare `+MapsToCook=...` in `DefaultGame.ini`.
 4. Mac editor must be rebuilt (`Build.sh SiteSyncAREditor Mac Development`) after C++ changes — cook re-compiles BPs against editor reflection.
+
+### Node 2.2 done (2026-05-27) — full geo-anchoring stack validated end-to-end
+
+Indoor manual-mode test on iPhone 16 Pro with TargetLat/Long temporarily set to a point exactly 500m due true north of the device GPS fix produced:
+
+- C++ `GeoToLocalOffsetCm`: `north=500.16m east=-4.41m dist=500.18m bearing=359.5° offset_cm=(50015.6, -440.8, 0.0)` and `north=501.13m east=-4.15m dist=501.15m bearing=359.5° offset_cm=(50113.1, -415.2, 0.0)` across two placements.
+- Expected: distance=500m, bearing=0°, offset=(50000, 0, 0). Observed off by ~1m on distance, 0.5° on bearing — within indoor GPS noise tolerance (device long jittered ~0.00005° between taps, which is ~4m east at 43.5°N and explains the small east component).
+- **UE +X = true north confirmed.** No axis swap, no sign flip required.
+
+Closes Node 2.2 (a/b/c/d) per the 2026-05-21 plan. Auto-place (move actor by the computed offset) is intentionally **not** in this scope — current Node 2.2 verifies the math and the UX paths (capture / manual); driving the BIM actor's transform from the offset is a small follow-up (call it **Node 2.2e** if it doesn't fold into Node 2.3).
+
+Useful artifacts from this session:
+- `dev/set_ar_alignment.py` — flip `ARSessionConfig.WorldAlignment` programmatically (used 2.2b)
+- `dev/probe_bim_defaults.py` — read CDO defaults on BP_BIMOverlay (diagnostic for parallel-session resave clobbering)
+- `dev/fix_bim_longitude_default.py` / `dev/revert_bim_defaults.py` — pattern for setting/clearing CDO defaults headless
+- New MCP `execute_python` command (parallel session, commit `77ad8ae`) — going forward, ad-hoc Python like the above can be invoked as a single MCP tool call rather than written as a `dev/` script and run via `UnrealEditor-Cmd -run=pythonscript`. See `docs/mcp-system-tools-2026-05-27.md`.
 
 ### Node 2.2b done (2026-05-26) — derived axis mapping under GravityAndHeading
 

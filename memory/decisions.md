@@ -2,6 +2,20 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-27 — End-user model upload — roadmap pin, NOT current work
+
+James raised the eventual question of how end users (not James, not Cole) get their own Revit/Rhino models into the app. Two paths he proposed: (A) "add a part on the menu for BIM Clash Overlay to allow them to import it" — in-app import flow, or (B) "make a webpage where you can upload the models to that site and then it uploads it to the device in hand" — server-cooked content delivery.
+
+**Engine constraint:** `DatasmithRuntime` is desktop-only (Windows/Mac) on UE 5.6 / 5.7 — see `2026-05-12` entry. There is no Apple-blessed runtime path to load `.udatasmith` (or `.rvt`/`.3dm`) on iOS in any current engine version. Option A in its full Datasmith form is **architecturally impossible** until Epic ships a runtime importer for iOS, which is not on a public roadmap. A reduced Option A using `.glTF` runtime loading would work but loses the Revit metadata, named MEP layers, and material fidelity that Datasmith preserves — the exact data Node 2.3 (clash detection) depends on.
+
+**Option B is feasible** but it is real product work: paid Apple Developer Program (currently blocked by James's retail employer per `2026-04-21` — until that lifts, no TestFlight, no external distribution), headless UE build farm with Epic licensing, backend pipeline (queue, auth, cook orchestration), and the "uploads to the device" step is still a manual `.ipa` install absent paid Developer / Enterprise. Same architecture as Trimble Sitevision / Autodesk Construction Cloud AR / Augin.
+
+**Today's workflow** (works, manual): user emails James a `.udatasmith` bundle, James runs `dev/import_datasmith.py` + re-cook + wired-deploy. Suitable for 1-on-1 demos.
+
+**Realistic next step** (post-retail-job, when paid Developer Program unblocks): TestFlight distribution of James-built `.ipa`s to a small beta group. Still no end-user-uploads-their-own-model UX, but at least multi-tester access.
+
+**Long-term Option B build-out** = a separate workstream from the AR app itself. Don't conflate with Phase 2 / Phase 3 node work. Revisit after the AR product has signal that justifies the backend investment.
+
 ## 2026-05-27 — UnrealMCP plugin expanded with `execute_python` system handler
 
 Added `FUnrealMCPSystemCommands` to the in-tree chongdashu UnrealMCP plugin (`Plugins/UnrealMCP/Source/UnrealMCP/{Public,Private}/Commands/UnrealMCPSystemCommands.{h,cpp}`, Python wrapper `Plugins/UnrealMCP/Python/tools/system_tools.py`). Five new commands: `execute_python`, `save_all_dirty_packages`, `save_package`, `reparent_actor_root`, `list_commands`. Triggered by James asking to "expand the current MCP using cwilcox0916/claude-ue-plugin as reference". The reference repo itself is 404 on github.com (taken private or removed) but its Lobehub-indexed architecture description is the design source: a Connection Manager that tiers Remote Control API → Python Executor → Native Plugin, with 215 tools available because the Python tier means *every* `unreal` module call is reachable without a new C++ dispatcher entry.

@@ -121,7 +121,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 |---|---|---|
 | 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ✅ **Complete** · device-validated 2026-05-21 — Rhino `TestBuilding` places via the two-tap flow on iPhone 16 Pro, flush on the floor, 60fps, HUD reads correct dims. Gate to Node 2.2 cleared. |
 | 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ✅ **Complete** · full stack device-validated 2026-05-27 — capture + manual modes, GeoToLocalOffsetCm math, UE +X = true north axis mapping all confirmed end-to-end on iPhone 16 Pro. Auto-place (move actor by computed offset) deferred to follow-up Node 2.2e — current scope verifies the math; doesn't yet drive placement. |
-| 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
+| 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | 🟡 In progress — C++ foundation done + validated Mac-only 2026-05-28 (`GetBIMLayers` `cf5b39f`, `DetectBIMClashes` OBB-SAT `56d4577`, both PASS against synthetic `BP_ClashTestRig`). Remaining (editor-GUI/device/model-gated): toggle UI, clash-highlight material+HUD, Datasmith-Scene-Actor migration, real MEPRoom model. Plan: `docs/node-2.3-plan.md`. |
 
 ---
 

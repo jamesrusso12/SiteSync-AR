@@ -55,6 +55,8 @@ Build a single-room construction mockup in Rhino with explicitly named layers:
 
 Deliberate clashes are the whole point — we want Node 2.3c to *find* something. Without intentional intersections the test has no signal.
 
+**⚠️ CRITICAL modeling rule — NAME each Rhino object, don't rely on layers.** Probed the existing TestBuilding import 2026-05-28 (`dev/probe_datasmith_layers.py`): its 6 meshes imported as `extrusion`, `extrusion_2`…`extrusion_6` with **zero** layer metadata (`Datasmith.LayerName` empty, no metadata keys at all). The Rhino objects were unnamed extrusions, so nothing addressable survived. Datasmith derives mesh-asset / actor names from the Rhino **object name**, NOT the layer. **For MEPRoom's layers to be toggleable at runtime, give every object an explicit name in Rhino** matching the table below (`HVAC_Duct`, `Structure_Beam`, etc.). Assigning to a layer is not enough — `GetBIMLayers` reads the component/mesh name, and an unnamed object becomes `extrusion_N` garbage. Name the objects; the layer assignment is secondary (still nice for Rhino-side organization, but not what we key on).
+
 **Deliverables:**
 - `BIM_Source/MEPRoom/MEPRoom.3dm` (Rhino source)
 - `BIM_Source/MEPRoom/MEPRoom.udatasmith` (exported via Datasmith Rhino plug-in)

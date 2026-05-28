@@ -126,6 +126,12 @@ In the Phase 1 cut/fill scene, after the slab is placed the HUD cut/fill cubic-y
 
 **Priority — James 2026-05-21:** this is to be the **FIRST** item fixed in the post-Phase-2 Phase-1 cleanup pass. Flagged in CLAUDE.md "Next — agreed plan" + Bugs Index.
 
+**✅ RESOLVED 2026-05-28 (`cbb688a`).** Fixed mid-Phase-2 (James chose to swap order and knock this out before closing Node 2.3). Fix shape = one-shot + Recalculate button (chosen over one-shot-only / heuristic-status-badge):
+- `BP_Foundation`: the recalc body was collapsed into a `DoRecalculate` custom event/function. The loop-back wire (recalc result → Delay 0.1 input) was deleted. BeginPlay now does ONE recalc after a 1.0 s settle delay, then stops. The volume integrates once against a settled mesh instead of chasing the live scan — instability gone by construction.
+- `WBP_VolumeReadout`: added a `Recalculate` button (240×56, centered 28pt label) below FillText. OnClicked → `GetActorOfClass(BP_Foundation)` → `IsValid` → `DoRecalculate`, with a yellow "No slab placed yet" toast on the not-valid path. Lets the user scan more terrain post-placement and refresh on demand.
+- Content-only change, no C++. Device-validated 2026-05-28 indoors: numbers hold steady after placement, don't drift while scanning, refresh correctly on button tap, reset (tap-3) re-stabilizes on a new slab, no-slab Recalculate shows the toast without crashing.
+- Note: the 250k-triangle `MaxTrianglesPerCall` cap and its per-section AABB-filter follow-up (CLAUDE.md "Node 1.4 future polish") is still open — not needed for stability, but would reduce per-recalc work on large scans. Independent of this fix.
+
 ## 2026-05-21 — Tier B menu — two deferred polish items (non-blocking)
 
 Surfaced during Tier B device testing 2026-05-21. The launcher works; both are cosmetic/UX:

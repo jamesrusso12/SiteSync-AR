@@ -4,6 +4,7 @@
 #include "ARBlueprintLibrary.h"
 #include "ARTrackable.h"
 #include "Components/StaticMeshComponent.h"
+#include "Engine/StaticMesh.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
@@ -211,6 +212,60 @@ bool UARMeshBlueprintLibrary::GeoToLocalOffsetCm(double DeviceLatitude,
 	       OutOffsetCm.X, OutOffsetCm.Y, OutOffsetCm.Z);
 
 	return true;
+}
+
+void UARMeshBlueprintLibrary::GetBIMLayers(AActor* BIM,
+                                            TArray<FString>& OutLayerNames,
+                                            TArray<UStaticMeshComponent*>& OutComponents)
+{
+	OutLayerNames.Reset();
+	OutComponents.Reset();
+
+	if (!BIM)
+	{
+		UE_LOG(LogSiteSyncAR, Warning, TEXT("GetBIMLayers: null BIM actor"));
+		return;
+	}
+
+	TArray<UStaticMeshComponent*> Comps;
+	BIM->GetComponents<UStaticMeshComponent>(Comps);
+
+	UE_LOG(LogSiteSyncAR, Warning,
+	       TEXT("GetBIMLayers: actor '%s' has %d StaticMeshComponents"),
+	       *BIM->GetName(), Comps.Num());
+
+	for (UStaticMeshComponent* C : Comps)
+	{
+		if (!C)
+		{
+			continue;
+		}
+
+		// Label = static-mesh asset name (Datasmith derives it from the Rhino
+		// object name). Fall back to component name if the mesh is null.
+		UStaticMesh* SM = C->GetStaticMesh();
+		const FString Label = SM ? SM->GetName() : C->GetName();
+
+		OutComponents.Add(C);
+		OutLayerNames.Add(Label);
+
+		// Diagnostic dump — the first device run against a real multi-layer
+		// model reveals the actual naming so we can confirm the toggle UI keys
+		// on something meaningful (not "extrusion_N").
+		FString TagStr;
+		for (const FName& T : C->ComponentTags)
+		{
+			TagStr += T.ToString() + TEXT(" ");
+		}
+		UE_LOG(LogSiteSyncAR, Warning,
+		       TEXT("GetBIMLayers:   comp='%s' mesh='%s' tags=[%s] visible=%d"),
+		       *C->GetName(),
+		       SM ? *SM->GetName() : TEXT("(none)"),
+		       *TagStr,
+		       C->IsVisible() ? 1 : 0);
+	}
+
+	UE_LOG(LogSiteSyncAR, Warning, TEXT("GetBIMLayers: returning %d layers"), OutLayerNames.Num());
 }
 
 int32 UARMeshBlueprintLibrary::UpdateLiDARMeshes(UProceduralMeshComponent* TargetMeshComponent,

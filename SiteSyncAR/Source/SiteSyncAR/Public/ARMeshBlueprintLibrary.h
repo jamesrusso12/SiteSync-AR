@@ -10,6 +10,7 @@ class UARMeshGeometry;
 class UProceduralMeshComponent;
 class UMaterialInterface;
 class APlayerController;
+class UStaticMeshComponent;
 
 UCLASS()
 class SITESYNCAR_API UARMeshBlueprintLibrary : public UBlueprintFunctionLibrary
@@ -154,4 +155,25 @@ public:
 	                               double TargetLatitude,
 	                               double TargetLongitude,
 	                               FVector& OutOffsetCm);
+
+	// Node 2.3b — enumerate the addressable "layers" (Static Mesh Components)
+	// on a placed BIM actor, for the layer-toggle UI. Returns two parallel
+	// arrays: OutLayerNames[i] labels OutComponents[i]. The label is the
+	// component's static-mesh asset name (Datasmith derives that from the
+	// Rhino OBJECT name — see docs/node-2.3-plan.md: objects MUST be named in
+	// Rhino or they arrive as "extrusion_N"). Falls back to the component name
+	// if the mesh is null.
+	//
+	// Works on any actor with Static Mesh Components — a Datasmith Scene Actor
+	// (per-layer components) or a single-mesh BP. Against the merged
+	// SM_TestBuilding_Merged it returns 1 entry; against the un-merged
+	// Datasmith Scene Actor it returns one per source object.
+	//
+	// Logs every component's name + mesh name + tags at Warning level so the
+	// first device run reveals the real naming and we can confirm the layer
+	// labels are meaningful before wiring the toggle UI to them.
+	UFUNCTION(BlueprintCallable, Category = "SiteSync|BIM")
+	static void GetBIMLayers(AActor* BIM,
+	                         TArray<FString>& OutLayerNames,
+	                         TArray<UStaticMeshComponent*>& OutComponents);
 };

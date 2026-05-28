@@ -37,6 +37,19 @@ Current `BP_BIMOverlay` wraps `SM_TestBuilding_Merged` — one mesh, no per-laye
 
 ---
 
+## Progress (2026-05-28) — C++ foundation done + validated Mac-only
+
+Both core C++ functions are written, built (Mac editor + iOS target), and **validated headless on Mac** against a synthetic clash-test rig — no editor GUI, no MEPRoom, no device needed:
+
+- **`GetBIMLayers`** (2.3b helper, commit `cf5b39f`) — enumerates a BIM actor's Static Mesh Components → parallel arrays of layer-name + component-ref. Labels by **component name** (not mesh-asset name — multiple layers can reuse one mesh; the cube rig proved this).
+- **`DetectBIMClashes`** (2.3c, this session) — OBB Separating-Axis-Theorem overlap between every component pair. Chosen over loose AABB (over-reports in compact rooms) and collision-overlap (depends on Datasmith generating collision, which it often doesn't). Exact for box meshes, tight for the rest, zero collision-setup dependency. Has an `ExcludedLayerSubstrings` param to suppress trivial structural adjacencies.
+
+**Validation harness** (`dev/build_clash_test_rig.py` + `dev/validate_clash_detection.py`): builds `BP_ClashTestRig` — an Actor BP with 5 named cube components (Structure_Floor/Beam, HVAC_Duct, Plumbing_Pipe, Electrical_Conduit) positioned with 2 deliberate intersections + 1 control. Result: `GetBIMLayers` returns the 5 correct names; `DetectBIMClashes` returns exactly the 2 expected clashes with correct centers; conduit clear. Both PASS.
+
+**Key technique unlocked:** BlueprintCallable UFUNCTIONs are callable from headless `UnrealEditor-Cmd -run=pythonscript`, and `SubobjectDataSubsystem` can build multi-component BPs headlessly. Together these let us unit-test BIM C++ on Mac without the editor GUI or device — big for solo Mac iteration.
+
+**Still to do (needs editor GUI / device / real model):** 2.3b toggle UI (`WBP_LayerTogglePanel`), 2.3d clash-highlight material + HUD, the `BP_ARPlayerController_BIM` → Datasmith-Scene-Actor migration, and swapping the cube rig for the real MEPRoom model. These resume when James has editor bandwidth post-move + the Rhino model.
+
 ## Architecture — four parts
 
 ### 2.3a — Sample MEP-bearing Rhino model + Datasmith import

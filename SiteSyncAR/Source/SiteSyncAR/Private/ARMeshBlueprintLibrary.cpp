@@ -241,10 +241,13 @@ void UARMeshBlueprintLibrary::GetBIMLayers(AActor* BIM,
 			continue;
 		}
 
-		// Label = static-mesh asset name (Datasmith derives it from the Rhino
-		// object name). Fall back to component name if the mesh is null.
+		// Label = COMPONENT name. Datasmith names the component after the source
+		// Rhino object, and unlike the mesh-asset name it's always distinct even
+		// when several layers reuse one mesh asset (proven by the cube test rig
+		// where all 5 share /Engine/BasicShapes/Cube but the components are
+		// named Structure_Floor / HVAC_Duct / etc.).
 		UStaticMesh* SM = C->GetStaticMesh();
-		const FString Label = SM ? SM->GetName() : C->GetName();
+		const FString Label = C->GetName();
 
 		OutComponents.Add(C);
 		OutLayerNames.Add(Label);
@@ -266,6 +269,172 @@ void UARMeshBlueprintLibrary::GetBIMLayers(AActor* BIM,
 	}
 
 	UE_LOG(LogSiteSyncAR, Warning, TEXT("GetBIMLayers: returning %d layers"), OutLayerNames.Num());
+}
+
+namespace SiteSyncClash
+{
+	// Oriented bounding box: center, three orthonormal axes, half-extents.
+	struct FOBB
+	{
+		FVector Center;
+		FVector Axis[3];
+		FVector Half;
+	};
+
+	static bool BuildOBB(UStaticMeshComponent* Comp, FOBB& Out)
+	{
+		UStaticMesh* SM = Comp->GetStaticMesh();
+		if (!SM) return false;
+
+		const FBox Local = SM->GetBoundingBox();
+		if (!Local.IsValid) return false;
+
+		const FTransform Xf = Comp->GetComponentTransform();
+		Out.Center = Xf.TransformPosition(Local.GetCenter());
+
+		const FVector Scale = Xf.GetScale3D();
+		const FVector LocalExtent = Local.GetExtent();
+		Out.Half = FVector(LocalExtent.X * FMath::Abs(Scale.X),
+		                   LocalExtent.Y * FMath::Abs(Scale.Y),
+		                   LocalExtent.Z * FMath::Abs(Scale.Z));
+
+		const FQuat Q = Xf.GetRotation();
+		Out.Axis[0] = Q.GetAxisX();
+		Out.Axis[1] = Q.GetAxisY();
+		Out.Axis[2] = Q.GetAxisZ();
+		return true;
+	}
+
+	// Separating Axis Theorem for two OBBs. Returns true if they overlap.
+	static bool OBBOverlap(const FOBB& A, const FOBB& B)
+	{
+		const FVector T = B.Center - A.Center;
+		// Rotation matrix R[i][j] = A.Axis[i] · B.Axis[j], plus abs with epsilon
+		// to guard against parallel-edge numerical issues.
+		double R[3][3];
+		double AbsR[3][3];
+		constexpr double Eps = 1e-6;
+		for (int32 i = 0; i < 3; ++i)
+		{
+			for (int32 j = 0; j < 3; ++j)
+			{
+				R[i][j] = FVector::DotProduct(A.Axis[i], B.Axis[j]);
+				AbsR[i][j] = FMath::Abs(R[i][j]) + Eps;
+			}
+		}
+
+		// T projected onto A's axes.
+		double Ta[3];
+		for (int32 i = 0; i < 3; ++i) Ta[i] = FVector::DotProduct(T, A.Axis[i]);
+
+		const double Ae[3] = { A.Half.X, A.Half.Y, A.Half.Z };
+		const double Be[3] = { B.Half.X, B.Half.Y, B.Half.Z };
+
+		// 3 axes of A.
+		for (int32 i = 0; i < 3; ++i)
+		{
+			const double ra = Ae[i];
+			const double rb = Be[0] * AbsR[i][0] + Be[1] * AbsR[i][1] + Be[2] * AbsR[i][2];
+			if (FMath::Abs(Ta[i]) > ra + rb) return false;
+		}
+		// 3 axes of B.
+		for (int32 j = 0; j < 3; ++j)
+		{
+			const double ra = Ae[0] * AbsR[0][j] + Ae[1] * AbsR[1][j] + Ae[2] * AbsR[2][j];
+			const double rb = Be[j];
+			const double t = FMath::Abs(Ta[0] * R[0][j] + Ta[1] * R[1][j] + Ta[2] * R[2][j]);
+			if (t > ra + rb) return false;
+		}
+		// 9 cross-product axes.
+		const int32 N[3][2] = { {1,2}, {2,0}, {0,1} };
+		for (int32 i = 0; i < 3; ++i)
+		{
+			for (int32 j = 0; j < 3; ++j)
+			{
+				const double ra = Ae[N[i][0]] * AbsR[N[i][1]][j] + Ae[N[i][1]] * AbsR[N[i][0]][j];
+				const double rb = Be[N[j][0]] * AbsR[i][N[j][1]] + Be[N[j][1]] * AbsR[i][N[j][0]];
+				const double t = FMath::Abs(Ta[N[i][1]] * R[N[i][0]][j] - Ta[N[i][0]] * R[N[i][1]][j]);
+				if (t > ra + rb) return false;
+			}
+		}
+		return true; // no separating axis found
+	}
+}
+
+int32 UARMeshBlueprintLibrary::DetectBIMClashes(AActor* BIM,
+                                                 const TArray<FString>& ExcludedLayerSubstrings,
+                                                 TArray<FBIMClashPair>& OutClashes)
+{
+	using namespace SiteSyncClash;
+	OutClashes.Reset();
+
+	if (!BIM)
+	{
+		UE_LOG(LogSiteSyncAR, Warning, TEXT("DetectBIMClashes: null BIM actor"));
+		return 0;
+	}
+
+	TArray<UStaticMeshComponent*> Comps;
+	BIM->GetComponents<UStaticMeshComponent>(Comps);
+
+	// Pre-build OBBs + labels once.
+	TArray<FOBB> Boxes;
+	TArray<FString> Labels;
+	TArray<UStaticMeshComponent*> Valid;
+	for (UStaticMeshComponent* C : Comps)
+	{
+		if (!C) continue;
+		FOBB Box;
+		if (!BuildOBB(C, Box)) continue;
+		Valid.Add(C);
+		Boxes.Add(Box);
+		Labels.Add(C->GetName()); // component name — see GetBIMLayers rationale
+	}
+
+	UE_LOG(LogSiteSyncAR, Warning,
+	       TEXT("DetectBIMClashes: actor '%s', %d valid components, %d exclusion substrings"),
+	       *BIM->GetName(), Valid.Num(), ExcludedLayerSubstrings.Num());
+
+	auto BothExcluded = [&ExcludedLayerSubstrings](const FString& A, const FString& B) -> bool
+	{
+		for (const FString& Sub : ExcludedLayerSubstrings)
+		{
+			if (A.Contains(Sub) && B.Contains(Sub)) return true;
+		}
+		return false;
+	};
+
+	for (int32 i = 0; i < Valid.Num(); ++i)
+	{
+		for (int32 j = i + 1; j < Valid.Num(); ++j)
+		{
+			if (BothExcluded(Labels[i], Labels[j]))
+			{
+				UE_LOG(LogSiteSyncAR, Warning,
+				       TEXT("DetectBIMClashes:   skip (excluded pair) '%s' x '%s'"), *Labels[i], *Labels[j]);
+				continue;
+			}
+
+			const bool bClash = OBBOverlap(Boxes[i], Boxes[j]);
+			UE_LOG(LogSiteSyncAR, Warning,
+			       TEXT("DetectBIMClashes:   '%s' x '%s' -> %s"),
+			       *Labels[i], *Labels[j], bClash ? TEXT("CLASH") : TEXT("clear"));
+
+			if (bClash)
+			{
+				FBIMClashPair Pair;
+				Pair.LayerA = Labels[i];
+				Pair.LayerB = Labels[j];
+				Pair.ComponentA = Valid[i];
+				Pair.ComponentB = Valid[j];
+				Pair.ApproxCenter = (Boxes[i].Center + Boxes[j].Center) * 0.5;
+				OutClashes.Add(Pair);
+			}
+		}
+	}
+
+	UE_LOG(LogSiteSyncAR, Warning, TEXT("DetectBIMClashes: %d clashes detected"), OutClashes.Num());
+	return OutClashes.Num();
 }
 
 int32 UARMeshBlueprintLibrary::UpdateLiDARMeshes(UProceduralMeshComponent* TargetMeshComponent,

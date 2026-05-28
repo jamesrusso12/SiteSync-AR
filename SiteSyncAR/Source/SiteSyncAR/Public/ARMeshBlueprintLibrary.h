@@ -12,6 +12,31 @@ class UMaterialInterface;
 class APlayerController;
 class UStaticMeshComponent;
 
+// One detected clash between two BIM layer components. Returned by
+// DetectBIMClashes for the clash-highlight UI (Node 2.3c/d).
+USTRUCT(BlueprintType)
+struct FBIMClashPair
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadOnly, Category = "SiteSync|BIM")
+	FString LayerA;
+
+	UPROPERTY(BlueprintReadOnly, Category = "SiteSync|BIM")
+	FString LayerB;
+
+	UPROPERTY(BlueprintReadOnly, Category = "SiteSync|BIM")
+	UStaticMeshComponent* ComponentA = nullptr;
+
+	UPROPERTY(BlueprintReadOnly, Category = "SiteSync|BIM")
+	UStaticMeshComponent* ComponentB = nullptr;
+
+	// Approximate world-space center of the clash (midpoint of the two
+	// component OBB centers) — for camera-pan-to-clash UX, not precise.
+	UPROPERTY(BlueprintReadOnly, Category = "SiteSync|BIM")
+	FVector ApproxCenter = FVector::ZeroVector;
+};
+
 UCLASS()
 class SITESYNCAR_API UARMeshBlueprintLibrary : public UBlueprintFunctionLibrary
 {
@@ -176,4 +201,23 @@ public:
 	static void GetBIMLayers(AActor* BIM,
 	                         TArray<FString>& OutLayerNames,
 	                         TArray<UStaticMeshComponent*>& OutComponents);
+
+	// Node 2.3c — detect clashes between the BIM's layer components. Each pair
+	// of Static Mesh Components is tested for geometric overlap using
+	// Oriented-Bounding-Box separating-axis (SAT) — exact for box-shaped
+	// meshes (walls/beams/ducts), a tight approximation for the rest, and with
+	// NO dependency on whether the imported meshes have collision generated
+	// (Datasmith often doesn't). Returns the clash count; OutClashes carries
+	// the component refs + layer names + approx center for the highlight UI.
+	//
+	// ExcludedLayerSubstrings: any pair where BOTH layer names contain one of
+	// these substrings is skipped — use it to suppress "trivial" structural
+	// adjacencies (e.g. pass ["Structure_"] so Floor∩Wall doesn't count, while
+	// HVAC∩Structure_Beam still does). Empty = report everything.
+	//
+	// Logs every tested pair's overlap result at Warning level for diagnosis.
+	UFUNCTION(BlueprintCallable, Category = "SiteSync|BIM")
+	static int32 DetectBIMClashes(AActor* BIM,
+	                              const TArray<FString>& ExcludedLayerSubstrings,
+	                              TArray<FBIMClashPair>& OutClashes);
 };

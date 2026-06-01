@@ -272,6 +272,7 @@ from tools.node_tools import register_blueprint_node_tools
 from tools.project_tools import register_project_tools
 from tools.umg_tools import register_umg_tools
 from tools.system_tools import register_system_tools
+from tools.graph_tools import register_graph_tools
 
 # Register tools
 register_editor_tools(mcp)
@@ -280,6 +281,7 @@ register_blueprint_node_tools(mcp)
 register_project_tools(mcp)
 register_umg_tools(mcp)
 register_system_tools(mcp)
+register_graph_tools(mcp)
 
 @mcp.prompt()
 def info():
@@ -324,7 +326,19 @@ def info():
     - `set_pawn_properties(blueprint_name)` - Configure Pawn settings
     - `spawn_blueprint_actor(blueprint_name, actor_name)` - Spawn Blueprint actors
     
-    ## Blueprint Node Management
+    ## Blueprint Graph Management (PREFERRED — reliable, added 2026-05-29)
+    - `build_blueprint_graph(blueprint_name, nodes, connections, graph="EventGraph")` —
+       Build a whole graph in ONE call from a nodes + connections spec. Schema-validated
+       wiring (handles autocasts, struct/array promotion), pin literals, struct-pin
+       splitting via dotted pin syntax ("ReturnValue.X"), and a per-connection success
+       report. THIS is the reliable path — prefer it over the per-node tools below,
+       which require guessing pin names across many round-trips and are hit-or-miss.
+    - `describe_blueprint_node(blueprint_name, node_id="all", graph="EventGraph")` —
+       Read the REAL pins of a node (or every node) so you wire by fact, not guess.
+    - `split_struct_pin(blueprint_name, node_id, pin, graph="EventGraph")` —
+       Split a struct pin (FVector -> X/Y/Z, etc.); the upstream README's manual step.
+
+    ## Blueprint Node Management (legacy per-node flow — see build_blueprint_graph first)
     - `add_blueprint_event_node(blueprint_name, event_type)` - Add event nodes
     - `add_blueprint_input_action_node(blueprint_name, action_name)` - Add input nodes
     - `add_blueprint_function_node(blueprint_name, target, function_name)` - Add function nodes

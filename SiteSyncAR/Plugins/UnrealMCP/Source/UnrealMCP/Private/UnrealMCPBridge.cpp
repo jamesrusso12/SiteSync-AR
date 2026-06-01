@@ -58,6 +58,7 @@
 #include "Commands/UnrealMCPCommonUtils.h"
 #include "Commands/UnrealMCPUMGCommands.h"
 #include "Commands/UnrealMCPSystemCommands.h"
+#include "Commands/UnrealMCPGraphCommands.h"
 
 // Default settings
 #define MCP_SERVER_HOST "127.0.0.1"
@@ -71,6 +72,7 @@ UUnrealMCPBridge::UUnrealMCPBridge()
     ProjectCommands = MakeShared<FUnrealMCPProjectCommands>();
     UMGCommands = MakeShared<FUnrealMCPUMGCommands>();
     SystemCommands = MakeShared<FUnrealMCPSystemCommands>();
+    GraphCommands = MakeShared<FUnrealMCPGraphCommands>();
 }
 
 UUnrealMCPBridge::~UUnrealMCPBridge()
@@ -81,6 +83,7 @@ UUnrealMCPBridge::~UUnrealMCPBridge()
     ProjectCommands.Reset();
     UMGCommands.Reset();
     SystemCommands.Reset();
+    GraphCommands.Reset();
 }
 
 // Initialize subsystem
@@ -290,6 +293,13 @@ FString UUnrealMCPBridge::ExecuteCommand(const FString& CommandType, const TShar
             else if (FUnrealMCPSystemCommands::GetSupportedCommands().Contains(CommandType))
             {
                 ResultJson = SystemCommands->HandleCommand(CommandType, Params);
+            }
+            // Graph Commands — build_blueprint_graph, describe_blueprint_node, split_struct_pin.
+            // Same single-source-of-truth registry pattern as System: adding a graph command
+            // in UnrealMCPGraphCommands.{h,cpp} needs NO second edit here.
+            else if (FUnrealMCPGraphCommands::GetSupportedCommands().Contains(CommandType))
+            {
+                ResultJson = GraphCommands->HandleCommand(CommandType, Params);
             }
             else
             {

@@ -17,6 +17,8 @@
 #include "IPythonScriptPlugin.h"
 #include "PythonScriptTypes.h"
 
+#include "Commands/UnrealMCPGraphCommands.h"
+
 FUnrealMCPSystemCommands::FUnrealMCPSystemCommands()
 {
 }
@@ -369,8 +371,17 @@ TSharedPtr<FJsonObject> FUnrealMCPSystemCommands::HandleListCommands(const TShar
         CommandList.Add(MakeShared<FJsonValueString>(Cmd));
     }
 
+    // Aggregate other registry-pattern handlers so list_commands is a true
+    // introspection surface, not just this handler's own list.
+    TArray<TSharedPtr<FJsonValue>> GraphCommandList;
+    for (const FString& Cmd : FUnrealMCPGraphCommands::GetSupportedCommands())
+    {
+        GraphCommandList.Add(MakeShared<FJsonValueString>(Cmd));
+    }
+
     TSharedPtr<FJsonObject> Result = MakeShared<FJsonObject>();
     Result->SetBoolField(TEXT("success"), true);
     Result->SetArrayField(TEXT("system_commands"), CommandList);
+    Result->SetArrayField(TEXT("graph_commands"), GraphCommandList);
     return Result;
 }

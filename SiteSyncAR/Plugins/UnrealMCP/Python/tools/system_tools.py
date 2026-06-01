@@ -183,24 +183,31 @@ def register_system_tools(mcp: FastMCP):
             return {"success": False, "error": str(e)}
 
     @mcp.tool()
-    def list_system_commands(ctx: Context) -> List[str]:
-        """List every command wired into the System dispatcher.
+    def list_system_commands(ctx: Context) -> Dict[str, Any]:
+        """List the registry-pattern commands wired into the bridge dispatcher.
 
         Useful when an `Unknown command` reply suggests a stale-DLL or
         missing-dispatcher-entry bug — confirms what the running plugin
-        actually advertises.
+        actually advertises. Returns both the System and Graph handler
+        registries (the two handlers using the GetSupportedCommands() pattern).
+
+        Returns:
+            { "system_commands": [...], "graph_commands": [...] }
         """
         from unreal_mcp_server import get_unreal_connection
 
         try:
             unreal = get_unreal_connection()
             if not unreal:
-                return []
+                return {"system_commands": [], "graph_commands": []}
             response = unreal.send_command("list_commands", {})
             if not response:
-                return []
+                return {"system_commands": [], "graph_commands": []}
             result = response.get("result", response)
-            return result.get("system_commands", [])
+            return {
+                "system_commands": result.get("system_commands", []),
+                "graph_commands": result.get("graph_commands", []),
+            }
         except Exception as e:
             logger.error(f"list_system_commands failed: {e}")
-            return []
+            return {"system_commands": [], "graph_commands": []}

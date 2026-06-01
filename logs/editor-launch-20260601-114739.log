@@ -1,0 +1,43 @@
+Opening shared memory
+Shared memory doesn't exist, checking legacy lock file
+Checking for a '/tmp/UnrealTraceServer.pid' lock file
+Forking process
+Wait until we know the daemon has started.
+Parent received signal 30
+Daemon signalled successful start
+Forked complete (ret=0)
+2026-06-01 11:47:39.939 UnrealEditor[38152:14159932] [UE] Failed to find game directory: /Users/Shared/Epic Games/UE_5.6/SiteSyncAR/Binaries
+Opening shared memory
+Existing instance is the same age or newer
+2026-06-01 11:47:40.864 UnrealEditor[38162:14159995] [UE4] Shutdown handler: initialize.
+2026-06-01 11:47:43.757 UnrealEditor[38162:14159995] [UE] MENU friendly name PC Vulkan SM5
+2026-06-01 11:47:43.757 UnrealEditor[38162:14159995] [UE] MENU friendly name Mac Metal SM5
+2026-06-01 11:47:43.757 UnrealEditor[38162:14159995] [UE] MENU friendly name PC D3D SM5
+2026-06-01 11:47:43.757 UnrealEditor[38162:14159995] [UE] MENU friendly name PC D3D SM6
+2026-06-01 11:47:43.757 UnrealEditor[38162:14159995] [UE] MENU friendly name PC D3D Mobile
+2026-06-01 11:47:43.757 UnrealEditor[38162:14159995] [UE] MENU friendly name PC D3D Mobile SDF
+*** Recognized (0x6f) family*** (30 cols X 22 rows)
+2026-06-01 12:08:39.383 UnrealEditor[38162:14159977] [UE4] Shutdown handler: cleanup.
+Opening shared memory
+Shared memory doesn't exist, checking legacy lock file
+Checking for a '/tmp/UnrealTraceServer.pid' lock file
+Forking process
+Opening shared memory
+Starting the store
+Reading settings from '/Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini'
+
+Unable to open settings file /Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini.
+
+Store settings (/Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini):
+ - Store port: 1989
+ - Recorder port: 1981
+ - Thread count: 0
+ - Sponsored mode: 1
+ - Directory: '/Users/jamesrusso/UnrealEngine/UnrealTrace/Store/001'
+Watcher enabled on /Users/jamesrusso/UnrealEngine/UnrealTrace/Store/001
+Signalling parent 38156
+Terminating server, no sponsors or connections active.
+Received signal 15
+Daemon is exiting without errors.
+Listening cancelled, closing port...
+Listening cancelled, closing port...

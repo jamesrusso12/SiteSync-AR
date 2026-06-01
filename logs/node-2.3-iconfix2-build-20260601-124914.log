@@ -1,0 +1,406 @@
+
+Running AutomationTool...
+
+Setting up bundled DotNet SDK
+/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/Mac/../../../Binaries/ThirdParty/DotNet/8.0.300/mac-arm64
+Start UAT Interactively: dotnet AutomationTool.dll BuildCookRun -project=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject -platform=IOS -configuration=Development -build -skipcook -stage -archive
+/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/Mac/../../../Binaries/ThirdParty/DotNet/8.0.300/mac-arm64/dotnet
+Starting AutomationTool...
+Parsing command line: BuildCookRun -project=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject -platform=IOS -configuration=Development -build -skipcook -stage -archive
+Initializing script modules...
+Total script module initialization time: 0.12 s.
+Using /Users/Shared/Epic Games/UE_5.6/Engine/Binaries/ThirdParty/DotNet/8.0.300/mac-arm64/dotnet
+Executing commands...
+Setting up ProjectParams for /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject
+********** BUILD COMMAND STARTED **********
+Choosing MODERN XCODE based on .ini settings
+Running: /Users/Shared/Epic Games/UE_5.6/Engine/Binaries/ThirdParty/DotNet/8.0.300/mac-arm64/dotnet "/Users/Shared/Epic Games/UE_5.6/Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll" -Target="SiteSyncAREditor Mac Development -Project=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject -Manifest=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/Build/Manifest-1-SiteSyncAREditor-Mac-Development.xml" -Target="SiteSyncAR IOS Development -Project=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject -Manifest=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/Build/Manifest-2-SiteSyncAR-IOS-Development.xml  -remoteini=\"/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR\"  " -log="/Users/jamesrusso/Library/Logs/Unreal Engine/LocalBuildLogs/UBA-SiteSyncAREditor-Mac-Development.txt"
+Log file: /Users/jamesrusso/Library/Logs/Unreal Engine/LocalBuildLogs/UBA-SiteSyncAREditor-Mac-Development.txt
+Using 'git status' to determine working set for adaptive non-unity build (/Users/jamesrusso/Developer/SiteSync-AR).
+Creating makefile for SiteSyncAREditor (manifest '/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/Build/Manifest-1-SiteSyncAREditor-Mac-Development.xml' not found)
+Choosing MODERN XCODE based on .ini settings
+Compiling with Mac SDK 26.5, minimum Target OS version 14.00
+Writing manifest to /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/Build/Manifest-1-SiteSyncAREditor-Mac-Development.xml
+Creating makefile for SiteSyncAR (manifest '/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/Build/Manifest-2-SiteSyncAR-IOS-Development.xml' not found)
+Compiling against OS Version 17.0 [minimum allowed at runtime]
+Compiling with IOS SDK 26.5, minimum Target OS version 17.0
+Writing manifest to /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/Build/Manifest-2-SiteSyncAR-IOS-Development.xml
+Building SiteSyncAREditor and SiteSyncAR...
+Determining max actions to execute in parallel (18 physical cores, 18 logical cores)
+  Executing up to 18 processes, one per physical core
+Using Unreal Build Accelerator local executor to run 12 action(s)
+  Storage capacity 40Gb
+---- Starting trace ----
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+------ Building 12 action(s) started ------
+** For SiteSyncAR-IOS-Development **
+[1/12] Compile [arm64] SharedPCH.Core.Project.ValApi.ValExpApi.Cpp20.h
+[2/12] Compile [arm64] SharedPCH.CoreUObject.Project.ValApi.ValExpApi.Cpp20.h
+[3/12] Compile [arm64] SharedPCH.Slate.Project.ValApi.ValExpApi.Cpp20.h
+[4/12] Compile [arm64] SharedPCH.Engine.Project.ValApi.ValExpApi.Cpp20.h
+[5/12] Compile [arm64] Module.SiteSyncAR.gen.cpp
+[6/12] Compile [arm64] SiteSyncAR.cpp
+[7/12] Compile [arm64] ARMeshBlueprintLibrary.cpp
+[8/12] Compile [arm64] ARMeshBlueprintLibrary_iOS.mm
+[9/12] sh /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR (UBA disabled)
+ld: warning: ignoring duplicate libraries: '/Users/Shared/Epic Games/UE_5.6/Engine/Source/ThirdParty/Vorbis/libvorbis-1.3.2/lib/IOS/libvorbis.a', '/Users/Shared/Epic Games/UE_5.6/Engine/Source/ThirdParty/Vorbis/libvorbis-1.3.2/lib/IOS/libvorbisenc.a', '/Users/Shared/Epic Games/UE_5.6/Engine/Source/ThirdParty/Vorbis/libvorbis-1.3.2/lib/IOS/libvorbisfile.a'
+[10/12] Updating version file: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/Build/Versions.xcconfig (UBA disabled)
+[11/12] ApplePostBuildSync Executing PostBuildSync [/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR] (UBA disabled)
+Forcing MODERN XCODE with -modernxcode
+Discovering modules, targets and source code for project...
+Adding projects for all targets...
+Adding projects for all targets took 0.12s
+Adding projects for all game projects took 0.00s
+Adding projects for all modules took 0.90s
+Compiling with Mac SDK 26.5, minimum Target OS version 14.00
+Compiling with IOS SDK 26.5, minimum Target OS version 17.0
+Adding additional Xcode project info took 0.87s
+Writing project files...
+Writing xcode workspace /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace
+Writing project files... 100%
+Writing project files took 0.05s
+params: UBT_NO_POST_DEPLOY=true /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild build -workspace "/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace" -scheme "SiteSyncAR" -configuration "Development" -destination generic/platform="iOS" -hideShellScriptEnvironment CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION=YES  -allowProvisioningUpdates UE_XCODE_BUILD_MODE=PostBuildSync
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild build -workspace /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace -scheme SiteSyncAR -configuration Development -destination generic/platform=iOS -hideShellScriptEnvironment CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION=YES -allowProvisioningUpdates UE_XCODE_BUILD_MODE=PostBuildSync
+
+Build settings from command line:
+    CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES
+    UE_XCODE_BUILD_MODE = PostBuildSync
+
+Run pre-actions
+
+SchemeAction Touch\ UBT\ generated\ tiles /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/SchemeScriptAction-E4hPhP.sh
+    cd /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/
+    /bin/sh -c /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/SchemeScriptAction-E4hPhP.sh
+
+ComputePackagePrebuildTargetDependencyGraph
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'SiteSyncAR' in project 'SiteSyncAR (IOS)' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --version --output-format xml1
+
+Build description signature: ded0ac902b58b6cae6fbd537de1a8fce
+Build description path: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS/build/XCBuildData/ded0ac902b58b6cae6fbd537de1a8fce.xcbuilddata
+ProcessProductPackaging "" /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+
+    Entitlements:
+
+    {
+    "application-identifier" = "PD29S4YQ4P.com.RussoCompany.SiteSyncAR";
+    "com.apple.developer.team-identifier" = PD29S4YQ4P;
+    "get-task-allow" = 1;
+}
+
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent
+
+WriteAuxiliaryFile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/Script-F87B0820048B9926603590CE.sh (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    write-file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/Script-F87B0820048B9926603590CE.sh
+
+ProcessProductPackagingDER /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent.der (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /usr/bin/derq query -f xml -i /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent -o /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent.der --raw
+
+CompileAssetCatalogVariant thinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/Resources/Assets.xcassets (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/Resources/Assets.xcassets --compile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region English --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --platform iphoneos
+/* com.apple.actool.compilation-results */
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_thinned
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned/Assets.car
+
+
+LinkAssetCatalog /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/Resources/Assets.xcassets (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-linkAssetCatalog --thinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned --thinned-dependencies /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_unthinned --output /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app --plist-output /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/Assets.car (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/AppIcon76x76@2x~ipad.png (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/AppIcon60x60@2x.png (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+
+ProcessInfoPlistFile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/Info.plist /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/UBTGenerated/Info.Template.plist (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-infoPlistUtility /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/UBTGenerated/Info.Template.plist -producttype com.apple.product-type.application -genpkginfo /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/PkgInfo -expandbuildsettings -format xml -platform iphoneos -additionalcontentfile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist -requiredArchitecture arm64 -o /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/Info.plist
+
+PhaseScriptExecution Copy\ Executable\ and\ Staged\ Data\ into\ .app /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/Script-61C0BA044A9F595942856D47.sh (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /bin/sh -c /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\\\ \\\(IOS\\\).build/IOS/SiteSyncAR.build/Script-61C0BA044A9F595942856D47.sh
+Copying executable and any standalone dylibs into /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app but do not overwrite unless src is newer
+
+PhaseScriptExecution Strip\ FinderInfo\ xattrs\ (pre-codesign) /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/Script-F87B0820048B9926603590CE.sh (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /bin/sh -c /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\\\ \\\(IOS\\\).build/IOS/SiteSyncAR.build/Script-F87B0820048B9926603590CE.sh
+[SiteSyncAR] stripped FinderInfo xattrs pre-codesign
+
+CodeSign /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+
+    Signing Identity:     "Apple Development: jrusso03@icloud.com (89L7H26SN9)"
+    Provisioning Profile: "iOS Team Provisioning Profile: com.RussoCompany.SiteSyncAR"
+                          (e4e52527-e3ac-4490-9422-dec830ab2fc7)
+
+    /usr/bin/codesign --force --sign FF26227A0F297FD9D6E7E7A3097AA6A0EB580FC9 --entitlements /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent --timestamp\=none --generate-entitlement-der /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app
+
+RegisterExecutionPolicyException /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-RegisterExecutionPolicyException /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app
+
+Validate /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-validationUtility /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /usr/bin/touch -c /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app
+
+** BUILD SUCCEEDED **
+
+[12/12] WriteMetadata SiteSyncAR.target (UBA disabled)
+Trace written to file /Users/jamesrusso/Library/Logs/Unreal Engine/LocalBuildLogs/UBA-SiteSyncAREditor-Mac-Development.uba with size 4.2kb
+Total time in Unreal Build Accelerator local executor: 16.82 seconds
+Deploying SiteSyncAREditor Mac Development...
+Deploying now!
+Deploying SiteSyncAR IOS Development...
+IOSPlugin: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Source/SiteSyncAR/../../Build/IOS/SiteSyncAR_IOS_UPL.xml
+IOSPlugin: Plugins/Runtime/AR/AppleAR/AppleARKit/Source/AppleARKit/AppleARKit_IOS_UPL.xml
+Generating plist (only step needed when deploying with Modern Xcode)
+UPL: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Source/SiteSyncAR/../../Build/IOS/SiteSyncAR_IOS_UPL.xml
+UPL: ../Plugins/Runtime/AR/AppleAR/AppleARKit/Source/AppleARKit/AppleARKit_IOS_UPL.xml
+UPL Init: None
+SiteSyncAR adding location usage descriptions to plist...
+AppleARKit adding arkit requirement and camera permission to plist...
+
+Result: Succeeded
+Total execution time: 19.18 seconds
+Took 19.23s to run dotnet, ExitCode=0
+Build command time: 19.28 s
+********** BUILD COMMAND COMPLETED **********
+********** STAGE COMMAND STARTED **********
+Creating UECommandLine.txt
+Creating Staging Manifest...
+CookPlat IOS, this IOSPlatform
+IOSPlugin: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Source/SiteSyncAR/../../Build/IOS/SiteSyncAR_IOS_UPL.xml
+IOSPlugin: Plugins/Runtime/AR/AppleAR/AppleARKit/Source/AppleARKit/AppleARKit_IOS_UPL.xml
+UPL: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Source/SiteSyncAR/../../Build/IOS/SiteSyncAR_IOS_UPL.xml
+UPL: Engine/Plugins/Runtime/AR/AppleAR/AppleARKit/Source/AppleARKit/AppleARKit_IOS_UPL.xml
+UPL Init: None
+SiteSyncAR adding location usage descriptions to plist...
+AppleARKit adding arkit requirement and camera permission to plist...
+App has no custom Localization resources
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/ConfigRedirects.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseEngine.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseHardware.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseRuntimeOptions.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseScalability.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Base.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseMaterialExpressions.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseDeviceProfiles.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseGame.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseGameUserSettings.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseEditorSettings.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseEditor.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/PluginBase.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseEditorPerProjectUserSettings.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseEditorKeyBindings.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BasePakFileRules.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/ConsoleVariables.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseSourceControlSettings.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseInput.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseInstallBundle.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseLightmass.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseCompat.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/VulkanPC/DataDrivenPlatformInfo.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/DataDrivenPlatformInfo.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/BaseIOSGame.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/BaseIOSInstallBundle.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/BaseIOSInput.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/BaseIOSEngine.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/IOSScalability.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/IOSGame.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Layouts/DefaultLayout.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Layouts/UE4ClassicLayout.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/WordCount.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/EditorTutorials.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/PropertyNames.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/RepairData.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/Editor.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/PortableObjectExport.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/ToolTips.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/PortableObjectImport.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/Category.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/Keywords.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/Engine.ini
+Including config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/DefaultGame.ini
+Excluding config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/DefaultEditorPerProjectUserSettings.ini
+Including config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/DefaultEngine.ini
+Including config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/DefaultInput.ini
+Excluding config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/DefaultEditor.ini
+Including config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/IOS/IOSEngine.ini
+Cleaning Stage Directory: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS
+DumpManifest: /Users/jamesrusso/Library/Logs/Unreal Engine/LocalBuildLogs/FinalCopyIOS_UFSFiles.txt, NumItems: 2717
+DumpManifest: /Users/jamesrusso/Library/Logs/Unreal Engine/LocalBuildLogs/FinalCopyIOS_NonUFSFiles.txt, NumItems: 4
+DumpManifest: /Users/jamesrusso/Library/Logs/Unreal Engine/LocalBuildLogs/FinalCopyIOS_NonUFSFilesDebug.txt, NumItems: 5
+Copying NonUFSFiles to staging directory: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS
+Copying UFSFiles to staging directory: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS
+Copying DebugFiles to staging directory: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS
+Discovering modules, targets and source code for project...
+Adding projects for all targets...
+Adding projects for all targets took 0.00s
+Adding projects for all game projects took 0.00s
+Adding projects for all modules took 0.00s
+Compiling with Mac SDK 26.5, minimum Target OS version 14.00
+Compiling with IOS SDK 26.5, minimum Target OS version 17.0
+Adding additional Xcode project info took 0.00s
+Writing project files...
+Writing xcode workspace /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace
+Writing project files... 100%
+Writing project files took 0.00s
+params: UBT_NO_POST_DEPLOY=true /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild build -workspace "/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace" -scheme "SiteSyncAR" -configuration "Development" -destination generic/platform="iOS" -hideShellScriptEnvironment CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION=YES SYMROOT="/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds" EFFECTIVE_PLATFORM_NAME=IOS UE_OVERRIDE_STAGE_DIR="/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS" -allowProvisioningUpdates UE_XCODE_BUILD_MODE=Stage
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild build -workspace /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace -scheme SiteSyncAR -configuration Development -destination generic/platform=iOS -hideShellScriptEnvironment CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION=YES SYMROOT=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds EFFECTIVE_PLATFORM_NAME=IOS UE_OVERRIDE_STAGE_DIR=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS -allowProvisioningUpdates UE_XCODE_BUILD_MODE=Stage
+
+Build settings from command line:
+    CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES
+    EFFECTIVE_PLATFORM_NAME = IOS
+    SYMROOT = /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds
+    UE_OVERRIDE_STAGE_DIR = /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS
+    UE_XCODE_BUILD_MODE = Stage
+
+Run pre-actions
+
+SchemeAction Touch\ UBT\ generated\ tiles /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/SchemeScriptAction-RmHpam.sh
+    cd /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/
+    /bin/sh -c /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/SchemeScriptAction-RmHpam.sh
+
+ComputePackagePrebuildTargetDependencyGraph
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'SiteSyncAR' in project 'SiteSyncAR (IOS)' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --version --output-format xml1
+
+Build description signature: fc8bfad6c24737ac251b2e1c37b0a38e
+Build description path: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/XCBuildData/fc8bfad6c24737ac251b2e1c37b0a38e.xcbuilddata
+MkDir /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /bin/mkdir -p /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+
+ProcessProductPackaging /Users/jamesrusso/Library/Developer/Xcode/UserData/Provisioning\ Profiles/e4e52527-e3ac-4490-9422-dec830ab2fc7.mobileprovision /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/embedded.mobileprovision (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-productPackagingUtility /Users/jamesrusso/Library/Developer/Xcode/UserData/Provisioning\ Profiles/e4e52527-e3ac-4490-9422-dec830ab2fc7.mobileprovision -o /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/embedded.mobileprovision
+
+CompileAssetCatalogVariant thinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/Resources/Assets.xcassets (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/Resources/Assets.xcassets --compile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region English --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --platform iphoneos
+/* com.apple.actool.compilation-results */
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_thinned
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned/Assets.car
+
+
+LinkAssetCatalog /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/Resources/Assets.xcassets (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-linkAssetCatalog --thinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned --thinned-dependencies /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_unthinned --output /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app --plist-output /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/Assets.car (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/AppIcon76x76@2x~ipad.png (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/AppIcon60x60@2x.png (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+
+LinkStoryboards (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module SiteSyncAR --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --output-format human-readable-text --link /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/Interface/LaunchScreen.storyboardc
+
+CopyPNGFile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/LaunchScreenIOS.png /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/Graphics/LaunchScreenIOS.png (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /Applications/Xcode.app/Contents/Developer/usr/bin/copypng -compress -strip-PNG-text /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/Graphics/LaunchScreenIOS.png /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/LaunchScreenIOS.png
+
+CpResource /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/UEMetadata /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/UEMetadata (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/UEMetadata /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+
+ProcessInfoPlistFile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/Info.plist /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/UBTGenerated/Info.Template.plist (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-infoPlistUtility /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/UBTGenerated/Info.Template.plist -producttype com.apple.product-type.application -genpkginfo /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/PkgInfo -expandbuildsettings -format xml -platform iphoneos -additionalcontentfile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist -requiredArchitecture arm64 -o /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/Info.plist
+
+PhaseScriptExecution Copy\ Executable\ and\ Staged\ Data\ into\ .app /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/Script-61C0BA044A9F595942856D47.sh (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /bin/sh -c /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\\\ \\\(IOS\\\).build/IOS/SiteSyncAR.build/Script-61C0BA044A9F595942856D47.sh
+Copying executable and any standalone dylibs into /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app but do not overwrite unless src is newer
+Syncing /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/uecommandline.txt to /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+Syncing /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/cookeddata to /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/cookeddata
+
+CodeSign /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+
+    Signing Identity:     "Apple Development: jrusso03@icloud.com (89L7H26SN9)"
+    Provisioning Profile: "iOS Team Provisioning Profile: com.RussoCompany.SiteSyncAR"
+                          (e4e52527-e3ac-4490-9422-dec830ab2fc7)
+
+    /usr/bin/codesign --force --sign FF26227A0F297FD9D6E7E7A3097AA6A0EB580FC9 --entitlements /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent --timestamp\=none --generate-entitlement-der /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+
+RegisterExecutionPolicyException /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-RegisterExecutionPolicyException /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+
+Validate /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-validationUtility /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /usr/bin/touch -c /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+
+** BUILD SUCCEEDED **
+
+Stage command time: 7.31 s
+********** STAGE COMMAND COMPLETED **********
+********** ARCHIVE COMMAND STARTED **********
+Archiving to /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/ArchivedBuilds
+staging targets: 'SiteSyncAR', 'Development'
+==================================================================================================================================================
+Copying Development package /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app to archive directory /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/ArchivedBuilds/IOS/SiteSyncAR.app
+==================================================================================================================================================
+Archive command time: 0.98 s
+********** ARCHIVE COMMAND COMPLETED **********
+BuildCookRun time: 28.08 s
+BUILD SUCCESSFUL
+AutomationTool executed for 0h 0m 28s
+AutomationTool exiting with ExitCode=0 (Success)

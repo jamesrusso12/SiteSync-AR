@@ -80,7 +80,11 @@ Example:
 
 **Brand name: SiteIQ** — "Intelligent Site. Better Builds."
 
-The marketing site, logo, and all external-facing materials use **SiteIQ**. As of 2026-05-31 the **iOS home-screen name and app icon are also SiteIQ** — `CFBundleDisplayName=SiteIQ` (set via `BundleDisplayName` in `DefaultEngine.ini`) and the SI-cube icon mark (cropped from `website/assets/logo-source-1024.png` → `logo-icon-1024.png`, generated into `SiteSyncAR/Build/IOS/Resources/Graphics/`), device-deployed and verified in the installed bundle. The UE5 `.uproject`, Bundle ID (`com.RussoCompany.SiteSyncAR`), `CFBundleName` (internal short name, still `SiteSyncAR` — UE 5.6 modern-Xcode plist path only applies `BundleDisplayName`, not `BundleName`), C++ class names, and Blueprint asset names still say "SiteSync" — a full in-project identifier rename is a **pending task** requiring its own focused session. **Do not** rename UE5/source identifiers to SiteIQ until that dedicated rename session happens.
+The marketing site, logo, and all external-facing materials use **SiteIQ**. The **iOS home-screen name and app icon are also SiteIQ**, device-verified 2026-06-01:
+- **Name:** `CFBundleDisplayName=SiteIQ` (via `BundleDisplayName` in `DefaultEngine.ini`). `CFBundleName` stays `SiteSyncAR` — UE 5.6's modern-Xcode plist path only applies `BundleDisplayName`, not `BundleName`.
+- **Icon:** the SI-cube mark, supplied as a full pre-sized set in **`SiteSyncAR/Build/IOS/Resources/Assets.xcassets/AppIcon.appiconset/`** (29…1024 px PNGs + `Contents.json`). ⚠️ **The icon comes from this `Assets.xcassets`, NOT from `Build/IOS/Resources/Graphics/Icon*.png`** — UE 5.6's modern build compiles the icon with `actool --app-icon AppIcon` against an asset catalog; the legacy `Graphics/Icon*.png` `@`-scale path is **inert** and was silently falling back to the engine-default Unreal logo. (This corrects the prior 2026-05-31 note. See `decisions.md 2026-06-01`.) The `Graphics/Icon*.png` files remain in the tree but are dead weight — safe to delete in a cleanup.
+
+The UE5 `.uproject`, Bundle ID (`com.RussoCompany.SiteSyncAR`), `CFBundleName`, C++ class names, and Blueprint asset names still say "SiteSync" — a full in-project identifier rename is a **pending task** requiring its own focused session. **Do not** rename UE5/source identifiers to SiteIQ until that dedicated rename session happens.
 
 ---
 
@@ -174,7 +178,7 @@ Two-phase iOS AR app for AEC (Architecture, Engineering, Construction) professio
 |---|---|---|
 | 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ✅ **Complete** · device-validated 2026-05-21 — Rhino `TestBuilding` places via the two-tap flow on iPhone 16 Pro, flush on the floor, 60fps, HUD reads correct dims. Gate to Node 2.2 cleared. |
 | 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ✅ **Complete** · full stack device-validated 2026-05-27 — capture + manual modes, GeoToLocalOffsetCm math, UE +X = true north axis mapping all confirmed end-to-end on iPhone 16 Pro. Auto-place (move actor by computed offset) deferred to follow-up Node 2.2e — current scope verifies the math; doesn't yet drive placement. |
-| 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | 🟡 In progress — clash detection C++ done + **device-confirmed 2026-05-31** ("Clashes detected: 2" rendered on-device from `DetectBIMClashesAll` on `BP_ClashTestRig`; `GetBIMLayers` `cf5b39f`, `DetectBIMClashes` OBB-SAT `56d4577`, wrapper `e2e4257`). Remaining (editor-GUI/model-gated): toggle UI, clash-highlight material+HUD, Datasmith-Scene-Actor migration, real MEPRoom model. Plan: `docs/node-2.3-plan.md`. |
+| 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | 🟡 In progress — clash detection C++ device-confirmed 2026-05-31; **MEP layer-toggle UI built + device-validated 2026-06-01** (`WBP_LayerTogglePanel` populates from `GetBIMLayers`; per-discipline `SetVisibility` toggles confirmed on iPhone against `BP_ClashTestRig`). Remaining: clash-highlight material+HUD, Datasmith-Scene-Actor migration, real MEPRoom model, **UI polish pass** (next session). Plan: `docs/node-2.3-plan.md`. |
 
 ---
 
@@ -679,7 +683,31 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 ---
 
-## Immediate Next Actions (current, 2026-05-31 — Node 2.3 clash detection device-confirmed)
+## Immediate Next Actions (current, 2026-06-01 — Node 2.3 layer-toggle UI device-validated; NEXT = UI polish pass)
+
+**State:** Phase 1 closed. Phase 2: Node 2.1 ✅, Node 2.2 ✅, Node 2.3 🟡 — clash-detection engine device-confirmed 2026-05-31, **MEP layer-toggle UI built + device-validated 2026-06-01**.
+
+**Built + device-validated this session (toggle UI):**
+- **`WBP_LayerRow`** — one row per discipline. The CheckBox (`LayerToggle`) is the row's interactive element with `LayerNameText` nested **inside** it (Fill-sized across the row). `Setup(InName: Text, InComponent: StaticMeshComponent)` sets text + `StoredComponent` + checked-state; `OnCheckStateChanged → SetVisibility(StoredComponent, bIsChecked)`. **Why a full-width checkbox:** the BIM controller detects taps via a per-frame `GetInputTouchState` poll (v20 iOS workaround) that reads raw touches regardless of UMG; only a tap-*consuming* widget (the big checkbox) stops the touch leaking to the placement handler. A bare/tiny checkbox left every tap spawning a BIM building.
+- **`WBP_LayerTogglePanel`** — `SizeBox(240) → Border(navy 90%) → VerticalBox → ["LAYERS" label, Spacer, VerticalBox "LayerScrollBox"]`. NOTE: `LayerScrollBox` is a **VerticalBox**, not a ScrollBox — a ScrollBox swallowed child taps on touch. `PopulateFromActor(InActor)`: `GetBIMLayers → ForEachLoop → CreateWidget(WBP_LayerRow) → Setup(name, component[idx]) → AddChild`.
+- **`BP_ARPlayerController_BIM`** — `ShowLayerPanel` custom event (find `BP_ClashTestRig` → IsValid → CreateWidget → SET `TogglePanelWidget` → PopulateFromActor → AddToViewport), called **once** at the end of BeginPlay (after the PollGPS Set-Timer node — NOT inside that looping timer, or it stacks a panel/second).
+- **`ClashTestRig_ToggleTest`** placed in `SiteSync_BIMTest` at (300,0,50) as the toggle scaffold (5 named cube components). Device log: `GetBIMLayers: 5 StaticMeshComponents → returning 5 layers`; toggles uncheck/recheck confirmed.
+
+**MCP plugin gained a `custom_event` node type** in `FUnrealMCPGraphCommands` this session (so standalone callable events are MCP-authorable in `/Game/Blueprints/` BPs). Still can't author ForEachLoop / CreateWidget / GetArrayItem (macros + special nodes) — those graphs (`PopulateFromActor`, `Setup`) were built by hand from node-by-node specs, verified via pasted graph dumps. `WBP_*` widgets live in `/Game/User_Interface/` (outside MCP's `/Game/Blueprints/` reach) so they're manual-only anyway.
+
+**App icon FIXED + corrected the mechanism** — SiteIQ icon now on device. UE 5.6 modern build compiles the icon from `Build/IOS/Resources/Assets.xcassets/AppIcon.appiconset` (actool), NOT the legacy `Graphics/Icon*.png`. Full hi-res pre-sized set committed (`fe577d7`). See Brand section + `decisions.md 2026-06-01`.
+
+### ★ NEXT SESSION = UI POLISH PASS
+Style every widget to the SiteIQ website look. Tokens: bg `#06090F`, cyan `#4080FF`, orange CTA `#FF6B35`, body `#F0F5FF`, muted `#6E89AD`. **Font rule: +10 over nominal web sizes; 24pt is the readable floor on James's display** (see `memory/` font-size feedback — already baked into `dev/apply_widget_styles.py`). `dev/apply_widget_styles.py` automates TextBlock color/size via `execute_python`; layout (rounded panels, logo, pill buttons, backgrounds) is manual UMG. Widgets to polish: `WBP_MainMenu` (biggest lift — bare black today), `WBP_BIMPlacementHUD`, `WBP_GeoReadout`, `WBP_VolumeReadout`, `WBP_BackButton`, `WBP_LayerTogglePanel`/`WBP_LayerRow`. Logo assets in `website/assets/` (`logo-icon-1024.png`, `logo-full.png`, `logo-mark.png`). Handoff prompt for the fresh UI chat is at the end of this session's response.
+
+### Remaining to close Node 2.3 (after polish, model-gated)
+1. **Real MEPRoom model** — James's Rhino work, the gating item. Name every Rhino object (not just layers) or Datasmith imports `extrusion_N`. Import via `dev/import_meproom.py` (ready) → verify with `dev/probe_meproom_assets.py`. Spec: `docs/node-2.3-plan.md`.
+2. **Clash-highlight material + HUD** — `M_ClashHighlight` (translucent red) swapped onto clashing components from `DetectBIMClashes`; floating clash-count badge.
+3. **Datasmith-Scene-Actor migration** — so a multi-component model can be placed AND held in `ActiveBIM` (currently typed `BP_BIMOverlay` = single merged mesh).
+
+---
+
+## Immediate Next Actions (prior, 2026-05-31 — Node 2.3 clash detection device-confirmed)
 
 **State:** Phase 1 closed. Phase 2: Node 2.1 ✅, Node 2.2 ✅ (full geo-anchoring stack device-validated 2026-05-27). Node 2.3 🟡 — clash-detection engine done + **device-confirmed 2026-05-31** ("Clashes detected: 2" rendered on iPhone). `BP_ARPlayerController_BIM` placement is back to a clean working state (`0f428ab`).
 

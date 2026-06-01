@@ -14,20 +14,20 @@
 
 ---
 
-## Where the project is right now (May 2026)
+## Where the project is right now (June 2026)
 
 **Phase 1 — the cut-and-fill earthwork calculator — is finished and device-validated on a real iPhone 16 Pro.** Walk into a space, tap two points on the floor, and the app drops a digital concrete pad between those taps and reports the cubic yards of cut and fill needed to bring the ground level with the pad's bottom.
 
 **Phase 2 is most of the way there — only the clash-interface UI remains.**
 - **Node 2.1 (Datasmith BIM ingestion) — complete & device-validated.** A real Rhino-authored BIM model is exported to `.udatasmith`, imported into UE5, cooked into the iOS package, and placed in AR via a two-tap survey-corner workflow at 60 fps. Getting a real architectural model onto the device is proven end-to-end.
 - **Node 2.2 (geospatial & compass anchoring) — complete & device-validated.** A custom CoreLocation C++ shim feeds a live GPS HUD; ARKit runs in Gravity-and-Heading alignment (UE +X = true north, confirmed); and `GeoToLocalOffsetCm` converts a target lat/long into a UE world offset. Validated on-device against a known 500 m-north target (distance 500.18 m, bearing 359.5° — within indoor GPS noise). Both a "capture corner GPS" and a "manual surveyed-coord" path work.
-- **Node 2.3 (engineering clash interface) — in progress.** The clash-detection engine is done and **device-confirmed**: an OBB separating-axis-theorem detector (`DetectBIMClashes`) found exactly the right intersections in a synthetic multi-discipline test rig and rendered **"Clashes detected: 2"** live on the iPhone. Remaining: the MEP layer-toggle UI, clash-highlight material/HUD, and swapping the test rig for a real MEP-bearing model.
+- **Node 2.3 (engineering clash interface) — in progress; clash engine + layer-toggle UI both device-validated.** The OBB separating-axis-theorem detector (`DetectBIMClashes`) found exactly the right intersections in a synthetic multi-discipline rig and rendered **"Clashes detected: 2"** live on the iPhone (2026-05-31). The **MEP layer-toggle UI** is now built and device-validated too (2026-06-01): a `WBP_LayerTogglePanel` enumerates the placed model's disciplines via `GetBIMLayers` and toggles each one's visibility on/off on-device. Remaining: clash-highlight material/HUD, a real MEP-bearing model, and a UI polish pass.
 
-The app boots to a **main-menu shell** — choose **Earthwork (Cut & Fill)** or **BIM Clash Overlay**, with an in-AR back button. Two complete AR modes behind one launcher.
+The app boots to a **main-menu shell** — choose **Earthwork (Cut & Fill)** or **BIM Clash Overlay**, with an in-AR back button. Two complete AR modes behind one launcher. The iOS home-screen name and icon are **SiteIQ** (device-verified 2026-06-01).
 
-**Tooling milestone:** the project's biggest velocity drag — manual Blueprint node wiring — was eliminated by extending the in-tree UnrealMCP plugin with a reliable, schema-validated `build_blueprint_graph` command. Whole Blueprint graphs are now authored programmatically (and were used to wire + ship the clash-detection graph onto the device).
+**Tooling milestone:** the project's biggest velocity drag — manual Blueprint node wiring — was eliminated by extending the in-tree UnrealMCP plugin with a reliable, schema-validated `build_blueprint_graph` command (plus a `custom_event` node type added 2026-06-01). Whole Blueprint graphs are now authored programmatically.
 
-**Next:** finish Node 2.3 — author a real MEP model with named disciplines, build the layer-toggle UI and clash-highlight, and migrate placement to a multi-component Datasmith Scene Actor. That closes Phase 2.
+**Next:** a **UI polish pass** (style every widget to the SiteIQ website look), then close Node 2.3 — author a real MEP model with named disciplines, add the clash-highlight, and migrate placement to a multi-component Datasmith Scene Actor. That closes Phase 2.
 
 ---
 
@@ -133,11 +133,11 @@ Both modes are real workflows in AEC AR tooling — Trimble Sitevision and Autod
 |---|---|---|
 | 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ✅ Device-validated (2026-05-21) |
 | 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ✅ Device-validated (2026-05-27) |
-| 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | 🚧 In progress — clash detection device-confirmed (2026-05-31); toggle UI + highlight + real MEP model remain |
+| 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | 🚧 In progress — clash detection device-confirmed (2026-05-31); **layer-toggle UI device-validated (2026-06-01)**; clash-highlight + real MEP model + UI polish remain |
 
-**App shell:** a `SiteSync_Menu` launcher level boots first — two buttons open the Phase 1 (cut/fill) and Phase 2 (BIM) AR modes, with an in-AR back button returning to the menu. (Level still named `SiteSync_Menu` internally; display name rename to SiteIQ is a pending task.)
+**App shell:** a `SiteSync_Menu` launcher level boots first — two buttons open the Phase 1 (cut/fill) and Phase 2 (BIM) AR modes, with an in-AR back button returning to the menu. (Level still named `SiteSync_Menu` internally; display name rename to SiteIQ is a pending task.) The iOS home-screen icon + name are **SiteIQ** — the icon is built from `Build/IOS/Resources/Assets.xcassets` (UE 5.6's modern actool path; the legacy `Graphics/Icon*.png` path is inert).
 
-**Current status:** Phase 1 closed; Phase 2 Nodes 2.1 + 2.2 closed (real Rhino BIM model device-validated in AR; GPS/compass geo-anchoring math device-validated). Node 2.3's clash-detection engine is device-confirmed; the remaining work is the layer-toggle UI, clash highlighting, and a real MEP-bearing model. Node-by-node detail — built assets, BP graphs, decisions, next actions — lives in [`CLAUDE.md`](CLAUDE.md), the canonical session context for both human and AI contributors.
+**Current status:** Phase 1 closed; Phase 2 Nodes 2.1 + 2.2 closed. Node 2.3's clash-detection engine and MEP layer-toggle UI are both device-validated; the remaining work is clash highlighting, a real MEP-bearing model, and a UI polish pass to match the SiteIQ marketing site. Node-by-node detail — built assets, BP graphs, decisions, next actions — lives in [`CLAUDE.md`](CLAUDE.md), the canonical session context for both human and AI contributors.
 
 ---
 

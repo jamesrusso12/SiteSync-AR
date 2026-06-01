@@ -1,0 +1,889 @@
+===== [1/4] Build.sh iOS Development (regenerates icon asset catalog) =====
+Setting up bundled DotNet SDK
+/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/Mac/../../../Binaries/ThirdParty/DotNet/8.0.300/mac-arm64
+Running dotnet Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll SiteSyncAR IOS Development -project=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject
+Log file: /Users/jamesrusso/Library/Application Support/Epic/UnrealBuildTool/Log.txt
+Using 'git status' to determine working set for adaptive non-unity build (/Users/jamesrusso/Developer/SiteSync-AR).
+Creating makefile for SiteSyncAR (.uproject file is newer)
+Choosing MODERN XCODE based on .ini settings
+Compiling against OS Version 17.0 [minimum allowed at runtime]
+Compiling with IOS SDK 26.5, minimum Target OS version 17.0
+Building SiteSyncAR...
+Determining max actions to execute in parallel (18 physical cores, 18 logical cores)
+  Executing up to 18 processes, one per physical core
+Using Unreal Build Accelerator local executor to run 12 action(s)
+  Storage capacity 40Gb
+---- Starting trace ----
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+------ Building 12 action(s) started ------
+[1/12] Compile [arm64] SharedPCH.Core.Project.ValApi.ValExpApi.Cpp20.h
+[2/12] Compile [arm64] SharedPCH.CoreUObject.Project.ValApi.ValExpApi.Cpp20.h
+[3/12] Compile [arm64] SharedPCH.Slate.Project.ValApi.ValExpApi.Cpp20.h
+[4/12] Compile [arm64] SharedPCH.Engine.Project.ValApi.ValExpApi.Cpp20.h
+[5/12] Compile [arm64] Module.SiteSyncAR.gen.cpp
+[6/12] Compile [arm64] SiteSyncAR.cpp
+[7/12] Compile [arm64] ARMeshBlueprintLibrary.cpp
+[8/12] Compile [arm64] ARMeshBlueprintLibrary_iOS.mm
+[9/12] sh /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR (UBA disabled)
+ld: warning: ignoring duplicate libraries: '/Users/Shared/Epic Games/UE_5.6/Engine/Source/ThirdParty/Vorbis/libvorbis-1.3.2/lib/IOS/libvorbis.a', '/Users/Shared/Epic Games/UE_5.6/Engine/Source/ThirdParty/Vorbis/libvorbis-1.3.2/lib/IOS/libvorbisenc.a', '/Users/Shared/Epic Games/UE_5.6/Engine/Source/ThirdParty/Vorbis/libvorbis-1.3.2/lib/IOS/libvorbisfile.a'
+[10/12] Updating version file: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/Build/Versions.xcconfig (UBA disabled)
+[11/12] ApplePostBuildSync Executing PostBuildSync [/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR] (UBA disabled)
+Forcing MODERN XCODE with -modernxcode
+Discovering modules, targets and source code for project...
+Adding projects for all targets...
+Adding projects for all targets took 0.19s
+Adding projects for all game projects took 0.00s
+Adding projects for all modules took 1.24s
+Compiling with Mac SDK 26.5, minimum Target OS version 14.00
+Compiling with IOS SDK 26.5, minimum Target OS version 17.0
+Adding additional Xcode project info took 0.98s
+Writing project files...
+Writing xcode workspace /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace
+Writing project files... 100%
+Writing project files took 0.05s
+params: UBT_NO_POST_DEPLOY=true /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild build -workspace "/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace" -scheme "SiteSyncAR" -configuration "Development" -destination generic/platform="iOS" -hideShellScriptEnvironment CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION=YES  -allowProvisioningUpdates UE_XCODE_BUILD_MODE=PostBuildSync
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild build -workspace /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace -scheme SiteSyncAR -configuration Development -destination generic/platform=iOS -hideShellScriptEnvironment CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION=YES -allowProvisioningUpdates UE_XCODE_BUILD_MODE=PostBuildSync
+
+Build settings from command line:
+    CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES
+    UE_XCODE_BUILD_MODE = PostBuildSync
+
+Run pre-actions
+
+SchemeAction Touch\ UBT\ generated\ tiles /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/SchemeScriptAction-UgWIvP.sh
+    cd /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/
+    /bin/sh -c /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/SchemeScriptAction-UgWIvP.sh
+
+ComputePackagePrebuildTargetDependencyGraph
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'SiteSyncAR' in project 'SiteSyncAR (IOS)' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/Shared/Epic Games/UE_5.6/Engine/Build/IOS/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --version --output-format xml1
+
+Build description signature: a10b5da0f9e6a5b6fc709ca05072812f
+Build description path: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS/build/XCBuildData/a10b5da0f9e6a5b6fc709ca05072812f.xcbuilddata
+ProcessProductPackaging "" /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+
+    Entitlements:
+
+    {
+    "application-identifier" = "PD29S4YQ4P.com.RussoCompany.SiteSyncAR";
+    "com.apple.developer.team-identifier" = PD29S4YQ4P;
+    "get-task-allow" = 1;
+}
+
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent
+
+ProcessProductPackagingDER /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent.der (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /usr/bin/derq query -f xml -i /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent -o /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent.der --raw
+
+CompileAssetCatalogVariant thinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/Assets.xcassets (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/Assets.xcassets --compile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region English --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --platform iphoneos
+/* com.apple.actool.compilation-results */
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_thinned
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR (IOS).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned/Assets.car
+
+
+LinkAssetCatalog /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/Assets.xcassets (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-linkAssetCatalog --thinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned --thinned-dependencies /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_unthinned --output /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app --plist-output /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/AppIcon60x60@2x.png (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/Assets.car (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/AppIcon76x76@2x~ipad.png (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+
+PhaseScriptExecution Copy\ Executable\ and\ Staged\ Data\ into\ .app /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/Script-61C0BA044A9F595942856D47.sh (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /bin/sh -c /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\\\ \\\(IOS\\\).build/IOS/SiteSyncAR.build/Script-61C0BA044A9F595942856D47.sh
+Copying executable and any standalone dylibs into /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app but do not overwrite unless src is newer
+Syncing /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/uecommandline.txt to /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app
+Syncing /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/cookeddata to /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/cookeddata
+
+PhaseScriptExecution Strip\ FinderInfo\ xattrs\ (pre-codesign) /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/Script-F87B0820048B9926603590CE.sh (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /bin/sh -c /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\\\ \\\(IOS\\\).build/IOS/SiteSyncAR.build/Script-F87B0820048B9926603590CE.sh
+[SiteSyncAR] stripped FinderInfo xattrs pre-codesign
+
+ProcessInfoPlistFile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/Info.plist /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/UBTGenerated/Info.Template.plist (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-infoPlistUtility /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/UBTGenerated/Info.Template.plist -producttype com.apple.product-type.application -genpkginfo /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/PkgInfo -expandbuildsettings -format xml -platform iphoneos -additionalcontentfile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist -requiredArchitecture arm64 -o /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app/Info.plist
+
+CodeSign /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+
+    Signing Identity:     "Apple Development: jrusso03@icloud.com (89L7H26SN9)"
+    Provisioning Profile: "iOS Team Provisioning Profile: com.RussoCompany.SiteSyncAR"
+                          (e4e52527-e3ac-4490-9422-dec830ab2fc7)
+
+    /usr/bin/codesign --force --sign FF26227A0F297FD9D6E7E7A3097AA6A0EB580FC9 --entitlements /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent --timestamp\=none --generate-entitlement-der /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app
+
+RegisterExecutionPolicyException /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-RegisterExecutionPolicyException /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app
+
+Validate /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-validationUtility /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /usr/bin/touch -c /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app
+
+** BUILD SUCCEEDED **
+
+[12/12] WriteMetadata SiteSyncAR.target (UBA disabled)
+Trace written to file /Users/jamesrusso/Library/Application Support/Epic/UnrealBuildTool/Log.uba with size 4.8kb
+Total time in Unreal Build Accelerator local executor: 26.99 seconds
+Deploying SiteSyncAR IOS Development...
+IOSPlugin: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Source/SiteSyncAR/../../Build/IOS/SiteSyncAR_IOS_UPL.xml
+IOSPlugin: Plugins/Runtime/AR/AppleAR/AppleARKit/Source/AppleARKit/AppleARKit_IOS_UPL.xml
+Generating plist (only step needed when deploying with Modern Xcode)
+UPL: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Source/SiteSyncAR/../../Build/IOS/SiteSyncAR_IOS_UPL.xml
+UPL: ../Plugins/Runtime/AR/AppleAR/AppleARKit/Source/AppleARKit/AppleARKit_IOS_UPL.xml
+UPL Init: None
+SiteSyncAR adding location usage descriptions to plist...
+AppleARKit adding arkit requirement and camera permission to plist...
+
+Result: Succeeded
+Total execution time: 28.93 seconds
+===== [2/4] Cook content (IOS) =====
+Opening shared memory
+Shared memory doesn't exist, checking legacy lock file
+Checking for a '/tmp/UnrealTraceServer.pid' lock file
+Forking process
+Wait until we know the daemon has started.
+Parent received signal 30
+Daemon signalled successful start
+Forked complete (ret=0)
+2026-05-31 19:44:53.160 UnrealEditor[11466:13681505] [UE] Failed to find game directory: /Users/Shared/Epic Games/UE_5.6/SiteSyncAR/Binaries
+2026-05-31 19:44:53.901 UnrealEditor[11466:13681505] [UE4] Shutdown handler: initialize.
+[2026.06.01-01.44.54:338][  0]LogTextureFormatASTC: Display: ASTCEnc version 5.0.1 library loaded
+[2026.06.01-01.44.54:338][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatASTC
+[2026.06.01-01.44.54:338][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatDXT
+[2026.06.01-01.44.54:338][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatETC2
+[2026.06.01-01.44.54:338][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatIntelISPCTexComp
+[2026.06.01-01.44.54:338][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatUncompressed
+[2026.06.01-01.44.54:338][  0]LogTextureFormatOodle: Display: Oodle Texture TFO init; latest sdk version = 2.9.13
+[2026.06.01-01.44.54:338][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: liboo2texmac64.2.9.13.dylib
+[2026.06.01-01.44.54:356][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: liboo2texmac64.2.9.5.dylib
+[2026.06.01-01.44.54:374][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatOodle
+[2026.06.01-01.44.54:460][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'IOS'
+[2026.06.01-01.44.54:460][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'IOSClient'
+[2026.06.01-01.44.54:504][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Mac'
+[2026.06.01-01.44.54:504][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacEditor'
+[2026.06.01-01.44.54:504][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacServer'
+[2026.06.01-01.44.54:504][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacClient'
+[2026.06.01-01.44.54:551][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'TVOS'
+[2026.06.01-01.44.54:551][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'TVOSClient'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ASTC'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_DXT'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ETC2'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_OpenXR'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'AndroidClient'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ASTCClient'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_DXTClient'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ETC2Client'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_OpenXRClient'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_Multi'
+[2026.06.01-01.44.54:578][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_MultiClient'
+[2026.06.01-01.44.54:603][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'VisionOS'
+[2026.06.01-01.44.54:603][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'VisionOSClient'
+[2026.06.01-01.44.54:603][  0]LogTargetPlatformManager: Display: Building Assets For IOS
+[2026.06.01-01.44.55:472][  0]LogTemp: Display: /Applications/Xcode.app/Contents/Developer
+
+[2026.06.01-01.44.55:514][  0]LogObj: Display: Attempting to load config data for Default__SlateThemeManager before the Class has been constructed/registered/linked (likely during module loading or early startup). This will result in the load silently failing and should be fixed.
+[2026.06.01-01.44.55:683][  0]LogCsvProfiler: Display: Metadata set : verbatimrhiname="Null"
+[2026.06.01-01.44.55:683][  0]LogCsvProfiler: Display: Metadata set : rhiname="Null"
+[2026.06.01-01.44.55:683][  0]LogCsvProfiler: Display: Metadata set : rhifeaturelevel="SM6"
+[2026.06.01-01.44.55:683][  0]LogCsvProfiler: Display: Metadata set : shaderplatform="METAL_SM6"
+[2026.06.01-01.44.55:684][  0]LogDerivedDataCache: Display: Memory: Max Cache Size: -1 MB
+[2026.06.01-01.44.55:753][  0]LogDerivedDataCache: Display: ../../../Engine/DerivedDataCache/Compressed.ddp: Opened pak cache for reading. (1492 MiB)
+[2026.06.01-01.44.55:758][  0]LogZenServiceInstance: Display: Launching executable '/Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/Common/Zen/Install/zenserver', working dir '/Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/Common/Zen/Install', data dir '/Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/Common/Zen/Data', args '--port 8558 --data-dir "/Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/Common/Zen/Data" --http asio --gc-cache-duration-seconds 1209600 --gc-interval-seconds 21600 --gc-low-diskspace-threshold 2147483648 --quiet --http-forceloopback --owner-pid 11466  --child-id Zen_11466_Startup'
+[2026.06.01-01.44.55:945][  0]LogZenServiceInstance: Display: Unreal Zen Storage Server HTTP service at [::1]:8558 status: OK!.
+[2026.06.01-01.44.55:953][  0]LogDerivedDataCache: Display: ZenLocal: Using ZenServer HTTP service at http://[::1]:8558/ with namespace ue.ddc status: OK!.
+[2026.06.01-01.44.55:956][  0]LogDerivedDataCache: Display: /Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/Common/DerivedDataCache: Performance: Latency=0.01ms. RandomReadSpeed=558.48MBs, RandomWriteSpeed=795.68MBs. Assigned SpeedClass 'Local'
+[2026.06.01-01.44.55:958][  0]LogShaderCompilers: Display: Using 15 local workers for shader compilation
+[2026.06.01-01.44.55:959][  0]LogShaderCompilers: Display: Compiling shader autogen file: ../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ShaderAutogen/METAL_SM6/AutogenShaderHeaders.ush
+[2026.06.01-01.44.55:959][  0]LogShaderCompilers: Display: Autogen file is unchanged, skipping write.
+[2026.06.01-01.44.56:307][  0]LogEditorDomain: Display: EditorDomain is Disabled
+[2026.06.01-01.44.56:308][  0]LogAssetRegistry: Display: AssetDataGatherer spent 0.000s loading caches ../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/CachedAssetRegistry_*.bin.
+[2026.06.01-01.44.56:515][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64Editor not found.
+[2026.06.01-01.44.56:515][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64 not found.
+[2026.06.01-01.44.56:531][  0]LogCsvProfiler: Display: Metadata set : deviceprofile="MacEditor"
+[2026.06.01-01.44.56:534][  0]LogStreaming: Display: FlushAsyncLoading(1): 1 QueuedPackages, 0 AsyncPackages
+[2026.06.01-01.44.56:549][  0]LogStreaming: Display: Flushing package /Engine/Functions/Engine_MaterialFunctions01/Shading/PowerToRoughness (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:550][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/Functions/Engine_MaterialFunctions01/Shading/PowerToRoughness because of a recursive sync load
+[2026.06.01-01.44.56:550][  0]LogStreaming: Display: Flushing package /Engine/Functions/Engine_MaterialFunctions01/Shading/PowerToRoughness (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:550][  0]LogStreaming: Display: Flushing package /Engine/Functions/Engine_MaterialFunctions01/Shading/ConvertFromDiffSpec (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:550][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/Functions/Engine_MaterialFunctions01/Shading/ConvertFromDiffSpec because of a recursive sync load
+[2026.06.01-01.44.56:550][  0]LogStreaming: Display: Flushing package /Engine/Functions/Engine_MaterialFunctions01/Shading/ConvertFromDiffSpec (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:550][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/WorldGridMaterial (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:551][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/EngineMaterials/T_Default_Material_Grid_M because of a recursive sync load
+[2026.06.01-01.44.56:551][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/EngineMaterials/T_Default_Material_Grid_N because of a recursive sync load
+[2026.06.01-01.44.56:552][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/Functions/Engine_MaterialFunctions01/Opacity/CameraDepthFade because of a recursive sync load
+[2026.06.01-01.44.56:552][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultDeferredDecalMaterial (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/WorldGridMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:552][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultLightFunctionMaterial (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/DefaultDeferredDecalMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:553][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultPostProcessMaterial (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/DefaultLightFunctionMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:553][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultLightFunctionMaterial is adding a dynamic import to package /Engine/EngineMaterials/DefaultDiffuse because of a recursive sync load
+[2026.06.01-01.44.56:553][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultLightFunctionMaterial is adding a dynamic import to package /Engine/Functions/Engine_MaterialFunctions02/Utility/BreakOutFloat2Components because of a recursive sync load
+[2026.06.01-01.44.56:553][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultLightFunctionMaterial is adding a dynamic import to package /Engine/EngineMaterials/DefaultPostProcessMaterial because of a recursive sync load
+[2026.06.01-01.44.56:553][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultPostProcessMaterial (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/DefaultLightFunctionMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:554][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultDeferredDecalMaterial is adding a dynamic import to package /Engine/EngineMaterials/DefaultLightFunctionMaterial because of a recursive sync load
+[2026.06.01-01.44.56:554][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultLightFunctionMaterial (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/DefaultDeferredDecalMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:555][  0]LogStreaming: Display: Package /Engine/EngineMaterials/WorldGridMaterial is adding a dynamic import to package /Engine/EngineMaterials/DefaultDeferredDecalMaterial because of a recursive sync load
+[2026.06.01-01.44.56:555][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultDeferredDecalMaterial (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/WorldGridMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:555][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/EngineMaterials/WorldGridMaterial because of a recursive sync load
+[2026.06.01-01.44.56:555][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/WorldGridMaterial (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.06.01-01.44.56:555][  0]LogTextureEncodingSettings: Display: Texture Encode Speed: Final (cook).
+[2026.06.01-01.44.56:555][  0]LogTextureEncodingSettings: Display: Oodle Texture Encode Speed settings: Fast: RDO Off Lambda=0, Effort=Normal Final: RDO Off Lambda=0, Effort=Normal
+[2026.06.01-01.44.56:555][  0]LogTextureEncodingSettings: Display: Shared linear texture encoding: Disabled
+[2026.06.01-01.44.56:558][  0]LogMeshReduction: Display: HLOD mesh reduction module (r.ProxyLODMeshReductionModule) set to "ProxyLODMeshReduction" which doesn't exist.
+[2026.06.01-01.44.56:598][  0]LogMeshReduction: Display: Using QuadricMeshReduction for automatic static mesh reduction
+[2026.06.01-01.44.56:598][  0]LogMeshReduction: Display: Using SkeletalMeshReduction for automatic skeletal mesh reduction
+[2026.06.01-01.44.56:598][  0]LogMeshReduction: Display: No automatic mesh merging module available
+[2026.06.01-01.44.56:598][  0]LogMeshReduction: Display: No distributed automatic mesh merging module available
+[2026.06.01-01.44.56:817][  0]LogVirtualization: Display: VirtualizationSystem name found in ini file: None
+[2026.06.01-01.44.56:818][  0]LogVirtualization: Display: FNullVirtualizationSystem mounted, virtualization will be disabled
+[2026.06.01-01.44.57:128][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize started...
+[2026.06.01-01.44.57:129][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize took 1.807 ms
+[2026.06.01-01.44.58:053][  0]LogMetaSound: Display: MetaSound Page Target Initialized to 'Default'
+[2026.06.01-01.44.58:054][  0]LogAudio: Display: Registering Engine Module Parameter Interfaces...
+[2026.06.01-01.45.00:642][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.06.01-01.45.00:642][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.06.01-01.45.03:702][  0]LogTemp: Display: Unreal MCP Module has started
+[2026.06.01-01.45.03:894][  0]LogTemp: Display: UnrealMCPBridge: Initializing
+[2026.06.01-01.45.03:894][  0]LogTemp: Display: UnrealMCPBridge: Server started on 127.0.0.1:55557
+[2026.06.01-01.45.03:894][  0]LogTemp: Display: MCPServerRunnable: Created server runnable
+[2026.06.01-01.45.03:894][  0]LogTemp: Display: MCPServerRunnable: Server thread starting...
+[2026.06.01-01.45.03:988][  0]LogCsvProfiler: Display: Metadata set : largeworldcoordinates="1"
+[2026.06.01-01.45.04:841][  0]LogCook: Display: CookProcessCount=1. CookMultiprocess is disabled and the cooker is running as a single process.
+[2026.06.01-01.45.04:842][  0]LogCook: Display: CookSettings for Memory:
+	MemoryMaxUsedVirtual 0MiB
+	MemoryMaxUsedPhysical 0MiB
+	MemoryMinFreeVirtual 2048MiB
+	MemoryMinFreePhysical 2048MiB
+	MemoryTriggerGCAtPressureLevel None
+	SoftGCMemoryUseTrigger disabled
+	SoftGCTimeBudgetTrigger enabled (0.05 budget, 30s min period)
+[2026.06.01-01.45.04:842][  0]LogCook: Display: SkipOnlyEditorOnly is enabled, unsolicited packages will not be cooked unless they are referenced from the cooked version of the instigator package.
+[2026.06.01-01.45.04:904][  0]LogAssetRegistry: Display: Triggering cache save on discovery complete
+[2026.06.01-01.45.04:909][  0]LogEditorDomain: Display: Cycle detected in parents of class /Script/RigVMDeveloper.RigVMUnitNode. Allow flags for editordomain and incremental cooking will be invalid.
+[2026.06.01-01.45.04:911][  0]LogEditorDomain: Display: Class /script/PropertyBindingUtilsModule.PropertyBindingPropertyAccess is imported by a package but does not exist in memory. EditorDomain keys for packages using it will be invalid if it still exists.
+	To clear this message, resave packages that use the deleted class, or load its module earlier than the packages that use it are referenced.
+[2026.06.01-01.45.04:923][  0]LogEditorDomain: Display: Cycle detected in parents of class /Script/LiveLinkGraphNode.K2Node_EvaluateLiveLinkFrameWithSpecificRole. Allow flags for editordomain and incremental cooking will be invalid.
+[2026.06.01-01.45.04:926][  0]LogZenStore: Display: Establishing oplog 'SiteSyncAR.96837007/EditorDomain'
+[2026.06.01-01.45.04:927][  0]LogZenStore: Display: Zen project 'SiteSyncAR.96837007' already exists
+[2026.06.01-01.45.04:928][  0]LogZenStore: Display: Zen oplog 'SiteSyncAR.96837007/EditorDomain' already exists
+[2026.06.01-01.45.04:931][  0]LogCook: Display: Waiting for Asset Registry
+[2026.06.01-01.45.04:940][  0]LogPlacementMode: Display: The Asset Registry is done with its initial scan, the list of placeable classes has been updated.
+[2026.06.01-01.45.05:406][  0]LogAssetRegistry: Display: Asset registry cache written as 0.0 MiB to ../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/CachedAssetRegistry_*.bin
+[2026.06.01-01.45.05:417][  0]LogCook: Display: FULL COOK: Neither -legacyiterative nor -cookincremental were specified. Deleting previously cooked packages for platform IOS and recooking all packages discovered in the current cook.
+[2026.06.01-01.45.05:526][  0]LogCook: Display: Sandbox cleanup took 0.090 seconds for platforms IOS
+[2026.06.01-01.45.05:526][  0]LogCook: Display: Compiling global changed shaders for platform 'IOS'
+[2026.06.01-01.45.06:067][  0]LogMetalShaderCompiler: Display: Creating Native Library /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/Cooked/IOS/SiteSyncAR/Content/global_sf_metal_es3_1_ios-metal_es3_1_ios.0.metallib
+[2026.06.01-01.45.06:067][  0]LogMetalShaderCompiler: Display: Archiving 1613 shaders for shader platform: SF_METAL_ES3_1_IOS
+[2026.06.01-01.45.06:069][  0]LogZipArchive: Display: Closing zip file with 0 entries.
+[2026.06.01-01.45.06:247][  0]LogMetalShaderCompiler: Display: Post-processing archive for shader platform: SF_METAL_ES3_1_IOS
+[2026.06.01-01.45.07:633][  0]LogShaderLibrary: Display: 
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: Shader Library 'Global' (SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS) Stats:
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: =================
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: Assets: 1, Unique Shadermaps: 153 (15300.00%)
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: Total Shaders: 1613, Unique Shaders: 1613 (100.00%)
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: Total Shader Size: 17.90mb, Unique Shaders Size: 17.90mb (100.00%)
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: === Extended info:
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: Minimum number of shaders in shadermap: 1
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: Median number of shaders in shadermap: 3
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: Maximum number of shaders in shadermap: 205
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: Number of shadermaps referencing top 10 most shared shaders:
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display:     1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: Unique shaders itemization (sorted by compressed size):
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: SF_Pixel: 875 shaders (54.25%), compressed size: 9.36 MB (10.95 KB avg per shader), uncompressed size: 15.90 MB (18.61 KB avg per shader)
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: SF_Compute: 664 shaders (41.17%), compressed size: 8.15 MB (12.57 KB avg per shader), uncompressed size: 14.15 MB (21.83 KB avg per shader)
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: SF_Vertex: 74 shaders (4.59%), compressed size: 0.39 MB (5.43 KB avg per shader), uncompressed size: 0.68 MB (9.46 KB avg per shader)
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: Textual dump saved to '../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/Shaders/SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS/ShaderDebug-Global-SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS/Dump.txt'
+[2026.06.01-01.45.07:635][  0]LogShaderLibrary: Display: =================
+[2026.06.01-01.45.07:644][  0]LogCook: Display: Discovering localized assets for cultures: en
+[2026.06.01-01.45.07:646][  0]LogCook: Display: Found 0 localized assets
+[2026.06.01-01.45.07:647][  0]LogCook: Display: Cooked packages 0 Packages Remain 477 Total 477
+[2026.06.01-01.45.07:647][  0]LogCook: Display: Cook Diagnostics: OpenFileHandles=192, VirtualMemory=430732MiB, VirtualMemoryAvailable=19609MiB
+[2026.06.01-01.45.07:866][  0]LogCook: Display: Garbage collection triggered (Soft). Triggered by conditions:
+  CookSettings.SoftGCTimeTrigger: Periodic triggering of SoftGC: No duration data.
+[2026.06.01-01.45.07:866][  0]LogCookCommandlet: Display: GarbageCollection... (Periodic GC)
+[2026.06.01-01.45.08:111][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Default_Blend but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:111][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Opaque but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:111][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Mask but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:112][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Blend but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:112][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Transmission but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:112][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_SpecularGlossiness_Opaque but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:112][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_SpecularGlossiness_Mask but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:112][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_SpecularGlossiness_Blend but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:154][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Default_Opaque_DS but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:154][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Default_Mask_DS but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:155][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Default_Blend_DS but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:155][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Opaque_DS but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:155][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Mask_DS but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:155][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Blend_DS but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:155][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Transmission_DS but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:155][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_SpecularGlossiness_Opaque_DS but never used. This is wasteful and bad for cook performance.
+[2026.06.01-01.45.08:926][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDIM_HighQuality_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:926][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_Fast_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:926][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_alb_nrm_small__dyn__fp16_opset11_DenoiseAlpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:926][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDTIM_ColorAlbedoNormal_Default -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:926][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDT_Oidn2-3_Balanced_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:926][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_calb_cnrm_large__dyn__fp16_opset11_ForwardAlpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDIM_ColorAlbedoNormal_Default -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDOM_Output_Default -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_alb_nrm__dyn__fp16_opset11_ForwardAlpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDOM_Output_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_HighQuality_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDIM_ColorAlbedoNormal_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDT_Oidn2-3_Balanced -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_Fast -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDTIM_ColorAlbedoNormal_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDIM_HighQuality_Default -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_alb_nrm__dyn__fp16_opset11_DenoiseAlpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_HighQuality -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDTOM_Output_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_Balanced -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_alb_nrm_small__dyn__fp16_opset11_ForwardAlpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:933][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDTOM_Output_Default -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:940][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_calb_cnrm_large__dyn__fp16_opset11_DenoiseAlpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.08:941][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_Balanced_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.09:054][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenDiffuseMap_VT.BaseFlattenDiffuseMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:054][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenDiffuseMap_VT.BaseFlattenDiffuseMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:054][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenEmissiveMap_VT.BaseFlattenEmissiveMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:054][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenEmissiveMap_VT.BaseFlattenEmissiveMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:086][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenGrayscaleMap_VT.BaseFlattenGrayscaleMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:086][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenGrayscaleMap_VT.BaseFlattenGrayscaleMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:086][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenLinearColor_VT.BaseFlattenLinearColor_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:086][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenLinearColor_VT.BaseFlattenLinearColor_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:087][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenNormalMap_VT.BaseFlattenNormalMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:087][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenNormalMap_VT.BaseFlattenNormalMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:087][  0]LogTexture: Display: /Engine/EngineMaterials/Black_1x1_EXR_Texture_VT.Black_1x1_EXR_Texture_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:087][  0]LogTexture: Display: /Engine/EngineMaterials/Black_1x1_EXR_Texture_VT.Black_1x1_EXR_Texture_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.06.01-01.45.09:121][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultAssetsPipeline -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.09:121][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultMaterialXPipeline -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.09:121][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultGLTFAssetsPipeline -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.09:121][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultGLTFPipeline -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.09:121][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultMaterialPipeline -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.09:121][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultTexturePipeline -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.09:121][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultSceneAssetsPipeline -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.09:121][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultSceneLevelPipeline -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.09:121][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultGLTFSceneAssetsPipeline -> Rejected PlatformSpecificNeverCook
+[2026.06.01-01.45.09:164][  0]LogCook: Display: Cooked packages 550 Packages Remain 0 Total 550
+[2026.06.01-01.45.09:164][  0]LogCook: Display: Cook Diagnostics: OpenFileHandles=214, VirtualMemory=430943MiB, VirtualMemoryAvailable=19478MiB
+[2026.06.01-01.45.09:164][  0]LogCook: Display: Finishing up...
+[2026.06.01-01.45.09:211][  0]LogAssetRegistryGenerator: Display: Saving asset registry v21.
+[2026.06.01-01.45.09:219][  0]LogAssetRegistryGenerator: Display: Generated development asset registry /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/Cooked/IOS/SiteSyncAR/Metadata/DevelopmentAssetRegistry.bin num assets 569, size is 445.96kb, XxHash64[LE] = 0x25766E3C642E7B86, waited on hash 0.00 seconds
+[2026.06.01-01.45.09:222][  0]LogAssetRegistryGenerator: Display: Generated asset registry num assets 529, size is 185.44kb
+[2026.06.01-01.45.09:328][  0]LogMetalShaderCompiler: Display: Creating Native Library /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/Cooked/IOS/SiteSyncAR/Content/sitesyncar_sf_metal_es3_1_ios-metal_es3_1_ios.0.metallib
+[2026.06.01-01.45.09:328][  0]LogMetalShaderCompiler: Display: Archiving 792 shaders for shader platform: SF_METAL_ES3_1_IOS
+[2026.06.01-01.45.09:329][  0]LogZipArchive: Display: Closing zip file with 0 entries.
+[2026.06.01-01.45.09:404][  0]LogMetalShaderCompiler: Display: Post-processing archive for shader platform: SF_METAL_ES3_1_IOS
+[2026.06.01-01.45.10:147][  0]LogShaderLibrary: Display: 
+[2026.06.01-01.45.10:147][  0]LogShaderLibrary: Display: Shader Library 'SiteSyncAR' (SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS) Stats:
+[2026.06.01-01.45.10:147][  0]LogShaderLibrary: Display: =================
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: Assets: 126, Unique Shadermaps: 122 (96.83%)
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: Total Shaders: 1081, Unique Shaders: 807 (74.65%)
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: Total Shader Size: 14.00mb, Unique Shaders Size: 10.79mb (77.05%)
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: === Extended info:
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: Minimum number of shaders in shadermap: 1
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: Median number of shaders in shadermap: 5
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: Maximum number of shaders in shadermap: 144
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: Number of shadermaps referencing top 10 most shared shaders:
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display:     23, 15, 15, 14, 11, 11, 11, 10, 9, 9
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: Unique shaders itemization (sorted by compressed size):
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: SF_Pixel: 446 shaders (55.27%), compressed size: 6.36 MB (14.61 KB avg per shader), uncompressed size: 10.79 MB (24.77 KB avg per shader)
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: SF_Vertex: 216 shaders (26.77%), compressed size: 2.94 MB (13.95 KB avg per shader), uncompressed size: 4.91 MB (23.29 KB avg per shader)
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: SF_Compute: 145 shaders (17.97%), compressed size: 1.49 MB (10.49 KB avg per shader), uncompressed size: 2.49 MB (17.59 KB avg per shader)
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: Textual dump saved to '../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/Shaders/SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS/ShaderDebug-SiteSyncAR-SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS/Dump.txt'
+[2026.06.01-01.45.10:148][  0]LogShaderLibrary: Display: =================
+[2026.06.01-01.45.10:149][  0]LogCook: Display: Dependent plugin "SteamShared" referenced by "EOS Shared" wasn't found in enabled plugins list when creating cook metadata file... skipping
+[2026.06.01-01.45.10:150][  0]LogCook: Display: Finalize package store(s)...
+[2026.06.01-01.45.10:151][  0]LogCook: Display: Cook by the book total time in tick 1.505397s total time 5.222462
+[2026.06.01-01.45.10:151][  0]LogCook: Display: Peak Used virtual 430971 MiB Peak Used physical 1853 MiB
+[2026.06.01-01.45.10:151][  0]LogCook: Display: Packages Cooked: 510, Packages Incrementally Skipped: 0, Packages Skipped by Platform: 40, Total Packages: 550
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display: Hierarchy Timer Information:
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:   Root: 0.000s (0)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:     CleanSandbox: 0.090s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:     CollectFilesToCook: 0.002s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       CookModificationDelegate: 0.000s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:     GenerateLongPackageName: 0.000s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:     TickMainCookLoop: 1.505s (2)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       PumpPollables: 0.000s (2)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       PumpRequests: 0.013s (18)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       LoadPackageForCooking: 0.697s (550)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       ValidateSourcePackage: 0.000s (550)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       PostLoadPackageFixup: 0.000s (4)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       SavingPackages: 0.767s (66)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:         PollPendingCookedPlatformDatas: 0.024s (2616)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:         PrepareSave: 0.221s (2127)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:         PrecachePlatformDataForNextPackage: 0.225s (549)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:           PrepareSave: 0.225s (686)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:         SaveCookedPackage: 0.291s (550)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:           GEditorSavePackage: 0.278s (517)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:             VerifyCanCookPackage: 0.001s (510)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:         ClearAllCachedCookedPlatformData: 0.004s (550)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       WaitForAsync: 0.022s (2)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:     CookByTheBookFinished: 0.986s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       SavingCurrentIniSettings: 0.022s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:         ProcessingAccessedStrings: 0.005s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       ChunkGeneration: 0.007s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       CalculateReferencedSet: 0.000s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       FinishPopulateShaderLibrary: 0.000s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       GeneratorPreSave: 0.000s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       BuildChunkManifest: 0.010s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:         FixupPackageDependenciesForChunks: 0.004s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       SaveManifests: 0.000s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       SaveAssetRegistry: 0.011s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       WriteCookerOpenOrder: 0.008s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       WriteCookMetadata: 0.000s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       WriteReferencedSet: 0.000s (1)
+[2026.06.01-01.45.10:151][  0]LogCookStats: Display:       FinalizePackageStore: 0.000s (1)
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display: Misc Cook Stats
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display: ===============
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display: Niagara
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display:     NiagaraScriptTranslationCount=0
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display:     NiagaraCpuScriptCompileCount=0
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display:     NiagaraCpuScriptDdcCacheHitCount=0
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display:     NiagaraCpuScriptDdcCacheMissCount=0
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display:     NiagaraGpuScriptCompileCount=0
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display:     NiagaraGpuScriptDdcCacheHitCount=0
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display:     NiagaraGpuScriptDdcCacheMissCount=0
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display:     NiagaraSystemWaitForCompilationCompleteTime=0.000000
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display: ComputeKernelShader.Misc
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display:     ShadersCompiled=0
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display: NiagaraShader.Misc
+[2026.06.01-01.45.10:152][  0]LogCookStats: Display:     ShadersCompiled=0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: ShaderCompiler
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     BlockingTimeSec=0.000066
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     AsyncCompileTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     GlobalBeginCompileShaderTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     GlobalBeginCompileShaderCalls=0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     ProcessAsyncResultsTimeSec=0.000057
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: GlobalShader.Misc
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     ShadersCompiled=0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Material
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     FinishCacheShadersSec=0.021926
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Package.Load
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     NumRequestedLoads=170
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     NumPackagesLoaded=3330
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     NumInlineLoads=3160
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     LoadPackageTimeSec=0.928280
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Package.Save
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     NumPackagesIncrementallySkipped=0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     NumPackagesSaved=517
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     SavePackageTimeSec=0.267398
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     TagPackageExportsPresaveTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     TagPackageExportsTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     FullyLoadLoadersTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     ResetLoadersTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     TagPackageExportsGetObjectsWithOuter=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     TagPackageExportsGetObjectsWithMarks=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     SerializeImportsTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     SortExportsSeekfreeInnerTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     SerializeExportsTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     SerializeBulkDataTimeSec=0.000657
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     AsyncWriteTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     MBWritten=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: CookOnTheFlyServer
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     PeakRequestQueueSize=549
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     PeakLoadQueueSize=48
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     PeakSaveQueueSize=103
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Package.DifferentPackagesSizeMBPerAsset
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Package.NumberOfDifferencesInPackagesPerAsset
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Package.PackageDifferencesSizeMBPerAsset
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Package.DiffTotal
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     NumberOfDifferentPackages=0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     DifferentPackagesSizeMB=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     NumberOfDifferencesInPackages=0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     PackageDifferencesSizeMB=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: UnversionedProperties
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     SavedStructs=0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     SavedMB=0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     EquivalentTaggedMB=0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     CompressionRatio=nan
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:     BitfieldWasteKB=0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: 
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Cook Profile
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: ============
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0.CookWallTimeSec=17.531889
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 0.StartupWallTimeSec=12.220356
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 1.StartCookByTheBookTimeSec=2.804245
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 1. 0.BlockOnAssetRegistryTimeSec=0.476600
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 1. 1.GameCookModificationDelegateTimeSec=0.000032
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 2.TickCookOnTheSideTimeSec=0.220274
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 2. 0.TickCookOnTheSideLoadPackagesTimeSec=0.696570
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 2. 1.TickCookOnTheSideSaveCookedPackageTimeSec=0.291192
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 2. 1. 0.TickCookOnTheSideResolveRedirectorsTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 2. 2.TickCookOnTheSidePrepareSaveTimeSec=0.445635
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 3.TickLoopGCTimeSec=0.012662
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 4.TickLoopRecompileShaderRequestsTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 5.TickLoopShaderProcessAsyncResultsTimeSec=0.000003
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 6.TickLoopProcessDeferredCommandsTimeSec=0.000005
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 7.TickLoopTickCommandletStatsTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 8.TickLoopFlushRenderingCommandsTimeSec=0.000063
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 9.ShaderFlushTimeSec=0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  0. 10.ValidationTimeSec=0.000037
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  1.CookParameters=
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  1. 0.TargetPlatforms=IOS
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  1. 1.CookProject=SiteSyncAR
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  1. 2.CookCultures=
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  1. 3.IsCookAll=false
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  1. 4.IsCookOnTheFly=false
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  1. 5.IsIterativeCook=false
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  1. 6.IsUnversioned=false
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  1. 7.CookLabel=
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display:  1. 8.IsFastCook=false
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: 
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: DDC Summary Stats
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: =================
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: BackEnd         =InstalledDerivedDataBackendGraph
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: HasLocalCache   =      true
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: HasSharedCache  =     false
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: HasCloudCache   =     false
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: HasZenCache     =      true
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: TotalGetHits    =      4005
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: TotalGetMisses  =         1
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: TotalGets       =      4006
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: TotalGetHitPct  =  0.999750
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: GetMissPct      =  0.000250
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: TotalPutHits    =         1
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: TotalPutMisses  =         0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: TotalPuts       =         1
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: TotalPutHitPct  =  1.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: PutMissPct      =  0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: LocalGetHits    =      3997
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: LocalGetMisses  =         1
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: LocalGetTotal   =      3998
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: LocalGetHitPct  =  0.999750
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: SharedGetHits   =         0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: SharedGetTotal  =         0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: SharedGetHitPct =  0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: ZenLocalGetHits =      3997
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: ZenLocalGetTotal=      3998
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: ZenLocalGetHitPct=  0.999750
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: ZenRemoteGetHits=         0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: ZenRemoteGetTotal=         0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: ZenRemoteGetHitPct=  0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: CloudGetHits    =         0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: CloudGetTotal   =         0
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: CloudGetHitPct  =  0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: LocalLatency    =  0.629030
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: LocalReadSpeed  =146.403620
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: LocalWriteSpeed =  1.411602
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: SharedLatency   =  0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: SharedReadSpeed =  0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: SharedWriteSpeed=  0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: CloudLatency    =  0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: CloudReadSpeed  =  0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: CloudWriteSpeed =  0.000000
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: 
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: DDC Resource Stats
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: =======================================================================================================
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Asset Type                          Total Time (Sec)  GameThread Time (Sec)  Assets Built  MB Processed
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: ----------------------------------  ----------------  ---------------------  ------------  ------------
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Texture                                         0.46                   0.00             0         22.61
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: BulkDataList                                    0.01                   0.00             0          0.58
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: Audio                                           0.00                   0.00             0          0.08
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: STREAMEDAUDIO                                   0.00                   0.00             0          0.09
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: MaterialShader                                  0.00                   0.02             0         13.45
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: GlobalShader                                    0.00                   0.00             0         18.32
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: GeometryCollection                              0.00                   0.00             1          0.00
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: StaticMesh                                      0.00                   0.01             0          1.31
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: DistanceField                                   0.00                   0.01             0          0.40
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: CardRepresentation                              0.00                   0.00             0          0.02
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: NavCollision                                    0.00                   0.00             0          0.04
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: BulkDataPayloadId                               0.00                   0.00             0          0.00
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: CKERSM                                          0.00                   0.00             0          0.65
+[2026.06.01-01.45.10:153][  0]LogCookStats: Display: BodySetup                                       0.00                   0.00             0          0.42
+[2026.06.01-01.45.10:153][  0]LogPackageBuildDependencyTracker: Display: Package Accesses (284 referencing packages with a total of 2415 unique accesses)
+[2026.06.01-01.45.10:153][  0]LogConfigBuildDependencyTracker: Display: Config Accesses (336 referencing packages with a total of 2740 unique accesses). 3289 unique accesses that were not associated with a package.
+[2026.06.01-01.45.10:154][  0]LogCook: Display: Done!
+[2026.06.01-01.45.10:154][  0]LogSavePackage: Display: Took 0.000167s to verify the EDL loading graph.
+[2026.06.01-01.45.10:154][  0]LogInit: Display: 
+[2026.06.01-01.45.10:154][  0]LogInit: Display: Success - 0 error(s), 0 warning(s)
+[2026.06.01-01.45.10:154][  0]LogInit: Display: 
+Execution of commandlet took:  5.31 seconds
+[2026.06.01-01.45.10:159][  0]LogTemp: Display: UnrealMCPBridge: Shutting down
+[2026.06.01-01.45.10:252][  0]LogTemp: Display: MCPServerRunnable: Server thread stopping
+[2026.06.01-01.45.10:252][  0]LogTemp: Display: UnrealMCPBridge: Server stopped
+[2026.06.01-01.45.10:480][  0]LogShaderCompilers: Display: Shaders left to compile 0
+[2026.06.01-01.45.10:496][  0]LogTemp: Display: Unreal MCP Module has shut down
+[2026.06.01-01.45.10:497][  0]LogPackageName: Display: FPackageName: Mount point removed: '../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/DataprepTemp/' unmounted from '/DataprepCore/Transient/'
+2026-05-31 19:45:10.699 UnrealEditor[11466:13681323] [UE4] Shutdown handler: cleanup.
+===== [3/4] UAT stage + archive =====
+
+Running AutomationTool...
+
+Setting up bundled DotNet SDK
+/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/Mac/../../../Binaries/ThirdParty/DotNet/8.0.300/mac-arm64
+Start UAT Interactively: dotnet AutomationTool.dll BuildCookRun -project=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject -platform=IOS -configuration=Development -stage -skipbuild -skipcook -archive
+/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/Mac/../../../Binaries/ThirdParty/DotNet/8.0.300/mac-arm64/dotnet
+Starting AutomationTool...
+Parsing command line: BuildCookRun -project=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject -platform=IOS -configuration=Development -stage -skipbuild -skipcook -archive
+Initializing script modules...
+Total script module initialization time: 0.15 s.
+Using /Users/Shared/Epic Games/UE_5.6/Engine/Binaries/ThirdParty/DotNet/8.0.300/mac-arm64/dotnet
+Executing commands...
+Setting up ProjectParams for /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject
+********** STAGE COMMAND STARTED **********
+Creating UECommandLine.txt
+Creating Staging Manifest...
+CookPlat IOS, this IOSPlatform
+Choosing MODERN XCODE based on .ini settings
+IOSPlugin: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Source/SiteSyncAR/../../Build/IOS/SiteSyncAR_IOS_UPL.xml
+IOSPlugin: Plugins/Runtime/AR/AppleAR/AppleARKit/Source/AppleARKit/AppleARKit_IOS_UPL.xml
+UPL: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Source/SiteSyncAR/../../Build/IOS/SiteSyncAR_IOS_UPL.xml
+UPL: Engine/Plugins/Runtime/AR/AppleAR/AppleARKit/Source/AppleARKit/AppleARKit_IOS_UPL.xml
+UPL Init: None
+SiteSyncAR adding location usage descriptions to plist...
+AppleARKit adding arkit requirement and camera permission to plist...
+App has no custom Localization resources
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/ConfigRedirects.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseEngine.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseHardware.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseRuntimeOptions.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseScalability.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Base.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseMaterialExpressions.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseDeviceProfiles.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseGame.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseGameUserSettings.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseEditorSettings.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseEditor.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/PluginBase.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseEditorPerProjectUserSettings.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseEditorKeyBindings.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BasePakFileRules.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/ConsoleVariables.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseSourceControlSettings.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseInput.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseInstallBundle.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseLightmass.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/BaseCompat.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/VulkanPC/DataDrivenPlatformInfo.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/DataDrivenPlatformInfo.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/BaseIOSGame.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/BaseIOSInstallBundle.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/BaseIOSInput.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/BaseIOSEngine.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/IOSScalability.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/IOS/IOSGame.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Layouts/DefaultLayout.ini
+Including config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Layouts/UE4ClassicLayout.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/WordCount.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/EditorTutorials.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/PropertyNames.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/RepairData.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/Editor.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/PortableObjectExport.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/ToolTips.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/PortableObjectImport.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/Category.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/Keywords.ini
+Excluding config file /Users/Shared/Epic Games/UE_5.6/Engine/Config/Localization/Engine.ini
+Including config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/DefaultGame.ini
+Excluding config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/DefaultEditorPerProjectUserSettings.ini
+Including config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/DefaultEngine.ini
+Including config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/DefaultInput.ini
+Excluding config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/DefaultEditor.ini
+Including config file /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Config/IOS/IOSEngine.ini
+Cleaning Stage Directory: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS
+DumpManifest: /Users/jamesrusso/Library/Logs/Unreal Engine/LocalBuildLogs/FinalCopyIOS_UFSFiles.txt, NumItems: 2711
+DumpManifest: /Users/jamesrusso/Library/Logs/Unreal Engine/LocalBuildLogs/FinalCopyIOS_NonUFSFiles.txt, NumItems: 4
+DumpManifest: /Users/jamesrusso/Library/Logs/Unreal Engine/LocalBuildLogs/FinalCopyIOS_NonUFSFilesDebug.txt, NumItems: 5
+Copying NonUFSFiles to staging directory: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS
+Copying UFSFiles to staging directory: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS
+Copying DebugFiles to staging directory: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS
+Opening shared memory
+Shared memory doesn't exist, checking legacy lock file
+Checking for a '/tmp/UnrealTraceServer.pid' lock file
+Forking process
+Opening shared memory
+Starting the store
+Reading settings from '/Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini'
+
+Unable to open settings file /Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini.
+
+Store settings (/Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini):
+ - Store port: 1989
+ - Recorder port: 1981
+ - Thread count: 0
+ - Sponsored mode: 1
+ - Directory: '/Users/jamesrusso/UnrealEngine/UnrealTrace/Store/001'
+Watcher enabled on /Users/jamesrusso/UnrealEngine/UnrealTrace/Store/001
+Signalling parent 11470
+Terminating server, no sponsors or connections active.
+Received signal 15
+Daemon is exiting without errors.
+Listening cancelled, closing port...
+Listening cancelled, closing port...
+Discovering modules, targets and source code for project...
+Adding projects for all targets...
+Adding projects for all targets took 0.00s
+Adding projects for all game projects took 0.00s
+Adding projects for all modules took 0.00s
+Compiling with Mac SDK 26.5, minimum Target OS version 14.00
+Compiling with IOS SDK 26.5, minimum Target OS version 17.0
+Adding additional Xcode project info took 0.00s
+Writing project files...
+Writing xcode workspace /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace
+Writing project files... 100%
+Writing project files took 0.00s
+params: UBT_NO_POST_DEPLOY=true /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild build -workspace "/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace" -scheme "SiteSyncAR" -configuration "Development" -destination generic/platform="iOS" -hideShellScriptEnvironment CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION=YES SYMROOT="/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds" EFFECTIVE_PLATFORM_NAME=IOS UE_OVERRIDE_STAGE_DIR="/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS" -allowProvisioningUpdates UE_XCODE_BUILD_MODE=Stage
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild build -workspace /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFiles/SiteSyncAR_IOS_SiteSyncAR.xcworkspace -scheme SiteSyncAR -configuration Development -destination generic/platform=iOS -hideShellScriptEnvironment CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION=YES SYMROOT=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds EFFECTIVE_PLATFORM_NAME=IOS UE_OVERRIDE_STAGE_DIR=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS -allowProvisioningUpdates UE_XCODE_BUILD_MODE=Stage
+
+Build settings from command line:
+    CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES
+    EFFECTIVE_PLATFORM_NAME = IOS
+    SYMROOT = /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds
+    UE_OVERRIDE_STAGE_DIR = /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS
+    UE_XCODE_BUILD_MODE = Stage
+
+Run pre-actions
+
+SchemeAction Touch\ UBT\ generated\ tiles /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/SchemeScriptAction-jphiuL.sh
+    cd /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/
+    /bin/sh -c /var/folders/tk/9gy1pn3s3mlf702462v2ykhc0000gn/T/SchemeScriptAction-jphiuL.sh
+
+ComputePackagePrebuildTargetDependencyGraph
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'SiteSyncAR' in project 'SiteSyncAR (IOS)' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/Shared/Epic Games/UE_5.6/Engine/Build/IOS/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --version --output-format xml1
+
+Build description signature: 1328343e9a61cb4312c5d2c92542e4d4
+Build description path: /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/XCBuildData/1328343e9a61cb4312c5d2c92542e4d4.xcbuilddata
+MkDir /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /bin/mkdir -p /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+
+ProcessProductPackaging /Users/jamesrusso/Library/Developer/Xcode/UserData/Provisioning\ Profiles/e4e52527-e3ac-4490-9422-dec830ab2fc7.mobileprovision /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/embedded.mobileprovision (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-productPackagingUtility /Users/jamesrusso/Library/Developer/Xcode/UserData/Provisioning\ Profiles/e4e52527-e3ac-4490-9422-dec830ab2fc7.mobileprovision -o /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/embedded.mobileprovision
+
+CopyPNGFile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/LaunchScreenIOS.png /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/Graphics/LaunchScreenIOS.png (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /Applications/Xcode.app/Contents/Developer/usr/bin/copypng -compress -strip-PNG-text /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/Graphics/LaunchScreenIOS.png /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/LaunchScreenIOS.png
+
+CpResource /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/UEMetadata /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/UEMetadata (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/UEMetadata /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+
+LinkStoryboards (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /Applications/Xcode.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module SiteSyncAR --target-device iphone --target-device ipad --minimum-deployment-target 17.0 --output-format human-readable-text --link /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/Interface/LaunchScreen.storyboardc
+
+LinkAssetCatalog /Users/Shared/Epic\ Games/UE_5.6/Engine/Build/IOS/Resources/Assets.xcassets (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-linkAssetCatalog --thinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/thinned --thinned-dependencies /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist_unthinned --output /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app --plist-output /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/AppIcon76x76@2x~ipad.png (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/AppIcon60x60@2x.png (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+note: Emplaced /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/Assets.car (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+
+PhaseScriptExecution Copy\ Executable\ and\ Staged\ Data\ into\ .app /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ (IOS).build/IOS/SiteSyncAR.build/Script-61C0BA044A9F595942856D47.sh (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /bin/sh -c /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\\\ \\\(IOS\\\).build/IOS/SiteSyncAR.build/Script-61C0BA044A9F595942856D47.sh
+Copying executable and any standalone dylibs into /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app but do not overwrite unless src is newer
+Syncing /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/uecommandline.txt to /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+Syncing /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/cookeddata to /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/cookeddata
+
+ProcessInfoPlistFile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/Info.plist /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/UBTGenerated/Info.Template.plist (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-infoPlistUtility /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Build/IOS/UBTGenerated/Info.Template.plist -producttype com.apple.product-type.application -genpkginfo /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/PkgInfo -expandbuildsettings -format xml -platform iphoneos -additionalcontentfile /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/assetcatalog_generated_info.plist -requiredArchitecture arm64 -o /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app/Info.plist
+
+CodeSign /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+
+    Signing Identity:     "Apple Development: jrusso03@icloud.com (89L7H26SN9)"
+    Provisioning Profile: "iOS Team Provisioning Profile: com.RussoCompany.SiteSyncAR"
+                          (e4e52527-e3ac-4490-9422-dec830ab2fc7)
+
+    /usr/bin/codesign --force --sign FF26227A0F297FD9D6E7E7A3097AA6A0EB580FC9 --entitlements /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/SiteSyncAR\ \(IOS\).build/IOS/SiteSyncAR.build/SiteSyncAR.app.xcent --timestamp\=none --generate-entitlement-der /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+
+RegisterExecutionPolicyException /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-RegisterExecutionPolicyException /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+
+Validate /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    builtin-validationUtility /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app (in target 'SiteSyncAR' from project 'SiteSyncAR (IOS)')
+    cd /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ProjectFilesIOS
+    /usr/bin/touch -c /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+
+** BUILD SUCCEEDED **
+
+Stage command time: 8.60 s
+********** STAGE COMMAND COMPLETED **********
+********** ARCHIVE COMMAND STARTED **********
+Archiving to /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/ArchivedBuilds
+staging targets: 'SiteSyncAR', 'Development'
+==================================================================================================================================================
+Copying Development package /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app to archive directory /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/ArchivedBuilds/IOS/SiteSyncAR.app
+==================================================================================================================================================
+Archive command time: 1.57 s
+********** ARCHIVE COMMAND COMPLETED **********
+BuildCookRun time: 10.77 s
+BUILD SUCCESSFUL
+AutomationTool executed for 0h 0m 11s
+AutomationTool exiting with ExitCode=0 (Success)
+===== [4/4] Install to device =====
+19:45:22  Acquired tunnel connection to device.
+19:45:22  Enabling developer disk image services.
+19:45:22  Acquired usage assertion.
+App installed:
+? bundleID: com.RussoCompany.SiteSyncAR
+? installationURL: file:///private/var/containers/Bundle/Application/B257C27F-46EC-4089-A254-D8DFBD59B247/SiteSyncAR.app/
+? launchServicesIdentifier: unknown
+? databaseUUID: 6FB97FA1-474F-4227-BAB1-CE66678087EA
+? databaseSequenceNumber: 4044
+? options: 
+===== DEPLOY COMPLETE =====

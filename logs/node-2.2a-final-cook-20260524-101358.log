@@ -1,0 +1,489 @@
+Opening shared memory
+Shared memory doesn't exist, checking legacy lock file
+Checking for a '/tmp/UnrealTraceServer.pid' lock file
+Forking process
+Wait until we know the daemon has started.
+Parent received signal 30
+Daemon signalled successful start
+Forked complete (ret=0)
+2026-05-24 10:14:02.832 UnrealEditor-Cmd[5752:8110799] [UE] Failed to find game directory: /Users/Shared/Epic Games/UE_5.6/SiteSyncAR/Binaries
+2026-05-24 10:14:03.643 UnrealEditor-Cmd[5752:8110799] [UE4] Shutdown handler: initialize.
+[2026.05.24-16.14.04:508][  0]LogTextureFormatASTC: Display: ASTCEnc version 5.0.1 library loaded
+[2026.05.24-16.14.04:509][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatASTC
+[2026.05.24-16.14.04:509][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatDXT
+[2026.05.24-16.14.04:509][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatETC2
+[2026.05.24-16.14.04:509][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatIntelISPCTexComp
+[2026.05.24-16.14.04:509][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatUncompressed
+[2026.05.24-16.14.04:509][  0]LogTextureFormatOodle: Display: Oodle Texture TFO init; latest sdk version = 2.9.13
+[2026.05.24-16.14.04:509][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: liboo2texmac64.2.9.13.dylib
+[2026.05.24-16.14.04:529][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: liboo2texmac64.2.9.5.dylib
+[2026.05.24-16.14.04:548][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatOodle
+[2026.05.24-16.14.04:644][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'IOS'
+[2026.05.24-16.14.04:644][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'IOSClient'
+[2026.05.24-16.14.04:717][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Mac'
+[2026.05.24-16.14.04:717][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacEditor'
+[2026.05.24-16.14.04:717][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacServer'
+[2026.05.24-16.14.04:717][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacClient'
+[2026.05.24-16.14.04:769][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'TVOS'
+[2026.05.24-16.14.04:770][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'TVOSClient'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ASTC'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_DXT'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ETC2'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_OpenXR'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'AndroidClient'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ASTCClient'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_DXTClient'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ETC2Client'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_OpenXRClient'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_Multi'
+[2026.05.24-16.14.04:837][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_MultiClient'
+[2026.05.24-16.14.04:894][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'VisionOS'
+[2026.05.24-16.14.04:894][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'VisionOSClient'
+[2026.05.24-16.14.04:894][  0]LogTargetPlatformManager: Display: Building Assets For IOS
+[2026.05.24-16.14.05:657][  0]LogTemp: Display: /Applications/Xcode.app/Contents/Developer
+
+[2026.05.24-16.14.05:792][  0]LogObj: Display: Attempting to load config data for Default__SlateThemeManager before the Class has been constructed/registered/linked (likely during module loading or early startup). This will result in the load silently failing and should be fixed.
+[2026.05.24-16.14.05:976][  0]LogCsvProfiler: Display: Metadata set : verbatimrhiname="Null"
+[2026.05.24-16.14.05:976][  0]LogCsvProfiler: Display: Metadata set : rhiname="Null"
+[2026.05.24-16.14.05:976][  0]LogCsvProfiler: Display: Metadata set : rhifeaturelevel="SM6"
+[2026.05.24-16.14.05:976][  0]LogCsvProfiler: Display: Metadata set : shaderplatform="METAL_SM6"
+[2026.05.24-16.14.05:977][  0]LogDerivedDataCache: Display: Memory: Max Cache Size: -1 MB
+[2026.05.24-16.14.06:038][  0]LogDerivedDataCache: Display: ../../../Engine/DerivedDataCache/Compressed.ddp: Opened pak cache for reading. (1492 MiB)
+[2026.05.24-16.14.06:040][  0]LogZenServiceInstance: Display: Launching executable '/Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/Common/Zen/Install/zenserver', working dir '/Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/Common/Zen/Install', data dir '/Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/Common/Zen/Data', args '--port 8558 --data-dir "/Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/Common/Zen/Data" --http asio --gc-cache-duration-seconds 1209600 --gc-interval-seconds 21600 --gc-low-diskspace-threshold 2147483648 --quiet --http-forceloopback --owner-pid 5752  --child-id Zen_5752_Startup'
+[2026.05.24-16.14.06:727][  0]LogZenServiceInstance: Display: Unreal Zen Storage Server HTTP service at [::1]:8558 status: OK!.
+[2026.05.24-16.14.06:734][  0]LogDerivedDataCache: Display: ZenLocal: Using ZenServer HTTP service at http://[::1]:8558/ with namespace ue.ddc status: OK!.
+[2026.05.24-16.14.06:738][  0]LogDerivedDataCache: Display: /Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/Common/DerivedDataCache: Performance: Latency=0.03ms. RandomReadSpeed=655.98MBs, RandomWriteSpeed=670.47MBs. Assigned SpeedClass 'Local'
+[2026.05.24-16.14.06:740][  0]LogShaderCompilers: Display: Using 15 local workers for shader compilation
+[2026.05.24-16.14.06:741][  0]LogShaderCompilers: Display: Compiling shader autogen file: ../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/ShaderAutogen/METAL_SM6/AutogenShaderHeaders.ush
+[2026.05.24-16.14.06:741][  0]LogShaderCompilers: Display: Autogen file is unchanged, skipping write.
+[2026.05.24-16.14.07:195][  0]LogEditorDomain: Display: EditorDomain is Disabled
+[2026.05.24-16.14.07:196][  0]LogAssetRegistry: Display: AssetDataGatherer spent 0.000s loading caches ../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/CachedAssetRegistry_*.bin.
+[2026.05.24-16.14.07:378][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64Editor not found.
+[2026.05.24-16.14.07:378][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64 not found.
+[2026.05.24-16.14.07:393][  0]LogCsvProfiler: Display: Metadata set : deviceprofile="MacEditor"
+[2026.05.24-16.14.07:397][  0]LogStreaming: Display: FlushAsyncLoading(1): 1 QueuedPackages, 0 AsyncPackages
+[2026.05.24-16.14.07:411][  0]LogStreaming: Display: Flushing package /Engine/Functions/Engine_MaterialFunctions01/Shading/PowerToRoughness (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:412][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/Functions/Engine_MaterialFunctions01/Shading/PowerToRoughness because of a recursive sync load
+[2026.05.24-16.14.07:412][  0]LogStreaming: Display: Flushing package /Engine/Functions/Engine_MaterialFunctions01/Shading/PowerToRoughness (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:412][  0]LogStreaming: Display: Flushing package /Engine/Functions/Engine_MaterialFunctions01/Shading/ConvertFromDiffSpec (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:412][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/Functions/Engine_MaterialFunctions01/Shading/ConvertFromDiffSpec because of a recursive sync load
+[2026.05.24-16.14.07:412][  0]LogStreaming: Display: Flushing package /Engine/Functions/Engine_MaterialFunctions01/Shading/ConvertFromDiffSpec (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:412][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/WorldGridMaterial (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:413][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/EngineMaterials/T_Default_Material_Grid_M because of a recursive sync load
+[2026.05.24-16.14.07:413][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/EngineMaterials/T_Default_Material_Grid_N because of a recursive sync load
+[2026.05.24-16.14.07:414][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/Functions/Engine_MaterialFunctions01/Opacity/CameraDepthFade because of a recursive sync load
+[2026.05.24-16.14.07:414][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultDeferredDecalMaterial (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/WorldGridMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:414][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultLightFunctionMaterial (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/DefaultDeferredDecalMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:414][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultPostProcessMaterial (state: WaitingForIo) recursively from another package /Engine/EngineMaterials/DefaultLightFunctionMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:415][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultLightFunctionMaterial is adding a dynamic import to package /Engine/EngineMaterials/DefaultDiffuse because of a recursive sync load
+[2026.05.24-16.14.07:415][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultLightFunctionMaterial is adding a dynamic import to package /Engine/Functions/Engine_MaterialFunctions02/Utility/BreakOutFloat2Components because of a recursive sync load
+[2026.05.24-16.14.07:415][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultLightFunctionMaterial is adding a dynamic import to package /Engine/EngineMaterials/DefaultPostProcessMaterial because of a recursive sync load
+[2026.05.24-16.14.07:415][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultPostProcessMaterial (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/DefaultLightFunctionMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:416][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultDeferredDecalMaterial is adding a dynamic import to package /Engine/EngineMaterials/DefaultLightFunctionMaterial because of a recursive sync load
+[2026.05.24-16.14.07:416][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultLightFunctionMaterial (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/DefaultDeferredDecalMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:416][  0]LogStreaming: Display: Package /Engine/EngineMaterials/WorldGridMaterial is adding a dynamic import to package /Engine/EngineMaterials/DefaultDeferredDecalMaterial because of a recursive sync load
+[2026.05.24-16.14.07:416][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/DefaultDeferredDecalMaterial (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/WorldGridMaterial (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:416][  0]LogStreaming: Display: Package /Engine/EngineMaterials/DefaultTextMaterialOpaque is adding a dynamic import to package /Engine/EngineMaterials/WorldGridMaterial because of a recursive sync load
+[2026.05.24-16.14.07:416][  0]LogStreaming: Display: Flushing package /Engine/EngineMaterials/WorldGridMaterial (state: DeferredPostLoad) recursively from another package /Engine/EngineMaterials/DefaultTextMaterialOpaque (state: CreateLinkerLoadExports) will result in a partially loaded package to avoid a deadlock.
+[2026.05.24-16.14.07:417][  0]LogTextureEncodingSettings: Display: Texture Encode Speed: Final (cook).
+[2026.05.24-16.14.07:417][  0]LogTextureEncodingSettings: Display: Oodle Texture Encode Speed settings: Fast: RDO Off Lambda=0, Effort=Normal Final: RDO Off Lambda=0, Effort=Normal
+[2026.05.24-16.14.07:417][  0]LogTextureEncodingSettings: Display: Shared linear texture encoding: Disabled
+[2026.05.24-16.14.07:420][  0]LogMeshReduction: Display: HLOD mesh reduction module (r.ProxyLODMeshReductionModule) set to "ProxyLODMeshReduction" which doesn't exist.
+[2026.05.24-16.14.07:461][  0]LogMeshReduction: Display: Using QuadricMeshReduction for automatic static mesh reduction
+[2026.05.24-16.14.07:461][  0]LogMeshReduction: Display: Using SkeletalMeshReduction for automatic skeletal mesh reduction
+[2026.05.24-16.14.07:461][  0]LogMeshReduction: Display: No automatic mesh merging module available
+[2026.05.24-16.14.07:461][  0]LogMeshReduction: Display: No distributed automatic mesh merging module available
+[2026.05.24-16.14.07:668][  0]LogVirtualization: Display: VirtualizationSystem name found in ini file: None
+[2026.05.24-16.14.07:668][  0]LogVirtualization: Display: FNullVirtualizationSystem mounted, virtualization will be disabled
+[2026.05.24-16.14.08:001][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize started...
+[2026.05.24-16.14.08:003][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize took 2.247 ms
+[2026.05.24-16.14.09:527][  0]LogMetaSound: Display: MetaSound Page Target Initialized to 'Default'
+[2026.05.24-16.14.09:527][  0]LogAudio: Display: Registering Engine Module Parameter Interfaces...
+[2026.05.24-16.14.12:775][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.05.24-16.14.12:775][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.05.24-16.14.15:044][  0]LogTemp: Display: Unreal MCP Module has started
+[2026.05.24-16.14.15:229][  0]LogTemp: Display: UnrealMCPBridge: Initializing
+[2026.05.24-16.14.15:230][  0]LogTemp: Display: UnrealMCPBridge: Server started on 127.0.0.1:55557
+[2026.05.24-16.14.15:230][  0]LogTemp: Display: MCPServerRunnable: Created server runnable
+[2026.05.24-16.14.15:230][  0]LogTemp: Display: MCPServerRunnable: Server thread starting...
+[2026.05.24-16.14.15:318][  0]LogCsvProfiler: Display: Metadata set : largeworldcoordinates="1"
+[2026.05.24-16.14.16:194][  0]LogCook: Display: CookProcessCount=1. CookMultiprocess is disabled and the cooker is running as a single process.
+[2026.05.24-16.14.16:194][  0]LogCook: Display: CookSettings for Memory:
+	MemoryMaxUsedVirtual 0MiB
+	MemoryMaxUsedPhysical 0MiB
+	MemoryMinFreeVirtual 2048MiB
+	MemoryMinFreePhysical 2048MiB
+	MemoryTriggerGCAtPressureLevel None
+	SoftGCMemoryUseTrigger disabled
+	SoftGCTimeBudgetTrigger enabled (0.05 budget, 30s min period)
+[2026.05.24-16.14.16:194][  0]LogCook: Display: SkipOnlyEditorOnly is enabled, unsolicited packages will not be cooked unless they are referenced from the cooked version of the instigator package.
+[2026.05.24-16.14.16:195][  0]LogAssetRegistry: Display: Triggering cache save on discovery complete
+[2026.05.24-16.14.16:253][  0]LogEditorDomain: Display: Class /script/PropertyBindingUtilsModule.PropertyBindingPropertyAccess is imported by a package but does not exist in memory. EditorDomain keys for packages using it will be invalid if it still exists.
+	To clear this message, resave packages that use the deleted class, or load its module earlier than the packages that use it are referenced.
+[2026.05.24-16.14.16:256][  0]LogEditorDomain: Display: Cycle detected in parents of class /Script/RigVMDeveloper.RigVMUnitNode. Allow flags for editordomain and incremental cooking will be invalid.
+[2026.05.24-16.14.16:266][  0]LogEditorDomain: Display: Cycle detected in parents of class /Script/LiveLinkGraphNode.K2Node_EvaluateLiveLinkFrameWithSpecificRole. Allow flags for editordomain and incremental cooking will be invalid.
+[2026.05.24-16.14.16:268][  0]LogZenStore: Display: Establishing oplog 'SiteSyncAR.96837007/EditorDomain'
+[2026.05.24-16.14.16:269][  0]LogZenStore: Display: Zen project 'SiteSyncAR.96837007' already exists
+[2026.05.24-16.14.16:270][  0]LogZenStore: Display: Zen oplog 'SiteSyncAR.96837007/EditorDomain' already exists
+[2026.05.24-16.14.16:272][  0]LogCook: Display: Waiting for Asset Registry
+[2026.05.24-16.14.16:281][  0]LogPlacementMode: Display: The Asset Registry is done with its initial scan, the list of placeable classes has been updated.
+[2026.05.24-16.14.16:697][  0]LogAssetRegistry: Display: Asset registry cache written as 0.0 MiB to ../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/CachedAssetRegistry_*.bin
+[2026.05.24-16.14.16:716][  0]LogCook: Display: FULL COOK: Neither -legacyiterative nor -cookincremental were specified. Deleting previously cooked packages for platform IOS and recooking all packages discovered in the current cook.
+[2026.05.24-16.14.16:825][  0]LogCook: Display: Sandbox cleanup took 0.086 seconds for platforms IOS
+[2026.05.24-16.14.16:825][  0]LogCook: Display: Compiling global changed shaders for platform 'IOS'
+[2026.05.24-16.14.17:377][  0]LogMetalShaderCompiler: Display: Creating Native Library /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/Cooked/IOS/SiteSyncAR/Content/global_sf_metal_es3_1_ios-metal_es3_1_ios.0.metallib
+[2026.05.24-16.14.17:377][  0]LogMetalShaderCompiler: Display: Archiving 1613 shaders for shader platform: SF_METAL_ES3_1_IOS
+[2026.05.24-16.14.17:379][  0]LogZipArchive: Display: Closing zip file with 0 entries.
+[2026.05.24-16.14.17:552][  0]LogMetalShaderCompiler: Display: Post-processing archive for shader platform: SF_METAL_ES3_1_IOS
+[2026.05.24-16.14.18:826][  0]LogShaderLibrary: Display: 
+[2026.05.24-16.14.18:826][  0]LogShaderLibrary: Display: Shader Library 'Global' (SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS) Stats:
+[2026.05.24-16.14.18:826][  0]LogShaderLibrary: Display: =================
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: Assets: 1, Unique Shadermaps: 153 (15300.00%)
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: Total Shaders: 1613, Unique Shaders: 1613 (100.00%)
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: Total Shader Size: 17.90mb, Unique Shaders Size: 17.90mb (100.00%)
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: === Extended info:
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: Minimum number of shaders in shadermap: 1
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: Median number of shaders in shadermap: 3
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: Maximum number of shaders in shadermap: 205
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: Number of shadermaps referencing top 10 most shared shaders:
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display:     1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: Unique shaders itemization (sorted by compressed size):
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: SF_Pixel: 875 shaders (54.25%), compressed size: 9.36 MB (10.95 KB avg per shader), uncompressed size: 15.90 MB (18.61 KB avg per shader)
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: SF_Compute: 664 shaders (41.17%), compressed size: 8.15 MB (12.57 KB avg per shader), uncompressed size: 14.15 MB (21.83 KB avg per shader)
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: SF_Vertex: 74 shaders (4.59%), compressed size: 0.39 MB (5.43 KB avg per shader), uncompressed size: 0.68 MB (9.46 KB avg per shader)
+[2026.05.24-16.14.18:827][  0]LogShaderLibrary: Display: Textual dump saved to '../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/Shaders/SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS/ShaderDebug-Global-SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS/Dump.txt'
+[2026.05.24-16.14.18:828][  0]LogShaderLibrary: Display: =================
+[2026.05.24-16.14.18:836][  0]LogCook: Display: Discovering localized assets for cultures: en
+[2026.05.24-16.14.18:838][  0]LogCook: Display: Found 0 localized assets
+[2026.05.24-16.14.18:838][  0]LogCook: Display: Cooked packages 0 Packages Remain 475 Total 475
+[2026.05.24-16.14.18:838][  0]LogCook: Display: Cook Diagnostics: OpenFileHandles=192, VirtualMemory=430700MiB, VirtualMemoryAvailable=21138MiB
+[2026.05.24-16.14.18:993][  0]LogCook: Display: Garbage collection triggered (Soft). Triggered by conditions:
+  CookSettings.SoftGCTimeTrigger: Periodic triggering of SoftGC: No duration data.
+[2026.05.24-16.14.18:993][  0]LogCookCommandlet: Display: GarbageCollection... (Periodic GC)
+[2026.05.24-16.14.19:254][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Opaque but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:254][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Mask but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:255][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Blend but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:255][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Transmission but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:255][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_SpecularGlossiness_Opaque but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:255][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_SpecularGlossiness_Mask but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:255][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_SpecularGlossiness_Blend but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:255][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Default_Opaque_DS but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:264][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Default_Mask_DS but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:264][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Default_Blend_DS but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:264][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Opaque_DS but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:264][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Mask_DS but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:264][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Sheen_Blend_DS but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:264][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_Transmission_DS but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:264][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_SpecularGlossiness_Opaque_DS but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:265][  0]LogCook: Display: PreloadableFile was created for /InterchangeAssets/gltf/MaterialInstances/MI_SpecularGlossiness_Mask_DS but never used. This is wasteful and bad for cook performance.
+[2026.05.24-16.14.19:963][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDIM_HighQuality_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_Fast_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_alb_nrm_small__dyn__fp16_opset11_DenoiseAlpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDTIM_ColorAlbedoNormal_Default -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDT_Oidn2-3_Balanced_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_calb_cnrm_large__dyn__fp16_opset11_ForwardAlpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDIM_ColorAlbedoNormal_Default -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDOM_Output_Default -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_alb_nrm__dyn__fp16_opset11_ForwardAlpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDOM_Output_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_HighQuality_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDIM_ColorAlbedoNormal_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDT_Oidn2-3_Balanced -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_Fast -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDTIM_ColorAlbedoNormal_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDIM_HighQuality_Default -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:977][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_alb_nrm__dyn__fp16_opset11_DenoiseAlpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:985][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_HighQuality -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:985][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDTOM_Output_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:985][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_Balanced -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:985][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_alb_nrm_small__dyn__fp16_opset11_ForwardAlpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:985][  0]LogCook: Display: Cooking /NNEDenoiser/NNEDTOM_Output_Default -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:985][  0]LogCook: Display: Cooking /NNEDenoiser/NNE_oidn2-3-0_rt_hdr_calb_cnrm_large__dyn__fp16_opset11_DenoiseAlpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.19:985][  0]LogCook: Display: Cooking /NNEDenoiser/NNED_Oidn2-3_Balanced_Alpha -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.20:098][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultAssetsPipeline -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.20:098][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultMaterialXPipeline -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.20:098][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultGLTFAssetsPipeline -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.20:098][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultGLTFPipeline -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.20:098][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultMaterialPipeline -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.20:098][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultTexturePipeline -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.20:098][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultSceneAssetsPipeline -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.20:102][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultSceneLevelPipeline -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.20:102][  0]LogCook: Display: Cooking /Interchange/Pipelines/DefaultGLTFSceneAssetsPipeline -> Rejected PlatformSpecificNeverCook
+[2026.05.24-16.14.20:160][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenDiffuseMap_VT.BaseFlattenDiffuseMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenDiffuseMap_VT.BaseFlattenDiffuseMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenEmissiveMap_VT.BaseFlattenEmissiveMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenEmissiveMap_VT.BaseFlattenEmissiveMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenGrayscaleMap_VT.BaseFlattenGrayscaleMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenGrayscaleMap_VT.BaseFlattenGrayscaleMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenLinearColor_VT.BaseFlattenLinearColor_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenLinearColor_VT.BaseFlattenLinearColor_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenNormalMap_VT.BaseFlattenNormalMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/BaseFlattenNormalMap_VT.BaseFlattenNormalMap_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/Black_1x1_EXR_Texture_VT.Black_1x1_EXR_Texture_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:161][  0]LogTexture: Display: /Engine/EngineMaterials/Black_1x1_EXR_Texture_VT.Black_1x1_EXR_Texture_VT is marked for virtual streaming but virtual texture streaming is not available.
+[2026.05.24-16.14.20:169][  0]LogCook: Display: Cooked packages 539 Packages Remain 0 Total 539
+[2026.05.24-16.14.20:169][  0]LogCook: Display: Cook Diagnostics: OpenFileHandles=214, VirtualMemory=430979MiB, VirtualMemoryAvailable=20977MiB
+[2026.05.24-16.14.20:169][  0]LogCook: Display: Finishing up...
+[2026.05.24-16.14.20:214][  0]LogAssetRegistryGenerator: Display: Saving asset registry v21.
+[2026.05.24-16.14.20:220][  0]LogAssetRegistryGenerator: Display: Generated development asset registry /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/Cooked/IOS/SiteSyncAR/Metadata/DevelopmentAssetRegistry.bin num assets 551, size is 411.69kb, XxHash64[LE] = 0xDE96ECC730BC5AB1, waited on hash 0.00 seconds
+[2026.05.24-16.14.20:223][  0]LogAssetRegistryGenerator: Display: Generated asset registry num assets 511, size is 156.50kb
+[2026.05.24-16.14.20:329][  0]LogMetalShaderCompiler: Display: Creating Native Library /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/Cooked/IOS/SiteSyncAR/Content/sitesyncar_sf_metal_es3_1_ios-metal_es3_1_ios.0.metallib
+[2026.05.24-16.14.20:329][  0]LogMetalShaderCompiler: Display: Archiving 792 shaders for shader platform: SF_METAL_ES3_1_IOS
+[2026.05.24-16.14.20:330][  0]LogZipArchive: Display: Closing zip file with 0 entries.
+[2026.05.24-16.14.20:398][  0]LogMetalShaderCompiler: Display: Post-processing archive for shader platform: SF_METAL_ES3_1_IOS
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: 
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: Shader Library 'SiteSyncAR' (SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS) Stats:
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: =================
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: Assets: 125, Unique Shadermaps: 121 (96.80%)
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: Total Shaders: 1076, Unique Shaders: 803 (74.63%)
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: Total Shader Size: 13.94mb, Unique Shaders Size: 10.73mb (77.01%)
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: === Extended info:
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: Minimum number of shaders in shadermap: 1
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: Median number of shaders in shadermap: 5
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: Maximum number of shaders in shadermap: 144
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: Number of shadermaps referencing top 10 most shared shaders:
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display:     23, 15, 15, 14, 11, 11, 11, 10, 9, 9
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: Unique shaders itemization (sorted by compressed size):
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: SF_Pixel: 442 shaders (55.04%), compressed size: 6.30 MB (14.61 KB avg per shader), uncompressed size: 10.69 MB (24.77 KB avg per shader)
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: SF_Vertex: 216 shaders (26.90%), compressed size: 2.94 MB (13.95 KB avg per shader), uncompressed size: 4.91 MB (23.29 KB avg per shader)
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: SF_Compute: 145 shaders (18.06%), compressed size: 1.49 MB (10.49 KB avg per shader), uncompressed size: 2.49 MB (17.59 KB avg per shader)
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: Textual dump saved to '../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Saved/Shaders/SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS/ShaderDebug-SiteSyncAR-SF_METAL_ES3_1_IOS-METAL_ES3_1_IOS/Dump.txt'
+[2026.05.24-16.14.21:097][  0]LogShaderLibrary: Display: =================
+[2026.05.24-16.14.21:098][  0]LogCook: Display: Dependent plugin "SteamShared" referenced by "EOS Shared" wasn't found in enabled plugins list when creating cook metadata file... skipping
+[2026.05.24-16.14.21:099][  0]LogCook: Display: Finalize package store(s)...
+[2026.05.24-16.14.21:100][  0]LogCook: Display: Cook by the book total time in tick 1.320300s total time 4.829696
+[2026.05.24-16.14.21:100][  0]LogCook: Display: Peak Used virtual 430979 MiB Peak Used physical 1869 MiB
+[2026.05.24-16.14.21:100][  0]LogCook: Display: Packages Cooked: 499, Packages Incrementally Skipped: 0, Packages Skipped by Platform: 40, Total Packages: 539
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display: Hierarchy Timer Information:
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:   Root: 0.000s (0)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:     CleanSandbox: 0.086s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:     CollectFilesToCook: 0.002s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       CookModificationDelegate: 0.000s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:     GenerateLongPackageName: 0.000s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:     TickMainCookLoop: 1.320s (2)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       PumpPollables: 0.000s (2)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       PumpRequests: 0.011s (17)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       LoadPackageForCooking: 0.585s (539)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       ValidateSourcePackage: 0.000s (539)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       SavingPackages: 0.698s (59)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:         PollPendingCookedPlatformDatas: 0.023s (2494)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:         PrepareSave: 0.224s (2009)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:         PrecachePlatformDataForNextPackage: 0.201s (538)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:           PrepareSave: 0.201s (660)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:         SaveCookedPackage: 0.246s (539)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:           GEditorSavePackage: 0.236s (506)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:             VerifyCanCookPackage: 0.001s (499)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:         ClearAllCachedCookedPlatformData: 0.003s (539)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       PostLoadPackageFixup: 0.000s (2)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       WaitForAsync: 0.020s (2)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:     CookByTheBookFinished: 0.930s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       SavingCurrentIniSettings: 0.020s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:         ProcessingAccessedStrings: 0.004s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       ChunkGeneration: 0.006s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       CalculateReferencedSet: 0.000s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       FinishPopulateShaderLibrary: 0.000s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       GeneratorPreSave: 0.000s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       BuildChunkManifest: 0.009s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:         FixupPackageDependenciesForChunks: 0.003s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       SaveManifests: 0.000s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       SaveAssetRegistry: 0.010s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       WriteCookerOpenOrder: 0.009s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       WriteCookMetadata: 0.000s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       WriteReferencedSet: 0.000s (1)
+[2026.05.24-16.14.21:100][  0]LogCookStats: Display:       FinalizePackageStore: 0.000s (1)
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Misc Cook Stats
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ===============
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Niagara
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NiagaraScriptTranslationCount=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NiagaraCpuScriptCompileCount=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NiagaraCpuScriptDdcCacheHitCount=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NiagaraCpuScriptDdcCacheMissCount=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NiagaraGpuScriptCompileCount=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NiagaraGpuScriptDdcCacheHitCount=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NiagaraGpuScriptDdcCacheMissCount=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NiagaraSystemWaitForCompilationCompleteTime=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ComputeKernelShader.Misc
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     ShadersCompiled=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: NiagaraShader.Misc
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     ShadersCompiled=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ShaderCompiler
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     BlockingTimeSec=0.000048
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     AsyncCompileTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     GlobalBeginCompileShaderTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     GlobalBeginCompileShaderCalls=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     ProcessAsyncResultsTimeSec=0.000038
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: GlobalShader.Misc
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     ShadersCompiled=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Material
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     FinishCacheShadersSec=0.021152
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Package.Load
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NumRequestedLoads=169
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NumPackagesLoaded=3317
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NumInlineLoads=3148
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     LoadPackageTimeSec=0.801773
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Package.Save
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NumPackagesIncrementallySkipped=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NumPackagesSaved=506
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     SavePackageTimeSec=0.230725
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     TagPackageExportsPresaveTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     TagPackageExportsTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     FullyLoadLoadersTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     ResetLoadersTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     TagPackageExportsGetObjectsWithOuter=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     TagPackageExportsGetObjectsWithMarks=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     SerializeImportsTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     SortExportsSeekfreeInnerTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     SerializeExportsTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     SerializeBulkDataTimeSec=0.000472
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     AsyncWriteTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     MBWritten=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: CookOnTheFlyServer
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     PeakRequestQueueSize=538
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     PeakLoadQueueSize=48
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     PeakSaveQueueSize=86
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Package.DifferentPackagesSizeMBPerAsset
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Package.NumberOfDifferencesInPackagesPerAsset
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Package.PackageDifferencesSizeMBPerAsset
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Package.DiffTotal
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NumberOfDifferentPackages=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     DifferentPackagesSizeMB=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     NumberOfDifferencesInPackages=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     PackageDifferencesSizeMB=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: UnversionedProperties
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     SavedStructs=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     SavedMB=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     EquivalentTaggedMB=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     CompressionRatio=nan
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:     BitfieldWasteKB=0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: 
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Cook Profile
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ============
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0.CookWallTimeSec=18.851896
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 0.StartupWallTimeSec=13.944560
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 1.StartCookByTheBookTimeSec=2.643479
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 1. 0.BlockOnAssetRegistryTimeSec=0.427011
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 1. 1.GameCookModificationDelegateTimeSec=0.000026
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 2.TickCookOnTheSideTimeSec=0.154893
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 2. 0.TickCookOnTheSideLoadPackagesTimeSec=0.585169
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 2. 1.TickCookOnTheSideSaveCookedPackageTimeSec=0.245917
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 2. 1. 0.TickCookOnTheSideResolveRedirectorsTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 2. 2.TickCookOnTheSidePrepareSaveTimeSec=0.424522
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 3.TickLoopGCTimeSec=0.010976
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 4.TickLoopRecompileShaderRequestsTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 5.TickLoopShaderProcessAsyncResultsTimeSec=0.000003
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 6.TickLoopProcessDeferredCommandsTimeSec=0.000005
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 7.TickLoopTickCommandletStatsTimeSec=0.000001
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 8.TickLoopFlushRenderingCommandsTimeSec=0.000071
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 9.ShaderFlushTimeSec=0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  0. 10.ValidationTimeSec=0.000024
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  1.CookParameters=
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  1. 0.TargetPlatforms=IOS
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  1. 1.CookProject=SiteSyncAR
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  1. 2.CookCultures=
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  1. 3.IsCookAll=false
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  1. 4.IsCookOnTheFly=false
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  1. 5.IsIterativeCook=false
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  1. 6.IsUnversioned=false
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  1. 7.CookLabel=
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display:  1. 8.IsFastCook=false
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: 
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: DDC Summary Stats
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: =================
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: BackEnd         =InstalledDerivedDataBackendGraph
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: HasLocalCache   =      true
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: HasSharedCache  =     false
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: HasCloudCache   =     false
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: HasZenCache     =      true
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: TotalGetHits    =      3997
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: TotalGetMisses  =         1
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: TotalGets       =      3998
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: TotalGetHitPct  =  0.999750
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: GetMissPct      =  0.000250
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: TotalPutHits    =         1
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: TotalPutMisses  =         0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: TotalPuts       =         1
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: TotalPutHitPct  =  1.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: PutMissPct      =  0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: LocalGetHits    =      3989
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: LocalGetMisses  =         1
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: LocalGetTotal   =      3990
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: LocalGetHitPct  =  0.999749
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: SharedGetHits   =         0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: SharedGetTotal  =         0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: SharedGetHitPct =  0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ZenLocalGetHits =      3989
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ZenLocalGetTotal=      3990
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ZenLocalGetHitPct=  0.999749
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ZenRemoteGetHits=         0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ZenRemoteGetTotal=         0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ZenRemoteGetHitPct=  0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: CloudGetHits    =         0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: CloudGetTotal   =         0
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: CloudGetHitPct  =  0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: LocalLatency    =  0.613139
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: LocalReadSpeed  =134.968966
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: LocalWriteSpeed =  2.415922
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: SharedLatency   =  0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: SharedReadSpeed =  0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: SharedWriteSpeed=  0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: CloudLatency    =  0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: CloudReadSpeed  =  0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: CloudWriteSpeed =  0.000000
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: 
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: DDC Resource Stats
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: =======================================================================================================
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Asset Type                          Total Time (Sec)  GameThread Time (Sec)  Assets Built  MB Processed
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: ----------------------------------  ----------------  ---------------------  ------------  ------------
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Texture                                         0.47                   0.00             0         18.24
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: BulkDataList                                    0.01                   0.00             0          0.58
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: STREAMEDAUDIO                                   0.01                   0.00             0          0.09
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: Audio                                           0.01                   0.00             0          0.08
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: GlobalShader                                    0.00                   0.00             0         18.32
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: MaterialShader                                  0.00                   0.02             0         13.38
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: GeometryCollection                              0.00                   0.00             1          0.00
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: StaticMesh                                      0.00                   0.01             0          1.30
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: DistanceField                                   0.00                   0.01             0          0.40
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: CardRepresentation                              0.00                   0.00             0          0.02
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: NavCollision                                    0.00                   0.00             0          0.04
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: BulkDataPayloadId                               0.00                   0.00             0          0.00
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: CKERSM                                          0.00                   0.00             0          0.65
+[2026.05.24-16.14.21:101][  0]LogCookStats: Display: BodySetup                                       0.00                   0.00             0          0.42
+[2026.05.24-16.14.21:101][  0]LogPackageBuildDependencyTracker: Display: Package Accesses (275 referencing packages with a total of 2354 unique accesses)
+[2026.05.24-16.14.21:101][  0]LogConfigBuildDependencyTracker: Display: Config Accesses (328 referencing packages with a total of 2705 unique accesses). 3288 unique accesses that were not associated with a package.
+[2026.05.24-16.14.21:102][  0]LogCook: Display: Done!
+[2026.05.24-16.14.21:102][  0]LogSavePackage: Display: Took 0.000150s to verify the EDL loading graph.
+[2026.05.24-16.14.21:102][  0]LogInit: Display: 
+[2026.05.24-16.14.21:102][  0]LogInit: Display: Success - 0 error(s), 0 warning(s)
+[2026.05.24-16.14.21:102][  0]LogInit: Display: 
+Execution of commandlet took:  4.91 seconds
+[2026.05.24-16.14.21:105][  0]LogTemp: Display: UnrealMCPBridge: Shutting down
+[2026.05.24-16.14.21:182][  0]LogTemp: Display: MCPServerRunnable: Server thread stopping
+[2026.05.24-16.14.21:182][  0]LogTemp: Display: UnrealMCPBridge: Server stopped
+[2026.05.24-16.14.21:392][  0]LogShaderCompilers: Display: Shaders left to compile 0
+[2026.05.24-16.14.21:411][  0]LogTemp: Display: Unreal MCP Module has shut down
+[2026.05.24-16.14.21:413][  0]LogPackageName: Display: FPackageName: Mount point removed: '../../../../../../jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/DataprepTemp/' unmounted from '/DataprepCore/Transient/'
+2026-05-24 10:14:21.627 UnrealEditor-Cmd[5752:8110687] [UE4] Shutdown handler: cleanup.
+Opening shared memory
+Shared memory doesn't exist, checking legacy lock file
+Checking for a '/tmp/UnrealTraceServer.pid' lock file
+Forking process
+Opening shared memory
+Starting the store
+Reading settings from '/Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini'
+
+Unable to open settings file /Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini.
+
+Store settings (/Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini):
+ - Store port: 1989
+ - Recorder port: 1981
+ - Thread count: 0
+ - Sponsored mode: 1
+ - Directory: '/Users/jamesrusso/UnrealEngine/UnrealTrace/Store/001'
+Watcher enabled on /Users/jamesrusso/UnrealEngine/UnrealTrace/Store/001
+Signalling parent 5759
+Terminating server, no sponsors or connections active.
+Received signal 15
+Daemon is exiting without errors.
+Listening cancelled, closing port...
+Listening cancelled, closing port...

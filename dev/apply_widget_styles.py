@@ -31,26 +31,28 @@ WIDGET_PATHS = [
 
 # Per-widget rules: widget_name (as shown in hierarchy) → {property: value}
 # widget_name is checked as a substring match (case-insensitive)
+# Font sizes are James's display-corrected values (+10 over nominal web sizes;
+# 14pt reads too small on his setup, 24 is the readable floor). See feedback memory.
 NAME_RULES = {
     # WBP_MainMenu
-    "AppTitle":      {"color_and_opacity": WHITE,  "font_size": 36},
-    "AppSubtitle":   {"color_and_opacity": MUTED,  "font_size": 16},
-    "Phase1Button":  {"color_and_opacity": WHITE,  "font_size": 16},
-    "Phase2Button":  {"color_and_opacity": WHITE,  "font_size": 16},
+    "AppTitle":      {"color_and_opacity": WHITE,  "font_size": 46},
+    "AppSubtitle":   {"color_and_opacity": MUTED,  "font_size": 26},
+    "Phase1Button":  {"color_and_opacity": WHITE,  "font_size": 26},
+    "Phase2Button":  {"color_and_opacity": WHITE,  "font_size": 26},
     # WBP_BIMPlacementHUD
-    "InstructionText": {"color_and_opacity": WHITE, "font_size": 17},
-    "StatusTag":       {"color_and_opacity": CYAN,  "font_size": 11},
+    "InstructionText": {"color_and_opacity": WHITE, "font_size": 27},
+    "StatusTag":       {"color_and_opacity": CYAN,  "font_size": 21},
     # WBP_BackButton
-    "BackLabel":       {"color_and_opacity": WHITE, "font_size": 15},
+    "BackLabel":       {"color_and_opacity": WHITE, "font_size": 25},
     # WBP_GeoReadout
-    "GpsLabel":        {"color_and_opacity": MUTED, "font_size": 12},
-    "GpsCoords":       {"color_and_opacity": CYAN,  "font_size": 14},
-    "AltText":         {"color_and_opacity": MUTED, "font_size": 12},
+    "GpsLabel":        {"color_and_opacity": MUTED, "font_size": 22},
+    "GpsCoords":       {"color_and_opacity": CYAN,  "font_size": 24},
+    "AltText":         {"color_and_opacity": MUTED, "font_size": 22},
     # WBP_VolumeReadout
-    "CutLabel":        {"color_and_opacity": CYAN,  "font_size": 12},
-    "FillLabel":       {"color_and_opacity": CYAN,  "font_size": 12},
-    "CutText":         {"color_and_opacity": WHITE, "font_size": 28},
-    "FillText":        {"color_and_opacity": WHITE, "font_size": 28},
+    "CutLabel":        {"color_and_opacity": CYAN,  "font_size": 22},
+    "FillLabel":       {"color_and_opacity": CYAN,  "font_size": 22},
+    "CutText":         {"color_and_opacity": WHITE, "font_size": 38},
+    "FillText":        {"color_and_opacity": WHITE, "font_size": 38},
 }
 
 

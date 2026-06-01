@@ -1,0 +1,31 @@
+Setting up bundled DotNet SDK
+/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/Mac/../../../Binaries/ThirdParty/DotNet/8.0.300/mac-arm64
+Running dotnet Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll SiteSyncAREditor Mac Development -project=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject
+Log file: /Users/jamesrusso/Library/Application Support/Epic/UnrealBuildTool/Log.txt
+Using 'git status' to determine working set for adaptive non-unity build (/Users/jamesrusso/Developer/SiteSync-AR).
+Invalidating makefile for SiteSyncAREditor (ispc deleted)
+Choosing MODERN XCODE based on .ini settings
+Parsing headers for SiteSyncAREditor
+  Running Internal UnrealHeaderTool /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/Build/Mac/SiteSyncAREditor/Development/SiteSyncAREditor.uhtmanifest -WarningsAsErrors -installed
+Total of 3 written
+Reflection code generated for SiteSyncAREditor in 1.9581942 seconds
+Compiling with Mac SDK 26.5, minimum Target OS version 14.00
+Building SiteSyncAREditor...
+[Adaptive Build] Excluded from SiteSyncAR unity file: ARMeshBlueprintLibrary.cpp
+Determining max actions to execute in parallel (18 physical cores, 18 logical cores)
+  Executing up to 18 processes, one per physical core
+Using Unreal Build Accelerator local executor to run 3 action(s)
+  Storage capacity 40Gb
+---- Starting trace ----
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+------ Building 3 action(s) started ------
+[1/3] Compile [Apple] Module.SiteSyncAR.gen.cpp
+[2/3] Compile [Apple] ARMeshBlueprintLibrary.cpp
+[3/3] Link [Apple] UnrealEditor-SiteSyncAR.dylib
+Trace written to file /Users/jamesrusso/Library/Application Support/Epic/UnrealBuildTool/Log.uba with size 2.1kb
+Total time in Unreal Build Accelerator local executor: 4.62 seconds
+Deploying SiteSyncAREditor Mac Development...
+Deploying now!
+
+Result: Succeeded
+Total execution time: 9.14 seconds

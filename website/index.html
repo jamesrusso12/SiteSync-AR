@@ -1279,17 +1279,16 @@
 
         <div id="waitlistFormWrap">
           <!--
-            Formspree setup:
-            1. Sign up free at https://formspree.io → "New Form".
-            2. Copy the form's endpoint ID (the XXXXXXXX in formspree.io/f/XXXXXXXX).
-            3. Replace YOUR_FORM_ID below in BOTH the action attribute AND the
-               data-form-id attribute. That's it — submissions e-mail you the address.
+            Wired to Formspree form "Join the waitlist" (endpoint mpqngdpe).
+            Submissions e-mail the account recipient (currently a personal address;
+            move to a business-owned account + hello@siteiq.app when the domain lands —
+            the endpoint ID is permanent, so swapping the recipient never touches this page).
             The _gotcha field is a honeypot: bots fill it, humans never see it, and
             Formspree silently drops any submission that has it set.
           -->
           <form class="waitlist-form" id="waitlistForm"
-                action="https://formspree.io/f/YOUR_FORM_ID"
-                data-form-id="YOUR_FORM_ID"
+                action="https://formspree.io/f/mpqngdpe"
+                data-form-id="mpqngdpe"
                 method="POST">
             <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" maxlength="120">
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"

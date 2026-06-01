@@ -1,0 +1,216 @@
+Setting up bundled DotNet SDK
+/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/Mac/../../../Binaries/ThirdParty/DotNet/8.0.300/mac-arm64
+Running dotnet Engine/Binaries/DotNET/UnrealBuildTool/UnrealBuildTool.dll SiteSyncAREditor Mac Development -project=/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject
+Log file: /Users/jamesrusso/Library/Application Support/Epic/UnrealBuildTool/Log.txt
+Using 'git status' to determine working set for adaptive non-unity build (/Users/jamesrusso/Developer/SiteSync-AR).
+Invalidating makefile for SiteSyncAREditor (source file added)
+Choosing MODERN XCODE based on .ini settings
+Parsing headers for SiteSyncAREditor
+  Running Internal UnrealHeaderTool /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Intermediate/Build/Mac/SiteSyncAREditor/Development/SiteSyncAREditor.uhtmanifest -WarningsAsErrors -installed
+Total of 1 written
+Reflection code generated for SiteSyncAREditor in 1.4842215 seconds
+Compiling with Mac SDK 26.5, minimum Target OS version 14.00
+Building SiteSyncAREditor...
+[Adaptive Build] Excluded from UnrealMCP unity file: UnrealMCPBridge.cpp, UnrealMCPSystemCommands.cpp, UnrealMCPGraphCommands.cpp
+Determining max actions to execute in parallel (18 physical cores, 18 logical cores)
+  Executing up to 18 processes, one per physical core
+Using Unreal Build Accelerator local executor to run 6 action(s)
+  Storage capacity 40Gb
+---- Starting trace ----
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+------ Building 6 action(s) started ------
+[1/6] Link [Apple] UnrealEditor-SiteSyncAR.dylib
+[2/6] Compile [Apple] UnrealMCPGraphCommands.cpp
+[3/6] Compile [Apple] UnrealMCPSystemCommands.cpp
+[4/6] Compile [Apple] UnrealMCPBridge.cpp
+[5/6] Compile [Apple] Module.UnrealMCP.cpp
+In file included from /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Intermediate/Build/Mac/arm64/UnrealEditor/Development/UnrealMCP/Module.UnrealMCP.cpp:5:
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPBlueprintCommands.cpp:197:41: warning: ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile. [-W#pragma-messages]
+  197 |     ComponentClass = FindObject<UClass>(ANY_PACKAGE, *ComponentType);
+      |                                         ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectMacros.h:712:21: note: expanded from macro 'ANY_PACKAGE'
+  712 | #define ANY_PACKAGE UE_DEPRECATED_MACRO(5.1, "ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions") ((UPackage*)-1)
+      |                     ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:37:49: note: expanded from macro 'UE_DEPRECATED_MACRO'
+   37 |                 #define UE_DEPRECATED_MACRO(Version, Message) EMIT_CUSTOM_WARNING(Message " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |                                                               ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:25:3: note: expanded from macro 'EMIT_CUSTOM_WARNING'
+   25 |                 EMIT_CUSTOM_WARNING_AT_LINE(__LINE__, Warning)
+      |                 ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Clang/ClangPlatformCompilerPreSetup.h:305:3: note: expanded from macro 'EMIT_CUSTOM_WARNING_AT_LINE'
+  305 |                 _Pragma(PREPROCESSOR_TO_STRING(message(Warning)))
+      |                 ^
+<scratch space>:2:2: note: expanded from here
+    2 |  message("ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions" " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |  ^
+In file included from /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Intermediate/Build/Mac/arm64/UnrealEditor/Development/UnrealMCP/Module.UnrealMCP.cpp:5:
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPBlueprintCommands.cpp:203:45: warning: ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile. [-W#pragma-messages]
+  203 |         ComponentClass = FindObject<UClass>(ANY_PACKAGE, *ComponentTypeWithSuffix);
+      |                                             ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectMacros.h:712:21: note: expanded from macro 'ANY_PACKAGE'
+  712 | #define ANY_PACKAGE UE_DEPRECATED_MACRO(5.1, "ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions") ((UPackage*)-1)
+      |                     ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:37:49: note: expanded from macro 'UE_DEPRECATED_MACRO'
+   37 |                 #define UE_DEPRECATED_MACRO(Version, Message) EMIT_CUSTOM_WARNING(Message " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |                                                               ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:25:3: note: expanded from macro 'EMIT_CUSTOM_WARNING'
+   25 |                 EMIT_CUSTOM_WARNING_AT_LINE(__LINE__, Warning)
+      |                 ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Clang/ClangPlatformCompilerPreSetup.h:305:3: note: expanded from macro 'EMIT_CUSTOM_WARNING_AT_LINE'
+  305 |                 _Pragma(PREPROCESSOR_TO_STRING(message(Warning)))
+      |                 ^
+<scratch space>:7:2: note: expanded from here
+    7 |  message("ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions" " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |  ^
+In file included from /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Intermediate/Build/Mac/arm64/UnrealEditor/Development/UnrealMCP/Module.UnrealMCP.cpp:5:
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPBlueprintCommands.cpp:210:45: warning: ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile. [-W#pragma-messages]
+  210 |         ComponentClass = FindObject<UClass>(ANY_PACKAGE, *ComponentTypeWithPrefix);
+      |                                             ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectMacros.h:712:21: note: expanded from macro 'ANY_PACKAGE'
+  712 | #define ANY_PACKAGE UE_DEPRECATED_MACRO(5.1, "ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions") ((UPackage*)-1)
+      |                     ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:37:49: note: expanded from macro 'UE_DEPRECATED_MACRO'
+   37 |                 #define UE_DEPRECATED_MACRO(Version, Message) EMIT_CUSTOM_WARNING(Message " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |                                                               ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:25:3: note: expanded from macro 'EMIT_CUSTOM_WARNING'
+   25 |                 EMIT_CUSTOM_WARNING_AT_LINE(__LINE__, Warning)
+      |                 ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Clang/ClangPlatformCompilerPreSetup.h:305:3: note: expanded from macro 'EMIT_CUSTOM_WARNING_AT_LINE'
+  305 |                 _Pragma(PREPROCESSOR_TO_STRING(message(Warning)))
+      |                 ^
+<scratch space>:12:2: note: expanded from here
+   12 |  message("ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions" " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |  ^
+In file included from /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Intermediate/Build/Mac/arm64/UnrealEditor/Development/UnrealMCP/Module.UnrealMCP.cpp:5:
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPBlueprintCommands.cpp:216:49: warning: ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile. [-W#pragma-messages]
+  216 |             ComponentClass = FindObject<UClass>(ANY_PACKAGE, *ComponentTypeWithBoth);
+      |                                                 ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectMacros.h:712:21: note: expanded from macro 'ANY_PACKAGE'
+  712 | #define ANY_PACKAGE UE_DEPRECATED_MACRO(5.1, "ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions") ((UPackage*)-1)
+      |                     ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:37:49: note: expanded from macro 'UE_DEPRECATED_MACRO'
+   37 |                 #define UE_DEPRECATED_MACRO(Version, Message) EMIT_CUSTOM_WARNING(Message " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |                                                               ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:25:3: note: expanded from macro 'EMIT_CUSTOM_WARNING'
+   25 |                 EMIT_CUSTOM_WARNING_AT_LINE(__LINE__, Warning)
+      |                 ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Clang/ClangPlatformCompilerPreSetup.h:305:3: note: expanded from macro 'EMIT_CUSTOM_WARNING_AT_LINE'
+  305 |                 _Pragma(PREPROCESSOR_TO_STRING(message(Warning)))
+      |                 ^
+<scratch space>:18:2: note: expanded from here
+   18 |  message("ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions" " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |  ^
+In file included from /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Intermediate/Build/Mac/arm64/UnrealEditor/Development/UnrealMCP/Module.UnrealMCP.cpp:6:
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPBlueprintNodeCommands.cpp:332:42: warning: ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile. [-W#pragma-messages]
+  332 |         TargetClass = FindObject<UClass>(ANY_PACKAGE, *Target);
+      |                                          ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectMacros.h:712:21: note: expanded from macro 'ANY_PACKAGE'
+  712 | #define ANY_PACKAGE UE_DEPRECATED_MACRO(5.1, "ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions") ((UPackage*)-1)
+      |                     ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:37:49: note: expanded from macro 'UE_DEPRECATED_MACRO'
+   37 |                 #define UE_DEPRECATED_MACRO(Version, Message) EMIT_CUSTOM_WARNING(Message " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |                                                               ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:25:3: note: expanded from macro 'EMIT_CUSTOM_WARNING'
+   25 |                 EMIT_CUSTOM_WARNING_AT_LINE(__LINE__, Warning)
+      |                 ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Clang/ClangPlatformCompilerPreSetup.h:305:3: note: expanded from macro 'EMIT_CUSTOM_WARNING_AT_LINE'
+  305 |                 _Pragma(PREPROCESSOR_TO_STRING(message(Warning)))
+      |                 ^
+<scratch space>:2:2: note: expanded from here
+    2 |  message("ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions" " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |  ^
+In file included from /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Intermediate/Build/Mac/arm64/UnrealEditor/Development/UnrealMCP/Module.UnrealMCP.cpp:6:
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPBlueprintNodeCommands.cpp:340:46: warning: ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile. [-W#pragma-messages]
+  340 |             TargetClass = FindObject<UClass>(ANY_PACKAGE, *TargetWithPrefix);
+      |                                              ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectMacros.h:712:21: note: expanded from macro 'ANY_PACKAGE'
+  712 | #define ANY_PACKAGE UE_DEPRECATED_MACRO(5.1, "ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions") ((UPackage*)-1)
+      |                     ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:37:49: note: expanded from macro 'UE_DEPRECATED_MACRO'
+   37 |                 #define UE_DEPRECATED_MACRO(Version, Message) EMIT_CUSTOM_WARNING(Message " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |                                                               ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:25:3: note: expanded from macro 'EMIT_CUSTOM_WARNING'
+   25 |                 EMIT_CUSTOM_WARNING_AT_LINE(__LINE__, Warning)
+      |                 ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Clang/ClangPlatformCompilerPreSetup.h:305:3: note: expanded from macro 'EMIT_CUSTOM_WARNING_AT_LINE'
+  305 |                 _Pragma(PREPROCESSOR_TO_STRING(message(Warning)))
+      |                 ^
+<scratch space>:17:2: note: expanded from here
+   17 |  message("ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions" " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |  ^
+In file included from /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Intermediate/Build/Mac/arm64/UnrealEditor/Development/UnrealMCP/Module.UnrealMCP.cpp:6:
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPBlueprintNodeCommands.cpp:355:50: warning: ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile. [-W#pragma-messages]
+  355 |                 TargetClass = FindObject<UClass>(ANY_PACKAGE, *ClassName);
+      |                                                  ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectMacros.h:712:21: note: expanded from macro 'ANY_PACKAGE'
+  712 | #define ANY_PACKAGE UE_DEPRECATED_MACRO(5.1, "ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions") ((UPackage*)-1)
+      |                     ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:37:49: note: expanded from macro 'UE_DEPRECATED_MACRO'
+   37 |                 #define UE_DEPRECATED_MACRO(Version, Message) EMIT_CUSTOM_WARNING(Message " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |                                                               ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:25:3: note: expanded from macro 'EMIT_CUSTOM_WARNING'
+   25 |                 EMIT_CUSTOM_WARNING_AT_LINE(__LINE__, Warning)
+      |                 ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Clang/ClangPlatformCompilerPreSetup.h:305:3: note: expanded from macro 'EMIT_CUSTOM_WARNING_AT_LINE'
+  305 |                 _Pragma(PREPROCESSOR_TO_STRING(message(Warning)))
+      |                 ^
+<scratch space>:33:2: note: expanded from here
+   33 |  message("ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions" " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |  ^
+In file included from /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Intermediate/Build/Mac/arm64/UnrealEditor/Development/UnrealMCP/Module.UnrealMCP.cpp:6:
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPBlueprintNodeCommands.cpp:368:46: warning: ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile. [-W#pragma-messages]
+  368 |             TargetClass = FindObject<UClass>(ANY_PACKAGE, TEXT("UGameplayStatics"));
+      |                                              ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectMacros.h:712:21: note: expanded from macro 'ANY_PACKAGE'
+  712 | #define ANY_PACKAGE UE_DEPRECATED_MACRO(5.1, "ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions") ((UPackage*)-1)
+      |                     ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:37:49: note: expanded from macro 'UE_DEPRECATED_MACRO'
+   37 |                 #define UE_DEPRECATED_MACRO(Version, Message) EMIT_CUSTOM_WARNING(Message " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |                                                               ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:25:3: note: expanded from macro 'EMIT_CUSTOM_WARNING'
+   25 |                 EMIT_CUSTOM_WARNING_AT_LINE(__LINE__, Warning)
+      |                 ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Clang/ClangPlatformCompilerPreSetup.h:305:3: note: expanded from macro 'EMIT_CUSTOM_WARNING_AT_LINE'
+  305 |                 _Pragma(PREPROCESSOR_TO_STRING(message(Warning)))
+      |                 ^
+<scratch space>:41:2: note: expanded from here
+   41 |  message("ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions" " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |  ^
+In file included from /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Intermediate/Build/Mac/arm64/UnrealEditor/Development/UnrealMCP/Module.UnrealMCP.cpp:6:
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPBlueprintNodeCommands.cpp:515:64: warning: ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile. [-W#pragma-messages]
+  515 |                             UClass* Class = FindObject<UClass>(ANY_PACKAGE, *ClassName);
+      |                                                                ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/CoreUObject/Public/UObject/ObjectMacros.h:712:21: note: expanded from macro 'ANY_PACKAGE'
+  712 | #define ANY_PACKAGE UE_DEPRECATED_MACRO(5.1, "ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions") ((UPackage*)-1)
+      |                     ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:37:49: note: expanded from macro 'UE_DEPRECATED_MACRO'
+   37 |                 #define UE_DEPRECATED_MACRO(Version, Message) EMIT_CUSTOM_WARNING(Message " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |                                                               ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/GenericPlatform/GenericPlatformCompilerPreSetup.h:25:3: note: expanded from macro 'EMIT_CUSTOM_WARNING'
+   25 |                 EMIT_CUSTOM_WARNING_AT_LINE(__LINE__, Warning)
+      |                 ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Clang/ClangPlatformCompilerPreSetup.h:305:3: note: expanded from macro 'EMIT_CUSTOM_WARNING_AT_LINE'
+  305 |                 _Pragma(PREPROCESSOR_TO_STRING(message(Warning)))
+      |                 ^
+<scratch space>:2:2: note: expanded from here
+    2 |  message("ANY_PACKAGE has been deprecated. Either use full path name of objects (including classes) or provide a valid Outer for *FindObject* functions" " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")
+      |  ^
+In file included from /Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Intermediate/Build/Mac/arm64/UnrealEditor/Development/UnrealMCP/Module.UnrealMCP.cpp:8:
+/Users/jamesrusso/Developer/SiteSync-AR/SiteSyncAR/Plugins/UnrealMCP/Source/UnrealMCP/Private/Commands/UnrealMCPEditorCommands.cpp:588:26: warning: 'CompressImageArray' is deprecated: Please use PNGCompressImageArray or ThumbnailCompressImageArray - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile. [-Wdeprecated-declarations]
+  588 |             FImageUtils::CompressImageArray(Viewport->GetSizeXY().X, Viewport->GetSizeXY().Y, Bitmap, CompressedBitmap);
+      |                          ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Engine/Public/ImageUtils.h:318:2: note: 'CompressImageArray' has been explicitly marked deprecated here
+  318 |         UE_DEPRECATED(5.1, "Please use PNGCompressImageArray or ThumbnailCompressImageArray")
+      |         ^
+/Users/Shared/Epic Games/UE_5.6/Engine/Source/Runtime/Core/Public/Misc/CoreMiscDefines.h:299:44: note: expanded from macro 'UE_DEPRECATED'
+  299 |         #define UE_DEPRECATED(Version, Message) [[deprecated(Message " - Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.")]]
+      |                                                   ^
+10 warnings generated.
+[6/6] Link [Apple] UnrealEditor-UnrealMCP.dylib
+Trace written to file /Users/jamesrusso/Library/Application Support/Epic/UnrealBuildTool/Log.uba with size 2.7kb
+Total time in Unreal Build Accelerator local executor: 7.31 seconds
+Deploying SiteSyncAREditor Mac Development...
+Deploying now!
+
+Result: Succeeded
+Total execution time: 11.72 seconds

@@ -1,0 +1,1651 @@
+﻿Log file open, 05/27/26 11:23:07
+LogTrace: Initializing trace...
+LogTrace: Finished trace initialization.
+LogCsvProfiler: Display: Metadata set : platform="IOS"
+LogCsvProfiler: Display: Metadata set : config="Development"
+LogCsvProfiler: Display: Metadata set : buildversion="++UE5+Release-5.6-CL-44394996"
+LogCsvProfiler: Display: Metadata set : engineversion="5.6.1-44394996+++UE5+Release-5.6"
+LogCsvProfiler: Display: Metadata set : os="IOS 26.5.0"
+LogCsvProfiler: Warning: Metadata value sanitized due to invalid characters: cpu="Apple|iPhone17,1"
+LogCsvProfiler: Display: Metadata set : cpu="Apple|iPhone17&#44;1"
+LogCsvProfiler: Display: Metadata set : pgoenabled="0"
+LogCsvProfiler: Display: Metadata set : pgoprofilingenabled="0"
+LogCsvProfiler: Display: Metadata set : ltoenabled="0"
+LogCsvProfiler: Display: Metadata set : asan="0"
+LogCsvProfiler: Display: Metadata set : commandline=""-project="../../../SiteSyncAR/SiteSyncAR.uproject" ""
+LogCsvProfiler: Display: Metadata set : loginid="6dac8373a84bb96a86003581d63c46f2"
+LogCsvProfiler: Display: Metadata set : deviceid="C8F5F8EF-B22B-4598-B2E2-292E58DD8063"
+LogCsvProfiler: Display: Metadata set : llm="0"
+LogStats: Stats thread started at 0.025236
+LogAssetRegistry: Premade AssetRegistry loaded from '../../../SiteSyncAR/AssetRegistry.bin'
+LogCsvProfiler: Display: Metadata set : systemresolution.resx="1280"
+LogCsvProfiler: Display: Metadata set : systemresolution.resy="720"
+LogICUInternationalization: OS requested locale 'en-US' is not supported. Using the OS requested language of 'en-US' as the locale.
+LogICUInternationalization: ICU TimeZone Detection - Raw Offset: -7:00, Platform Override: ''
+LogInit: Session CrashGUID >====================================================
+         Session CrashGUID >   UECC-IOS-2DEFB677C6402AAC5139469763C8EAC4
+         Session CrashGUID >====================================================
+LogStreaming: Warning: Failed to read file '~/configrules' error.
+LogConfig: No local boot hotfix file found at: [../../../SiteSyncAR/PersistentDownloadDir/HotfixForNextBoot.txt]
+LogAudio: Display: Pre-Initializing Audio Device Manager...
+LogAudio: Display: AudioInfo: 'OPUS' Registered
+LogAudio: Display: AudioInfo: 'OGG' Registered
+LogAudio: Display: AudioInfo: 'ADPCM' Registered
+LogAudio: Display: AudioInfo: 'PCM' Registered
+LogAudio: Display: AudioInfo: 'BINKA' Registered
+LogAudio: Display: AudioInfo: 'RADA' Registered
+LogAudio: Display: Audio Device Manager Pre-Initialized
+LogPluginManager: Mounting Engine plugin enhancedinput
+LogPluginManager: Mounting Engine plugin meshpainting
+LogPluginManager: Mounting Engine plugin traceutilities
+LogPluginManager: Mounting Engine plugin chaoscloth
+LogPluginManager: Mounting Engine plugin fab
+LogPluginManager: Mounting Engine plugin chaosvd
+LogPluginManager: Mounting Engine plugin worldmetrics
+LogPluginManager: Mounting Engine plugin bridge
+LogPluginManager: Mounting Engine plugin onlinebase
+LogPluginManager: Mounting Engine plugin onlinesubsystem
+LogPluginManager: Mounting Engine plugin onlinesubsystemnull
+LogPluginManager: Mounting Engine plugin localizablemessage
+LogPluginManager: Mounting Engine plugin automationutils
+LogPluginManager: Mounting Engine plugin runtimetelemetry
+LogPluginManager: Mounting Engine plugin levelsequencenavigatorbridge
+LogPluginManager: Mounting Engine plugin onlineservices
+LogPluginManager: Mounting Engine plugin dataflow
+LogPluginManager: Mounting Engine plugin pythonscriptplugin
+LogPluginManager: Mounting Engine plugin toolpresets
+LogPluginManager: Mounting Engine plugin chaosuserdatapt
+LogPluginManager: Mounting Engine plugin onlinesubsystemutils
+LogPluginManager: Mounting Engine plugin editordatastoragefeatures
+LogPluginManager: Mounting Engine plugin chaosniagara
+LogPluginManager: Mounting Engine plugin backchannel
+LogPluginManager: Mounting Engine plugin chaossolverplugin
+LogPluginManager: Mounting Engine plugin chaoseditor
+LogPluginManager: Mounting Engine plugin editordatastorage
+LogPluginManager: Mounting Engine plugin fullbodyik
+LogPluginManager: Mounting Engine plugin platformcrypto
+LogPluginManager: Mounting Engine plugin characterai
+LogPluginManager: Mounting Engine plugin chaoscaching
+LogPluginManager: Mounting Engine plugin planarcut
+LogPluginManager: Mounting Engine plugin fracture
+LogPluginManager: Mounting Engine plugin tweeningutils
+LogPluginManager: Mounting Engine plugin livelink
+LogPluginManager: Mounting Engine plugin geometrycollectionplugin
+LogPluginManager: Mounting Engine plugin geometrydataflow
+LogPluginManager: Mounting Engine plugin controlrigspline
+LogPluginManager: Mounting Engine plugin skeletalmeshmodelingtools
+LogPluginManager: Mounting Engine plugin aclplugin
+LogPluginManager: Mounting Engine plugin ikrig
+LogPluginManager: Mounting Engine plugin controlrigmodules
+LogPluginManager: Mounting Engine plugin riglogic
+LogPluginManager: Mounting Engine plugin controlrig
+LogPluginManager: Mounting Engine plugin animationdata
+LogPluginManager: Mounting Engine plugin animationsharing
+LogPluginManager: Mounting Engine plugin namingtokens
+LogPluginManager: Mounting Engine plugin pluginutils
+LogPluginManager: Mounting Engine plugin templatesequence
+LogPluginManager: Mounting Engine plugin actorsequence
+LogPluginManager: Mounting Engine plugin dumpgpuservices
+LogPluginManager: Mounting Engine plugin uobjectplugin
+LogPluginManager: Mounting Engine plugin sequencerscripting
+LogPluginManager: Mounting Engine plugin levelsequenceeditor
+LogPluginManager: Mounting Engine plugin soundfields
+LogPluginManager: Mounting Engine plugin deformergraph
+LogPluginManager: Mounting Engine plugin alembicimporter
+LogPluginManager: Mounting Engine plugin inputdebugging
+LogPluginManager: Mounting Engine plugin proceduralmeshcomponent
+LogPluginManager: Mounting Engine plugin assettags
+LogPluginManager: Mounting Engine plugin rigvm
+LogPluginManager: Mounting Engine plugin locationservicesiosimpl
+LogPluginManager: Mounting Engine plugin audiowidgets
+LogPluginManager: Mounting Engine plugin actorlayerutilities
+LogPluginManager: Mounting Engine plugin cablecomponent
+LogPluginManager: Mounting Engine plugin propertybindingutils
+LogPluginManager: Mounting Engine plugin custommeshcomponent
+LogPluginManager: Mounting Engine plugin synthesis
+LogPluginManager: Mounting Engine plugin propertyaccesseditor
+LogPluginManager: Mounting Engine plugin resonanceaudio
+LogPluginManager: Mounting Engine plugin computeframework
+LogPluginManager: Mounting Engine plugin androidpermission
+LogPluginManager: Mounting Engine plugin geometryscripting
+LogPluginManager: Mounting Engine plugin xrbase
+LogPluginManager: Mounting Engine plugin mobilepatchingutils
+LogPluginManager: Mounting Engine plugin significancemanager
+LogPluginManager: Mounting Engine plugin chunkdownloader
+LogPluginManager: Mounting Engine plugin audiocapture
+LogPluginManager: Mounting Engine plugin hairstrands
+LogPluginManager: Mounting Engine plugin meshmodelingtoolset
+LogPluginManager: Mounting Engine plugin exampledeviceprofileselector
+LogPluginManager: Mounting Engine plugin wavetable
+LogPluginManager: Mounting Engine plugin appleimageutils
+LogPluginManager: Mounting Engine plugin iosdeviceprofileselector
+LogPluginManager: Mounting Engine plugin geometrycache
+LogPluginManager: Mounting Engine plugin applemovieplayer
+LogPluginManager: Mounting Engine plugin audiosynesthesia
+LogPluginManager: Mounting Engine plugin statetree
+LogPluginManager: Mounting Engine plugin geometryprocessing
+LogPluginManager: Mounting Engine plugin archvischaracter
+LogPluginManager: Mounting Engine plugin locationservicesbplibrary
+LogPluginManager: Mounting Engine plugin imgmedia
+LogPluginManager: Mounting Engine plugin mediacompositing
+LogPluginManager: Mounting Engine plugin metahumansdk
+LogPluginManager: Mounting Engine plugin metasound
+LogPluginManager: Mounting Engine plugin mediaplate
+LogPluginManager: Mounting Engine plugin avfmedia
+LogPluginManager: Mounting Engine plugin datasmithcontent
+LogPluginManager: Mounting Engine plugin datasmithimporter
+LogPluginManager: Mounting Engine plugin variantmanagercontent
+LogPluginManager: Mounting Engine plugin gltfexporter
+LogPluginManager: Mounting Engine plugin variantmanager
+LogPluginManager: Mounting Engine plugin takes
+LogPluginManager: Mounting Engine plugin cameracalibrationcore
+LogPluginManager: Mounting Engine plugin datasmithfbximporter
+LogPluginManager: Mounting Engine plugin gameplaycameras
+LogPluginManager: Mounting Engine plugin tcpmessaging
+LogPluginManager: Mounting Engine plugin enginecameras
+LogPluginManager: Mounting Engine plugin camerashakepreviewer
+LogPluginManager: Mounting Engine plugin sequenceranimtools
+LogPluginManager: Mounting Engine plugin assetmanagereditor
+LogPluginManager: Mounting Engine plugin udpmessaging
+LogPluginManager: Mounting Engine plugin facialanimation
+LogPluginManager: Mounting Engine plugin blueprintheaderview
+LogPluginManager: Mounting Engine plugin curveeditortools
+LogPluginManager: Mounting Engine plugin editorscriptingutilities
+LogPluginManager: Mounting Engine plugin uveditor
+LogPluginManager: Mounting Engine plugin proxylodplugin
+LogPluginManager: Mounting Engine plugin geometrymode
+LogPluginManager: Mounting Engine plugin modelingtoolseditormode
+LogPluginManager: Mounting Engine plugin speedtreeimporter
+LogPluginManager: Mounting Engine plugin engineassetdefinitions
+LogPluginManager: Mounting Engine plugin niagarasimcaching
+LogPluginManager: Mounting Engine plugin umgwidgetpreview
+LogPluginManager: Mounting Engine plugin datavalidation
+LogPluginManager: Mounting Engine plugin cascade
+LogPluginManager: Mounting Engine plugin interchangeassets
+LogPluginManager: Mounting Engine plugin niagara
+LogPluginManager: Mounting Engine plugin environmentqueryeditor
+LogPluginManager: Mounting Engine plugin aisupport
+LogPluginManager: Mounting Engine plugin colorgrading
+LogPluginManager: Mounting Engine plugin interchangetests
+LogPluginManager: Mounting Engine plugin paper2d
+LogPluginManager: Mounting Engine plugin oodlenetwork
+LogPluginManager: Mounting Engine plugin onlinesubsystemios
+LogPluginManager: Mounting Engine plugin objectmixer
+LogPluginManager: Mounting Engine plugin lightmixer
+LogPluginManager: Mounting Engine plugin compositecore
+LogPluginManager: Mounting Engine plugin contentbrowserassetdatasource
+LogPluginManager: Mounting Engine plugin arutilities
+LogPluginManager: Mounting Engine plugin applearkit
+LogPluginManager: Mounting Project plugin unrealmcp
+LogIOSAudioSession: Setting AVAudioSession category to Category:AVAudioSessionCategoryAmbient Mode:AVAudioSessionModeDefault Options:0
+LogInit: Creating http thread with maximum 256 concurrent requests
+LogOnline: Display: OSS: FOnlineSubsystemIOSModule::StartupModule()
+LogOnlineSession: Display: OSS: FOnlineSessionIOS::FOnlineSessionIOS(FOnlineSubsystemIOS* InSubsystem)
+LogMarketplaceKit: AppDistributorWrapper getCurrentWithCompletionHandler Other 
+LogOnline: OSS: Created online subsystem instance for: IOS
+LogOnline: OSS: TryLoadSubsystemAndSetDefault: Loaded subsystem for type [IOS]
+LogStudioTelemetry: Started StudioTelemetry Session
+LogConfig: Applying CVar settings from Section [/Script/CompositeCore.CompositeCorePluginSettings] File [Engine]
+LogInit: ExecutableName: SiteSyncAR
+LogInit: Build: ++UE5+Release-5.6-CL-44394996
+LogInit: Platform=IOS
+LogInit: MachineId=6dac8373a84bb96a86003581d63c46f2
+LogInit: DeviceId=C8F5F8EF-B22B-4598-B2E2-292E58DD8063
+LogInit: Engine Version: 5.6.1-44394996+++UE5+Release-5.6
+LogInit: Compatible Engine Version: 5.6.0-43139311+++UE5+Release-5.6
+LogInit: Net CL: 43139311
+LogInit: OS: IOS (26.5.0), CPU: iPhone17,1, GPU: GenericGPUBrand
+LogInit: Compiled (64-bit): Jul 28 2025 16:53:43
+LogInit: Architecture: arm64
+LogInit: Compiled with Clang: 16.0.0 (clang-1600.0.26.4)
+LogInit: Build Configuration: Development
+LogInit: Branch Name: ++UE5+Release-5.6
+LogInit: Command Line: -project="../../../SiteSyncAR/SiteSyncAR.uproject" 
+LogInit: Base Directory: 
+LogInit: Allocator: Binned2
+LogInit: Installed Engine Build: 0
+LogInit: This binary is optimized with LTO: no, PGO: no, instrumented for PGO data collection: no
+LogDevObjectVersion: Number of dev versions registered: 41
+LogDevObjectVersion:   Dev-Blueprints (B0D832E4-1F89-4F0D-ACCF-7EB736FD4AA2): 10
+LogDevObjectVersion:   Dev-Build (E1C64328-A22C-4D53-A36C-8E866417BD8C): 0
+LogDevObjectVersion:   Dev-Core (375EC13C-06E4-48FB-B500-84F0262A717E): 4
+LogDevObjectVersion:   Dev-Editor (E4B068ED-F494-42E9-A231-DA0B2E46BB41): 40
+LogDevObjectVersion:   Dev-Framework (CFFC743F-43B0-4480-9391-14DF171D2073): 37
+LogDevObjectVersion:   Dev-Mobile (B02B49B5-BB20-44E9-A304-32B752E40360): 3
+LogDevObjectVersion:   Dev-Networking (A4E4105C-59A1-49B5-A7C5-40C4547EDFEE): 0
+LogDevObjectVersion:   Dev-Online (39C831C9-5AE6-47DC-9A44-9C173E1C8E7C): 0
+LogDevObjectVersion:   Dev-Physics (78F01B33-EBEA-4F98-B9B4-84EACCB95AA2): 20
+LogDevObjectVersion:   Dev-Platform (6631380F-2D4D-43E0-8009-CF276956A95A): 0
+LogDevObjectVersion:   Dev-Rendering (12F88B9F-8875-4AFC-A67C-D90C383ABD29): 49
+LogDevObjectVersion:   Dev-Sequencer (7B5AE74C-D270-4C10-A958-57980B212A5A): 13
+LogDevObjectVersion:   Dev-VR (D7296918-1DD6-4BDD-9DE2-64A83CC13884): 3
+LogDevObjectVersion:   Dev-LoadTimes (C2A15278-BFE7-4AFE-6C17-90FF531DF755): 1
+LogDevObjectVersion:   Private-Geometry (6EACA3D4-40EC-4CC1-B786-8BED09428FC5): 3
+LogDevObjectVersion:   Dev-AnimPhys (29E575DD-E0A3-4627-9D10-D276232CDCEA): 17
+LogDevObjectVersion:   Dev-Anim (AF43A65D-7FD3-4947-9873-3E8ED9C1BB05): 15
+LogDevObjectVersion:   Dev-ReflectionCapture (6B266CEC-1EC7-4B8F-A30B-E4D90942FC07): 1
+LogDevObjectVersion:   Dev-Automation (0DF73D61-A23F-47EA-B727-89E90C41499A): 1
+LogDevObjectVersion:   FortniteMain (601D1886-AC64-4F84-AA16-D3DE0DEAC7D6): 207
+LogDevObjectVersion:   FortniteValkyrie (8DBC2C5B-54A7-43E0-A768-FCBB7DA29060): 8
+LogDevObjectVersion:   FortniteSeason (5B4C06B7-2463-4AF8-805B-BF70CDF5D0DD): 13
+LogDevObjectVersion:   FortniteRelease (E7086368-6B23-4C58-8439-1B7016265E91): 17
+LogDevObjectVersion:   Dev-Enterprise (9DFFBCD6-494F-0158-E221-12823C92A888): 11
+LogDevObjectVersion:   Dev-Niagara (F2AED0AC-9AFE-416F-8664-AA7FFA26D6FC): 1
+LogDevObjectVersion:   Dev-Destruction (174F1F0B-B4C6-45A5-B13F-2EE8D0FB917D): 10
+LogDevObjectVersion:   Dev-Physics-Ext (35F94A83-E258-406C-A318-09F59610247C): 41
+LogDevObjectVersion:   Dev-PhysicsMaterial-Chaos (B68FC16E-8B1B-42E2-B453-215C058844FE): 1
+LogDevObjectVersion:   Dev-CineCamera (B2E18506-4273-CFC2-A54E-F4BB758BBA07): 1
+LogDevObjectVersion:   Dev-VirtualProduction (64F58936-FD1B-42BA-BA96-7289D5D0FA4E): 1
+LogDevObjectVersion:   UE5-Main (697DD581-E64F-41AB-AA4A-51ECBEB7B628): 121
+LogDevObjectVersion:   UE5-Release (D89B5E42-24BD-4D46-8412-ACA8DF641779): 56
+LogDevObjectVersion:   UE5-SpecialProject (59DA5D52-1232-4948-B878-597870B8E98B): 9
+LogDevObjectVersion:   Dev-MediaFramework (6F0ED827-A609-4895-9C91-998D90180EA4): 2
+LogDevObjectVersion:   Dev-NaniteResearch (30D58BE3-95EA-4282-A6E3-B159D8EBB06A): 1
+LogDevObjectVersion:   Dev-RigVM (DC49959B-53C0-4DE7-9156-EA885E7C5D39): 18
+LogDevObjectVersion:   Dev-ControlRig (A7820CFB-20A7-4359-8C54-2C149623CF50): 38
+LogDevObjectVersion:   Dev-IKRig (F6DFBB78-BB50-A0E4-4018-B84D60CBAF23): 6
+LogDevObjectVersion:   Dev-ComputeFramework (6304A3E7-0059-4F59-8CFC-21BD7721FD4E): 0
+LogDevObjectVersion:   Dev-Optimus (93EDE1AA-10CA-7375-4DF9-8A2849B157A0): 14
+LogDevObjectVersion:   LensFileVersion (8652A554-966A-466C-9FD7-1C6DD61B1ADB): 1
+LogInit: Presizing for max 131072 objects, including 1 objects not considered by GC.
+LogInit: Object subsystem initialized
+LogConfig: Set CVar [[con.DebugEarlyDefault:1]]
+LogConfig: CVar [[con.DebugLateDefault:1]] deferred - dummy variable created
+LogConfig: CVar [[con.DebugLateCheat:1]] deferred - dummy variable created
+LogConfig: CVar [[LogNamedEventFilters:Frame *]] deferred - dummy variable created
+LogConfig: Set CVar [[net.DisableIPv6:0]]
+LogConfig: CVar [[QualityLevelMapping:low]] deferred - dummy variable created
+LogConfig: Set CVar [[fx.Niagara.QualityLevel.Min:0]]
+LogConfig: Set CVar [[fx.Niagara.QualityLevel.Max:1]]
+[2026.05.27-17.23.07:883][  0]LogConfig: CVar [[con.DebugLateDefault:1]] deferred - dummy variable created
+[2026.05.27-17.23.07:883][  0]LogConfig: CVar [[con.DebugLateCheat:1]] deferred - dummy variable created
+[2026.05.27-17.23.07:883][  0]LogConfig: CVar [[LogNamedEventFilters:Frame *]] deferred - dummy variable created
+[2026.05.27-17.23.07:883][  0]LogConfig: CVar [[QualityLevelMapping:low]] deferred - dummy variable created
+[2026.05.27-17.23.07:883][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.RendererSettings] File [Engine]
+[2026.05.27-17.23.07:883][  0]LogConfig: CVar [[VisualizeCalibrationColorMaterialPath:/Engine/EngineMaterials/PPM_DefaultCalibrationColor.PPM_DefaultCalibrationColor]] deferred - dummy variable created
+[2026.05.27-17.23.07:883][  0]LogConfig: CVar [[VisualizeCalibrationGrayscaleMaterialPath:/Engine/EngineMaterials/PPM_DefaultCalibrationGrayscale.PPM_DefaultCalibrationGrayscale]] deferred - dummy variable created
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.GPUCrashDebugging:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: CVar [[MaxSkinBones:(Default=65536,PerPlatform=(("Mobile", 256)))]] deferred - dummy variable created
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.DistanceFields:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.TemporalAA.Mobile.UseCompute:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Substrate.RoughDiffuse:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Substrate.ShadingQuality:2]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Substrate.TileCoord8bits:1]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Substrate.SheenQuality:2]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Substrate.Glints:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Substrate.ClosuresPerPixel:1]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Visibility.DynamicMeshElements.Parallel:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Mobile.ShadingPath:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Mobile.AllowDeferredShadingOpenGL:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Mobile.SupportGPUScene:1]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Mobile.AntiAliasing:1]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Mobile.FloatPrecisionMode:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Mobile.AllowDitheredLODTransition:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.Mobile.VirtualTextures:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.DiscardUnusedQuality:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.AllowOcclusionQueries:1]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.MinScreenRadiusForLights:0.030000]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.MinScreenRadiusForDepthPrepass:0.030000]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.PrecomputedVisibilityWarning:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.TextureStreaming:1]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[Compat.UseDXT5NormalMaps:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.VirtualTextures:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.VT.EnableAutoImport:1]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.VirtualTexturedLightmaps:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: Set CVar [[r.VT.AnisotropicFiltering:0]]
+[2026.05.27-17.23.07:883][  0]LogConfig: CVar [[bEnableVirtualTextureOpacityMask:1]] deferred - dummy variable created
+[2026.05.27-17.23.07:883][  0]LogConfig: CVar [[bEnableVirtualTexturePostProcessing:0]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.VT.TileSize:128]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.VT.TileBorderSize:4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.vt.FeedbackFactor:16]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MeshPaintVirtualTexture.TileSize:32]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MeshPaintVirtualTexture.TileBorderSize:2]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MeshPaintVirtualTexture.UseCompression:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.StaticMesh.DefaultMeshPaintTextureSupport:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MeshPaintVirtualTexture.DefaultTexelsPerVertex:4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MeshPaintVirtualTexture.MaxTextureSize:4096]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.vt.rvt.EnableBaseColor:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.vt.rvt.EnableBaseColorRoughness:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.vt.rvt.EnableBaseColorSpecular:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.vt.rvt.EnableMask4:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.vt.rvt.EnableWorldHeight:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.vt.rvt.EnableDisplacement:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.vt.rvt.HighQualityPerPixelHeight:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[WorkingColorSpaceChoice:sRGB]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[RedChromaticityCoordinate:(X=0.640000,Y=0.330000)]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[GreenChromaticityCoordinate:(X=0.300000,Y=0.600000)]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[BlueChromaticityCoordinate:(X=0.150000,Y=0.060000)]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[WhiteChromaticityCoordinate:(X=0.312700,Y=0.329000)]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.LegacyLuminanceFactors:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ClearCoatNormal:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DynamicGlobalIlluminationMethod:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ReflectionMethod:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ReflectionCaptureResolution:128]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ReflectionEnvironmentLightmapMixBasedOnRoughness:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.HardwareRayTracing:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.HardwareRayTracing.LightingMode:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyReflections.FrontLayer.EnableForProject:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.TraceMeshSDFs:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenTracingSource:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.Reflections.HardwareRayTracing.Translucent.Refraction.EnableForProject:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MegaLights.EnableForProject:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.RayTracing.Shadows:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.Virtual.Enable:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.RayTracing:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.RayTracing.UseTextureLod:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.PathTracing:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.GenerateMeshDistanceFields:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DistanceFields.DefaultVoxelDensity:0.200000]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Nanite.ProjectEnabled:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.AllowStaticLighting:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.NormalMapsForStaticLighting:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ForwardShading:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.VertexFoggingForOpaque:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SeparateTranslucency:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.TranslucentSortPolicy:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[TranslucentSortAxis:(X=0.000000,Y=-1.000000,Z=0.000000)]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.LocalFogVolume.ApplyOnTranslucent:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[xr.VRS.FoveationLevel:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[xr.VRS.DynamicFoveation:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.CustomDepth:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.CustomDepthTemporalAAJitter:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.PostProcessing.PropagateAlpha:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Deferred.SupportPrimitiveAlphaHoldout:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.Bloom:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.AmbientOcclusion:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.AmbientOcclusionStaticFraction:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.AutoExposure:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.AutoExposure.Method:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.AutoExposure.Bias:1.000000]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.AutoExposure.ExtendDefaultLuminanceRange:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.LocalExposure.HighlightContrastScale:0.800000]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.LocalExposure.ShadowContrastScale:0.800000]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.MotionBlur:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.LensFlare:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.TemporalAA.Upsampling:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.AntiAliasingMethod:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MSAACount:4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultFeature.LightUnits:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DefaultBackBufferPixelFormat:4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ScreenPercentage.Default:100.000000]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ScreenPercentage.Default.Desktop.Mode:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ScreenPercentage.Default.Mobile.Mode:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ScreenPercentage.Default.VR.Mode:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ScreenPercentage.Default.PathTracer.Mode:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.UnbuiltPreviewInGame:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.StencilForLODDither:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.EarlyZPass:3]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.EarlyZPassOnlyMaterialMasking:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.CSMCaching:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DBuffer:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ClearSceneMethod:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.VelocityOutputPass:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Velocity.EnableVertexDeformation:2]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SelectiveBasePassOutputs:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[bDefaultParticleCutouts:0]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[fx.GPUSimulationTextureSizeX:1024]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[fx.GPUSimulationTextureSizeY:1024]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.AllowGlobalClipPlane:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.GBufferFormat:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MorphTarget.Mode:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MorphTarget.MaxBlendWeight:5.000000]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SupportSkyAtmosphere:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SupportSkyAtmosphereAffectsHeightFog:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SupportExpFogMatchesVolumetricFog:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SupportLocalFogVolumes:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SupportCloudShadowOnForwardLitTranslucent:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.LightFunctionAtlas.Format:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.VolumetricFog.LightFunction:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Deferred.UsesLightFunctionAtlas:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SingleLayerWater.UsesLightFunctionAtlas:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Translucent.UsesLightFunctionAtlas:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Translucent.UsesIESProfiles:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Translucent.UsesRectLights:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[vr.InstancedStereo:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MobileHDR:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[vr.MobileMultiView:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.UseHWsRGBEncoding:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[vr.RoundRobinOcclusion:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MeshStreaming:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.Shadows:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Translucency.HeterogeneousVolumes:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.WireframeCullThreshold:5.000000]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SupportStationarySkylight:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SupportLowQualityLightmaps:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SupportPointLightWholeSceneShadows:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.TranslucentPerObject.ProjectEnabled:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Water.SingleLayerWater.SupportCloudShadow:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Substrate:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Substrate.OpaqueMaterialRoughRefraction:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Refraction.Blur:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Substrate.Debug.AdvancedVisualizationShaders:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Material.RoughDiffuse:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Material.EnergyConservation:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[r.Material.DefaultAutoMaterialUsage:1]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.OIT.SortedPixels:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.HairStrands.LODMode:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SkinCache.CompileShaders:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.VRS.Support:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SkinCache.SkipCompilingGPUSkinVF:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SkinCache.DefaultBehavior:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SkinCache.SceneMemoryLimitInMB:128.000000]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.EnableStaticAndCSMShadowReceivers:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.EnableMovableLightCSMShaderCulling:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.Forward.EnableLocalLights:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.Forward.EnableClusteredReflections:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.AllowDistanceFieldShadows:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.EnableMovableSpotlightsShadow:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.GPUSkin.Support16BitBoneIndex:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.GPUSkin.Limit2BoneInfluences:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SupportDepthOnlyIndexBuffers:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SupportReversedIndexBuffers:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.AmbientOcclusion:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.DBuffer:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.GPUSkin.UnlimitedBoneInfluences:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.GPUSkin.AlwaysUseDeformerForUnlimitedBoneInfluences:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.GPUSkin.UnlimitedBoneInfluencesThreshold:8]]
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[DefaultBoneInfluenceLimit:(Default=0,PerPlatform=())]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[r.Mobile.PlanarReflectionMode:0]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.ScreenSpaceReflections:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Mobile.SupportsGen4TAA:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[bStreamSkeletalMeshLODs:(Default=False,PerPlatform=())]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[bDiscardSkeletalMeshOptionalLODs:(Default=False,PerPlatform=())]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[VisualizeCalibrationCustomMaterialPath:None]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.RendererOverrideSettings] File [Engine]
+[2026.05.27-17.23.07:884][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.StreamingSettings] File [Engine]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.MinBulkDataSizeForAsyncLoading:131072]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.AsyncLoadingThreadEnabled:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.EventDrivenLoaderEnabled:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.WarnIfTimeLimitExceeded:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.TimeLimitExceededMultiplier:1.5]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.TimeLimitExceededMinTime:0.005]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.UseBackgroundLevelStreaming:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.PriorityAsyncLoadingExtraTime:15.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.LevelStreamingActorsUpdateTimeLimit:5.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.PriorityLevelStreamingActorsUpdateExtraTime:5.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.LevelStreamingComponentsRegistrationGranularity:10]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.UnregisterComponentsTimeLimit:1.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.LevelStreamingComponentsUnregistrationGranularity:5]]
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[s.MaxPackageSummarySize:16384]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[s.FlushStreamingOnExit:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[FixedBootOrder:/Script/Engine/Default__SoundBase]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[FixedBootOrder:/Script/Engine/Default__MaterialInterface]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[FixedBootOrder:/Script/Engine/Default__DeviceProfileManager]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.GarbageCollectionSettings] File [Engine]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.MaxObjectsNotConsideredByGC:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.FlushStreamingOnGC:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.NumRetriesBeforeForcingGC:10]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.AllowParallelGC:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.TimeBetweenPurgingPendingKillObjects:61.1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.MaxObjectsInEditor:25165824]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.IncrementalBeginDestroyEnabled:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.CreateGCClusters:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.MinGCClusterSize:5]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.AssetClustreringEnabled:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.ActorClusteringEnabled:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.VerifyUObjectsAreNotFGCObjects:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.GarbageEliminationEnabled:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[gc.MaxObjectsInGame:131072]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Applying CVar settings from Section [/Script/Engine.NetworkSettings] File [Engine]
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[NetworkEmulationProfiles:(ProfileName="Average",ToolTip="Simulates average internet conditions")]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[NetworkEmulationProfiles:(ProfileName="Bad",ToolTip="Simulates laggy internet conditions")]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Applying CVar settings from Section [ViewDistanceQuality@3] File [Scalability]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SkeletalMeshLODBias:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ViewDistanceScale:1.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.NeverOcclusionTestDistance:200]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Applying CVar settings from Section [AntiAliasingQuality@3] File [Scalability]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.FXAA.Quality:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.TemporalAA.Quality:2]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.TSR.History.R11G11B10:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.TSR.History.ScreenPercentage:200]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.TSR.History.UpdateQuality:3]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.TSR.ShadingRejection.Flickering:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.TSR.RejectionAntiAliasingQuality:2]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.TSR.ReprojectionField:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.TSR.Resurrection:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Applying CVar settings from Section [ShadowQuality@3] File [Scalability]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.LightFunctionQuality:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ShadowQuality:2]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.CSM.MaxCascades:3]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.MaxResolution:2048]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.MaxCSMResolution:2048]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.RadiusThreshold:0.06]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.DistanceScale:1.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.CSM.TransitionScale:1.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.PreShadowResolutionFactor:1.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DistanceFieldShadowing:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.VolumetricFog:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.VolumetricFog.GridPixelSize:8]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.VolumetricFog.GridSizeZ:128]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.VolumetricFog.HistoryMissSupersampleCount:4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.LightMaxDrawDistanceScale:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.CapsuleShadows:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.Virtual.MaxPhysicalPages:4096]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.Virtual.ResolutionLodBiasDirectional:-1.5]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.Virtual.ResolutionLodBiasDirectionalMoving:-1.5]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.Virtual.ResolutionLodBiasLocal:0.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.Virtual.ResolutionLodBiasLocalMoving:1.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.Virtual.SMRT.RayCountDirectional:8]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.Virtual.SMRT.SamplesPerRayDirectional:4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.Virtual.SMRT.RayCountLocal:8]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Shadow.Virtual.SMRT.SamplesPerRayLocal:4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.ContactShadows:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Applying CVar settings from Section [GlobalIlluminationQuality@3] File [Scalability]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.DistanceFieldAO:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SkylightIntensityMultiplier:1.0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.AOQuality:2]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.DiffuseIndirect.Allow:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.LumenScene.DirectLighting.MaxLightsPerTile:8]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.LumenScene.DirectLighting.UpdateFactor:32]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.LumenScene.Radiosity.UpdateFactor:64]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.LumenScene.Radiosity.ProbeSpacing:4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.LumenScene.Radiosity.HemisphereProbeResolution:4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.TraceMeshSDFs.Allow:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.RadianceCache.ProbeResolution:32]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.RadianceCache.NumProbesToTraceBudget:100]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.DownsampleFactor:16]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.NumAdaptiveProbes:8]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.TracingOctahedronResolution:8]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.IrradianceFormat:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.StochasticInterpolation:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.FullResolutionJitterWidth:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.TwoSidedFoliageBackfaceDiffuse:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.ScreenTraces.HZBTraversal.FullResDepth:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.ShortRangeAO.HardwareRayTracing:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.ShortRangeAO.BentNormal:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.GridPixelSize:32]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.TraceFromVolume:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.TracingOctahedronResolution:3]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.RadianceCache.ProbeResolution:8]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyVolume.RadianceCache.NumProbesToTraceBudget:70]]
+[2026.05.27-17.23.07:884][  0]LogConfig: CVar [[r.RayTracing.Scene.BuildMode:1]] deferred - dummy variable created
+[2026.05.27-17.23.07:884][  0]LogConfig: Applying CVar settings from Section [ReflectionQuality@3] File [Scalability]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SSR.Quality:3]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.SSR.HalfResSceneColor:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.Reflections.Allow:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.Reflections.DownsampleFactor:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.Reflections.MaxRoughnessToTraceForFoliage:0.4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.ScreenProbeGather.MaxRoughnessToEvaluateRoughSpecularForFoliage:0.8]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.Reflections.ScreenSpaceReconstruction.NumSamples:5]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.Reflections.ScreenSpaceReconstruction.MinWeight:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyReflections.FrontLayer.Allow:1]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.Lumen.TranslucencyReflections.FrontLayer.Enable:0]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Applying CVar settings from Section [PostProcessQuality@3] File [Scalability]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MotionBlurQuality:4]]
+[2026.05.27-17.23.07:884][  0]LogConfig: Set CVar [[r.MotionBlur.HalfResGather:0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.AmbientOcclusionMipLevelFactor:0.4]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.AmbientOcclusionMaxQuality:100]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.AmbientOcclusionLevels:-1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.AmbientOcclusionRadiusScale:1.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DepthOfFieldQuality:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.RenderTargetPoolMin:400]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.LensFlareQuality:2]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SceneColorFringeQuality:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.EyeAdaptationQuality:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.BloomQuality:3]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Bloom.ScreenPercentage:50.000]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.FastBlurThreshold:100]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Upscale.Quality:3]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.LightShaftQuality:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Filter.SizeScale:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Tonemapper.Quality:3]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Gather.ResolutionDivisor:2         ; lower gathering resolution]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Gather.AccumulatorQuality:1        ; higher gathering accumulator quality]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Gather.PostfilterMethod:1          ; Median3x3 postfilering method]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Gather.EnableBokehSettings:0       ; no bokeh simulation when gathering]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Gather.RingCount:4                 ; medium number of samples when gathering]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Scatter.ForegroundCompositing:1    ; additive foreground scattering]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Scatter.BackgroundCompositing:2    ; additive background scattering]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Scatter.EnableBokehSettings:1      ; bokeh simulation when scattering]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Scatter.MaxSpriteRatio:0.1         ; only a maximum of 10% of scattered bokeh]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Recombine.Quality:1                ; cheap slight out of focus]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Recombine.EnableBokehSettings:0    ; no bokeh simulation on slight out of focus]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.TemporalAAQuality:1                ; more stable temporal accumulation]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Kernel.MaxForegroundRadius:0.025]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DOF.Kernel.MaxBackgroundRadius:0.025]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Mobile.AmbientOcclusionQuality:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Applying CVar settings from Section [TextureQuality@3] File [Scalability]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Streaming.MipBias:0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Streaming.AmortizeCPUToGPUCopy:0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Streaming.MaxNumTexturesToStreamPerFrame:0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Streaming.Boost:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.MaxAnisotropy:4]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.VT.MaxAnisotropy:8]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Streaming.LimitPoolSizeToVRAM:0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Streaming.PoolSize:1000]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Streaming.MaxEffectiveScreenSize:0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Applying CVar settings from Section [EffectsQuality@3] File [Scalability]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.TranslucencyLightingVolumeDim:64]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.RefractionQuality:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SceneColorFormat:4]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.DetailMode:3]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.TranslucencyVolumeBlur:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.MaterialQualityLevel:1 ; High quality]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SSS.Scale:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SSS.SampleSet:2]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SSS.Quality:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SSS.HalfRes:0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SSGI.Quality:3]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.EmitterSpawnRateScale:1.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.ParticleLightQuality:2]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.FastApplyOnOpaque:1 ; Always have FastSkyLUT 1 in this case to avoid wrong sky]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.SampleCountMaxPerSlice:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.AerialPerspectiveLUT.DepthResolution:4]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.FastSkyLUT:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.FastSkyLUT.SampleCountMin:1.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.FastSkyLUT.SampleCountMax:8.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.SampleCountMin:4.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.SampleCountMax:128.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.TransmittanceLUT.UseSmallFormat:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.TransmittanceLUT.SampleCount:10.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.MultiScatteringLUT.SampleCount:15.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[fx.Niagara.QualityLevel:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.Refraction.OffsetQuality:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.DownsampleFactor:2]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.MaxStepCount:256]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.Shadows.Resolution:256]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.Shadows.MaxSampleCount:8]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.HeterogeneousVolumes.UseExistenceMask:0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.FastSkyLUT.Width:96]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.SkyAtmosphere.FastSkyLUT.Height:50]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Applying CVar settings from Section [FoliageQuality@3] File [Scalability]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[foliage.DensityScale:1.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[grass.DensityScale:1.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[grass.CullDistanceScale:1.0]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Applying CVar settings from Section [ShadingQuality@3] File [Scalability]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.HairStrands.SkyLighting.IntegrationType:2]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.HairStrands.SkyAO.SampleCount:4]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.HairStrands.Visibility.MSAA.SamplePerPixel:4]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Set CVar [[r.AnisotropicMaterials:1]]
+[2026.05.27-17.23.07:885][  0]LogConfig: Applying CVar settings from Section [LandscapeQuality@3] File [Scalability]
+[2026.05.27-17.23.07:886][  0]LogIOS: Selected Device Profile: [iPhone16Pro]
+[2026.05.27-17.23.07:886][  0]LogInit: Selected Device Profile: [iPhone16Pro]
+[2026.05.27-17.23.07:886][  0]LogHAL: Display: Platform has ~ 4 GB [3537567040 / 4294967296 / 8], which maps to Larger [LargestMinGB=6, LargerMinGB=4, DefaultMinGB=4, SmallerMinGB=3, SmallestMinGB=0)
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Going up to parent DeviceProfile [iPhone15Pro]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Going up to parent DeviceProfile [iPhone13Pro]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Going up to parent DeviceProfile [iPhone11Pro]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Going up to parent DeviceProfile [iPhone8]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Going up to parent DeviceProfile [iPhone7]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Going up to parent DeviceProfile [iPhone6S]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Going up to parent DeviceProfile [IOS]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Going up to parent DeviceProfile []
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[ios.PhysicalScreenDensity:-1 -> 460]]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.CustomUnsafeZones: -> "(L:free[0,-15][812,15]);(P:fixed[83,0][206,30])"]]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[sg.ShadowQuality:3 -> 3]]
+[2026.05.27-17.23.07:886][  0]LogConfig: Applying CVar settings from Section [ShadowQuality@3] File [Scalability]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[sg.GlobalIlluminationQuality:3 -> 3]]
+[2026.05.27-17.23.07:886][  0]LogConfig: Applying CVar settings from Section [GlobalIlluminationQuality@3] File [Scalability]
+[2026.05.27-17.23.07:886][  0]LogConfig: CVar [[r.RayTracing.Scene.BuildMode:1]] deferred - dummy variable created
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.Mobile.AmbientOcclusionQuality:1 -> 1]]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.MobileContentScaleFactor:1 -> 2]]
+[2026.05.27-17.23.07:886][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[sg.PostProcessQuality:3 -> 3]]
+[2026.05.27-17.23.07:886][  0]LogConfig: Applying CVar settings from Section [PostProcessQuality@3] File [Scalability]
+[2026.05.27-17.23.07:887][  0]LogConsoleManager: Setting the console variable 'r.Mobile.AmbientOcclusionQuality' with 'SetByScalability' was ignored as it is lower priority than the previous 'SetByDeviceProfile'. Value remains '1'
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.HZBOcclusion:0 -> 0]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.EarlyZPass:3 -> 0]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.TranslucentLightingVolume:1 -> 0]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.AllowPointLightCubemapShadows:1 -> 0]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.Decal.StencilSizeThreshold:0.1 -> -1]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.MorphTarget.Mode:1 -> 0]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.DefaultBackBufferPixelFormat:4 -> 0]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[sg.AntiAliasingQuality:3 -> 0]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Applying CVar settings from Section [AntiAliasingQuality@0] File [Scalability]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.TemporalAA.Quality:0]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.TSR.History.ScreenPercentage:100]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.TSR.History.UpdateQuality:0]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.TSR.ShadingRejection.Flickering:0]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.TSR.RejectionAntiAliasingQuality:0]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.TSR.ReprojectionField:0]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.TSR.Resurrection:0]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[sg.ReflectionQuality:3 -> 1]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Applying CVar settings from Section [ReflectionQuality@1] File [Scalability]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.SSR.Quality:2]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.SSR.HalfResSceneColor:1]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.Lumen.Reflections.Allow:0]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[sg.ViewDistanceQuality:3 -> 3]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Applying CVar settings from Section [ViewDistanceQuality@3] File [Scalability]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[sg.TextureQuality:3 -> 3]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Applying CVar settings from Section [TextureQuality@3] File [Scalability]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[sg.EffectsQuality:3 -> 3]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Applying CVar settings from Section [EffectsQuality@3] File [Scalability]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[sg.FoliageQuality:3 -> 3]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Applying CVar settings from Section [FoliageQuality@3] File [Scalability]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[sg.LandscapeQuality:3 -> 2]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Applying CVar settings from Section [LandscapeQuality@2] File [Scalability]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[r.Forward.LightLinkedListCulling:1 -> 0]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[UI.SlateSDFText.RasterizationMode:Bitmap -> SdfApproximation]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[UI.SlateSDFText.ResolutionLevel:2 -> 1]]
+[2026.05.27-17.23.07:887][  0]LogDeviceProfileManager: Pushing Device Profile CVar: [[AsyncTraceDelegateHitchThresholdMS:-1 -> 0.75]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Applying CVar settings from Section [Startup] File [../../../Engine/Config/ConsoleVariables.ini]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.DumpShaderDebugInfo:2]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[p.chaos.AllowCreatePhysxBodies:1]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[fx.SkipVectorVMBackendOptimizations:1]]
+[2026.05.27-17.23.07:887][  0]LogConfig: CVar [[ds.CADTranslator.Meshing.ActivateThinZoneMeshing:0]] deferred - dummy variable created
+[2026.05.27-17.23.07:887][  0]LogConfig: CVar [[ds.CADTranslator.Stitching.RemoveThinFaces:0]] deferred - dummy variable created
+[2026.05.27-17.23.07:887][  0]LogConfig: Applying CVar settings from Section [Startup_IOS] File [../../../Engine/Config/ConsoleVariables.ini]
+[2026.05.27-17.23.07:887][  0]LogConfig: Applying CVar settings from Section [ConsoleVariables] File [Engine]
+[2026.05.27-17.23.07:887][  0]LogConfig: CVar [[Slate.CacheRenderData:0]] deferred - dummy variable created
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.HairStrands.Simulation:0]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.HairStrands.Strands:0]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.HairStrands.Binding:0]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.Forward.LightGridSizeZ:8]]
+[2026.05.27-17.23.07:887][  0]LogConfig: Set CVar [[r.Forward.MaxCulledLightsPerCell:8]]
+[2026.05.27-17.23.07:893][  0]LogCsvProfiler: Display: Metadata set : systemresolution.resx="804"
+[2026.05.27-17.23.07:893][  0]LogCsvProfiler: Display: Metadata set : systemresolution.resy="1748"
+[2026.05.27-17.23.07:893][  0]LogInit: Computer: localhost
+[2026.05.27-17.23.07:893][  0]LogInit: User: GenericUser
+[2026.05.27-17.23.07:893][  0]LogInit: CPU Page size=16384, Cores=6
+[2026.05.27-17.23.07:893][  0]LogInit: High frequency timer resolution =24.000000 MHz
+[2026.05.27-17.23.07:893][  0]LogInit: Free Memory at startup: 3291 MB
+[2026.05.27-17.23.07:894][  0]LogInit: Network path changed
+[2026.05.27-17.23.07:894][  0]LogInit: Memory total: Physical=3.3GB (8GB approx) Pagefile=3.2GB Virtual=6.5GB
+[2026.05.27-17.23.07:894][  0]LogCsvProfiler: Display: Metadata set : extradevelopmentmemorymb="0"
+[2026.05.27-17.23.07:894][  0]LogChaosDD: Chaos Debug Draw Startup
+[2026.05.27-17.23.07:895][  0]LogInit: Physics initialised using underlying interface: Chaos
+[2026.05.27-17.23.07:895][  0]LogInit: Using OS detected language (en-US).
+[2026.05.27-17.23.07:895][  0]LogInit: Using OS detected locale (en-US).
+[2026.05.27-17.23.07:896][  0]LogTextLocalizationManager: No specific localization for 'en-US' exists, so 'en' will be used for the language.
+[2026.05.27-17.23.07:933][  0]LogObj: Display: Attempting to load config data for Default__SlateThemeManager before the Class has been constructed/registered/linked (likely during module loading or early startup). This will result in the load silently failing and should be fixed.
+[2026.05.27-17.23.07:936][  0]LogSlate: New Slate User Created. Platform User Id 0, User Index 0, Is Virtual User: 0
+[2026.05.27-17.23.07:936][  0]LogSlate: Slate User Registered.  User Index 0, Is Virtual User: 0
+[2026.05.27-17.23.07:988][  0]LogRHI: Texture pool is 2294 MB (70% of 3277 MB)
+[2026.05.27-17.23.07:989][  0]LogMetal: Display: Got a bulk data texture, with 1 mips
+[2026.05.27-17.23.07:990][  0]LogMetal: Display: Got a bulk data texture, with 1 mips
+[2026.05.27-17.23.07:990][  0]LogMetal: Display: Got a bulk data texture, with 1 mips
+[2026.05.27-17.23.07:990][  0]LogMetal: Display: Got a bulk data texture, with 1 mips
+[2026.05.27-17.23.07:990][  0]LogMetal: Display: Got a bulk data texture, with 1 mips
+[2026.05.27-17.23.07:990][  0]LogMetal: Display: Got a bulk data texture, with 1 mips
+[2026.05.27-17.23.07:990][  0]LogMetal: Display: Got a bulk data texture, with 1 mips
+[2026.05.27-17.23.07:996][  0]LogVRS: Current RHI does not support Variable Rate Shading
+[2026.05.27-17.23.07:999][  0]LogCsvProfiler: Display: Metadata set : verbatimrhiname="Metal"
+[2026.05.27-17.23.07:999][  0]LogCsvProfiler: Display: Metadata set : rhiname="Metal_ES31"
+[2026.05.27-17.23.07:999][  0]LogCsvProfiler: Display: Metadata set : rhifeaturelevel="ES3_1"
+[2026.05.27-17.23.07:999][  0]LogCsvProfiler: Display: Metadata set : shaderplatform="METAL_ES3_1_IOS"
+[2026.05.27-17.23.07:999][  0]LogInit: Initializing FReadOnlyCVARCache
+[2026.05.27-17.23.08:003][  0]LogRendererCore: Ray tracing is disabled. Reason: disabled through project setting (r.RayTracing=0).
+[2026.05.27-17.23.08:004][  0]LogShaderLibrary: Display: Cooked Context: Loaded Native Shared Shader Library Global
+[2026.05.27-17.23.08:004][  0]LogShaderLibrary: Display: Logical shader library 'Global' has been created as a monolithic library
+[2026.05.27-17.23.08:004][  0]LogMetal: Display: No .metalmap file found for global_sc_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:004][  0]LogShaderLibrary: Display: Running without a pakfile/IoStore and did not find a monolithic library 'Global_SC' - attempting disk search for its chunks
+[2026.05.27-17.23.08:004][  0]LogShaderLibrary: Display:    ....  not found
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for traceutilities_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for chaossolverplugin_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for bridge_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for fab_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for toolpresets_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for chaosvd_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for editordatastorage_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for geometrydataflow_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for editordatastoragefeatures_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for dataflow_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for chaoscaching_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:005][  0]LogMetal: Display: No .metalmap file found for controlrigspline_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for chaosniagara_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for fullbodyik_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for pythonscriptplugin_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for skeletalmeshmodelingtools_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for aclplugin_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for riglogic_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for ikrig_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for namingtokens_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for controlrig_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for tweeningutils_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for rigvm_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for animationsharing_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:006][  0]LogMetal: Display: No .metalmap file found for audiowidgets_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for sequencerscripting_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for geometrycollectionplugin_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for synthesis_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for controlrigmodules_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for propertybindingutils_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for deformergraph_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for resonanceaudio_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for audiosynesthesia_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for mediacompositing_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for hairstrands_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for geometryscripting_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:007][  0]LogMetal: Display: No .metalmap file found for mediaplate_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for meshmodelingtoolset_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for takes_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for metahumansdk_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for cameracalibrationcore_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for wavetable_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for statetree_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for metasound_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for datasmithcontent_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for gameplaycameras_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for umgwidgetpreview_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:008][  0]LogMetal: Display: No .metalmap file found for gltfexporter_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for modelingtoolseditormode_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for blueprintheaderview_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for geometryprocessing_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for cascade_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for niagara_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for interchangeassets_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for paper2d_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for speedtreeimporter_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for lightmixer_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for unrealmcp_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for objectmixer_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for niagarasimcaching_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:009][  0]LogMetal: Display: No .metalmap file found for uveditor_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:010][  0]LogMetal: Display: No .metalmap file found for arutilities_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:010][  0]LogMetal: Display: No .metalmap file found for geometrymode_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:010][  0]LogMetal: Display: No .metalmap file found for applearkit_sf_metal_es3_1_ios-metal_es3_1_ios!
+[2026.05.27-17.23.08:010][  0]LogTemp: Display: Clearing the OS Cache
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: --- StereoAspects begin ---
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: Platform=METAL_ES3_1_IOS (11)
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bInstancedStereo = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bMobilePlatform = 1
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bMobilePostprocessing = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bMobileMultiView = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bMultiViewportCapable = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bInstancedStereoNative = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: ---
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bMobileMultiViewCoreSupport = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bMobileMultiViewNative = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bMobileMultiViewFallback = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: ---
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bInstancedMultiViewportEnabled = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bInstancedStereoEnabled = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: bMobileMultiViewEnabled = 0
+[2026.05.27-17.23.08:013][  0]LogInit: FStereoShaderAspects: --- StereoAspects end ---
+[2026.05.27-17.23.08:014][  0]LogInit: XR: Instanced Stereo Rendering is Disabled
+[2026.05.27-17.23.08:014][  0]LogInit: XR: MultiViewport is Disabled
+[2026.05.27-17.23.08:014][  0]LogInit: XR: Mobile Multiview is Disabled
+[2026.05.27-17.23.08:020][  0]LogSlate: Using FreeType 2.10.0
+[2026.05.27-17.23.08:021][  0]LogSlate: SlateFontServices - WITH_FREETYPE: 1, WITH_HARFBUZZ: 1
+[2026.05.27-17.23.08:047][  0]LogShaderLibrary: Display: Cooked Context: Loaded Native Shared Shader Library SiteSyncAR
+[2026.05.27-17.23.08:047][  0]LogShaderLibrary: Display: Logical shader library 'SiteSyncAR' has been created as a monolithic library
+[2026.05.27-17.23.08:047][  0]LogInit: Using OS detected language (en-US).
+[2026.05.27-17.23.08:047][  0]LogInit: Using OS detected locale (en-US).
+[2026.05.27-17.23.08:047][  0]LogTextLocalizationManager: No localization for 'en-US' exists, so 'en' will be used for the language.
+[2026.05.27-17.23.08:047][  0]LogTextLocalizationManager: No localization for 'en-US' exists, so 'en' will be used for the locale.
+[2026.05.27-17.23.08:047][  0]LogSlate: FontCache flush requested. Reason: Culture for localization was changed
+[2026.05.27-17.23.08:047][  0]LogSlate: FontCache flush requested. Reason: Culture for localization was changed
+[2026.05.27-17.23.08:048][  0]LogAssetRegistry: FAssetRegistry took 0.0002 seconds to start up
+[2026.05.27-17.23.08:165][  0]LogStreaming: Display: FlushAsyncLoading(1): 1 QueuedPackages, 0 AsyncPackages
+[2026.05.27-17.23.08:172][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64Editor not found.
+[2026.05.27-17.23.08:172][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64 not found.
+[2026.05.27-17.23.08:173][  0]LogIOS: Selected Device Profile: [iPhone16Pro]
+[2026.05.27-17.23.08:173][  0]LogDeviceProfileManager: Active device profile: [0x130f04a00][0x13114b6e0 66] iPhone16Pro
+[2026.05.27-17.23.08:173][  0]LogCsvProfiler: Display: Metadata set : deviceprofile="iPhone16Pro"
+[2026.05.27-17.23.08:205][  0]LogMetal: Display: mmapping ../../../SiteSyncAR/Content/sitesyncar_sf_metal_es3_1_ios-metal_es3_1_ios.0.metallib, 9281426 bytes
+[2026.05.27-17.23.08:242][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.05.27-17.23.08:255][  0]LogMetaSound: Display: MetaSound Page Target Initialized to 'Default'
+[2026.05.27-17.23.08:259][  0]LogPackageLocalizationCache: Processed 66 localized package path(s) for 1 prioritized culture(s) in 0.000554 seconds
+[2026.05.27-17.23.08:262][  0]LogStats: UGameplayTagsManager::InitializeManager -  0.000 s
+[2026.05.27-17.23.08:267][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.05.27-17.23.08:277][  0]LogIris: FNetObjectFactoryRegistry::UnregisterFactory is unregistering factory: NetActorFactory name: NetActorFactory id: 0
+[2026.05.27-17.23.08:277][  0]LogIris: FNetObjectFactoryRegistry::UnregisterFactory is unregistering factory: NetSubObjectFactory name: NetSubObjectFactory id: 1
+[2026.05.27-17.23.08:279][  0]LogMoviePlayer: FAVMoviePlayer ctor...
+[2026.05.27-17.23.08:279][  0]LogMoviePlayer: Initializing movie player
+[2026.05.27-17.23.08:314][  0]LogAudio: Display: Registering Engine Module Parameter Interfaces...
+[2026.05.27-17.23.08:315][  0]LogMetaSound: MetaSound Engine Initialized
+[2026.05.27-17.23.08:316][  0]LogNiagaraDebuggerClient: Niagara Debugger Client Initialized | Session: 1A6E280A8A8D458B8000000000009500 | Instance: 1578667904453D73E65EEDB209DDD32C (localhost-0).
+[2026.05.27-17.23.08:326][  0]LogAndroidPermission: UAndroidPermissionCallbackProxy::GetInstance
+[2026.05.27-17.23.08:365][  0]LogUObjectArray: 28558 objects as part of root set at end of initial load.
+[2026.05.27-17.23.08:365][  0]LogUObjectArray: 4 objects are not in the root set, but can never be destroyed because they are in the DisregardForGC set.
+[2026.05.27-17.23.08:365][  0]LogUObjectArray: CloseDisregardForGC: 28558/28558 objects in disregard for GC pool
+[2026.05.27-17.23.08:369][  0]LogEngine: Initializing Engine...
+[2026.05.27-17.23.08:384][  0]LogNetVersion: Set ProjectVersion to 0.1.0. Version Checksum will be recalculated on next use.
+[2026.05.27-17.23.08:384][  0]LogInit: Texture streaming: Enabled
+[2026.05.27-17.23.08:384][  0]LogAudio: Display: Initializing Audio Device Manager...
+[2026.05.27-17.23.08:384][  0]LogAudio: Display: Loading Default Audio Settings Objects...
+[2026.05.27-17.23.08:385][  0]LogAudio: Display: No default SoundConcurrencyObject specified (or failed to load).
+[2026.05.27-17.23.08:385][  0]LogAudio: Display: Audio Device Manager Initialized
+[2026.05.27-17.23.08:385][  0]LogAudio: Display: Creating Audio Device:                 Id: 1, Scope: Shared, Realtime: True
+[2026.05.27-17.23.08:387][  0]LogAudioMixer: Display: Audio Mixer Platform Settings:
+[2026.05.27-17.23.08:387][  0]LogAudioMixer: Display: 	Sample Rate:						  48000
+[2026.05.27-17.23.08:387][  0]LogAudioMixer: Display: 	Callback Buffer Frame Size Requested: 1024
+[2026.05.27-17.23.08:387][  0]LogAudioMixer: Display: 	Callback Buffer Frame Size To Use:	  1024
+[2026.05.27-17.23.08:387][  0]LogAudioMixer: Display: 	Number of buffers to queue:			  2
+[2026.05.27-17.23.08:387][  0]LogAudioMixer: Display: 	Max Channels (voices):				  32
+[2026.05.27-17.23.08:387][  0]LogAudioMixer: Display: 	Number of Async Source Workers:		  0
+[2026.05.27-17.23.08:387][  0]LogAudio: Display: AudioDevice MaxSources: 32
+[2026.05.27-17.23.08:387][  0]LogAudio: Display: Audio Spatialization Plugin: None (built-in).
+[2026.05.27-17.23.08:387][  0]LogAudio: Display: Audio Reverb Plugin: None (built-in).
+[2026.05.27-17.23.08:387][  0]LogAudio: Display: Audio Occlusion Plugin: None (built-in).
+[2026.05.27-17.23.08:389][  0]LogAudioMixerAudioUnit: Display: Device Sample Rate: 48000.000000
+[2026.05.27-17.23.08:389][  0]LogAudioMixerAudioUnit: Display: Bytes per submitted buffer: 8192
+[2026.05.27-17.23.08:401][  0]LogAudioMixer: Display: Initializing audio mixer using platform API: 'AudioUnit'
+[2026.05.27-17.23.08:401][  0]LogAudioMixerAudioUnit: Display: Growing iOS circular buffer to 16384 bytes.
+[2026.05.27-17.23.08:403][  0]LogAudioMixer: Display: Using Audio Hardware Device Unknown
+[2026.05.27-17.23.08:404][  0]LogAudioMixer: Display: Initializing Sound Submixes...
+[2026.05.27-17.23.08:406][  0]LogAudioMixer: Display: Creating Master Submix 'MasterSubmixDefault'
+[2026.05.27-17.23.08:407][  0]LogAudioMixer: Display: Creating Master Submix 'MasterReverbSubmixDefault'
+[2026.05.27-17.23.08:407][  0]LogAudioMixer: Display: Output buffers initialized: Frames=1024, Channels=2, Samples=2048, InstanceID=1
+[2026.05.27-17.23.08:502][  0]LogAudioMixer: Display: Starting AudioMixerPlatformInterface::RunInternal(), InstanceID=1
+[2026.05.27-17.23.08:502][  0]LogInit: FAudioDevice initialized with ID 1.
+[2026.05.27-17.23.08:503][  0]LogAudioMixer: Initializing Audio Bus Subsystem for audio device with ID 1
+[2026.05.27-17.23.08:503][  0]LogCsvProfiler: Display: Metadata set : largeworldcoordinates="1"
+[2026.05.27-17.23.08:512][  0]LogChaosDD: Creating Chaos Debug Draw Scene for world Untitled
+[2026.05.27-17.23.08:522][  0]LogAudio: Display: Audio Device (ID: 1) registered with world 'Untitled'.
+[2026.05.27-17.23.08:523][  0]LogSlate: Updating window title bar state: overlay mode, drag disabled, window buttons hidden, title bar hidden
+[2026.05.27-17.23.08:524][  0]LogInit: Display: Game Engine Initialized.
+[2026.05.27-17.23.08:540][  0]LogInit: Display: Starting Game.
+[2026.05.27-17.23.08:540][  0]LogGlobalStatus: Browse Started Browse: "/Game/Maps/SiteSync_Menu?Name=Player"
+[2026.05.27-17.23.08:540][  0]LogNet: Browse: /Game/Maps/SiteSync_Menu?Name=Player
+[2026.05.27-17.23.08:540][  0]LogLoad: LoadMap: /Game/Maps/SiteSync_Menu?Name=Player
+[2026.05.27-17.23.08:540][  0]LogWorld: BeginTearingDown for /Temp/Untitled_0
+[2026.05.27-17.23.08:540][  0]LogWorld: UWorld::CleanupWorld for Untitled, bSessionEnded=true, bCleanupResources=true
+[2026.05.27-17.23.08:541][  0]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2026.05.27-17.23.08:545][  0]LogAudio: Display: Audio Device unregistered from world 'None'.
+[2026.05.27-17.23.08:547][  0]LogUObjectHash: Compacting FUObjectHashTables data took   0.13ms
+[2026.05.27-17.23.08:551][  0]LogAudio: Display: Audio Device (ID: 1) registered with world 'SiteSync_Menu'.
+[2026.05.27-17.23.08:551][  0]LogChaosDD: Creating Chaos Debug Draw Scene for world SiteSync_Menu
+[2026.05.27-17.23.08:552][  0]LogLoad: Game class is 'GameModeBase'
+[2026.05.27-17.23.08:552][  0]LogWorld: Bringing World /Game/Maps/SiteSync_Menu.SiteSync_Menu up for play (max tick rate 0) at 2026.05.27-11.23.08
+[2026.05.27-17.23.08:552][  0]LogWorld: Bringing up level for play took: 0.000764
+[2026.05.27-17.23.08:558][  0]LogLoad: Took 0.017515 seconds to LoadMap(/Game/Maps/SiteSync_Menu)
+[2026.05.27-17.23.08:558][  0]LogGlobalStatus: LoadMap Load map complete /Game/Maps/SiteSync_Menu
+[2026.05.27-17.23.08:559][  0]LogSlate: Took 0.000420 seconds to synchronously load lazily loaded font '../../../Engine/Content/EngineFonts/Faces/RobotoBold.ufont' (160K)
+[2026.05.27-17.23.08:567][  0]LogSlate: Took 0.000624 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' (155K)
+[2026.05.27-17.23.08:568][  0]LogRHI: Display: ShaderPipelineCache: Paused Batching. 1
+[2026.05.27-17.23.08:568][  0]LogRHI: Display: ShaderPipelineCache: Resumed Batching. 0
+[2026.05.27-17.23.08:568][  0]LogRHI: Display: ShaderPipelineCache: Batching Resumed.
+[2026.05.27-17.23.08:582][  0]LogMetal: Display: mmapping ../../../SiteSyncAR/Content/global_sf_metal_es3_1_ios-metal_es3_1_ios.0.metallib, 15875816 bytes
+[2026.05.27-17.23.08:582][  0]LogInit: Display: Engine is initialized. Leaving FEngineLoop::Init()
+[2026.05.27-17.23.08:582][  0]LogTemp: Display: Initializing TCPConsoleListener.
+[2026.05.27-17.23.08:585][  0]LogIOS:  FSocketSubsystemIOS::InternalBSDSocketFactory
+[2026.05.27-17.23.08:592][  0]LogContentStreaming: Texture pool size now 1000 MB
+[2026.05.27-17.23.08:592][  0]LogCsvProfiler: Display: Metadata set : streamingpoolsizemb="1000"
+[2026.05.27-17.23.08:593][  0]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2026.05.27-17.23.08:619][  0]LogSlate: Slate font cache was flushed
+[2026.05.27-17.23.08:620][  0]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2026.05.27-17.23.08:620][  0]LogTrace: Display: Control listening on port 1985
+[2026.05.27-17.23.08:625][  1]LogSlate: Took 0.000097 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' (155K)
+[2026.05.27-17.23.08:626][  1]LogSlate: Took 0.000058 seconds to synchronously load lazily loaded font '../../../Engine/Content/EngineFonts/Faces/RobotoBold.ufont' (160K)
+[2026.05.27-17.23.10:903][139]LogGlobalStatus: Browse Started Browse: "/Game/Maps/SiteSync_BIMTest"
+[2026.05.27-17.23.10:903][139]LogNet: Browse: /Game/Maps/SiteSync_BIMTest
+[2026.05.27-17.23.10:904][139]LogLoad: LoadMap: /Game/Maps/SiteSync_BIMTest
+[2026.05.27-17.23.10:904][139]LogWorld: BeginTearingDown for /Game/Maps/SiteSync_Menu
+[2026.05.27-17.23.10:905][139]LogWorld: UWorld::CleanupWorld for SiteSync_Menu, bSessionEnded=true, bCleanupResources=true
+[2026.05.27-17.23.10:906][139]LogSlate: InvalidateAllWidgets triggered.  All widgets were invalidated
+[2026.05.27-17.23.10:943][139]LogAudio: Display: Audio Device unregistered from world 'None'.
+[2026.05.27-17.23.10:946][139]LogUObjectHash: Compacting FUObjectHashTables data took   0.67ms
+[2026.05.27-17.23.10:949][139]LogStreaming: Display: FlushAsyncLoading(76): 1 QueuedPackages, 0 AsyncPackages
+[2026.05.27-17.23.10:996][139]LogAudio: Display: Audio Device (ID: 1) registered with world 'SiteSync_BIMTest'.
+[2026.05.27-17.23.10:996][139]LogChaosDD: Creating Chaos Debug Draw Scene for world SiteSync_BIMTest
+[2026.05.27-17.23.10:998][139]LogLoad: Game class is 'BP_ARGameMode_BIM_C'
+[2026.05.27-17.23.10:999][139]LogWorld: Bringing World /Game/Maps/SiteSync_BIMTest.SiteSync_BIMTest up for play (max tick rate 0) at 2026.05.27-11.23.10
+[2026.05.27-17.23.10:999][139]LogWorld: Bringing up level for play took: 0.000907
+[2026.05.27-17.23.11:059][139]LogAppleARKit: Selected optimal video format (3840 x 2160) to match screen size (402 x 874)
+[2026.05.27-17.23.11:059][139]LogAppleARKit: Delegate created with session: 0x132c4d700
+[2026.05.27-17.23.11:075][139]LogAppleARKit: Starting session: 0x132c4d700 with options 0
+[2026.05.27-17.23.11:077][139]LogLoad: Took 0.173372 seconds to LoadMap(/Game/Maps/SiteSync_BIMTest)
+[2026.05.27-17.23.11:077][139]LogGlobalStatus: LoadMap Load map complete /Game/Maps/SiteSync_BIMTest
+[2026.05.27-17.23.11:079][139]LogSlate: Took 0.000443 seconds to synchronously load lazily loaded font '../../../Engine/Content/EngineFonts/Faces/RobotoRegular.ufont' (155K)
+[2026.05.27-17.23.11:082][139]LogSlate: Took 0.003091 seconds to synchronously load lazily loaded font '../../../Engine/Content/EngineFonts/Faces/DroidSansFallback.ufont' (3848K)
+[2026.05.27-17.23.11:920][186]LogSiteSyncARiOS: Warning: CoreLocation shim init: requesting WhenInUse authorization
+[2026.05.27-17.23.11:922][186]LogSiteSyncARiOS: Warning: CoreLocation shim: startUpdatingLocation called
+[2026.05.27-17.23.11:924][186]LogSiteSyncARiOS: Warning: CoreLocation shim: authorization changed → AuthorizedAlways (raw=3)
+[2026.05.27-17.23.11:926][186]LogSiteSyncARiOS: Warning: CoreLocation shim: first fix lat=43.5611558 lon=-116.1393204 alt=862.54m acc=±5.0m
+[2026.05.27-17.23.16:540][463]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.16:540][463]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.16:540][463]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.16:540][463]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.16:540][463]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.16:540][463]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.16:540][463]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.16:540][463]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.16:540][463]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.16:540][463]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:139][499]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.17:740][535]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:339][571]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:339][571]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:339][571]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:339][571]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:339][571]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:339][571]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:939][607]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:939][607]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:939][607]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:939][607]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:939][607]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:939][607]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.18:939][607]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:540][643]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:540][643]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:540][643]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:540][643]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:540][643]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.19:740][655]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:106][677]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:107][677]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:107][677]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:107][677]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:107][677]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:407][695]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.20:740][715]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:306][749]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:340][751]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:340][751]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:340][751]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:340][751]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:340][751]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:340][751]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:340][751]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:340][751]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:940][787]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:940][787]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:940][787]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:940][787]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:940][787]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:940][787]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:940][787]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.21:940][787]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.22:539][823]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:141][859]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:141][859]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:141][859]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:141][859]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:141][859]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:141][859]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:141][859]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:141][859]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:141][859]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:773][897]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:773][897]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:773][897]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:773][897]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:773][897]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:773][897]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:773][897]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:773][897]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:773][897]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.23:773][897]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:339][931]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:940][967]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:940][967]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:940][967]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:940][967]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:940][967]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:940][967]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:940][967]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:940][967]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.24:940][967]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.25:540][  3]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.25:540][  3]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.25:540][  3]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.25:540][  3]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.25:540][  3]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.25:540][  3]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.25:540][  3]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.25:540][  3]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:139][ 39]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:139][ 39]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:139][ 39]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:139][ 39]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:139][ 39]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:139][ 39]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:139][ 39]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:139][ 39]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:739][ 75]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:739][ 75]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:739][ 75]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:739][ 75]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:739][ 75]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:739][ 75]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.26:739][ 75]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:339][111]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:339][111]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:339][111]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:339][111]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:339][111]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:339][111]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:339][111]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:339][111]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.27:939][147]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.28:539][183]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.28:539][183]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.28:539][183]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.28:539][183]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.28:539][183]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.28:539][183]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.28:539][183]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.28:539][183]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.28:539][183]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.28:539][183]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:139][219]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.29:739][255]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:339][291]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.30:939][327]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.31:539][363]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:139][399]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.32:739][435]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:373][473]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.33:941][507]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:538][543]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.34:558][544]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Tap Fired
+[2026.05.27-17.23.34:558][544]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Path: NotValid
+[2026.05.27-17.23.34:561][544]LogSiteSyncAR: RaycastTerrainFromScreen: hit at (-379.3,-266.0,-143.5) t=474.9 screen=(111,793) candidates=2
+[2026.05.27-17.23.34:561][544]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] bHit OK
+[2026.05.27-17.23.34:561][544]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Path: MarkerA (HasFirstTap=false)
+[2026.05.27-17.23.34:836][561]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Tap Fired
+[2026.05.27-17.23.34:836][561]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Path: NotValid
+[2026.05.27-17.23.34:838][561]LogSiteSyncAR: RaycastTerrainFromScreen: hit at (-235.2,-330.7,-143.2) t=420.6 screen=(491,792) candidates=1
+[2026.05.27-17.23.34:838][561]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] bHit OK
+[2026.05.27-17.23.34:838][561]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Path: MarkerB (HasFirstTap=true)
+[2026.05.27-17.23.34:841][561]LogSiteSyncAR: Warning: PlaceBIMByCornerForward: Corner=(-379.3,-266.0,-143.5) Forward=(-235.2,-330.7,-143.2) yaw=-24.2° L=30.0→30.0cm W=30.0→30.0cm H=30.0→30.0cm scale_m=(0.300,0.300,0.300)
+[2026.05.27-17.23.34:842][561]LogSiteSyncAR: Warning: GeoToLocalOffsetCm: device=(43.5611730,-116.1392975) target=(43.5656660,-116.1393521) -> north=500.16m east=-4.41m dist=500.18m bearing=359.5° offset_cm=(50015.6,-440.8,0.0)
+[2026.05.27-17.23.34:842][561]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Manual anchor offset: X=50,015.561 Y=-440.805 Z=0 cm
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:139][579]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.35:740][615]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:338][651]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:338][651]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:338][651]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:338][651]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:338][651]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:338][651]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:338][651]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:338][651]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.36:940][687]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:138][699]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.37:539][723]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:138][759]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:504][780]LogInit: Network path changed
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:738][795]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.38:844][801]LogInit: Network path changed
+[2026.05.27-17.23.39:037][812]LogInit: Network path changed
+[2026.05.27-17.23.39:303][826]LogAudioMixerAudioUnit: Display: Suspending Audio
+[2026.05.27-17.23.39:303][826]LogCore: Display: AppLifetime: Application will deactivate
+[2026.05.27-17.23.39:326][827]LogTemp: Display: Task was completed before time.
+[2026.05.27-17.23.39:326][827]LogTemp: Display: Done with entering background tasks time.
+[2026.05.27-17.23.44:970][828]LogInit: Network path changed
+[2026.05.27-17.23.44:971][828]LogAudioMixer: Warning: AudioMixerPlatformInterface Timeout [ 5 Seconds] waiting for h/w. InstanceID=1
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.44:973][828]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.45:147][828]LogAudioMixerAudioUnit: Display: Resuming Audio
+[2026.05.27-17.23.45:147][828]LogCore: Display: AppLifetime: Application has reactivated
+[2026.05.27-17.23.45:589][850]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Tap Fired
+[2026.05.27-17.23.45:589][850]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Path: Reset
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.47:533][966]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.48:655][ 34]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Tap Fired
+[2026.05.27-17.23.48:655][ 34]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Path: NotValid
+[2026.05.27-17.23.48:659][ 34]LogSiteSyncAR: RaycastTerrainFromScreen: hit at (-288.4,-319.6,-143.2) t=446.7 screen=(275,797) candidates=1
+[2026.05.27-17.23.48:659][ 34]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] bHit OK
+[2026.05.27-17.23.48:659][ 34]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Path: MarkerA (HasFirstTap=false)
+[2026.05.27-17.23.48:971][ 53]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Tap Fired
+[2026.05.27-17.23.48:971][ 53]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Path: NotValid
+[2026.05.27-17.23.48:975][ 53]LogSiteSyncAR: RaycastTerrainFromScreen: hit at (-143.8,-329.3,-142.4) t=377.1 screen=(606,850) candidates=1
+[2026.05.27-17.23.48:975][ 53]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] bHit OK
+[2026.05.27-17.23.48:975][ 53]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Path: MarkerB (HasFirstTap=true)
+[2026.05.27-17.23.48:977][ 53]LogSiteSyncAR: Warning: PlaceBIMByCornerForward: Corner=(-288.4,-319.6,-143.2) Forward=(-143.8,-329.3,-142.4) yaw=-3.9° L=30.0→30.0cm W=30.0→30.0cm H=30.0→30.0cm scale_m=(0.300,0.300,0.300)
+[2026.05.27-17.23.48:977][ 53]LogSiteSyncAR: Warning: GeoToLocalOffsetCm: device=(43.5611643,-116.1393006) target=(43.5656660,-116.1393521) -> north=501.13m east=-4.15m dist=501.15m bearing=359.5° offset_cm=(50113.1,-415.2,0.0)
+[2026.05.27-17.23.48:977][ 53]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Manual anchor offset: X=50,113.07 Y=-415.205 Z=0 cm
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:298][ 72]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:898][108]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:898][108]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:898][108]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:898][108]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:898][108]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:898][108]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:898][108]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:898][108]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:898][108]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.49:898][108]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:499][144]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:499][144]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:499][144]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:499][144]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:499][144]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:499][144]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:499][144]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:499][144]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:499][144]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:499][144]LogAppleARKit: Error: Mesh anchor contains incorrectly formatted vertex data!
+[2026.05.27-17.23.50:951][169]LogAudioMixerAudioUnit: Display: Suspending Audio
+[2026.05.27-17.23.50:951][169]LogCore: Display: AppLifetime: Application will deactivate
+[2026.05.27-17.23.51:086][171]LogTemp: Display: Task was completed before time.
+[2026.05.27-17.23.51:086][171]LogTemp: Display: Done with entering background tasks time.
+[2026.05.27-17.23.57:444][172]LogAudioMixer: Warning: AudioMixerPlatformInterface Timeout [ 5 Seconds] waiting for h/w. InstanceID=1
+[2026.05.27-17.23.57:597][172]LogAudioMixerAudioUnit: Display: Resuming Audio
+[2026.05.27-17.23.57:597][172]LogCore: Display: AppLifetime: Application has reactivated
+[2026.05.27-17.23.57:874][189]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Tap Fired
+[2026.05.27-17.23.57:874][189]LogBlueprintUserMessages: [BP_ARPlayerController_BIM_C_2147482399] Path: Reset
+[2026.05.27-17.23.58:027][196]LogAudioMixerAudioUnit: Display: Suspending Audio
+[2026.05.27-17.23.58:027][196]LogCore: Display: AppLifetime: Application will deactivate
+[2026.05.27-17.23.58:072][197]LogTemp: Display: Task was completed before time.
+[2026.05.27-17.23.58:072][197]LogTemp: Display: Done with entering background tasks time.
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: bUseForegroundSession=0
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: bDiscretionary=0
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: bShouldSendLaunchEvents=1
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: MaximumConnectionsPerHost=6
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: TimeoutIntervalForRequest=120.000000
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: TimeoutIntervalForResource=3600.000000
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: RetryResumeDataLimit=3
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: CDNReorderingTimeout=400
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: CDNReorderByPingTime=0
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: CheckForForegroundStaleDownloadsWithInterval=1.000000
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: ForegroundStaleDownloadTimeout=60.000000
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: sessionWithConfiguration 'com.epicgames.backgrounddownloads'
+[2026.05.27-17.23.59:182][198]LogIOSBackgroundDownload: getTasksWithCompletionHandler block with 0 tasks
+[2026.05.27-17.23.59:182][198]LogTemp: Display: Stopping TCPConsoleListener.
+[2026.05.27-17.23.59:279][198]LogStats: FPlatformStackWalk::StackWalkAndDump -  0.076 s
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: === Handled ensure: ===
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: Ensure condition failed: oldValue == newValue  [File:./Runtime/Core/Private/HAL/ThreadingBase.cpp] [Line: 197] 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: oldValue(0) newValue(1) If this check fails make sure that there is a FTaskTagScope(ETaskTag::EGameThread) as deep as possible on the current callstack, you can see the current value in ActiveNamedThreads(1)
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: Stack: 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x0d8e853c SiteSyncAR!IsInGameThread()::$_0::operator()() const   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x035c2e54 SiteSyncAR!IsInGameThread()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x0927d688 SiteSyncAR!TBaseUObjectMethodDelegateInstance<false, UPlatformGameInstance, void (), FDefaultTSDelegateUserPolicy>::ExecuteIfSafe() const   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x03468918 SiteSyncAR!void TMulticastDelegateBase<FDefaultTSDelegateUserPolicy>::Broadcast<IBaseDelegateInstance<void (), FDefaultTSDelegateUserPolicy>>() const   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x04171df4 SiteSyncAR!-[IOSAppDelegate applicationWillTerminate:]   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x94cd2444 UIKitCore!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x9386a7a8 UIKitCore!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x9446f004 UIKitCore!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x94ccf6bc UIKitCore!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0xae6d8ffc FrontBoardServices!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0xae6a3520 FrontBoardServices!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0xc7f091e4 libdispatch.dylib!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0xc7ef4694 libdispatch.dylib!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0xa5c70f84 BoardServices!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0xa5c70e00 BoardServices!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x8db6d358 CoreFoundation!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x8db6d2cc CoreFoundation!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x8db325a8 CoreFoundation!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x8dafc1a0 CoreFoundation!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x8dafb54c CoreFoundation!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x33267498 GraphicsServices!GSEventRunModal()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x937f4244 UIKitCore!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x9375f158 UIKitCore!UIApplicationMain()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x0a34da64 SiteSyncAR!main()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: [Callstack] 0x8a709c1c dyld!<redacted>()   [UnknownFile]) 
+[2026.05.27-17.23.59:279][198]LogOutputDevice: Error: 

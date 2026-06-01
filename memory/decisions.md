@@ -2,6 +2,32 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-06-01 — Node 2.3 layer toggle UI device-validated; iOS icon root cause corrected
+
+Two outcomes this session: (1) the MEP layer-toggle UI is built + device-validated against the clash test rig, and (2) the real reason the SiteIQ app icon never took was finally found (and it invalidates the 2026-05-31 icon doc).
+
+### Layer toggle UI — built end-to-end via MCP-driven dumps, device-validated
+- `WBP_LayerRow` — one row per discipline. **Final structure: the CheckBox (`LayerToggle`) is the row's interactive element with `LayerNameText` nested INSIDE it as content, Fill-sized across the row.** `Setup(InName: Text, InComponent: StaticMeshComponent)` sets text + StoredComponent + checked-state; `OnCheckStateChanged → SetVisibility(StoredComponent, bIsChecked)`.
+- `WBP_LayerTogglePanel` — `SizeBox(240) → Border(navy 90%) → VerticalBox → [TextBlock "LAYERS", Spacer, VerticalBox "LayerScrollBox"]`. `PopulateFromActor(InActor)`: `GetBIMLayers → ForEachLoop → CreateWidget(WBP_LayerRow) → Setup(name, component[idx]) → AddChild`.
+- `BP_ARPlayerController_BIM`: `ShowLayerPanel` custom event (GetActorOfClass(BP_ClashTestRig) → IsValid → CreateWidget → SET TogglePanelWidget → PopulateFromActor → AddToViewport), called **once** at the end of BeginPlay (after the PollGPS Set-Timer node — NOT inside that looping timer).
+- Device log confirmed `GetBIMLayers: 5 StaticMeshComponents → returning 5 layers` (Structure_Floor/Beam, HVAC_Duct, Plumbing_Pipe, Electrical_Conduit); toggles uncheck/recheck on device.
+
+**Three UMG-on-AR gotchas hit (all durable):**
+1. **`build_blueprint_graph` can't author ForEachLoop/CreateWidget/GetArrayItem** (macros + special UMG/array nodes). `WBP_LayerTogglePanel` also lives outside `/Game/Blueprints/` so MCP can't target it anyway. → built `PopulateFromActor` by hand from node-by-node specs, verified via pasted graph dumps. Added a `custom_event` node type to `FUnrealMCPGraphCommands` (commit this session) so standalone callable events CAN be MCP-authored in `/Game/Blueprints/` BPs.
+2. **A bare CheckBox in a list won't reliably toggle on touch — and worse, taps LEAK to the AR placement handler.** The BIM controller detects taps via a per-frame `GetInputTouchState` poll (the v20 iOS workaround) that reads raw touches *regardless of UMG*. A touch only stops reaching that poll if a UMG widget **consumes** it — and only interactive widgets (Button/CheckBox) consume clicks; panels/labels/near-misses fall through. Symptom: every checkbox tap placed a BIM building. **Fix: make the whole row one big CheckBox (label nested inside, Fill-sized).** The full-width checkbox consumes the tap → toggles cleanly AND the placement leak stops. Lesson: any interactive UMG in an AR scene that uses the Tick touch-poll must present a large hit-consuming widget; tiny/!-consuming widgets leak to placement.
+3. **ScrollBox swallows child taps on touch.** First attempt used a ScrollBox for the rows; even with the whole chain hit-testable, taps didn't register. Swapped ScrollBox → VerticalBox (we don't need scrolling for 5-7 rows). When you `Replace With`, the GET-variable nodes in dependent graphs keep the OLD type and throw "doesn't match property" compile errors → right-click each stale Get node → **Refresh Node**.
+   - UMG visibility enum display names (UE 5.6): "Not Hit-Testable (Self Only)" = `SelfHitTestInvisible` (children still hittable, fine for containers); "Not Hit-Testable (Self & All Children)" = `HitTestInvisible` (blocks the whole subtree — the one to avoid on any ancestor of an interactive widget).
+
+### iOS app icon — modern build uses Assets.xcassets, NOT Graphics/Icon*.png (corrects 2026-05-31)
+The SiteIQ icon kept rendering as the **default Unreal logo** on device no matter how we cooked/staged. Root cause from the build log: UE 5.6's modern-Xcode iOS build compiles the app icon with **`actool ... --app-icon AppIcon`** against an **`Assets.xcassets`** catalog. With no project-level xcassets, it silently fell back to **`Engine/Build/IOS/Resources/Assets.xcassets`** (the Unreal default). **The `Build/IOS/Resources/Graphics/Icon*.png` `@`-scale files that the 2026-05-31 entry says are load-bearing are actually INERT on this build path.** The 2026-05-31 "device-verified" claim was almost certainly never really the SiteIQ icon (or used a build path we no longer hit).
+
+**Fix:** created `SiteSyncAR/Build/IOS/Resources/Assets.xcassets/AppIcon.appiconset/` containing the SiteIQ 1024 mark (single universal `1024x1024` entry; actool expands the rest) + the catalog `Contents.json`. The build then logs actool compiling the **project** xcassets (`SiteSyncAR/Build/IOS/Resources/Assets.xcassets`) and the staged `Assets.car` jumps 642KB (default) → 1.2MB (SiteIQ). `.gitignore` un-excludes `Build/IOS/Resources/Assets.xcassets/**` so PC builds use it too. Commit `02e899a`.
+
+**Deploy-pipeline notes that held this session:**
+- Content-only changes: `UnrealEditor -run=Cook -targetplatform=IOS` → `RunUAT BuildCookRun -stage -skipbuild -skipcook` → install from `Saved/StagedBuilds/IOS/SiteSyncAR.app`. For content, **StagedBuilds is the fresh bundle** (the opposite of the icon case — `Binaries/IOS` cookeddata goes stale without a Build.sh).
+- **Icon/resource changes need a real `-build`** (not `-skipbuild`): `RunUAT BuildCookRun -build -skipcook -stage`. `-skipbuild` regenerates a *default* catalog and reuses stale StagedBuilds resources. Always `rm -rf Saved/StagedBuilds/IOS` before a clean stage.
+- iPhone 16 Pro UDID `AE7F6A42-9908-58CC-897C-D82FBD14AA77`.
+
 ## 2026-05-31 — Marketing site: GitHub Pages deploy + static-page security + Formspree wiring
 
 Made `website/` deployable and hardened it. Decisions worth not relitigating:

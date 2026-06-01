@@ -220,4 +220,14 @@ public:
 	static int32 DetectBIMClashes(AActor* BIM,
 	                              const TArray<FString>& ExcludedLayerSubstrings,
 	                              TArray<FBIMClashPair>& OutClashes);
+
+	// Convenience overload of DetectBIMClashes with no exclusion list (reports
+	// every clashing pair). Exists because the array input pin on the full
+	// version requires a MakeArray node at the BP call site, which the
+	// build_blueprint_graph MCP tool can't author — this no-array signature is
+	// wirable end-to-end programmatically. Equivalent to DetectBIMClashes(BIM,
+	// {}, OutClashes).
+	UFUNCTION(BlueprintCallable, Category = "SiteSync|BIM")
+	static int32 DetectBIMClashesAll(AActor* BIM,
+	                                 TArray<FBIMClashPair>& OutClashes);
 };

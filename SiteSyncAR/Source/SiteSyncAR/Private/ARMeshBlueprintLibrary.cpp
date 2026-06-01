@@ -437,6 +437,13 @@ int32 UARMeshBlueprintLibrary::DetectBIMClashes(AActor* BIM,
 	return OutClashes.Num();
 }
 
+int32 UARMeshBlueprintLibrary::DetectBIMClashesAll(AActor* BIM,
+                                                    TArray<FBIMClashPair>& OutClashes)
+{
+	static const TArray<FString> NoExclusions;
+	return DetectBIMClashes(BIM, NoExclusions, OutClashes);
+}
+
 int32 UARMeshBlueprintLibrary::UpdateLiDARMeshes(UProceduralMeshComponent* TargetMeshComponent,
                                                  UMaterialInterface* DebugMaterial)
 {

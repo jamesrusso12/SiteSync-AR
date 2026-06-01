@@ -3,6 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Security. GitHub Pages can't set HTTP headers, so we lock things down with
+       the directives that ARE honored via <meta>: CSP + referrer policy.
+       CSP whitelists our own origin + Formspree (the only external endpoint).
+       'unsafe-inline' is required because all CSS/JS lives inline in this file;
+       it still meaningfully restricts connect/form/img/object/base to known origins.
+       Clickjacking is handled by the frame-buster at the bottom of <body>
+       (frame-ancestors is ignored when delivered via <meta>). -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://formspree.io; form-action 'self' https://formspree.io; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <link rel="icon" type="image/png" href="assets/logo-mark.png">
+  <link rel="apple-touch-icon" href="assets/logo-mark.png">
+
   <meta name="description" content="SiteIQ brings LiDAR-powered cut & fill earthwork calculations and 1:1 BIM clash detection to your iPhone 16 Pro. Built for custom home builders and design-build firms.">
   <meta property="og:title" content="SiteIQ — See Your Site Before You Break Ground">
   <meta property="og:description" content="LiDAR earthwork calculations & BIM clash detection on your iPhone. No expensive hardware required.">
@@ -1265,20 +1279,24 @@
 
         <div id="waitlistFormWrap">
           <!--
-            Connect this form:
-            Option A — Formspree (free): sign up at formspree.io, create a form,
-            replace YOUR_FORM_ID in the action URL below.
-
-            Option B — Cole's Stripe+Supabase flow: replace action with your
-            Supabase edge function endpoint once auth is wired.
+            Formspree setup:
+            1. Sign up free at https://formspree.io → "New Form".
+            2. Copy the form's endpoint ID (the XXXXXXXX in formspree.io/f/XXXXXXXX).
+            3. Replace YOUR_FORM_ID below in BOTH the action attribute AND the
+               data-form-id attribute. That's it — submissions e-mail you the address.
+            The _gotcha field is a honeypot: bots fill it, humans never see it, and
+            Formspree silently drops any submission that has it set.
           -->
           <form class="waitlist-form" id="waitlistForm"
                 action="https://formspree.io/f/YOUR_FORM_ID"
+                data-form-id="YOUR_FORM_ID"
                 method="POST">
-            <input type="email" name="email" placeholder="your@email.com" required autocomplete="email">
+            <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" maxlength="120">
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true"
+                   style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none">
             <button type="submit" class="btn btn-primary">Get Early Access →</button>
           </form>
-          <div class="form-disclaimer">No spam. Unsubscribe anytime. We'll reach out when early access opens.</div>
+          <div class="form-disclaimer">No spam. Unsubscribe anytime. We'll reach out when early access opens. See our <a href="privacy.html" style="color:var(--cyan)">privacy policy</a>.</div>
         </div>
 
         <div class="success-msg" id="successMsg">
@@ -1355,7 +1373,7 @@
           <a href="#pricing">Pricing</a>
           <a href="#about">About</a>
           <a href="mailto:hello@siteiq.app">Contact</a>
-          <a href="#">Privacy Policy</a>
+          <a href="privacy.html">Privacy Policy</a>
         </div>
         <div class="footer-copy" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Intelligent Site. Better Builds.</div>
         <div class="footer-copy">
@@ -1368,6 +1386,12 @@
 
 
   <script>
+    // Clickjacking defense — frame-ancestors can't be set via <meta> on GitHub
+    // Pages, so bust out of any frame that isn't us.
+    if (window.self !== window.top) {
+      try { window.top.location = window.self.location; } catch (_) {}
+    }
+
     // Nav scroll effect
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
@@ -1393,33 +1417,65 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Waitlist form
-    const form      = document.getElementById('waitlistForm');
-    const formWrap  = document.getElementById('waitlistFormWrap');
-    const successMsg= document.getElementById('successMsg');
+    // Waitlist form (Formspree AJAX)
+    const form       = document.getElementById('waitlistForm');
+    const formWrap   = document.getElementById('waitlistFormWrap');
+    const successMsg = document.getElementById('successMsg');
+    const FORM_PLACEHOLDER = 'YOUR_FORM_ID';
+
+    function showFormError(message, btn, origLabel) {
+      let el = document.getElementById('formError');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = 'formError';
+        el.className = 'form-disclaimer';
+        el.style.color = '#FF8888';
+        el.style.marginTop = '10px';
+        formWrap.appendChild(el);
+      }
+      el.textContent = message;
+      if (btn) { btn.textContent = origLabel; btn.disabled = false; }
+    }
+
+    function showSuccess() {
+      formWrap.style.display = 'none';
+      successMsg.style.display = 'flex';
+    }
 
     if (form) {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = form.querySelector('input[type=email]').value;
-        const btn   = form.querySelector('button');
+        const btn       = form.querySelector('button[type=submit]');
+        const origLabel = btn.textContent;
+        const formId    = form.getAttribute('data-form-id');
+
+        // Honeypot tripped → silently treat as success so bots get no signal.
+        if (form.querySelector('input[name=_gotcha]').value) { showSuccess(); return; }
+
+        // Form not wired yet → don't POST to a dead endpoint; tell the user honestly.
+        if (!formId || formId === FORM_PLACEHOLDER) {
+          showFormError('Waitlist isn’t live yet — email hello@siteiq.app and we’ll add you.', btn, origLabel);
+          return;
+        }
+
         btn.textContent = 'Submitting…';
         btn.disabled = true;
-
         try {
           const res = await fetch(form.action, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({ email })
+            headers: { 'Accept': 'application/json' },
+            body: new FormData(form)        // includes the _gotcha honeypot for Formspree
           });
           if (res.ok) {
-            formWrap.style.display = 'none';
-            successMsg.style.display = 'flex';
-          } else { throw new Error(); }
+            showSuccess();
+          } else {
+            const data = await res.json().catch(() => ({}));
+            const msg = (data.errors && data.errors[0] && data.errors[0].message)
+              || 'Something went wrong. Try again or email hello@siteiq.app';
+            showFormError(msg, btn, origLabel);
+          }
         } catch {
-          console.log('Waitlist signup:', email);
-          formWrap.style.display = 'none';
-          successMsg.style.display = 'flex';
+          showFormError('Network error. Try again or email hello@siteiq.app', btn, origLabel);
         }
       });
     }

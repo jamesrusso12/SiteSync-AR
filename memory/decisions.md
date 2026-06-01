@@ -2,6 +2,17 @@
 
 <!-- Log key decisions here so they don't get relitigated. Format: date, decision, rationale. -->
 
+## 2026-05-31 — Marketing site: GitHub Pages deploy + static-page security + Formspree wiring
+
+Made `website/` deployable and hardened it. Decisions worth not relitigating:
+
+- **Deploy via GitHub Actions, NOT branch/`/docs` Pages.** The site lives in `website/` inside the big UE repo; an Actions workflow (`.github/workflows/deploy-pages.yml`) uploads only `website/` as the Pages artifact, so the rest of the repo isn't served. Triggers only on `website/**` pushes (won't redeploy on UE commits).
+- **LFS is the deploy trap.** The logos are Git-LFS-tracked → a plain `actions/checkout` ships pointer text files and every image 404s/breaks. Workflow does `lfs: false` then a **selective** `git lfs pull --include="website/assets/*"` — fetches only the site images, not the entire UE `.uasset` LFS store (which `lfs: true` would drag in on every deploy). `website/.nojekyll` added so Pages serves as-is.
+- **Pages enablement is manual.** `gh api -X POST .../pages -f build_type=workflow` returned 403 (personal token lacks Pages admin). James/Cole must flip Settings → Pages → Source → "GitHub Actions" once. Repo is public so Pages is free.
+- **Security is limited to what `<meta>` allows** (Pages can't set HTTP headers): a CSP (whitelists self + `formspree.io` for connect/form; `'unsafe-inline'` is unavoidable since all CSS/JS is inline in the one file) + referrer policy. `X-Frame-Options`/`X-Content-Type-Options`/HSTS can't be delivered via meta, so clickjacking is handled by a JS frame-buster and `frame-ancestors` was omitted (browsers ignore it from meta and log a console warning). Honeypot `_gotcha` on the form. Added `privacy.html` (email-collection disclosure + kills the dead footer link).
+- **Form bug fixed:** the original submit handler showed the success state even when the Formspree POST *failed* — silently losing real signups. Rewritten to surface errors, handle the honeypot, gracefully message the unconfigured (`YOUR_FORM_ID`) state, and POST `FormData` (Formspree's AJAX shape).
+- **Professional-email / domain setup delegated to Cole.** `siteiq.app` isn't registered; `hello@siteiq.app` (footer/Contact/privacy) is a dead address until Cole sets up the domain + mailbox. Decision: **keep `hello@siteiq.app` as the brand contact rather than swap in James's personal email** — a personal address on a public `github.io` page is a spam-scrape magnet and would have to be reverted later. James uses a personal email only as the temp **Formspree recipient** (set Formspree-side, never in the page). Formspree form ID is permanent, so swapping the recipient later doesn't touch the page. Site is a github.io preview for now, not the public launch.
+
 ## 2026-05-31 — iOS app icon + home-screen rename to "SiteIQ" (display-name-only, NOT a code rename)
 
 First slice of the SiteSync→SiteIQ rebrand: the iPhone home-screen **name** and **icon** only. Bundle ID, `.uproject`, C++/BP identifiers deliberately untouched (full identifier rename is a separate future session).

@@ -102,11 +102,16 @@ python3 -m http.server 4200 --directory website
 
 **Design tokens:** bg `#06090F` · blue accent `#4080FF` · CTA orange `#FF6B35` · mobile breakpoint `max-width: 900px`
 
+**Deployment — GitHub Pages via Actions (set up 2026-05-31).** `.github/workflows/deploy-pages.yml` deploys `website/` to Pages on any push touching `website/**`. The repo is public so Pages is free. Two gotchas baked into the workflow: (1) the logos are **Git-LFS-tracked**, so the job does a selective `git lfs pull --include="website/assets/*"` — a plain checkout would ship LFS *pointer* text files and break every image; (2) `website/.nojekyll` serves files as-is. All asset paths are relative, so the site works at the `…github.io/SiteSync-AR/` subpath. **One-time manual step (my `gh` token 403'd on the Pages API):** repo → Settings → Pages → Build and deployment → Source → "GitHub Actions".
+
+**Security (static-page hardening, 2026-05-31).** GitHub Pages can't set HTTP headers, so `index.html` uses the `<meta>`-deliverable subset: a **Content-Security-Policy** (locks `connect`/`form`/`img`/`object`/`base` to self + `formspree.io`; `'unsafe-inline'` required because all CSS/JS is inline) and a **referrer policy**. Clickjacking is covered by a JS frame-buster (`frame-ancestors` is ignored when set via meta). The waitlist form has a `_gotcha` **honeypot** (Formspree drops bot submissions). `privacy.html` was added (email-collection disclosure; also fixed the dead footer link). The form JS was rewritten — it previously **faked success even on POST failure** (silently losing signups); it now surfaces real errors and posts `FormData` (Formspree's AJAX shape).
+
 **To complete before sharing the URL:**
-1. **Formspree** — replace `YOUR_FORM_ID` in the `<form action="...">` to activate email capture.
-2. **Stripe** — Cole is building the subscription model. Payment links go on the website (not in-app) to bypass Apple's 30% cut.
-3. **Domain** — update the two `hello@siteiq.app` footer references once live.
-4. ~~**iOS app icon** — resize `logo-source-1024.png` into all required iOS sizes and update Xcode.~~ ✅ **Done 2026-05-31.** SI-cube mark cropped (`logo-icon-1024.png`), generated into `SiteSyncAR/Build/IOS/Resources/Graphics/` using UE 5.6's `@`-scale filenames (`Icon20@2x.png` … `Icon83.5@2x.png`, `Icon1024.png` — NOT `Icon_{size}.png`), opaque/no-alpha. Device-deployed + verified.
+1. **Enable GitHub Pages** — the one-time Settings → Pages → Source → "GitHub Actions" toggle above (blocked on token perms; James/Cole must click it).
+2. **Formspree** — replace `YOUR_FORM_ID` in BOTH the `<form action>` and `data-form-id` attrs (and the JS `FORM_PLACEHOLDER` is matched automatically). Form fails gracefully until then. The form ID is permanent; the recipient email is set Formspree-side, so swapping the destination later never touches the page. **Owner setup (domain `siteiq.app`, pro `hello@` mailbox, Formspree account) delegated to Cole 2026-05-31** — James uses a personal email as the temp Formspree recipient for now. Personal email is deliberately NOT placed in the page (public-page spam risk).
+3. **Stripe** — Cole is building the subscription model. Payment links go on the website (not in-app) to bypass Apple's 30% cut.
+4. **Domain** — `siteiq.app` not yet registered (Cole's task); the `hello@siteiq.app` footer/Contact/privacy references stay dead until then. Kept as the brand address rather than swapped to a personal one.
+5. ~~**iOS app icon** — resize `logo-source-1024.png` into all required iOS sizes and update Xcode.~~ ✅ **Done 2026-05-31.** SI-cube mark cropped (`logo-icon-1024.png`), generated into `SiteSyncAR/Build/IOS/Resources/Graphics/` using UE 5.6's `@`-scale filenames (`Icon20@2x.png` … `Icon83.5@2x.png`, `Icon1024.png` — NOT `Icon_{size}.png`), opaque/no-alpha. Device-deployed + verified.
 
 ---
 

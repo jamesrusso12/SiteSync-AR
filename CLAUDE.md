@@ -616,7 +616,27 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 ---
 
-## Immediate Next Actions (current, 2026-05-24 — Node 2.2a complete)
+## Immediate Next Actions (current, 2026-05-31 — Node 2.3 clash detection device-confirmed)
+
+**State:** Phase 1 closed. Phase 2: Node 2.1 ✅, Node 2.2 ✅ (full geo-anchoring stack device-validated 2026-05-27). Node 2.3 🟡 — clash-detection engine done + **device-confirmed 2026-05-31** ("Clashes detected: 2" rendered on iPhone). `BP_ARPlayerController_BIM` placement is back to a clean working state (`0f428ab`).
+
+**Major tooling unlock this session — reliable BP-graph editing via MCP.** The in-tree UnrealMCP plugin now has `build_blueprint_graph` + `describe_blueprint_node` + `split_struct_pin` (commit `a4c864d`). Whole Blueprint graphs are authorable programmatically from the Mac terminal over TCP — this replaced the manual node-wiring bottleneck and was used to wire + ship the clash-detection graph. **Use this for all remaining 2.3 BP work.** How to drive it:
+- Editor must be OPEN (auto-starts the TCP server on `127.0.0.1:55557`).
+- `dev/mcp_send.py` is the CLI: `exec_file <path>` (run editor-Python — use file mode, statement mode is flaky), `save_all`, `raw build_blueprint_graph '<json>'`, `raw describe_blueprint_node '<json>'`, `raw list_commands '{}'`.
+- Full tool docs: `docs/mcp-improvements-2026-05-29.md`. Per-tool schema in `SiteSyncAR/Plugins/UnrealMCP/Python/tools/graph_tools.py`.
+- **Limits:** only CREATES nodes (can't connect two pre-existing nodes); targets BPs under `/Game/Blueprints/` only (`FindBlueprint` is hardcoded — move/keep target BPs there); can't author `MakeArray`/`MakeStruct` (give UFUNCTIONs a no-array overload, e.g. `DetectBIMClashesAll`).
+
+**Node 2.3 C++ is done + device-confirmed** (all in `ARMeshBlueprintLibrary`): `GetBIMLayers` (`cf5b39f`), `DetectBIMClashes` OBB-SAT (`56d4577`), `DetectBIMClashesAll` no-array wrapper (`e2e4257`). Validation rig: `BP_ClashTestRig` (now under `/Game/Blueprints/`) — 5 named cube components with 2 deliberate clashes + 1 control; headless validator `dev/validate_clash_detection.py`.
+
+**Remaining to close Node 2.3 (and Phase 2):**
+1. **Real MEPRoom model** — James's Rhino work; the gating item. Spec + the critical "name every object in Rhino, not just the layer" rule are in `docs/node-2.3-plan.md`. Datasmith names mesh/components from the Rhino OBJECT name; unnamed → `extrusion_N` garbage.
+2. **`WBP_LayerTogglePanel`** — per-discipline visibility toggles. Driven by `GetBIMLayers` → `SetVisibility` per component. Build the BP wiring via `build_blueprint_graph`.
+3. **Clash-highlight material + HUD** — `M_ClashHighlight` (translucent red), swap onto clashing components from `DetectBIMClashes` results; floating clash-count badge.
+4. **Datasmith-Scene-Actor migration** — `ActiveBIM`/`BIMOverlayClass` are typed `BP_BIMOverlay` (single merged mesh). To place a multi-component model AND hold it in `ActiveBIM`, migrate to spawning the Datasmith Scene Actor (or retype `ActiveBIM` to `Actor`). This also resolves the type-mismatch that caused the 2026-05-31 placement regression.
+
+**Other open follow-ups (not blocking 2.3):** 2.2e auto-place (drive the BIM actor transform from `GeoToLocalOffsetCm` — currently logs/HUD only); Phase-1 polish (green-flash, menu-passthrough, datum/width sliders); end-user model-upload pipeline (roadmap pin, `decisions.md 2026-05-27`); Revit-on-PC setup. Generalize MCP `FindBlueprint` beyond `/Game/Blueprints/` + add connect-existing-nodes support — would remove the two graph-tool limits hit this session.
+
+## Immediate Next Actions (prior, 2026-05-24 — Node 2.2a complete)
 
 **Node 2.2a (GPS shim) device-validated 2026-05-24.** `UARMeshBlueprintLibrary::GetDeviceGeoLocation` reads CoreLocation via our own CLLocationManager singleton (`-requestWhenInUseAuthorization`, NOT Always — the engine's `LocationServicesIOSImpl` calls Always which iOS rejects as "legacy on-demand auth"). `WBP_GeoReadout` is anchored bottom-right and displays `GPS lat, lon` / `alt N m  ±M m` at 1 Hz via a Set Timer by Event loop on `BP_ARPlayerController_BIM`. First fix landed indoors on the iPhone 16 Pro test (alt 864.374 m ±2.124 m for Boise — sane). **Gate to Node 2.2b cleared.** Commits: `2dd1d77` (C++ shim + UPL plist injection), `356394d` (PC BP swap), `6bbefef` (`+MapsToCook` cook config), `349bf70` + `b27a648` (WBP_GeoReadout polish — bottom-right anchor, real newline, position tweaks).
 

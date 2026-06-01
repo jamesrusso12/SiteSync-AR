@@ -14,11 +14,16 @@ SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engin
 
 **Phase 1 — the cut-and-fill earthwork calculator — is finished and device-validated on a real iPhone 16 Pro.** Walk into a space, tap two points on the floor, and the app drops a digital concrete pad between those taps and reports the cubic yards of cut and fill needed to bring the ground level with the pad's bottom.
 
-**Phase 2 is well underway.** Node 2.1 — the Datasmith BIM ingestion pipeline — is **complete and device-validated**: a real Rhino-authored BIM model is exported to `.udatasmith`, imported into UE5, cooked into the iOS package, and placed in AR on the iPhone via a two-tap survey-corner workflow at 60 fps. The hard part of Phase 2 — getting a real architectural model onto the device — is proven end-to-end.
+**Phase 2 is most of the way there — only the clash-interface UI remains.**
+- **Node 2.1 (Datasmith BIM ingestion) — complete & device-validated.** A real Rhino-authored BIM model is exported to `.udatasmith`, imported into UE5, cooked into the iOS package, and placed in AR via a two-tap survey-corner workflow at 60 fps. Getting a real architectural model onto the device is proven end-to-end.
+- **Node 2.2 (geospatial & compass anchoring) — complete & device-validated.** A custom CoreLocation C++ shim feeds a live GPS HUD; ARKit runs in Gravity-and-Heading alignment (UE +X = true north, confirmed); and `GeoToLocalOffsetCm` converts a target lat/long into a UE world offset. Validated on-device against a known 500 m-north target (distance 500.18 m, bearing 359.5° — within indoor GPS noise). Both a "capture corner GPS" and a "manual surveyed-coord" path work.
+- **Node 2.3 (engineering clash interface) — in progress.** The clash-detection engine is done and **device-confirmed**: an OBB separating-axis-theorem detector (`DetectBIMClashes`) found exactly the right intersections in a synthetic multi-discipline test rig and rendered **"Clashes detected: 2"** live on the iPhone. Remaining: the MEP layer-toggle UI, clash-highlight material/HUD, and swapping the test rig for a real MEP-bearing model.
 
-The app now also has a **main-menu shell**: it boots to a `SiteSync AR` menu where the user chooses **Earthwork (Cut & Fill)** or **BIM Clash Overlay**, with a back button to return. Two complete AR modes behind one launcher.
+The app boots to a **main-menu shell** — choose **Earthwork (Cut & Fill)** or **BIM Clash Overlay**, with an in-AR back button. Two complete AR modes behind one launcher.
 
-**Next:** Node 2.2 — geospatial & compass anchoring, auto-aligning the BIM model to real-world site coordinates via GPS + compass.
+**Tooling milestone:** the project's biggest velocity drag — manual Blueprint node wiring — was eliminated by extending the in-tree UnrealMCP plugin with a reliable, schema-validated `build_blueprint_graph` command. Whole Blueprint graphs are now authored programmatically (and were used to wire + ship the clash-detection graph onto the device).
+
+**Next:** finish Node 2.3 — author a real MEP model with named disciplines, build the layer-toggle UI and clash-highlight, and migrate placement to a multi-component Datasmith Scene Actor. That closes Phase 2.
 
 ---
 
@@ -85,12 +90,12 @@ Both modes are real workflows in AEC AR tooling — Trimble Sitevision and Autod
 | Node | Description | Status |
 |---|---|---|
 | 2.1 | Datasmith ingestion pipeline (Revit / Rhino → UE5, mobile LODs) | ✅ Device-validated (2026-05-21) |
-| 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | 🚧 Next |
-| 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | ⏳ Pending |
+| 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ✅ Device-validated (2026-05-27) |
+| 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | 🚧 In progress — clash detection device-confirmed (2026-05-31); toggle UI + highlight + real MEP model remain |
 
 **App shell:** a `SiteSync_Menu` launcher level boots first — two buttons open the Phase 1 (cut/fill) and Phase 2 (BIM) AR modes, with an in-AR back button returning to the menu.
 
-**Current status:** Phase 1 closed; Phase 2 Node 2.1 closed — a real Rhino BIM model is device-validated in AR. Node 2.2 (GPS + compass anchoring) is next. Node-by-node detail — built assets, BP graphs, decisions, next actions — lives in [`CLAUDE.md`](CLAUDE.md), the canonical session context for both human and AI contributors.
+**Current status:** Phase 1 closed; Phase 2 Nodes 2.1 + 2.2 closed (real Rhino BIM model device-validated in AR; GPS/compass geo-anchoring math device-validated). Node 2.3's clash-detection engine is device-confirmed; the remaining work is the layer-toggle UI, clash highlighting, and a real MEP-bearing model. Node-by-node detail — built assets, BP graphs, decisions, next actions — lives in [`CLAUDE.md`](CLAUDE.md), the canonical session context for both human and AI contributors.
 
 ---
 
@@ -141,7 +146,7 @@ The UnrealMCP C++ plugin auto-starts a TCP server on `127.0.0.1:55557` when the 
 
 After a fresh clone or first session, run `/mcp` inside Claude Code (or restart) so it registers the server. Tools then appear as `mcp__unrealMCP__*` and can be called directly from chat.
 
-MCP is used for: test scene assembly, actor placement, component property edits (material slots, transforms), batch operations, and terrain proxy simulation in the editor. Test scenes are stored under `Content/AR_SiteAnalysis/MCP_TestScenes/` and are not shipped. Note: Blueprint graph node-by-node rewiring via MCP is unreliable — fall back to manual editor work for non-trivial graphs.
+MCP is used for: test scene assembly, actor placement, component property edits (material slots, transforms), batch operations, arbitrary editor Python (`execute_python`), and — as of 2026-05-29 — **reliable whole-graph Blueprint authoring** via `build_blueprint_graph` (schema-validated wiring through `UEdGraphSchema_K2::TryCreateConnection`, with a per-connection success report). That command replaced the old hit-or-miss per-node flow and was used to author + ship the Node 2.3 clash-detection graph onto the device with zero manual node wiring. Known limits: it only *creates* nodes (can't yet connect two pre-existing ones), targets blueprints under `/Game/Blueprints/`, and can't author `MakeArray`/`MakeStruct` (so UFUNCTIONs meant to be wired by it should avoid array/struct input pins). Test scenes are stored under `Content/AR_SiteAnalysis/MCP_TestScenes/` and are not shipped.
 
 ---
 

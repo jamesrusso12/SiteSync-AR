@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SiteIQ brings LiDAR-powered cut & fill earthwork calculations and 1:1 BIM clash detection to your iPhone 16 Pro. Built for custom home builders and design-build firms.">
+  <meta property="og:title" content="SiteIQ — See Your Site Before You Break Ground">
+  <meta property="og:description" content="LiDAR earthwork calculations & BIM clash detection on your iPhone. No expensive hardware required.">
+  <meta property="og:type" content="website">
+  <title>SiteIQ — See Your Site Before You Break Ground</title>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #06090F;
+      --bg2:     #0C1422;
+      --bg3:     #111D30;
+      --bg4:     #162035;
+      --cyan:    #4080FF;
+      --cyan2:   #2260DC;
+      --cyanglow: rgba(64, 128, 255, 0.10);
+      --orange:  #FF6B35;
+      --orange2: #E05020;
+      --orangeglow: rgba(255, 107, 53, 0.10);
+      --white:   #F0F5FF;
+      --muted:   #6E89AD;
+      --faint:   #222E42;
+      --border:  rgba(255, 255, 255, 0.07);
+      --radius:  14px;
+      --radius-lg: 24px;
+      --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font);
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── UTILITY ── */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+    .tag-cyan  { background: var(--cyanglow); color: var(--cyan); border: 1px solid rgba(64,128,255,0.22); }
+    .tag-orange{ background: var(--orangeglow); color: var(--orange); border: 1px solid rgba(255,107,53,0.2); }
+
+    h1 { font-size: clamp(2.4rem, 5.5vw, 4rem); font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.75rem); font-weight: 750; line-height: 1.2; letter-spacing: -0.015em; }
+    h3 { font-size: 1.2rem; font-weight: 700; line-height: 1.3; }
+
+    .text-cyan   { color: var(--cyan); }
+    .text-orange { color: var(--orange); }
+    .text-muted  { color: var(--muted); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--orange2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,107,53,0.35); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+    .btn-cyan {
+      background: var(--cyan);
+      color: #fff;
+    }
+    .btn-cyan:hover { background: var(--cyan2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(64,128,255,0.3); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 24px;
+      transition: var(--transition);
+    }
+    nav.scrolled {
+      background: rgba(6, 9, 15, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 38px;
+      height: 44px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 8px rgba(64,128,255,0.4));
+    }
+    .logo-text {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -0.03em;
+    }
+    .logo-text span { color: var(--cyan); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta { display: flex; align-items: center; gap: 12px; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* Mobile menu hidden by default at ALL widths; media query controls when it's usable */
+    .mobile-menu { display: none; }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: 72px;
+    }
+
+    .hero-bg { position: absolute; inset: 0; overflow: hidden; }
+    .hero-grid {
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image:
+        linear-gradient(rgba(64,128,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(64,128,255,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridDrift 20s linear infinite;
+    }
+    @keyframes gridDrift {
+      from { transform: translate(0, 0); }
+      to   { transform: translate(60px, 60px); }
+    }
+    .hero-glow-1 {
+      position: absolute;
+      top: -10%; right: -5%;
+      width: 600px; height: 600px;
+      background: radial-gradient(ellipse, rgba(64,128,255,0.13) 0%, transparent 70%);
+      animation: pulse 6s ease-in-out infinite;
+    }
+    .hero-glow-2 {
+      position: absolute;
+      bottom: 5%; left: -10%;
+      width: 500px; height: 500px;
+      background: radial-gradient(ellipse, rgba(255,107,53,0.08) 0%, transparent 70%);
+      animation: pulse 8s ease-in-out infinite reverse;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.1); opacity: 0.7; }
+    }
+
+    .hero-inner {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      padding: 80px 0;
+    }
+
+    .hero-content { max-width: 560px; }
+    .hero-content h1 { margin-bottom: 24px; }
+    .hero-content p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+    .hero-proof {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 40px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .hero-proof .dots { display: flex; gap: 4px; }
+    .hero-proof .dot {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 2px solid var(--bg2);
+    }
+    .hero-proof .dot:nth-child(1) { background: linear-gradient(135deg, #4080FF, #1040C0); }
+    .hero-proof .dot:nth-child(2) { background: linear-gradient(135deg, #FF6B35, #CC3300); margin-left: -8px; }
+    .hero-proof .dot:nth-child(3) { background: linear-gradient(135deg, #80A8FF, #4070CC); margin-left: -8px; }
+
+    /* ── PHONE MOCKUP ── */
+    .phone-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .phone-outer {
+      position: relative;
+      animation: phoneFloat 5s ease-in-out infinite;
+    }
+    @keyframes phoneFloat {
+      0%, 100% { transform: translateY(0px) rotate(-3deg); }
+      50%       { transform: translateY(-16px) rotate(-3deg); }
+    }
+    .phone-outer::before {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: 50%;
+      transform: translateX(-50%);
+      width: 80%; height: 40px;
+      background: radial-gradient(ellipse, rgba(64,128,255,0.25) 0%, transparent 70%);
+      filter: blur(12px);
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 0;
+    }
+    .stats-inner {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      display: block;
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.03em;
+    }
+    .stat-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+    /* ── PROBLEM ── */
+    #problem { padding: 120px 0; }
+    .problem-header { text-align: center; max-width: 640px; margin: 0 auto 64px; }
+    .problem-header p { color: var(--muted); margin-top: 16px; font-size: 1.05rem; }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .problem-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: var(--transition);
+    }
+    .problem-card:hover { border-color: rgba(255,107,53,0.2); background: var(--bg3); transform: translateY(-4px); }
+    .problem-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: var(--orangeglow);
+      border: 1px solid rgba(255,107,53,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+    .problem-card h3 { margin-bottom: 12px; }
+    .problem-card p  { color: var(--muted); font-size: 0.95rem; }
+
+    /* ── FEATURES ── */
+    #features { padding: 80px 0 120px; }
+    .features-header { text-align: center; max-width: 640px; margin: 0 auto 80px; }
+    .features-header p { color: var(--muted); margin-top: 16px; font-size: 1.05rem; }
+
+    .feature-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      margin-bottom: 100px;
+    }
+    .feature-block.reverse { direction: rtl; }
+    .feature-block.reverse > * { direction: ltr; }
+
+    .feature-content h2 { margin-bottom: 20px; }
+    .feature-content .lead { font-size: 1.05rem; color: var(--muted); margin-bottom: 32px; }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .feature-list li::before {
+      content: '✓';
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--cyanglow);
+      border: 1px solid rgba(64,128,255,0.28);
+      color: var(--cyan);
+      font-size: 12px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px;
+    }
+    .feature-list.orange li::before {
+      background: var(--orangeglow);
+      border-color: rgba(255,107,53,0.28);
+      color: var(--orange);
+    }
+
+    .feature-visual {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .feature-visual-inner { padding: 32px; width: 100%; }
+
+    /* Cut/Fill Visualization */
+    .cutfill-demo { display: flex; flex-direction: column; gap: 16px; }
+    .cutfill-demo .label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 4px;
+    }
+    .cutfill-bar-row { display: flex; align-items: center; gap: 12px; }
+    .cutfill-bar-label { font-size: 13px; font-weight: 600; min-width: 32px; }
+    .cutfill-bar-track { flex: 1; height: 12px; background: var(--bg3); border-radius: 100px; overflow: hidden; }
+    .cutfill-bar-fill  { height: 100%; border-radius: 100px; animation: barGrow 2s ease-out forwards; }
+    @keyframes barGrow { from { width: 0; } }
+    .cut-bar  { background: linear-gradient(90deg, #4080FF, #2260DC); }
+    .fill-bar { background: linear-gradient(90deg, #FF6B35, #CC4400); }
+    .cutfill-bar-val { font-size: 13px; font-weight: 700; min-width: 60px; text-align: right; }
+
+    .metric-cards { display: flex; gap: 12px; margin-top: 8px; }
+    .metric-card {
+      flex: 1;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .metric-card .metric-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 700; }
+    .metric-card .metric-val   { font-size: 1.5rem; font-weight: 800; margin-top: 4px; }
+
+    /* BIM Visualization */
+    .bim-demo { position: relative; }
+    .bim-grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(64,128,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(64,128,255,0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+      border-radius: var(--radius);
+    }
+    .bim-layers { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 16px; }
+    .bim-layer {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(12, 20, 34, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 14px;
+      cursor: pointer; transition: var(--transition);
+    }
+    .bim-layer:hover { border-color: var(--cyan); }
+    .layer-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .layer-name { font-size: 13px; font-weight: 600; flex: 1; }
+    .layer-toggle { width: 36px; height: 20px; border-radius: 100px; position: relative; transition: var(--transition); }
+    .layer-toggle.on  { background: var(--cyan); }
+    .layer-toggle.off { background: var(--faint); }
+    .layer-toggle::after {
+      content: ''; position: absolute; top: 2px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: white; transition: var(--transition);
+    }
+    .layer-toggle.on::after  { right: 2px; }
+    .layer-toggle.off::after { left: 2px; }
+    .clash-badge {
+      font-size: 11px; font-weight: 700;
+      padding: 2px 8px; border-radius: 100px;
+      background: rgba(255,50,50,0.15);
+      color: #FF5555;
+      border: 1px solid rgba(255,50,50,0.3);
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how {
+      padding: 80px 0 120px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .how-header { text-align: center; max-width: 560px; margin: 0 auto 72px; }
+    .how-header p { color: var(--muted); margin-top: 16px; font-size: 1.05rem; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: calc(16.666% + 24px);
+      right: calc(16.666% + 24px);
+      height: 1px;
+      background: linear-gradient(90deg, var(--cyan), var(--orange));
+      opacity: 0.3;
+    }
+
+    .step { text-align: center; padding: 0 8px; }
+    .step-num {
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 1.5px solid rgba(64,128,255,0.32);
+      background: radial-gradient(circle at center, rgba(64,128,255,0.1) 0%, transparent 70%);
+      color: var(--cyan);
+      font-size: 1.5rem; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px;
+      position: relative; z-index: 1;
+    }
+    .step-num::before {
+      content: ''; position: absolute; inset: -4px;
+      border-radius: 50%; background: var(--bg2); z-index: -1;
+    }
+    .step h3 { font-size: 1.1rem; margin-bottom: 12px; }
+    .step p   { color: var(--muted); font-size: 0.95rem; }
+
+    /* ── AUDIENCE ── */
+    #audience { padding: 120px 0; }
+    .audience-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .audience-content h2 { margin-bottom: 20px; }
+    .audience-content .lead { color: var(--muted); font-size: 1.05rem; margin-bottom: 40px; }
+
+    .checklist { display: flex; flex-direction: column; gap: 18px; margin-bottom: 40px; }
+    .check-item { display: flex; align-items: flex-start; gap: 14px; }
+    .check-icon {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--cyanglow);
+      border: 1px solid rgba(64,128,255,0.28);
+      color: var(--cyan);
+      font-size: 13px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .check-item p  { color: var(--muted); font-size: 0.95rem; }
+    .check-item strong { color: var(--white); }
+
+    .audience-visual {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+    }
+    .audience-header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    .audience-header-row h3 { font-size: 0.95rem; color: var(--muted); font-weight: 600; }
+
+    .niche-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .niche-tag {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 13px; font-weight: 600;
+      color: var(--muted); transition: var(--transition);
+    }
+    .niche-tag.active {
+      background: var(--cyanglow);
+      border-color: rgba(64,128,255,0.3);
+      color: var(--cyan);
+    }
+    .advantage-list {
+      margin-top: 28px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .advantage-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .advantage-item .label { color: var(--muted); }
+    .advantage-item .val   { font-weight: 700; }
+    .val-green { color: #4ADE80; }
+    .val-red   { color: #FF5555; }
+
+    /* ── PRICING ── */
+    #pricing {
+      padding: 80px 0 120px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .pricing-header { text-align: center; max-width: 560px; margin: 0 auto 64px; }
+    .pricing-header p { color: var(--muted); margin-top: 16px; font-size: 1.05rem; }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px; margin-bottom: 48px;
+    }
+    .pricing-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      position: relative; transition: var(--transition);
+    }
+    .pricing-card.featured {
+      border-color: rgba(64,128,255,0.4);
+      background: linear-gradient(135deg, rgba(64,128,255,0.07) 0%, var(--bg3) 100%);
+    }
+    .pricing-card.featured::before {
+      content: 'Most Popular';
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--cyan); color: #fff;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 16px; border-radius: 100px;
+    }
+    .pricing-card:hover { transform: translateY(-4px); }
+
+    .plan-name  { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 16px; }
+    .plan-price { font-size: 2.5rem; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 4px; }
+    .plan-price .currency { font-size: 1.5rem; vertical-align: top; margin-top: 8px; display: inline-block; font-weight: 600; }
+    .plan-price .period   { font-size: 1rem; font-weight: 500; color: var(--muted); }
+    .plan-note  { font-size: 12px; color: var(--muted); margin-bottom: 28px; }
+
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .plan-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--muted); }
+    .plan-features li .check { color: var(--cyan); font-weight: 800; flex-shrink: 0; }
+
+    .plan-cta { display: block; width: 100%; text-align: center; }
+
+    .pricing-note {
+      text-align: center; color: var(--muted); font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 20px; flex-wrap: wrap;
+    }
+    .pricing-note span { display: flex; align-items: center; gap: 6px; }
+
+    /* ── WAITLIST ── */
+    #waitlist { padding: 120px 0; position: relative; overflow: hidden; }
+    #waitlist::before {
+      content: ''; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 800px; height: 500px;
+      background: radial-gradient(ellipse, rgba(64,128,255,0.07) 0%, transparent 70%);
+    }
+    .waitlist-inner { position: relative; text-align: center; max-width: 640px; margin: 0 auto; }
+    .waitlist-inner h2 { margin-bottom: 16px; }
+    .waitlist-inner .lead { color: var(--muted); font-size: 1.05rem; margin-bottom: 48px; }
+
+    .waitlist-perks { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 48px; }
+    .perk {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--muted);
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 100px; padding: 8px 18px;
+    }
+    .perk-icon { font-size: 16px; }
+
+    .waitlist-form { display: flex; gap: 0; max-width: 480px; margin: 0 auto; }
+    .waitlist-form input {
+      flex: 1;
+      background: var(--bg2);
+      border: 1.5px solid var(--border);
+      border-right: none;
+      border-radius: 100px 0 0 100px;
+      padding: 14px 22px;
+      font-size: 15px; font-family: var(--font);
+      color: var(--white); outline: none;
+      transition: var(--transition);
+    }
+    .waitlist-form input::placeholder { color: var(--muted); }
+    .waitlist-form input:focus { border-color: var(--cyan); background: var(--bg3); }
+    .waitlist-form .btn { border-radius: 0 100px 100px 0; padding: 14px 28px; }
+    .form-disclaimer { margin-top: 16px; font-size: 12px; color: var(--muted); }
+
+    .success-msg { display: none; flex-direction: column; align-items: center; gap: 12px; }
+    .success-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--cyanglow);
+      border: 2px solid rgba(64,128,255,0.35);
+      color: var(--cyan); font-size: 24px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .success-msg h3 { font-size: 1.2rem; }
+    .success-msg p  { color: var(--muted); }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 80px 0 120px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+    }
+    .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-content h2 { margin-bottom: 20px; }
+    .about-content p  { color: var(--muted); font-size: 1rem; margin-bottom: 20px; }
+    .about-team { display: flex; gap: 20px; margin-top: 36px; }
+    .team-member { display: flex; align-items: center; gap: 14px; }
+    .avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--orange));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: #fff; flex-shrink: 0;
+    }
+    .member-info .name { font-weight: 700; font-size: 15px; }
+    .member-info .role { font-size: 13px; color: var(--muted); }
+
+    .about-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px; }
+    .about-card h3 { margin-bottom: 20px; font-size: 1.05rem; color: var(--muted); font-weight: 600; }
+    .tech-stack { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tech-tag {
+      background: var(--bg4); border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 14px;
+      font-size: 13px; font-weight: 600;
+    }
+    .about-quote {
+      margin-top: 28px; border-top: 1px solid var(--border);
+      padding-top: 24px; font-style: italic;
+      color: var(--muted); font-size: 0.95rem; line-height: 1.7;
+    }
+    .about-quote cite { display: block; margin-top: 8px; font-style: normal; font-size: 13px; color: var(--cyan); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--bg); border-top: 1px solid var(--border); padding: 48px 0 32px; }
+    .footer-inner { display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; }
+    .footer-links { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color var(--transition); }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy { font-size: 13px; color: var(--muted); }
+    .footer-copy a { color: var(--cyan); text-decoration: none; }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+
+      .mobile-menu {
+        display: none;
+        position: fixed; inset: 72px 0 0;
+        background: rgba(6,9,15,0.97);
+        backdrop-filter: blur(20px);
+        z-index: 99; padding: 32px 24px;
+        flex-direction: column; gap: 24px;
+      }
+      .mobile-menu.open { display: flex; }
+      .mobile-menu a {
+        font-size: 20px; font-weight: 700;
+        color: var(--white); text-decoration: none;
+        padding: 8px 0; border-bottom: 1px solid var(--border);
+      }
+      .mobile-menu .btn { margin-top: 8px; text-align: center; justify-content: center; }
+
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-content p { margin: 0 auto 40px; }
+      .hero-actions { justify-content: center; }
+      .hero-proof { justify-content: center; }
+      .phone-wrap { display: none; }
+
+      .problem-grid { grid-template-columns: 1fr; }
+      .feature-block { grid-template-columns: 1fr; gap: 40px; }
+      .feature-block.reverse { direction: ltr; }
+      .steps { grid-template-columns: 1fr; }
+      .steps::before { display: none; }
+      .audience-inner { grid-template-columns: 1fr; gap: 48px; }
+      .pricing-cards { grid-template-columns: 1fr; }
+      .about-inner { grid-template-columns: 1fr; gap: 48px; }
+      .waitlist-form { flex-direction: column; }
+      .waitlist-form input { border-right: 1.5px solid var(--border); border-radius: 100px; }
+      .waitlist-form .btn { border-radius: 100px; }
+    }
+
+    @media (max-width: 600px) {
+      .stats-inner { display: grid; grid-template-columns: repeat(2, 1fr); text-align: center; }
+      .about-team { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <img src="assets/logo-mark.png" class="logo-mark" alt="SiteIQ logo">
+        <span class="logo-text">Site<span>IQ</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="#waitlist" class="btn btn-primary" style="padding:10px 22px;font-size:14px;">Join Waitlist</a>
+      </div>
+
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features" class="mobile-link">Features</a>
+    <a href="#how" class="mobile-link">How It Works</a>
+    <a href="#pricing" class="mobile-link">Pricing</a>
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#waitlist" class="btn btn-primary">Join Waitlist →</a>
+  </div>
+
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg">
+      <div class="hero-grid"></div>
+      <div class="hero-glow-1"></div>
+      <div class="hero-glow-2"></div>
+    </div>
+
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="tag tag-cyan">Intelligent Site. Better Builds.</div>
+          <h1>See Your Site<br><span class="text-cyan">Before You</span><br>Break Ground</h1>
+          <p>LiDAR-powered earthwork calculations and 1:1 BIM clash detection — directly on your iPhone 16 Pro. No expensive hardware. No guesswork. Just point, tap, and know.</p>
+          <div class="hero-actions">
+            <a href="#waitlist" class="btn btn-primary">Join the Waitlist →</a>
+            <a href="#how" class="btn btn-ghost">See How It Works</a>
+          </div>
+          <div class="hero-proof">
+            <div class="dots">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+            <span>Built by builders, for builders in Boise, Idaho</span>
+          </div>
+        </div>
+
+        <div class="phone-wrap">
+          <div class="phone-outer">
+            <svg width="260" height="500" viewBox="0 0 260 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="240" height="480" rx="36" fill="#0C1422" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+              <rect x="20" y="20" width="220" height="460" rx="28" fill="#06090F"/>
+              <rect x="95" y="22" width="70" height="18" rx="9" fill="#0C1422"/>
+              <defs>
+                <clipPath id="screen"><rect x="20" y="20" width="220" height="460" rx="28"/></clipPath>
+              </defs>
+              <g clip-path="url(#screen)">
+                <line x1="20" y1="80"  x2="240" y2="80"  stroke="rgba(64,128,255,0.08)" stroke-width="1"/>
+                <line x1="20" y1="140" x2="240" y2="140" stroke="rgba(64,128,255,0.08)" stroke-width="1"/>
+                <line x1="20" y1="200" x2="240" y2="200" stroke="rgba(64,128,255,0.08)" stroke-width="1"/>
+                <line x1="20" y1="260" x2="240" y2="260" stroke="rgba(64,128,255,0.08)" stroke-width="1"/>
+                <line x1="20" y1="320" x2="240" y2="320" stroke="rgba(64,128,255,0.08)" stroke-width="1"/>
+                <line x1="80"  y1="20" x2="80"  y2="480" stroke="rgba(64,128,255,0.08)" stroke-width="1"/>
+                <line x1="140" y1="20" x2="140" y2="480" stroke="rgba(64,128,255,0.08)" stroke-width="1"/>
+                <line x1="200" y1="20" x2="200" y2="480" stroke="rgba(64,128,255,0.08)" stroke-width="1"/>
+                <rect x="20" y="20" width="220" height="460" fill="rgba(8,15,25,0.6)"/>
+                <g opacity="0.75">
+                  <polygon points="60,200 130,170 100,240" fill="none" stroke="#4080FF" stroke-width="1"/>
+                  <polygon points="100,240 130,170 160,220" fill="none" stroke="#4080FF" stroke-width="1"/>
+                  <polygon points="130,170 180,160 160,220" fill="none" stroke="#4080FF" stroke-width="1"/>
+                  <polygon points="60,200 80,260 100,240"  fill="none" stroke="#4080FF" stroke-width="1"/>
+                  <polygon points="100,240 80,260 120,280" fill="none" stroke="#4080FF" stroke-width="1"/>
+                  <polygon points="100,240 120,280 160,220" fill="none" stroke="#4080FF" stroke-width="1"/>
+                  <polygon points="160,220 120,280 170,290" fill="none" stroke="#4080FF" stroke-width="1"/>
+                  <polygon points="160,220 170,290 200,240" fill="none" stroke="#4080FF" stroke-width="1"/>
+                  <polygon points="180,160 200,180 200,240" fill="none" stroke="#4080FF" stroke-width="1"/>
+                  <polygon points="180,160 160,220 200,240" fill="none" stroke="#4080FF" stroke-width="1"/>
+                  <polygon points="40,240 60,200 80,260"   fill="none" stroke="#4080FF" stroke-width="0.7" opacity="0.5"/>
+                  <polygon points="40,280 40,240 80,260"   fill="none" stroke="#4080FF" stroke-width="0.7" opacity="0.5"/>
+                  <polygon points="80,260 40,280 70,310"   fill="none" stroke="#4080FF" stroke-width="0.7" opacity="0.5"/>
+                  <polygon points="120,280 80,260 70,310"  fill="none" stroke="#4080FF" stroke-width="0.7" opacity="0.5"/>
+                  <polygon points="170,290 120,280 150,320" fill="none" stroke="#4080FF" stroke-width="0.7" opacity="0.5"/>
+                  <polygon points="200,240 170,290 210,300" fill="none" stroke="#4080FF" stroke-width="0.7" opacity="0.5"/>
+                </g>
+                <rect x="85" y="215" width="85" height="65" fill="rgba(255,107,53,0.2)" stroke="#FF6B35" stroke-width="1.5" rx="2"/>
+                <circle cx="85"  cy="215" r="5" fill="#FF6B35"/>
+                <circle cx="170" cy="215" r="5" fill="#FF6B35"/>
+                <rect x="30" y="380" width="200" height="70" rx="12" fill="rgba(6,9,15,0.85)" stroke="rgba(64,128,255,0.18)" stroke-width="1"/>
+                <text x="45" y="400" fill="#6E89AD" font-size="8"  font-family="monospace" font-weight="700">CUT VOLUME</text>
+                <text x="45" y="416" fill="#4080FF" font-size="14" font-family="monospace" font-weight="900">12.4 yd³</text>
+                <text x="140" y="400" fill="#6E89AD" font-size="8"  font-family="monospace" font-weight="700">FILL VOLUME</text>
+                <text x="140" y="416" fill="#FF6B35" font-size="14" font-family="monospace" font-weight="900">3.8 yd³</text>
+                <text x="45" y="440" fill="#6E89AD" font-size="7" font-family="monospace">TAP TO RECALCULATE</text>
+                <rect x="20" y="42" width="220" height="28" fill="rgba(6,9,15,0.6)"/>
+                <circle cx="220" cy="56" r="4" fill="#4ADE80"/>
+                <text x="200" y="60" fill="#4ADE80" font-size="8" text-anchor="end" font-family="monospace" font-weight="700">AR LIVE</text>
+              </g>
+              <rect x="248" y="150" width="4" height="40" rx="2" fill="rgba(255,255,255,0.1)"/>
+              <rect x="248" y="200" width="4" height="40" rx="2" fill="rgba(255,255,255,0.1)"/>
+              <rect x="8"   y="175" width="4" height="60" rx="2" fill="rgba(255,255,255,0.1)"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-inner">
+        <div class="stat reveal">
+          <span class="stat-num">60s</span>
+          <span class="stat-label">From scan to cubic yardage</span>
+        </div>
+        <div class="stat reveal reveal-delay-1">
+          <span class="stat-num">1:1</span>
+          <span class="stat-label">BIM model scale on-site</span>
+        </div>
+        <div class="stat reveal reveal-delay-2">
+          <span class="stat-num">iPhone</span>
+          <span class="stat-label">No extra hardware required</span>
+        </div>
+        <div class="stat reveal reveal-delay-3">
+          <span class="stat-num">60fps</span>
+          <span class="stat-label">Real-time AR performance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div class="container">
+      <div class="problem-header reveal">
+        <div class="tag tag-orange">The Problem</div>
+        <h2>The Tools Built for Builders Like You <span class="text-orange">Don't Exist</span></h2>
+        <p>Enterprise AEC software was built for large firms with large budgets. Small and mid-size builders doing 3–15 homes a year have been left behind — until now.</p>
+      </div>
+      <div class="problem-grid">
+        <div class="problem-card reveal">
+          <div class="problem-icon">💸</div>
+          <h3>Enterprise Pricing Locks You Out</h3>
+          <p>Trimble, Autodesk Construction Cloud, and similar platforms run $5,000–$50,000+ per year. They're built for organizations, not custom builders doing their own site walks.</p>
+        </div>
+        <div class="problem-card reveal reveal-delay-1">
+          <div class="problem-icon">⏱️</div>
+          <h3>Site Assessments Take Too Long</h3>
+          <p>You're visiting multiple lots every month before committing. Measuring by hand, estimating by gut, and waiting on survey crews adds hours — and cost — to every project.</p>
+        </div>
+        <div class="problem-card reveal reveal-delay-2">
+          <div class="problem-icon">🔧</div>
+          <h3>Clash Detection Requires a Consultant</h3>
+          <p>Catching MEP clashes before construction typically means expensive specialists and specialized hardware. Change orders from missed clashes cost tens of thousands.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <div class="features-header reveal">
+        <div class="tag tag-cyan">What SiteIQ Does</div>
+        <h2>Two Powerful Tools. <span class="text-cyan">One iPhone.</span></h2>
+        <p>Everything you need to assess a lot and validate your BIM model on-site — built into a single app that fits in your pocket.</p>
+      </div>
+
+      <!-- Feature 1 -->
+      <div class="feature-block reveal">
+        <div class="feature-content">
+          <div class="tag tag-cyan">Phase 1</div>
+          <h2>Cut &amp; Fill Calculator</h2>
+          <p class="lead">Scan the terrain, mark your building footprint with two taps, and get instant cubic yardage output for earthwork. What used to take half a day now takes 60 seconds.</p>
+          <ul class="feature-list">
+            <li>Real-time LiDAR terrain mesh using Apple's Scene Reconstruction</li>
+            <li>Two-tap footprint placement — corner + forward edge alignment</li>
+            <li>Cut and fill cubic yardage computed on-device instantly</li>
+            <li>Aligns to actual terrain for accurate subgrade calculations</li>
+            <li>Reset and recalculate on demand as you walk the lot</li>
+          </ul>
+        </div>
+        <div class="feature-visual reveal reveal-delay-1">
+          <div class="feature-visual-inner">
+            <div class="cutfill-demo">
+              <div>
+                <div class="label">Live Earthwork Calculation</div>
+                <div style="font-size:22px;font-weight:800;margin-bottom:16px;">Site Analysis — Lot 14</div>
+              </div>
+              <div>
+                <div class="cutfill-bar-row">
+                  <span class="cutfill-bar-label text-cyan">CUT</span>
+                  <div class="cutfill-bar-track">
+                    <div class="cutfill-bar-fill cut-bar" style="width:72%"></div>
+                  </div>
+                  <span class="cutfill-bar-val text-cyan">12.4 yd³</span>
+                </div>
+                <div class="cutfill-bar-row" style="margin-top:10px">
+                  <span class="cutfill-bar-label text-orange">FILL</span>
+                  <div class="cutfill-bar-track">
+                    <div class="cutfill-bar-fill fill-bar" style="width:31%"></div>
+                  </div>
+                  <span class="cutfill-bar-val text-orange">3.8 yd³</span>
+                </div>
+              </div>
+              <div class="metric-cards" style="margin-top:16px">
+                <div class="metric-card">
+                  <div class="metric-label">Footprint</div>
+                  <div class="metric-val" style="font-size:1.1rem">12.5 × 8 m</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">Net Move</div>
+                  <div class="metric-val" style="font-size:1.1rem;color:#4ADE80">+8.6 yd³</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">Scan Points</div>
+                  <div class="metric-val" style="font-size:1.1rem">~150k</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-block reverse reveal">
+        <div class="feature-content">
+          <div class="tag tag-orange">Phase 2</div>
+          <h2>1:1 BIM Overlay &amp; Clash Detection</h2>
+          <p class="lead">Import your Revit or Rhino model and walk the actual building footprint on-site — before a single shovel goes in the ground. Detect clashes early when they're cheap to fix.</p>
+          <ul class="feature-list orange">
+            <li>Import from Revit and Rhino via Datasmith</li>
+            <li>Place at true 1:1 scale using GPS + compass anchoring</li>
+            <li>Toggle MEP layers — structural, mechanical, electrical, plumbing</li>
+            <li>OBB-based clash detection highlights conflicts in real time</li>
+            <li>Walk the site inside your model before breaking ground</li>
+          </ul>
+        </div>
+        <div class="feature-visual reveal reveal-delay-1">
+          <div class="bim-grid-bg"></div>
+          <div class="feature-visual-inner">
+            <div class="bim-demo">
+              <div style="margin-bottom:16px">
+                <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">BIM Layer Control</div>
+                <div style="font-size:18px;font-weight:800;margin-top:4px">TestBuilding — Lot 14</div>
+              </div>
+              <div class="bim-layers">
+                <div class="bim-layer">
+                  <span class="layer-dot" style="background:#4080FF"></span>
+                  <span class="layer-name">Structural</span>
+                  <span class="layer-toggle on"></span>
+                </div>
+                <div class="bim-layer">
+                  <span class="layer-dot" style="background:#FF6B35"></span>
+                  <span class="layer-name">Mechanical (MEP)</span>
+                  <span class="layer-toggle on"></span>
+                  <span class="clash-badge">2 Clashes</span>
+                </div>
+                <div class="bim-layer">
+                  <span class="layer-dot" style="background:#A78BFA"></span>
+                  <span class="layer-name">Electrical</span>
+                  <span class="layer-toggle on"></span>
+                </div>
+                <div class="bim-layer">
+                  <span class="layer-dot" style="background:#34D399"></span>
+                  <span class="layer-name">Plumbing</span>
+                  <span class="layer-toggle off"></span>
+                </div>
+                <div class="bim-layer">
+                  <span class="layer-dot" style="background:#FBBF24"></span>
+                  <span class="layer-name">Roof / Envelope</span>
+                  <span class="layer-toggle on"></span>
+                </div>
+              </div>
+              <div style="margin-top:16px;display:flex;align-items:center;gap:10px;padding:12px;background:rgba(255,50,50,0.06);border:1px solid rgba(255,50,50,0.2);border-radius:10px">
+                <span style="color:#FF5555;font-size:20px">⚠</span>
+                <span style="font-size:13px;color:#FF8888"><strong>2 clashes detected</strong> — MEP duct intersects structural beam at elevation 3.2m</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container">
+      <div class="how-header reveal">
+        <div class="tag tag-cyan">The Process</div>
+        <h2>From Zero to Site Intelligence <span class="text-cyan">in 3 Steps</span></h2>
+        <p>SiteIQ is designed for the job site, not the boardroom. No training required.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">1</div>
+          <h3>Scan</h3>
+          <p>Point your iPhone 16 Pro at the site. The LiDAR sensor builds a precise 3D mesh of the terrain in real time — walls, floors, slopes, and all. The more you scan, the more accurate your data.</p>
+        </div>
+        <div class="step reveal reveal-delay-1">
+          <div class="step-num" style="border-color:rgba(255,107,53,0.35);color:var(--orange);background:radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)">2</div>
+          <h3>Place</h3>
+          <p>Two taps drop your building footprint onto the real terrain. Tap the corner, tap the front edge — SiteIQ does the rest. GPS and compass align your BIM model to true north at 1:1 scale.</p>
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step-num">3</div>
+          <h3>Know</h3>
+          <p>See instant cut and fill cubic yardage, or walk your Revit/Rhino model on the actual site to spot clashes before they become $20,000 change orders. Share findings directly from the field.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- AUDIENCE -->
+  <section id="audience">
+    <div class="container">
+      <div class="audience-inner">
+        <div class="audience-content reveal">
+          <div class="tag tag-orange">Who It's For</div>
+          <h2>Built for Builders <span class="text-orange">Big Software Ignores</span></h2>
+          <p class="lead">The large players in AEC software focus on firms with hundreds of employees and seven-figure software budgets. That leaves the small-to-mid builder out in the cold — doing every lot walk manually and paying consultants for analysis that should take minutes.</p>
+          <div class="checklist">
+            <div class="check-item">
+              <div class="check-icon">✓</div>
+              <p><strong>Custom home builders doing 3–15 homes per year</strong> on raw or semi-developed lots who walk multiple sites every month before committing.</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">✓</div>
+              <p><strong>Design-build firms</strong> in the Treasure Valley and beyond who need earthwork estimates and BIM validation without adding expensive headcount.</p>
+            </div>
+            <div class="check-item">
+              <div class="check-icon">✓</div>
+              <p><strong>General contractors</strong> who have adopted Revit or Rhino for design but have no cost-effective way to bring that data on-site during due diligence.</p>
+            </div>
+          </div>
+          <a href="#waitlist" class="btn btn-primary">Get Early Access →</a>
+        </div>
+
+        <div class="audience-visual reveal reveal-delay-1">
+          <div class="audience-header-row">
+            <span style="font-size:20px">🎯</span>
+            <h3>Perfect fit if you are…</h3>
+          </div>
+          <div class="niche-tags">
+            <span class="niche-tag active">Custom Home Builder</span>
+            <span class="niche-tag active">Design-Build Firm</span>
+            <span class="niche-tag">Land Developer</span>
+            <span class="niche-tag active">General Contractor</span>
+            <span class="niche-tag">Civil Engineer</span>
+            <span class="niche-tag active">AEC Consultant</span>
+            <span class="niche-tag">Residential Architect</span>
+          </div>
+          <div class="advantage-list">
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:4px">vs. Enterprise Alternatives</div>
+            <div class="advantage-item">
+              <span class="label">Hardware required</span>
+              <span class="val val-green">iPhone 16 Pro only</span>
+            </div>
+            <div class="advantage-item">
+              <span class="label">Annual software cost</span>
+              <span class="val val-green">SiteIQ subscription</span>
+            </div>
+            <div class="advantage-item">
+              <span class="label">Training time</span>
+              <span class="val val-green">Minutes, not weeks</span>
+            </div>
+            <div class="advantage-item">
+              <span class="label">Time to first calculation</span>
+              <span class="val val-green">Under 2 minutes</span>
+            </div>
+            <div class="advantage-item">
+              <span class="label">Trimble / Autodesk cost</span>
+              <span class="val val-red">$5k–$50k/year</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="container">
+      <div class="pricing-header reveal">
+        <div class="tag tag-cyan">Pricing</div>
+        <h2>Simple Subscription. <span class="text-cyan">No Hardware.</span></h2>
+        <p>Pay monthly or annually. Cancel anytime. Financing available through Klarna and PayPal so you can spread cost across your project months.</p>
+      </div>
+
+      <div class="pricing-cards">
+        <div class="pricing-card reveal">
+          <div class="plan-name">Starter</div>
+          <div class="plan-price"><span class="currency">$</span>299<span class="period">/mo</span></div>
+          <div class="plan-note">Early access pricing — locked for founding members</div>
+          <ul class="plan-features">
+            <li><span class="check">✓</span> Cut &amp; fill calculator (Phase 1)</li>
+            <li><span class="check">✓</span> Unlimited site scans</li>
+            <li><span class="check">✓</span> 1 active BIM model</li>
+            <li><span class="check">✓</span> Email support</li>
+            <li><span class="check">✓</span> iPhone 16 Pro deploy</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-ghost plan-cta">Join Waitlist</a>
+        </div>
+
+        <div class="pricing-card featured reveal reveal-delay-1">
+          <div class="plan-name">Professional</div>
+          <div class="plan-price"><span class="currency">$</span>499<span class="period">/mo</span></div>
+          <div class="plan-note">Most popular for design-build firms</div>
+          <ul class="plan-features">
+            <li><span class="check">✓</span> Everything in Starter</li>
+            <li><span class="check">✓</span> BIM clash detection (Phase 2)</li>
+            <li><span class="check">✓</span> MEP layer toggles</li>
+            <li><span class="check">✓</span> Revit &amp; Rhino import</li>
+            <li><span class="check">✓</span> GPS + compass alignment</li>
+            <li><span class="check">✓</span> Priority support</li>
+          </ul>
+          <a href="#waitlist" class="btn btn-cyan plan-cta">Get Early Access →</a>
+        </div>
+
+        <div class="pricing-card reveal reveal-delay-2">
+          <div class="plan-name">Team</div>
+          <div class="plan-price" style="font-size:2rem">Custom</div>
+          <div class="plan-note">For firms with multiple project managers</div>
+          <ul class="plan-features">
+            <li><span class="check">✓</span> Everything in Professional</li>
+            <li><span class="check">✓</span> Multiple seats</li>
+            <li><span class="check">✓</span> Shared model library</li>
+            <li><span class="check">✓</span> Dedicated onboarding</li>
+            <li><span class="check">✓</span> Direct line to founders</li>
+          </ul>
+          <a href="mailto:hello@siteiq.app" class="btn btn-ghost plan-cta">Contact Us</a>
+        </div>
+      </div>
+
+      <div class="pricing-note reveal">
+        <span>💳 <strong>Stripe checkout</strong> — pay directly on our website to avoid in-app fees</span>
+        <span>📦 <strong>Klarna &amp; PayPal</strong> financing available</span>
+        <span>🔒 <strong>Cancel anytime</strong> — no annual lock-in required</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- WAITLIST -->
+  <section id="waitlist">
+    <div class="container">
+      <div class="waitlist-inner">
+        <div class="tag tag-cyan">Early Access</div>
+        <h2>Be Among the <span class="text-cyan">First 50 Users</span></h2>
+        <p class="lead">We're onboarding our founding users now. Early access members get priority support, founding-member pricing locked in for life, and direct input into what we build next.</p>
+
+        <div class="waitlist-perks">
+          <div class="perk"><span class="perk-icon">🔒</span> Founding pricing, locked for life</div>
+          <div class="perk"><span class="perk-icon">🎯</span> Direct line to the founders</div>
+          <div class="perk"><span class="perk-icon">🗺️</span> Shape the product roadmap</div>
+          <div class="perk"><span class="perk-icon">⚡</span> Priority support</div>
+        </div>
+
+        <div id="waitlistFormWrap">
+          <!--
+            Connect this form:
+            Option A — Formspree (free): sign up at formspree.io, create a form,
+            replace YOUR_FORM_ID in the action URL below.
+
+            Option B — Cole's Stripe+Supabase flow: replace action with your
+            Supabase edge function endpoint once auth is wired.
+          -->
+          <form class="waitlist-form" id="waitlistForm"
+                action="https://formspree.io/f/YOUR_FORM_ID"
+                method="POST">
+            <input type="email" name="email" placeholder="your@email.com" required autocomplete="email">
+            <button type="submit" class="btn btn-primary">Get Early Access →</button>
+          </form>
+          <div class="form-disclaimer">No spam. Unsubscribe anytime. We'll reach out when early access opens.</div>
+        </div>
+
+        <div class="success-msg" id="successMsg">
+          <div class="success-icon">✓</div>
+          <h3>You're on the list!</h3>
+          <p>We'll reach out as soon as early access opens.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-inner">
+        <div class="about-content reveal">
+          <div class="tag tag-orange">About Us</div>
+          <h2>Built in Boise, <span class="text-orange">for the Treasure Valley</span></h2>
+          <p>SiteIQ started with a simple question: why do small builders have to choose between expensive enterprise software and guesswork? We're building the tool we wished existed.</p>
+          <p>We're two guys in Boise who believe the best technology should be accessible to every contractor doing good work — not just the ones with enterprise budgets. The Treasure Valley is growing fast, and the builders putting up homes deserve better tools.</p>
+          <div class="about-team">
+            <div class="team-member">
+              <div class="avatar">J</div>
+              <div class="member-info">
+                <div class="name">James Russo</div>
+                <div class="role">Engineering &amp; Product</div>
+              </div>
+            </div>
+            <div class="team-member">
+              <div class="avatar" style="background:linear-gradient(135deg,var(--orange),#CC3300)">C</div>
+              <div class="member-info">
+                <div class="name">Cole</div>
+                <div class="role">Business Development &amp; Sales</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-card reveal reveal-delay-1">
+          <h3>What's Under the Hood</h3>
+          <div class="tech-stack">
+            <span class="tech-tag">Unreal Engine 5.6</span>
+            <span class="tech-tag">ARKit (iOS)</span>
+            <span class="tech-tag">LiDAR Scene Reconstruction</span>
+            <span class="tech-tag">iPhone 16 Pro</span>
+            <span class="tech-tag">Datasmith (Revit / Rhino)</span>
+            <span class="tech-tag">CoreLocation</span>
+            <span class="tech-tag">GPS + Compass</span>
+            <span class="tech-tag">OBB Clash Detection</span>
+            <span class="tech-tag">Stripe Checkout</span>
+          </div>
+          <div class="about-quote">
+            "The large players in AEC software overlook small-to-mid contractors because they're not very profitable. That's exactly where we start — these are the builders doing multiple property assessments every month, and they deserve the same intelligence the big firms have."
+            <cite>— Cole, Business Development</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <a href="#" class="logo">
+          <img src="assets/logo-mark.png" class="logo-mark" alt="SiteIQ logo">
+          <span class="logo-text">Site<span>IQ</span></span>
+        </a>
+        <div class="footer-links">
+          <a href="#features">Features</a>
+          <a href="#how">How It Works</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#about">About</a>
+          <a href="mailto:hello@siteiq.app">Contact</a>
+          <a href="#">Privacy Policy</a>
+        </div>
+        <div class="footer-copy" style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Intelligent Site. Better Builds.</div>
+        <div class="footer-copy">
+          © 2026 SiteIQ. Built in Boise, Idaho. &nbsp;·&nbsp;
+          <a href="mailto:hello@siteiq.app">hello@siteiq.app</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    // Nav scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Mobile menu
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu   = document.getElementById('mobileMenu');
+    hamburgerBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+    document.querySelectorAll('.mobile-link, .mobile-menu .btn').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Waitlist form
+    const form      = document.getElementById('waitlistForm');
+    const formWrap  = document.getElementById('waitlistFormWrap');
+    const successMsg= document.getElementById('successMsg');
+
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = form.querySelector('input[type=email]').value;
+        const btn   = form.querySelector('button');
+        btn.textContent = 'Submitting…';
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ email })
+          });
+          if (res.ok) {
+            formWrap.style.display = 'none';
+            successMsg.style.display = 'flex';
+          } else { throw new Error(); }
+        } catch {
+          console.log('Waitlist signup:', email);
+          formWrap.style.display = 'none';
+          successMsg.style.display = 'flex';
+        }
+      });
+    }
+
+    // BIM layer toggles (interactive demo)
+    document.querySelectorAll('.bim-layer').forEach(layer => {
+      layer.addEventListener('click', () => {
+        const toggle = layer.querySelector('.layer-toggle');
+        if (toggle) { toggle.classList.toggle('on'); toggle.classList.toggle('off'); }
+      });
+    });
+  </script>
+</body>
+</html>

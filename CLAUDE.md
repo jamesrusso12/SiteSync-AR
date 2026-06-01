@@ -76,6 +76,54 @@ Example:
 
 ---
 
+## Brand & Product Name
+
+**Brand name: SiteIQ** — "Intelligent Site. Better Builds."
+
+The marketing site, logo, and all external-facing materials use **SiteIQ**. The UE5 `.uproject`, Bundle ID (`com.RussoCompany.SiteSyncAR`), C++ class names, Blueprint asset names, and Xcode display name still say "SiteSync" — a full in-project rename is a **pending task** requiring its own focused session. **Do not** rename UE5/Xcode/source identifiers to SiteIQ until that dedicated rename session happens.
+
+---
+
+## Marketing Website
+
+**File:** `website/index.html` — single self-contained HTML/CSS/JS file, no build step, no dependencies.
+
+**Preview server** (configured in `.claude/launch.json`):
+```bash
+python3 -m http.server 4200 --directory website
+```
+
+**Logo assets** (`website/assets/`):
+| File | Use |
+|---|---|
+| `logo-mark.png` | Icon only, transparent bg — dark backgrounds (nav/footer) |
+| `logo-full.png` | Full wordmark + tagline, transparent bg — light backgrounds |
+| `logo-source-1024.png` | High-res 1024×1024 source — use to generate iOS app icon sizes |
+
+**Design tokens:** bg `#06090F` · blue accent `#4080FF` · CTA orange `#FF6B35` · mobile breakpoint `max-width: 900px`
+
+**To complete before sharing the URL:**
+1. **Formspree** — replace `YOUR_FORM_ID` in the `<form action="...">` to activate email capture.
+2. **Stripe** — Cole is building the subscription model. Payment links go on the website (not in-app) to bypass Apple's 30% cut.
+3. **Domain** — update the two `hello@siteiq.app` footer references once live.
+4. **iOS app icon** — resize `logo-source-1024.png` into all required iOS sizes and update Xcode (see separate handoff, 2026-05-31).
+
+---
+
+## Business Model & Marketing
+
+**Target market:** Small-to-mid custom home builders and design-build firms doing 3–15 homes/year on raw or semi-developed lots — Treasure Valley first, then expand. Enterprise AEC platforms (Trimble, Autodesk CC) ignore this segment; that's the wedge.
+
+**Pricing tiers (planned):** $299/mo Starter · $499/mo Professional · Team custom.
+
+**Investor path:** 10–50 founding users → $3–6K/month MRR → investor pitch with proven market evidence → fund civil-engineer hire + business-dev hire.
+
+**Cole's responsibilities:** organic marketing content plan, Stripe + Supabase subscription integration, contact database (AEC firms in Idaho + nationally), networking events, pitch deck. Stripe payment goes on the website so users sign up there and their login unlocks the app (avoids Apple 30% cut). Cole will provide step-by-step Stripe + Supabase integration docs.
+
+**Demo status:** Idaho Technology Council event postponed indefinitely (2026-05-19). Current `main` is the known-good demo baseline. No rush — Cole explicitly said to take the time needed.
+
+---
+
 ## Machine Responsibilities
 
 | Machine | Role | Key Tools |

@@ -1,10 +1,14 @@
-# SiteSync AR
+# SiteIQ
 
-> On-site spatial intelligence for civil engineers — built in Unreal Engine 5.6 with ARKit and iPhone 16 Pro LiDAR.
+> **Intelligent Site. Better Builds.** — On-site spatial intelligence for builders, built in Unreal Engine 5.6 with ARKit and iPhone 16 Pro LiDAR.
 
-SiteSync AR is an iOS augmented reality application for AEC (Architecture, Engineering, Construction) professionals. Phase 1 uses LiDAR-scanned terrain to calculate real-time cut-and-fill earthwork volumes on site. Phase 2 overlays full BIM models from Revit and Rhino for 1:1 physical clash detection before ground is broken.
+**SiteIQ** is an iOS AR application for AEC (Architecture, Engineering, Construction) professionals. Phase 1 uses LiDAR-scanned terrain to calculate real-time cut-and-fill earthwork volumes on site. Phase 2 overlays full BIM models from Revit and Rhino for 1:1 physical clash detection before ground is broken.
 
-**Developers:** James Russo & Cole — Boise, Idaho
+> **Note on naming:** The product brand is **SiteIQ**. The UE5 project, Bundle ID (`com.RussoCompany.SiteSyncAR`), and most code identifiers still reference "SiteSync" — a full in-project rename is a pending task.
+
+**Developers:** James Russo (engineering) & Cole (business development) — Boise, Idaho
+
+**Marketing site:** [`website/index.html`](website/index.html) — single-file static page; preview with `python3 -m http.server 4200 --directory website`
 
 > **Working tree (devs):** PC = `C:\Dev\SiteSync-AR\`, Mac = locked per `CLAUDE.md`. Never use the deprecated OneDrive clone. See [`CLAUDE.md`](CLAUDE.md) → "Canonical Working Trees" for the full rule.
 
@@ -27,6 +31,44 @@ The app boots to a **main-menu shell** — choose **Earthwork (Cut & Fill)** or 
 
 ---
 
+## Marketing & Business
+
+### Website
+Single-file static marketing site at [`website/index.html`](website/index.html). No build step, no dependencies. Sections: hero, problem, Phase 1 + Phase 2 feature demos (interactive BIM layer toggles), how it works, target audience, pricing, waitlist CTA, about.
+
+**Logo assets** (all at `website/assets/`):
+| File | Use |
+|---|---|
+| `logo-mark.png` | Nav / dark backgrounds — icon only, transparent bg |
+| `logo-full.png` | Full wordmark (icon + "SITE IQ" + tagline), transparent bg |
+| `logo-source-1024.png` | High-res source for generating iOS app icon sizes |
+
+**To connect the waitlist form:** sign up at [formspree.io](https://formspree.io), create a form, replace `YOUR_FORM_ID` in the `<form action="...">` URL in `index.html`.
+
+**Stripe checkout:** Cole is building the subscription model. Payment links go directly on the website (not in-app) to bypass Apple's 30% in-app purchase fee. Planned integrations: Stripe, Klarna, PayPal. Cole will provide step-by-step integration details.
+
+**Preview server** (configured in `.claude/launch.json`):
+```bash
+python3 -m http.server 4200 --directory website
+```
+
+### Target Market
+Small-to-mid custom home builders and design-build firms doing **3–15 homes per year** on raw or semi-developed lots in the Treasure Valley (Boise, ID) and beyond. These contractors perform multiple site assessments per month but are overlooked by enterprise AEC platforms (Trimble, Autodesk CC) which target larger firms. Cole is building a contact database and will begin outreach.
+
+### Pricing (planned)
+| Tier | Price | Includes |
+|---|---|---|
+| Starter | $299/mo | Cut & fill calculator, unlimited scans |
+| Professional | $499/mo | Everything + BIM clash detection, MEP layers, GPS alignment |
+| Team | Custom | Multi-seat, shared model library, onboarding |
+
+Early access goal: **10–50 founding users** → $3–6K/month → investor pitch with proven market interest.
+
+### Tagline
+**"Intelligent Site. Better Builds."**
+
+---
+
 ## Stack
 
 | | |
@@ -46,7 +88,7 @@ The app boots to a **main-menu shell** — choose **Earthwork (Cut & Fill)** or 
 ## Features
 
 ### Application shell
-- Boots to a `SiteSync AR` main menu — pick **Earthwork (Cut & Fill)** or **BIM Clash Overlay**
+- Boots to a `SiteIQ` main menu — pick **Earthwork (Cut & Fill)** or **BIM Clash Overlay**
 - In-AR back button returns to the menu from either mode
 
 ### Phase 1 — Cut-and-Fill AR Calculator
@@ -93,7 +135,7 @@ Both modes are real workflows in AEC AR tooling — Trimble Sitevision and Autod
 | 2.2 | Geospatial & compass anchoring (GPS + compass auto-alignment) | ✅ Device-validated (2026-05-27) |
 | 2.3 | Engineering clash interface (MEP layer toggles + clash highlighting) | 🚧 In progress — clash detection device-confirmed (2026-05-31); toggle UI + highlight + real MEP model remain |
 
-**App shell:** a `SiteSync_Menu` launcher level boots first — two buttons open the Phase 1 (cut/fill) and Phase 2 (BIM) AR modes, with an in-AR back button returning to the menu.
+**App shell:** a `SiteSync_Menu` launcher level boots first — two buttons open the Phase 1 (cut/fill) and Phase 2 (BIM) AR modes, with an in-AR back button returning to the menu. (Level still named `SiteSync_Menu` internally; display name rename to SiteIQ is a pending task.)
 
 **Current status:** Phase 1 closed; Phase 2 Nodes 2.1 + 2.2 closed (real Rhino BIM model device-validated in AR; GPS/compass geo-anchoring math device-validated). Node 2.3's clash-detection engine is device-confirmed; the remaining work is the layer-toggle UI, clash highlighting, and a real MEP-bearing model. Node-by-node detail — built assets, BP graphs, decisions, next actions — lives in [`CLAUDE.md`](CLAUDE.md), the canonical session context for both human and AI contributors.
 
@@ -393,5 +435,6 @@ UE has multiple "dirty" states (in-memory rebuild, compiled bytecode, on-disk as
 ---
 
 *Built by James Russo & Cole · Boise, Idaho*
+*Intelligent Site. Better Builds.*
 
-© 2026 James Russo and Cole. All rights reserved. SiteSync AR is proprietary software — see [`LICENSE`](LICENSE). The repository is publicly viewable for reference; public visibility does not grant a license to use the code.
+© 2026 James Russo and Cole. All rights reserved. SiteIQ is proprietary software — see [`LICENSE`](LICENSE). The repository is publicly viewable for reference; public visibility does not grant a license to use the code.

@@ -16,6 +16,26 @@ James raised the eventual question of how end users (not James, not Cole) get th
 
 **Long-term Option B build-out** = a separate workstream from the AR app itself. Don't conflate with Phase 2 / Phase 3 node work. Revisit after the AR product has signal that justifies the backend investment.
 
+## 2026-05-29 — Reliable BP-graph editing via MCP — built, verified, proven end-to-end from Mac
+
+The project's #1 velocity bottleneck has been manual Blueprint node wiring — every non-trivial graph (the GPS chain, the cut/fill HUD, the clash-test wiring) cost a long round of hand-walkthroughs because chongdashu MCP's per-node `add_node`/`connect_node` flow is "hit-or-miss" (CLAUDE.md). A background side-agent (worktree branch `7857821`) researched + implemented a fix; this session merged it (selectively — plugin + doc paths only, `a4c864d`), built the Mac editor module, and **verified the whole loop works from this Mac Claude session over TCP**.
+
+**Research finding (important):** reliable BP-graph editing is **NOT achievable in pure Python** on stock UE 5.6. `unreal.K2Node` is an abstract stub; the graph-building methods (`TryCreateConnection`, `SplitPin`, `AllocateDefaultPins`, etc.) are not Python-exposed. So `execute_python` is great for asset/Datasmith/property ops but **cannot** wire graphs. Wiring must be C++ against the K2 schema. New `FUnrealMCPGraphCommands` handler does exactly that — three commands: `build_blueprint_graph` (atomic nodes+connections spec, wired via `UEdGraphSchema_K2::TryCreateConnection` with per-connection ok/error report), `describe_blueprint_node` (read REAL pins — kills pin-name guessing), `split_struct_pin`.
+
+**Verified this session, no manual editor clicks:**
+- `list_commands` advertises `graph_commands: [build_blueprint_graph, describe_blueprint_node, split_struct_pin]` from the running DLL.
+- Created a disposable `BP_MCPGraphProof` via `execute_python`, then `build_blueprint_graph` built `BeginPlay → PrintString` — returned `ok:true` per connection; `describe_blueprint_node` confirmed `BeginPlay.then link_count:1`; compiled clean + saved; deleted. All over `dev/mcp_send.py` (TCP client to port 55557).
+
+**Two findings to remember:**
+1. **`FUnrealMCPCommonUtils::FindBlueprint` hardcodes `/Game/Blueprints/`.** `build_blueprint_graph` / `describe_blueprint_node` can ONLY target blueprints in that folder. `BP_ARPlayerController_BIM` and `BP_BIMOverlay` live there ✓. But `BP_ClashTestRig` is under `/Game/AR_SiteAnalysis/Test/` so it can't be targeted directly — move it, or generalize FindBlueprint (asset-registry lookup) as a follow-up.
+2. **`execute_python` multi-line *statement* mode is flaky via the CLI** (returns "Python execution failed (no error detail returned)"). Use `mode=file` (`dev/mcp_send.py exec_file <path>`) for anything multi-line — reliable.
+
+**Driver:** `dev/mcp_send.py` — tiny TCP client (`exec` / `exec_file` / `save_all` / `save` / `raw <cmd> <json>`). Lets this Mac session drive the live editor without the MCP tool layer (which isn't loaded in this Claude session). Editor must be open (auto-starts the TCP server on 55557).
+
+**Impact:** the remaining Node 2.3 BP work (clash-test wiring, `WBP_LayerTogglePanel` wiring, clash-highlight) can now be driven reliably from the Mac session instead of manual walkthroughs. NOTE the clash-test still has the type-system design question to resolve first (`ActiveBIM` is typed `BP_BIMOverlay`, can't hold a `BP_ClashTestRig`) — now solvable cleanly with `build_blueprint_graph` rather than hand-wiring.
+
+Full rationale + per-tool reference + build/verify steps: `docs/mcp-improvements-2026-05-29.md`.
+
 ## 2026-05-27 — UnrealMCP plugin expanded with `execute_python` system handler
 
 Added `FUnrealMCPSystemCommands` to the in-tree chongdashu UnrealMCP plugin (`Plugins/UnrealMCP/Source/UnrealMCP/{Public,Private}/Commands/UnrealMCPSystemCommands.{h,cpp}`, Python wrapper `Plugins/UnrealMCP/Python/tools/system_tools.py`). Five new commands: `execute_python`, `save_all_dirty_packages`, `save_package`, `reparent_actor_root`, `list_commands`. Triggered by James asking to "expand the current MCP using cwilcox0916/claude-ue-plugin as reference". The reference repo itself is 404 on github.com (taken private or removed) but its Lobehub-indexed architecture description is the design source: a Connection Manager that tiers Remote Control API → Python Executor → Native Plugin, with 215 tools available because the Python tier means *every* `unreal` module call is reachable without a new C++ dispatcher entry.

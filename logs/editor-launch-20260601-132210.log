@@ -1,0 +1,21 @@
+Opening shared memory
+Existing instance is the same age or newer
+2026-06-01 13:22:10.873 UnrealEditor[55900:14290884] [UE] Failed to find game directory: /Users/Shared/Epic Games/UE_5.6/SiteSyncAR/Binaries
+Opening shared memory
+Existing instance is the same age or newer
+2026-06-01 13:22:11.837 UnrealEditor[55910:14290932] [UE4] Shutdown handler: initialize.
+2026-06-01 13:22:15.381 UnrealEditor[55910:14290932] [UE] MENU friendly name PC Vulkan SM5
+2026-06-01 13:22:15.381 UnrealEditor[55910:14290932] [UE] MENU friendly name Mac Metal SM5
+2026-06-01 13:22:15.381 UnrealEditor[55910:14290932] [UE] MENU friendly name PC D3D SM5
+2026-06-01 13:22:15.381 UnrealEditor[55910:14290932] [UE] MENU friendly name PC D3D SM6
+2026-06-01 13:22:15.381 UnrealEditor[55910:14290932] [UE] MENU friendly name PC D3D Mobile
+2026-06-01 13:22:15.381 UnrealEditor[55910:14290932] [UE] MENU friendly name PC D3D Mobile SDF
+2026-06-01 13:23:34.470 UnrealEditor[55910:14290932] [UE] Assertion failed: ++Queue(QueueIndex).RecursionGuard == 1 [File:./Runtime/Core/Private/Async/TaskGraph.cpp] [Line: 677] 
+
+LogAnalytics: Display: [CrashReporter.Release] AnalyticsET::StartSession ( APIServer = https://datarouter.ol.epicgames.com/datarouter/api/v1/public/data. AppVersion = ++UE5+Release-5.6-CL-44394996 )
+CrashReportCoreLog: Display: Applying project settings from '/Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/5.6/Saved/Crashes/CrashReport-UE-SiteSyncAR-pid-55910-CF61DE6A5342FEEB83358EA2CA82A304/CrashReportClient.ini'.
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 0 GLD_TEXTURE_INDEX_RECTANGLE is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable
+LogAnalytics: Display: [CrashReporter.Release] AnalyticsET::EndSession
+LogHttp: Warning: [FHttpManager::Shutdown] Unbinding delegates for 1 outstanding Http Requests:
+LogHttp: Warning: 	verb=[POST] url=[https://datarouter.ol.epicgames.com/datarouter/api/v1/public/data?SessionID=%7B40CFC641-E24A-94A8-6388-2E8F5A3A74D9%7D&AppID=CrashReporter.Release&AppVersion=%2B%2BUE5%2BRelease-5.6-CL-44394996&UserID=9a956bd64c48fc49368bd38aaec6d1db%7Cacf015ffa5f2490dadfd4851350c2df9%7C9596C000-7ADE-5834-9AE8-5A4DA15D48E5&AppEnvironment=datacollector-binary&UploadType=eteventstream] refs=[2] status=Processing
+LogHttp: Warning: 	Sleeping 0.500s to wait for 1 outstanding Http Requests.

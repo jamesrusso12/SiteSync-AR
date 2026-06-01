@@ -1,0 +1,50 @@
+Opening shared memory
+Shared memory doesn't exist, checking legacy lock file
+Checking for a '/tmp/UnrealTraceServer.pid' lock file
+Forking process
+Wait until we know the daemon has started.
+Parent received signal 30
+Daemon signalled successful start
+Forked complete (ret=0)
+2026-06-01 13:14:17.935 UnrealEditor[55489:14283213] [UE] Failed to find game directory: /Users/Shared/Epic Games/UE_5.6/SiteSyncAR/Binaries
+Opening shared memory
+Existing instance is the same age or newer
+2026-06-01 13:14:19.737 UnrealEditor[55505:14283291] [UE4] Shutdown handler: initialize.
+2026-06-01 13:14:26.277 UnrealEditor[55505:14283291] [UE] MENU friendly name PC Vulkan SM5
+2026-06-01 13:14:26.277 UnrealEditor[55505:14283291] [UE] MENU friendly name Mac Metal SM5
+2026-06-01 13:14:26.277 UnrealEditor[55505:14283291] [UE] MENU friendly name PC D3D SM5
+2026-06-01 13:14:26.277 UnrealEditor[55505:14283291] [UE] MENU friendly name PC D3D SM6
+2026-06-01 13:14:26.277 UnrealEditor[55505:14283291] [UE] MENU friendly name PC D3D Mobile
+2026-06-01 13:14:26.277 UnrealEditor[55505:14283291] [UE] MENU friendly name PC D3D Mobile SDF
+2026-06-01 13:15:03.646 UnrealEditor[55505:14283291] [UE] Assertion failed: ++Queue(QueueIndex).RecursionGuard == 1 [File:./Runtime/Core/Private/Async/TaskGraph.cpp] [Line: 677] 
+
+LogAnalytics: Display: [CrashReporter.Release] AnalyticsET::StartSession ( APIServer = https://datarouter.ol.epicgames.com/datarouter/api/v1/public/data. AppVersion = ++UE5+Release-5.6-CL-44394996 )
+CrashReportCoreLog: Display: Applying project settings from '/Users/jamesrusso/Library/Application Support/Epic/UnrealEngine/5.6/Saved/Crashes/CrashReport-UE-SiteSyncAR-pid-55505-11C28B4DF842F1B19DDCDE89AA5971BD/CrashReportClient.ini'.
+UNSUPPORTED (log once): POSSIBLE ISSUE: unit 0 GLD_TEXTURE_INDEX_RECTANGLE is unloadable and bound to sampler type (Float) - using zero texture because texture unloadable
+LogAnalytics: Display: [CrashReporter.Release] AnalyticsET::EndSession
+LogHttp: Warning: [FHttpManager::Shutdown] Unbinding delegates for 1 outstanding Http Requests:
+LogHttp: Warning: 	verb=[POST] url=[https://datarouter.ol.epicgames.com/datarouter/api/v1/public/data?SessionID=%7B837860CB-5541-49A2-8D02-FBACEC838F66%7D&AppID=CrashReporter.Release&AppVersion=%2B%2BUE5%2BRelease-5.6-CL-44394996&UserID=9a956bd64c48fc49368bd38aaec6d1db%7Cacf015ffa5f2490dadfd4851350c2df9%7C9596C000-7ADE-5834-9AE8-5A4DA15D48E5&AppEnvironment=datacollector-binary&UploadType=eteventstream] refs=[2] status=Processing
+LogHttp: Warning: 	Sleeping 0.500s to wait for 1 outstanding Http Requests.
+Opening shared memory
+Shared memory doesn't exist, checking legacy lock file
+Checking for a '/tmp/UnrealTraceServer.pid' lock file
+Forking process
+Opening shared memory
+Starting the store
+Reading settings from '/Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini'
+
+Unable to open settings file /Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini.
+
+Store settings (/Users/jamesrusso/UnrealEngine/UnrealTrace/Settings.ini):
+ - Store port: 1989
+ - Recorder port: 1981
+ - Thread count: 0
+ - Sponsored mode: 1
+ - Directory: '/Users/jamesrusso/UnrealEngine/UnrealTrace/Store/001'
+Watcher enabled on /Users/jamesrusso/UnrealEngine/UnrealTrace/Store/001
+Signalling parent 55499
+Terminating server, no sponsors or connections active.
+Received signal 15
+Daemon is exiting without errors.
+Listening cancelled, closing port...
+Listening cancelled, closing port...

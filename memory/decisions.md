@@ -16,6 +16,20 @@ James raised the eventual question of how end users (not James, not Cole) get th
 
 **Long-term Option B build-out** = a separate workstream from the AR app itself. Don't conflate with Phase 2 / Phase 3 node work. Revisit after the AR product has signal that justifies the backend investment.
 
+## 2026-05-31 — Node 2.3c clash detection device-confirmed via MCP-authored graph; placement regression fixed
+
+Two things landed this session — one win, one self-inflicted regression-and-fix — both instructive.
+
+**WIN — clash detection on device + first real-edit proof of `build_blueprint_graph`.** Wired `BP_ClashTestRig`'s EventGraph entirely from the Mac terminal over TCP (no manual editor clicks): `BeginPlay → DetectBIMClashesAll(self) → Concat("Clashes detected: " + N) → PrintString(red)`. All 5 connections reported `ok:true` (incl. the int→string autocast the K2 schema inserted). Placed a temp rig instance in `SiteSync_BIMTest`, cooked, deployed. On device: **"Clashes detected: 2" rendered correctly** on AR-scene load. So Node 2.3c's OBB-SAT detection runs identically on ARM device as in headless Mac (expected — it's platform-agnostic C++), AND the new MCP graph tool is proven authoring a real working graph into a shipped build. Commits: `e2e4257` (DetectBIMClashesAll wrapper + rig graph), temp umap placement reverted after.
+
+Added `DetectBIMClashesAll(BIM, OutClashes)` — a no-exclusion-list overload — specifically because the full `DetectBIMClashes`'s `ExcludedLayerSubstrings` array pin needs a `MakeArray` node at the BP call site, which `build_blueprint_graph` can't author. Pattern worth remembering: **if you want a UFUNCTION wirable end-to-end by the MCP graph tool, avoid array/struct input params that force a MakeArray/MakeStruct at the call site** — provide a no-array convenience overload.
+
+**REGRESSION (self-inflicted) — reverting a class-default does NOT reconnect wires UE auto-severed.** During the clash-test detour, setting `BIMOverlayClass` → `BP_ClashTestRig` made the spawn node output a plain Actor, and UE **auto-broke** the `spawn ReturnValue → SET ActiveBIM` wire (ActiveBIM is typed `BP_BIMOverlay`). When the wiring was backed out by reverting `BIMOverlayClass` → `BP_BIMOverlay`, the class default came back but **the severed wire did not auto-reconnect**. Result on device: placement worked but dims read `0 m × 0 m × 0 m` (ShowPostPlacement reading bounds off null), third tap never reset, every tap stacked another house (`IsValid(ActiveBIM)` always false). Fix: restored `BP_ARPlayerController_BIM.uasset` wholesale from the last functionally-correct commit (`c3a3849`, during 2.2d) rather than surgically re-patching a graph the add+backout cycle had quietly damaged. Device-confirmed working (`0f428ab`).
+
+**Two durable lessons:**
+1. **Reverting a class/type default does not reconnect wires UE severed from a type mismatch.** After any type-driven auto-disconnect, either manually reconnect the specific wire OR restore the whole asset from a known-good commit. A "compiles green" backout is NOT proof of functional correctness — setting a var to None compiles fine.
+2. **`build_blueprint_graph` currently only CREATES new nodes — it can't connect two PRE-EXISTING nodes.** Reconnecting one severed wire in an existing graph isn't yet a tool operation (would need a "connect existing nodes by GUID" command, or describe+reconnect support). Future MCP enhancement. For now, single-wire fixes in an existing graph are still manual or whole-asset-restore.
+
 ## 2026-05-29 — Reliable BP-graph editing via MCP — built, verified, proven end-to-end from Mac
 
 The project's #1 velocity bottleneck has been manual Blueprint node wiring — every non-trivial graph (the GPS chain, the cut/fill HUD, the clash-test wiring) cost a long round of hand-walkthroughs because chongdashu MCP's per-node `add_node`/`connect_node` flow is "hit-or-miss" (CLAUDE.md). A background side-agent (worktree branch `7857821`) researched + implemented a fix; this session merged it (selectively — plugin + doc paths only, `a4c864d`), built the Mac editor module, and **verified the whole loop works from this Mac Claude session over TCP**.

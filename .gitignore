@@ -14,6 +14,12 @@ SiteSyncAR/Build/*
 !SiteSyncAR/Build/IOS/
 SiteSyncAR/Build/IOS/*
 !SiteSyncAR/Build/IOS/SiteSyncAR_IOS_UPL.xml
+# App icon source PNGs — must be tracked so PC cooks use the SiteIQ icon, not the
+# default Unreal logo (UE reads these by @-scale filename; see CLAUDE.md 2026-05-31).
+!SiteSyncAR/Build/IOS/Resources/
+SiteSyncAR/Build/IOS/Resources/*
+!SiteSyncAR/Build/IOS/Resources/Graphics/
+!SiteSyncAR/Build/IOS/Resources/Graphics/*.png
 
 # IDE artifacts
 .vs/

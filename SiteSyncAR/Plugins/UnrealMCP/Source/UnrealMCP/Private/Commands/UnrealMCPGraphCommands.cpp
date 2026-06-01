@@ -10,6 +10,7 @@
 #include "EdGraphSchema_K2.h"
 
 #include "K2Node_Event.h"
+#include "K2Node_CustomEvent.h"
 #include "K2Node_CallFunction.h"
 #include "K2Node_VariableGet.h"
 #include "K2Node_VariableSet.h"
@@ -112,6 +113,35 @@ UEdGraphNode* FUnrealMCPGraphCommands::CreateNodeFromSpec(UBlueprint* Blueprint,
         }
         UK2Node_Event* Node = FUnrealMCPCommonUtils::CreateEventNode(Graph, EventName, Position);
         if (!Node) { OutError = FString::Printf(TEXT("could not create event node '%s'"), *EventName); }
+        return Node;
+    }
+
+    if (NodeType == TEXT("custom_event"))
+    {
+        FString EventName;
+        NodeSpec->TryGetStringField(TEXT("event_name"), EventName);
+        if (EventName.IsEmpty())
+        {
+            OutError = TEXT("custom_event requires 'event_name'");
+            return nullptr;
+        }
+        // Reuse an existing custom event with the same name if present
+        for (UEdGraphNode* ExistingNode : Graph->Nodes)
+        {
+            UK2Node_CustomEvent* Existing = Cast<UK2Node_CustomEvent>(ExistingNode);
+            if (Existing && Existing->CustomFunctionName == FName(*EventName))
+            {
+                return Existing;
+            }
+        }
+        UK2Node_CustomEvent* Node = NewObject<UK2Node_CustomEvent>(Graph);
+        Node->CustomFunctionName = FName(*EventName);
+        Node->NodePosX = Position.X;
+        Node->NodePosY = Position.Y;
+        Graph->AddNode(Node, true);
+        Node->CreateNewGuid();
+        Node->PostPlacedNewNode();
+        Node->AllocateDefaultPins();
         return Node;
     }
 

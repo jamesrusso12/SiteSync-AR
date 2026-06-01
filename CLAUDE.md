@@ -80,7 +80,7 @@ Example:
 
 **Brand name: SiteIQ** — "Intelligent Site. Better Builds."
 
-The marketing site, logo, and all external-facing materials use **SiteIQ**. The UE5 `.uproject`, Bundle ID (`com.RussoCompany.SiteSyncAR`), C++ class names, Blueprint asset names, and Xcode display name still say "SiteSync" — a full in-project rename is a **pending task** requiring its own focused session. **Do not** rename UE5/Xcode/source identifiers to SiteIQ until that dedicated rename session happens.
+The marketing site, logo, and all external-facing materials use **SiteIQ**. As of 2026-05-31 the **iOS home-screen name and app icon are also SiteIQ** — `CFBundleDisplayName=SiteIQ` (set via `BundleDisplayName` in `DefaultEngine.ini`) and the SI-cube icon mark (cropped from `website/assets/logo-source-1024.png` → `logo-icon-1024.png`, generated into `SiteSyncAR/Build/IOS/Resources/Graphics/`), device-deployed and verified in the installed bundle. The UE5 `.uproject`, Bundle ID (`com.RussoCompany.SiteSyncAR`), `CFBundleName` (internal short name, still `SiteSyncAR` — UE 5.6 modern-Xcode plist path only applies `BundleDisplayName`, not `BundleName`), C++ class names, and Blueprint asset names still say "SiteSync" — a full in-project identifier rename is a **pending task** requiring its own focused session. **Do not** rename UE5/source identifiers to SiteIQ until that dedicated rename session happens.
 
 ---
 
@@ -106,7 +106,7 @@ python3 -m http.server 4200 --directory website
 1. **Formspree** — replace `YOUR_FORM_ID` in the `<form action="...">` to activate email capture.
 2. **Stripe** — Cole is building the subscription model. Payment links go on the website (not in-app) to bypass Apple's 30% cut.
 3. **Domain** — update the two `hello@siteiq.app` footer references once live.
-4. **iOS app icon** — resize `logo-source-1024.png` into all required iOS sizes and update Xcode (see separate handoff, 2026-05-31).
+4. ~~**iOS app icon** — resize `logo-source-1024.png` into all required iOS sizes and update Xcode.~~ ✅ **Done 2026-05-31.** SI-cube mark cropped (`logo-icon-1024.png`), generated into `SiteSyncAR/Build/IOS/Resources/Graphics/` using UE 5.6's `@`-scale filenames (`Icon20@2x.png` … `Icon83.5@2x.png`, `Icon1024.png` — NOT `Icon_{size}.png`), opaque/no-alpha. Device-deployed + verified.
 
 ---
 
@@ -298,26 +298,33 @@ PC-driven SSH remote-build is NOT used; Mac builds directly. Personal Team signi
 # 1. Toolchain patch (idempotent)
 bash scripts/patch-ue56-xcode26.sh
 
-# 2. UBT iOS Development
-Engine/Build/BatchFiles/Mac/RunUBT.sh SiteSyncAR IOS Development \
-  -project=~/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject
+# 2. Build iOS Development game target
+#    NOTE: the Mac batch file is Build.sh — there is NO RunUBT.sh on Mac
+#    (engine: /Users/Shared/Epic Games/UE_5.6/Engine). Use absolute path.
+"/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/Mac/Build.sh" SiteSyncAR IOS Development \
+  -project="$HOME/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject"
 
-# 3. Cook content
-UnrealEditor -run=Cook -targetplatform=IOS \
-  -project=~/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject
+# 3. Cook content (editor binary is Engine/Binaries/Mac/UnrealEditor — no .app/Contents/MacOS needed)
+"/Users/Shared/Epic Games/UE_5.6/Engine/Binaries/Mac/UnrealEditor" \
+  "$HOME/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject" \
+  -run=Cook -targetplatform=IOS -unattended -nopause
 
 # 4. UAT stage
-Engine/Build/BatchFiles/RunUAT.sh BuildCookRun \
-  -project=~/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject \
+"/Users/Shared/Epic Games/UE_5.6/Engine/Build/BatchFiles/RunUAT.sh" BuildCookRun \
+  -project="$HOME/Developer/SiteSync-AR/SiteSyncAR/SiteSyncAR.uproject" \
   -platform=IOS -configuration=Development \
   -stage -skipbuild -skipcook -archive
 
-# 5. Wired install
+# 5. Wired install — INSTALL FROM Binaries/IOS, NOT StagedBuilds (see gotcha below)
 xcrun devicectl device install app --device <UDID> \
-  ~/Developer/SiteSync-AR/SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app
+  ~/Developer/SiteSync-AR/SiteSyncAR/Binaries/IOS/SiteSyncAR.app
 ```
 
-Staged app path: `SiteSyncAR/Saved/StagedBuilds/IOS/SiteSyncAR.app`. Find device UDID with `xcrun devicectl list devices`.
+Find device UDID with `xcrun devicectl list devices`.
+
+> **Deploy gotchas confirmed 2026-05-31 (icon/rename session):**
+> - The Mac batch file is **`Build.sh`**, not `RunUBT.sh` (the latter does not exist on Mac). Prior doc was wrong and cost a failed run.
+> - **Icon / resource changes don't reach `Saved/StagedBuilds/` via a `-skipbuild` stage.** Build.sh regenerates the icon `Assets.car` into `Binaries/IOS/SiteSyncAR.app` (freshly signed, has `embedded.mobileprovision` + cooked `cookeddata` + correct Info.plist), but the `-stage -skipbuild` step refreshes the staged Info.plist while reusing a **stale** `StagedBuilds/.../Assets.car`. Install from **`Binaries/IOS/SiteSyncAR.app`** (it is a complete, deployable bundle) or delete `Saved/StagedBuilds/IOS` before staging. Verify with `stat -f '%Sm' <app>/Assets.car` — its mtime must match the current build.
 
 ## What Was Built in Node 1.3
 
@@ -647,6 +654,9 @@ Consolidated quick-reference index of bugs / workflow snags hit during developme
 
 ### iOS Deployment & Signing
 
+- **2026-05-31 — Mac iOS build batch file is `Build.sh`, NOT `RunUBT.sh`** — `RunUBT.sh` does not exist under `Engine/Build/BatchFiles/Mac/`. The old deploy-pipeline doc was wrong and failed step 1. See `decisions.md 2026-05-31` (CLAUDE.md Build & Deploy Pipeline now corrected).
+- **2026-05-31 — `-skipbuild` stage installs a STALE icon `Assets.car`** — icon/resource changes regenerate into `Binaries/IOS/SiteSyncAR.app` at build time, but a `-stage -skipbuild` step refreshes the staged Info.plist while reusing the old `StagedBuilds/.../Assets.car`. Install from `Binaries/IOS/SiteSyncAR.app` (complete deployable bundle) or `rm -rf Saved/StagedBuilds/IOS` first. Verify `stat -f '%Sm' <app>/Assets.car`. See `decisions.md 2026-05-31`.
+- **2026-05-31 — UE 5.6 iOS icons use `@`-scale filenames, not `Icon_{size}.png`** — `Build/IOS/Resources/Graphics/` must hold `Icon20@2x.png`…`Icon83.5@2x.png` + `Icon1024.png` (opaque, no alpha); wrong names → silent fallback to the default Unreal logo. Modern-Xcode plist path applies `BundleDisplayName` (→ `CFBundleDisplayName`) but ignores `BundleName`. See `decisions.md 2026-05-31`.
 - **2026-05-18 — Xcode loses Apple ID between sessions** — manifests mid-cook-pipeline as `No Accounts / No profiles`. Re-add Apple ID in Xcode → Settings → Accounts. Cook+deploy works again.
 - **2026-05-12 — DatasmithRuntime is desktop-only (Win/Mac); iOS not supported through 5.7** — all Datasmith work must happen at editor cook time. No path to load `.udatasmith` at runtime on iPhone in any UE 5.x version. Don't relitigate.
 - **2026-05-14 — Cook `-map=...` does NOT update boot map** — `-map` only tells the cooker WHICH maps to include. Boot map is `DefaultEngine.ini` → `[/Script/EngineSettings.GameMapsSettings] → GameDefaultMap`. Edit separately.
